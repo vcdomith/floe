@@ -1,67 +1,77 @@
 'use client'
 
-import Image from 'next/image'
+import { FormEvent, useRef, useState } from 'react'
+import { IValores } from '@/interfaces/IValores'
+import Table from '@/components/Table/Table'
+import Container from '@/components/Container/Container'
 import styles from './page.module.css'
-import { ChangeEvent, useEffect, useState } from 'react'
-import { get } from 'http'
-import { text } from 'stream/consumers'
-
+import './padrao.css'
 
 export default function Home() {
 
-  const [count, setCount] = useState(0)
-  const [color, setColor] = useState('#fff')
-  const [textColor, setTextColor] = useState('#141414')
+  const [valor, setValor] = useState<number | ''>('')
+  const [valores, setValores] = useState<IValores[]>([])
 
-  const changeColors = (evento: ChangeEvent<HTMLInputElement>) => {
+  const inputRef = useRef<HTMLInputElement>(null)
 
-    setColor(evento.target.value)
+  function calcularTabela(valor: number, args: number[]): number {
+
+    return Math.round(args.reduce((acc, curr) => acc * curr, valor))
 
   }
 
-  function getContrastYIQ(hexcolor: string){
-    hexcolor = hexcolor.slice(1)
+  const adicionarValor = (evento: FormEvent<HTMLFormElement>) => {
+    evento.preventDefault()
 
-    var r = parseInt(hexcolor.substr(0,2),16);
-    var g = parseInt(hexcolor.substr(2,2),16);
-    var b = parseInt(hexcolor.substr(4,2),16);
-    var yiq = ((r*299)+(g*587)+(b*114))/1000;
-    return (yiq >= 128) ? '#141414' : '#ffffff';
+    // if (valor)
+    // setValores([...valores, valor])
+
+    if (valor) {
+      setValores([...valores, {
+        unitario: valor,
+        tabela1: calcularTabela(valor, [3, 1.065, 1.01, 1.1, 1.4]),
+        tabela2: Math.round(valor*1.5),
+        tabela3: Math.round((calcularTabela(valor, [3, 1.065, 1.01, 1.1, 1.4]))*1.3)
+      }])
+      
+      setValor('')
+    }
+
+    console.log(valores);
   }
 
-  useEffect(() => {
+  // useEffect(() => {
 
-    // console.log(getContrastYIQ(color.slice(1)), color)
-    setTextColor(getContrastYIQ(color))
+  //   if (valor)
+  //   alert(`
+  //         unit: ${valor} 
+  //         t1: ${valor*3*1.65*1.1} 
+  //         t2: ${valor*1.5} 
+  //         t3: ${(valor*3*1.65*1.1)*1.3}`
+  //         )
 
-  }, [color])
+  //   console.log(valores)
+
+  // }, [valores])
 
   return (
-    <>
-    
-      <h1>Click on the button to count up</h1>
-      <h2>{count}</h2>
-      <div
-        style={{
-          width: '300px', 
-          height: '300px',
-          padding: '1rem',
-          backgroundColor: `${color}`
-        }}
-      >
-        <p
-          style={{
-            color: `${textColor}`
-          }}
-        >
-          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Libero laudantium mollitia dicta tempore aspernatur fuga totam sint maxime optio nam qui eligendi, quaerat dolorum reiciendis. Quo possimus itaque atque sint?
-        </p>
-      </div>
-      <input 
-        type="color" 
-        onChange={changeColors}
-      />
-    </>
+    <section className={styles.section}>
+      <Container>
+        <form onSubmit={adicionarValor}>
+          <input 
+            className={styles.input}
+            ref={inputRef}
+            type="number" 
+            step={0.01}
+            placeholder='Digite o valor unitário'
+            value={valor}
+            onChange={evento => setValor(parseFloat(evento.target.value))}
+          />
+          <button >Adicionar</button>
+        </form>
+        <Table valores={valores} />
+      </Container>
+    </ section>
 
   )
 }

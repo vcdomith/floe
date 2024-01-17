@@ -1,0 +1,36 @@
+.table {
+
+    table-layout: fixed;
+    border-collapse: collapse;
+
+    gap: 1rem;
+
+    width: 80%;
+
+    color: #591c4a;
+
+    border: 2px solid #591c4a;
+    border-radius: 1rem;
+    padding: 1rem;
+
+    font-size: 1.5rem;
+}
+
+.thead {
+
+
+
+}
+
+
+.tbody {
+    text-align: center;
+    width: 20%;
+    height: 50px;
+}
+
+.tbody tr:nth-child(even) {
+
+    background-color: #591c4a18;
+
+}

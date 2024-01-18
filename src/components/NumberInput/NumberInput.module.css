@@ -1,0 +1,42 @@
+.container {
+
+    display: flex;
+    flex-direction: column;
+
+}
+
+.label {
+
+    margin-bottom: 0.25rem;
+
+}
+
+.input {
+
+    -webkit-appearance: textfield;
+    -moz-appearance: textfield;
+    appearance: textfield;
+
+    max-width: 300px;
+    height: 50px;
+    background-color: #e8d4b0;
+    color: #3b0331;
+    font-size: 1.5rem;
+    padding-left: 1rem;
+    border-radius: 0.5rem;
+
+    outline: none;
+    border: 2px solid #3b0331;
+}
+
+.input::placeholder {
+
+    color: #3b033153;
+
+}
+
+.input::-webkit-inner-spin-button,
+.input::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}

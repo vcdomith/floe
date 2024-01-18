@@ -6,6 +6,7 @@ import Table from '@/components/Table/Table'
 import Container from '@/components/Container/Container'
 import styles from './page.module.css'
 import './padrao.css'
+import NumberInput from '@/components/NumberInput/NumberInput'
 
 export default function Home() {
 
@@ -93,27 +94,53 @@ export default function Home() {
   return (
     <section className={styles.section}>
       <Container>
-        <form
-          className={styles.form} 
-          onSubmit={adicionarValor}
-          >
-          <label htmlFor="input">Valor Unitário</label>
-          <input 
-            className={styles.input}
-            ref={inputRef}
-            type="number" 
-            step={0.01}
-            placeholder='Digite o valor unitário'
-            value={valor}
-            onChange={evento => {
-              evento.target.value !== ''
-                ? setValor(parseFloat(evento.target.value))
-                : setValor('')
+        <div className={styles.container}>
+          <form
+            className={styles.form} 
+            onSubmit={adicionarValor}
+            >
+              <NumberInput
+                label='Valor Unitário'
+                placeholder='Digite o valor unitário'
+                valor={valor}
+                setValor={setValor}
+              />
+              <NumberInput
+                label='Porcentagem IPI'
+                placeholder='Porcentagem ex: 6,5%'
+                valor={valor}
+                setValor={setValor}
+              />
+              <NumberInput
+                label='Porcentagem IPI'
+                placeholder='Porcentagem ex: 6,5%'
+                valor={valor}
+                setValor={setValor}
+              />
+              <NumberInput
+                label='Porcentagem IPI'
+                placeholder='Porcentagem ex: 6,5%'
+                valor={valor}
+                setValor={setValor}
+              />
+            {/* <label htmlFor="input">Valor Unitário</label>
+            <input 
+              className={styles.input}
+              type="number" 
+              step={0.01}
+              placeholder='Digite o valor unitário'
+              value={valor}
+              onChange={evento => {
+                evento.target.value !== ''
+                  ? setValor(parseFloat(evento.target.value))
+                  : setValor('')
+              }
             }
-          }
-          />
-          <button className={styles.botao}>Adicionar</button>
-        </form>
+            /> */}
+            <button className={styles.botao}>Adicionar</button>
+          </form>
+          <Table valores={valores}/>
+        </div>
         <Table valores={valores} />
       </Container>
     </ section>

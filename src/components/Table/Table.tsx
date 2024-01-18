@@ -2,6 +2,7 @@ import { IValores } from "@/interfaces/IValores"
 
 import styles from './Table.module.css'
 import { useEffect, useState } from "react"
+import TableHeader from "./TableHeader/TableHeader"
 
 interface TableProps {
     valores: IValores[]
@@ -10,27 +11,22 @@ interface TableProps {
 
 const Table = ({ valores }: TableProps) => {
 
-    const lastRowClass = (index: number, valores: IValores[]) => {
-    
-        return index === valores.length - 1
-        ? styles.lastRow
-        : styles.tr
-    
-    }
-
   return (
     <>
     
     {valores.length > 0 ?
     <table className={styles.table}>
-        <thead className={styles.thead}>
+        <TableHeader
+            headers={valores}
+        />
+        {/* <thead className={styles.thead}>
             <tr>
                 <th className={styles.th}>Valor Unitário</th>
                 <th className={styles.th}>Valor Tabela 1</th>
                 <th className={styles.th}>Valor Tabela 2</th>
                 <th className={styles.th}>Valor Tabela 3</th>
             </tr>
-        </thead>
+        </thead> */}
         <tbody className={styles.tbody}>
             {valores.map((produto, index) => 
                 <tr 

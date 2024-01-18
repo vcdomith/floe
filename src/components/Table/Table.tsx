@@ -14,15 +14,15 @@ const Table = ({ valores }: TableProps) => {
     <table className={styles.table}>
         <thead className={styles.thead}>
             <tr>
-                <th>Valor Unitário</th>
-                <th>Valor Tabela 1</th>
-                <th>Valor Tabela 2</th>
-                <th>Valor Tabela 3</th>
+                <th className={styles.th}>Valor Unitário</th>
+                <th className={styles.th}>Valor Tabela 1</th>
+                <th className={styles.th}>Valor Tabela 2</th>
+                <th className={styles.th}>Valor Tabela 3</th>
             </tr>
         </thead>
         <tbody className={styles.tbody}>
-            {valores.map(produto => 
-                <tr key={produto.unitario}>
+            {valores.map((produto, index) => 
+                <tr className={styles.tr} key={index}>
                     <td>{produto.unitario}</td>
                     <td>{produto.tabela1}</td>
                     <td>{produto.tabela2}</td>

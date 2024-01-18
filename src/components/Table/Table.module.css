@@ -1,7 +1,8 @@
 .table {
 
     table-layout: fixed;
-    border-collapse: collapse;
+    /* border-collapse: collapse; */
+    border-spacing: 0;
 
     gap: 1rem;
 
@@ -10,7 +11,7 @@
     color: #591c4a;
 
     border: 2px solid #591c4a;
-    border-radius: 1rem;
+    border-radius: 2rem;
     padding: 1rem;
 
     font-size: 1.5rem;
@@ -19,7 +20,11 @@
 .thead {
 
 
+}
 
+.th {
+    padding-bottom: 1rem;;
+    border-bottom: 2px solid #591c4a;
 }
 
 
@@ -27,10 +32,34 @@
     text-align: center;
     width: 20%;
     height: 50px;
+
+}
+
+.tbody td {
+    /* border: 2px solid #591c4a; */
 }
 
 .tbody tr:nth-child(even) {
-
+    
     background-color: #591c4a18;
+    
+}
+
+.tbody tr:last-child td:first-child {
+
+    border-bottom-left-radius: 1rem;
 
 }
+ 
+.tbody tr:last-child td:last-child {
+
+    border-bottom-right-radius: 1rem;
+
+}
+
+.tr td {
+
+    padding: 1rem 0.5rem;
+
+}
+

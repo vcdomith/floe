@@ -57,7 +57,11 @@ export default function Home() {
   return (
     <section className={styles.section}>
       <Container>
-        <form onSubmit={adicionarValor}>
+        <form
+          className={styles.form} 
+          onSubmit={adicionarValor}
+          >
+          <label htmlFor="input">Valor Unitário</label>
           <input 
             className={styles.input}
             ref={inputRef}
@@ -65,9 +69,14 @@ export default function Home() {
             step={0.01}
             placeholder='Digite o valor unitário'
             value={valor}
-            onChange={evento => setValor(parseFloat(evento.target.value))}
+            onChange={evento => {
+              evento.target.value !== ''
+                ? setValor(parseFloat(evento.target.value))
+                : setValor('')
+            }
+          }
           />
-          <button >Adicionar</button>
+          <button className={styles.botao}>Adicionar</button>
         </form>
         <Table valores={valores} />
       </Container>

@@ -5,7 +5,7 @@ import { Inter } from 'next/font/google'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'Blog DOMI',
+  title: 'Cálculo Tabelas',
   description: 'Developed by DOMI studio',
 }
 

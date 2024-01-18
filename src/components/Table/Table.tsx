@@ -1,12 +1,23 @@
 import { IValores } from "@/interfaces/IValores"
 
 import styles from './Table.module.css'
+import { useEffect, useState } from "react"
 
 interface TableProps {
     valores: IValores[]
 }
 
+
 const Table = ({ valores }: TableProps) => {
+
+    const lastRowClass = (index: number, valores: IValores[]) => {
+    
+        return index === valores.length - 1
+        ? styles.lastRow
+        : styles.tr
+    
+    }
+
   return (
     <>
     
@@ -22,15 +33,23 @@ const Table = ({ valores }: TableProps) => {
         </thead>
         <tbody className={styles.tbody}>
             {valores.map((produto, index) => 
-                <tr className={styles.tr} key={index}>
-                    <td>{produto.unitario}</td>
-                    <td>{produto.tabela1}</td>
-                    <td>{produto.tabela2}</td>
-                    <td>{produto.tabela3}</td>
-                </tr>)}
+                <tr 
+                    className={index === valores.length - 1 
+                                        ? styles.lastRow 
+                                        : styles.tr
+                              } 
+                    key={index}
+                >
+                    <td className={styles.first}>{(produto.unitario).toFixed(2)}</td>
+                    <td>{(produto.tabela1).toFixed(2)}</td>
+                    <td>{(produto.tabela2).toFixed(2)}</td>
+                    <td className={styles.last}>{(produto.tabela3).toFixed(2)}</td>
+                </tr>
+            
+                )}
         </tbody>
     </table>
-    : <div>sem Dados</div>
+    : <div>Sem dados</div>
     }
     </>
   )

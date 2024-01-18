@@ -16,22 +16,19 @@ export default function Home() {
 
   function calcularTabela(valor: number, args: number[]): number {
 
-    return Math.round(args.reduce((acc, curr) => acc * curr, valor))
+    return customRound(args.reduce((acc, atual) => acc * atual, valor))
 
   }
 
   const adicionarValor = (evento: FormEvent<HTMLFormElement>) => {
     evento.preventDefault()
 
-    // if (valor)
-    // setValores([...valores, valor])
-
     if (valor) {
       setValores([...valores, {
         unitario: valor,
         tabela1: calcularTabela(valor, [3, 1.065, 1.01, 1.1, 1.4]),
-        tabela2: Math.round(valor*1.5),
-        tabela3: Math.round((calcularTabela(valor, [3, 1.065, 1.01, 1.1, 1.4]))*1.3)
+        tabela2: customRound(valor*1.5),
+        tabela3: customRound((calcularTabela(valor, [3, 1.065, 1.01, 1.1, 1.4]))*1.3)
       }])
       
       setValor('')
@@ -40,19 +37,58 @@ export default function Home() {
     console.log(valores);
   }
 
-  // useEffect(() => {
+  function customRound(value: number): number {
+    const floorValue = Math.floor(value);
+    const halfFloorValue = floorValue + 0.5;
+    const nextFloorValue = floorValue + 1;
+  
+    const diffToFloor = Math.abs(value - floorValue);
+    const diffToHalfFloor = Math.abs(value - halfFloorValue);
+    const diffToNextFloor = Math.abs(value - nextFloorValue);
 
-  //   if (valor)
-  //   alert(`
-  //         unit: ${valor} 
-  //         t1: ${valor*3*1.65*1.1} 
-  //         t2: ${valor*1.5} 
-  //         t3: ${(valor*3*1.65*1.1)*1.3}`
-  //         )
+    let a = {
+      value: value,
+      floor: floorValue, 
+      halfFloor: halfFloorValue,
+      doubleFloor: nextFloorValue,
+      diffToFloor: diffToFloor,
+      diffToHalfFloor: diffToHalfFloor,
+      diffToNextFloor: diffToNextFloor
+    }
+    
 
-  //   console.log(valores)
+    console.table(a);
+  
+    if (diffToFloor <= diffToHalfFloor && diffToFloor <= diffToNextFloor) {
+      return floorValue - 0.02;
+    } else if (diffToHalfFloor <= diffToNextFloor) {
+      return halfFloorValue;
+    } else {
+      return nextFloorValue - 0.02;
+    }
+  }
 
-  // }, [valores])
+  function roundComercial(value: number): number {
+
+    // Round to two decimal places
+    let valorArrendondado = Math.round(value * 100) / 100;
+
+    // Check the remainder when dividing by 1
+    let resto = valorArrendondado % 1;
+
+    // Define the possible rounding values
+    let valoresDesejados = [0.50, 0.98];
+
+    // Find the closest rounding value
+    let valorProximo = valoresDesejados.reduce((closest, current) => {
+        return Math.abs(resto - current) < Math.abs(resto - closest) ? current : closest;
+    });
+
+    // Adjust the rounded value to the closest rounding value
+    let resultado = valorArrendondado - resto + valorProximo;
+
+    return resultado;
+}
 
   return (
     <section className={styles.section}>

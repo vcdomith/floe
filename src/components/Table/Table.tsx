@@ -3,13 +3,41 @@ import { IValores } from "@/interfaces/IValores"
 import styles from './Table.module.css'
 import { useEffect, useState } from "react"
 import TableHeader from "./TableHeader/TableHeader"
+import { IFatores } from "@/interfaces/IFatores"
+import TableBody from "./TableBody/TableBody"
 
-interface TableProps {
-    valores: IValores[]
+interface TableProps<T extends IValores[] | IFatores[]> {
+    valores: T
+
 }
 
 
-const Table = ({ valores }: TableProps) => {
+const Table = <T extends IValores[] | IFatores[],>({ valores }: TableProps<T>) => {
+
+    interface Headers<T = string>{
+        valores: [T, T, T, T],
+        fatores: [T, T]
+      }
+    
+    const tableHeaders: Headers = {
+        
+        valores: [
+            'Valores Unitários',
+            'Valor Tabela 1',
+            'Valor Tabela 2',
+            'Valor Tabela 3'
+        ],
+
+        fatores: [
+            'Origem',
+            'Fator'
+        ]
+    }
+
+    let headers = (valores[0] && 'unitario' in valores[0])
+        ? tableHeaders.valores 
+        : tableHeaders.fatores 
+            
 
   return (
     <>
@@ -17,9 +45,17 @@ const Table = ({ valores }: TableProps) => {
     {valores.length > 0 ?
     <table className={styles.table}>
         <TableHeader
-            headers={valores}
+            headers={headers}
         />
-        {/* <thead className={styles.thead}>
+        <TableBody valores={valores} />
+    </table>
+    : <div>Sem dados</div>
+    }
+    </>
+  )
+}
+
+{/* <thead className={styles.thead}>
             <tr>
                 <th className={styles.th}>Valor Unitário</th>
                 <th className={styles.th}>Valor Tabela 1</th>
@@ -27,7 +63,7 @@ const Table = ({ valores }: TableProps) => {
                 <th className={styles.th}>Valor Tabela 3</th>
             </tr>
         </thead> */}
-        <tbody className={styles.tbody}>
+        {/* <tbody className={styles.tbody}>
             {valores.map((produto, index) => 
                 <tr 
                     className={index === valores.length - 1 
@@ -43,12 +79,6 @@ const Table = ({ valores }: TableProps) => {
                 </tr>
             
                 )}
-        </tbody>
-    </table>
-    : <div>Sem dados</div>
-    }
-    </>
-  )
-}
+        </tbody> */}
 
 export default Table

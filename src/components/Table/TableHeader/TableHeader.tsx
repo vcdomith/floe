@@ -4,7 +4,7 @@ import { IFatores } from '@/interfaces/IFatores'
 
 interface TableHeaderProps {
 
-    headers: 'valores' | 'fatores'
+    headers: string[]
 
 }
 
@@ -13,25 +13,9 @@ const TableHeader = ({ headers }: TableHeaderProps) => {
   return (
     <thead>
         <tr>
-            {headers === 'valores' 
-
-                ? (
-                    <>
-                    <th>Valor Unitário</th>
-                    <th>Valor Tabela 1</th>
-                    <th>Valor Tabela 2</th>
-                    <th>Valor Tabela 3</th>
-                    </>
-                )
-
-                : (
-                    <>
-                    <th>Origem</th>
-                    <th>Fator</th>
-                    </>
-                )
-            }
-    
+            {headers.map(
+                (header, index) => 
+                <th key={index}>{header}</th>)}
         </tr>
     </thead>
   )

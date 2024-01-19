@@ -1,7 +1,7 @@
 
 export interface IFatores {
 
-    id: string
+    origem: string
     fator: number
 
 }

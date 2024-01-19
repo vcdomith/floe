@@ -1,19 +1,19 @@
 'use client'
 
-import { FormEvent, useRef, useState } from 'react'
+import { FormEvent, useEffect, useRef, useState } from 'react'
 import { IValores } from '@/interfaces/IValores'
 import Table from '@/components/Table/Table'
 import Container from '@/components/Container/Container'
 import styles from './page.module.css'
 import './padrao.css'
 import NumberInput from '@/components/NumberInput/NumberInput'
+import { IFatores } from '@/interfaces/IFatores'
 
 export default function Home() {
 
   const [valor, setValor] = useState<number | ''>('')
   const [valores, setValores] = useState<IValores[]>([])
-
-  const inputRef = useRef<HTMLInputElement>(null)
+  const [fatores, setFatores] = useState<IFatores[]>([{ origem: 'Padrão', fator: 3 }, { origem: 'Transporte', fator: .01}])
 
   function calcularTabela(valor: number, args: number[]): number {
 
@@ -57,7 +57,6 @@ export default function Home() {
       diffToNextFloor: diffToNextFloor
     }
     
-
     console.table(a);
   
     if (diffToFloor <= diffToHalfFloor && diffToFloor <= diffToNextFloor) {
@@ -68,28 +67,6 @@ export default function Home() {
       return nextFloorValue - 0.02;
     }
   }
-
-  function roundComercial(value: number): number {
-
-    // Round to two decimal places
-    let valorArrendondado = Math.round(value * 100) / 100;
-
-    // Check the remainder when dividing by 1
-    let resto = valorArrendondado % 1;
-
-    // Define the possible rounding values
-    let valoresDesejados = [0.50, 0.98];
-
-    // Find the closest rounding value
-    let valorProximo = valoresDesejados.reduce((closest, current) => {
-        return Math.abs(resto - current) < Math.abs(resto - closest) ? current : closest;
-    });
-
-    // Adjust the rounded value to the closest rounding value
-    let resultado = valorArrendondado - resto + valorProximo;
-
-    return resultado;
-}
 
   return (
     <section className={styles.section}>
@@ -123,25 +100,15 @@ export default function Home() {
                 valor={valor}
                 setValor={setValor}
               />
-            {/* <label htmlFor="input">Valor Unitário</label>
-            <input 
-              className={styles.input}
-              type="number" 
-              step={0.01}
-              placeholder='Digite o valor unitário'
-              value={valor}
-              onChange={evento => {
-                evento.target.value !== ''
-                  ? setValor(parseFloat(evento.target.value))
-                  : setValor('')
-              }
-            }
-            /> */}
             <button className={styles.botao}>Adicionar</button>
           </form>
-          <Table valores={valores}/>
+          <Table
+           valores={fatores}
+          />
         </div>
-        <Table valores={valores} />
+        <Table 
+          valores={valores} 
+        />
       </Container>
     </ section>
 

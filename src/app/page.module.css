@@ -21,7 +21,21 @@
 .container {
 
     display: flex;
+    width: 80%;
+    /* max-height: 300px; */
+    gap: 2rem;
 
+}
+
+.container:first-child {
+
+    flex: 3;
+
+}
+
+.container:last-child {
+
+    flex: 2;
 
 }
 
@@ -29,7 +43,7 @@
     display: flex;
     flex-wrap: wrap;
     align-items: flex-start;
-    /* flex-direction: column; */
+    flex-direction: column;
 
     width: 80%;
 

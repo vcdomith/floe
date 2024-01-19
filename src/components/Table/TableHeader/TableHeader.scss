@@ -1,0 +1,13 @@
+
+th {
+
+    font-size: 1.2rem;
+    padding: 1rem 0;
+    border-bottom: 2px solid #591c4a;
+
+    &:not(:last-child) {
+
+        border-right: 2px solid #591c4a44;
+    
+    }
+}

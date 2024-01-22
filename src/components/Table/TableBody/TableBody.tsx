@@ -9,36 +9,33 @@ interface TableBodyProps {
 }
 
 const TableBody = ({ valores }: TableBodyProps) => {
+
   return (
-    <tbody >
+    <div className='tbody'>
             {valores.map((produto, index) => 
-                <tr 
+                <div 
                     className={index === valores.length - 1 
-                                        ? 'lastRow' 
-                                        : ''
+                                        ? 'tr lastRow' 
+                                        : 'tr'
                               } 
                     key={index}
                 >
                     {Object.values(produto).map(
-                        (valor, index) => 
-                        <td 
-                            className='first'
+                        (valor: string | number, index: number) => 
+                        <div 
+                            className='td'
                             key={index}
-                        >{valor}</td>
-                    )}
-                    {/* for (const valor of valores) {
-                        for (const dado of Object.values(valor)) {
-                            console.log(dado);
+                        >{
+                            (typeof valor === 'number')
+                            ? valor.toLocaleString('pt-br', {minimumFractionDigits: 2, maximumFractionDigits: 4})
+                            : valor
                         }
-                        } */}
-                    {/* <td >{(produto.unitario).toFixed(2)}</td>
-                    <td>{(produto.tabela1).toFixed(2)}</td>
-                    <td>{(produto.tabela2).toFixed(2)}</td>
-                    <td >{(produto.tabela3).toFixed(2)}</td> */}
-                </tr>
+                        </div>
+                    )}
+                </div>
             
                 )}
-        </tbody>
+        </div>
   )
 }
 

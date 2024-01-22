@@ -1,57 +1,105 @@
 
 
-tbody {
+.tbody {
 
-    border-collapse: separate !important;
-    border-spacing: 0;
-
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    
     font-size: 1.2rem;
-
+    
     text-align: center;
-    width: 20%;
-    height: 50px;
+    height: 100%;
+    // box-sizing: border-box;    
 
-}
-
-tbody tr:nth-child(even) {
     
-    background-color: #591c4a18;
-    
+    .tr {
+        
+        min-width: max-content;
+        flex: 1;
+        width: 100%;
+        // box-sizing: border-box;    
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        align-items: center;
+        
+        // padding: 0.5rem;
+        
+        &:nth-child(even) .td {
+            
+            border-radius: 0;
+            background-color: #591c4a18;
+            
+        }
+
+        &:last-child {
+            .td{
+                &:first-child {
+   
+                    border-bottom-left-radius: 2rem;
+
+                }
+                &:last-child {
+
+                    border-bottom-right-radius: 2rem;
+
+                }
+            }
+        }
+
+        .td {
+
+            align-items: center;
+            flex: 1;
+
+            &:not(:last-child) {
+        
+                border-right: 2px solid #591c4a44;
+                
+            }
+
+        }
+        
+    }
+
 }
 
-tbody td:not(:last-child) {
 
-    border-right: 2px solid #591c4a44;
-
-}
 
 // tr {
 //     border-radius: 1rem;
 // }
 
-tr td {
+.tr .td {
 
     padding: 1rem 0.5rem;
     
 }
 
-.lastRow {
+.lastRow .td:first-child {
 
-    & td:first-child {
-
-        background-color: black;
-        border-radius: 2rem;
-        border-bottom-right-radius: 0rem;
-
-    }
-
-    & td:last-child {
-
-        background-color: white;
-
-    }
+    border-bottom-left-radius: 2rem;
 
 }
+
+// .lastRow {
+
+//     & td:first-child {
+
+//         // background-color: black;
+//         // border-radius: 2rem;
+//         border-bottom-left-radius: 2rem;
+
+//     }
+
+//     & td:last-child {
+
+//         background-color: white;
+
+//     }
+
+// }
 
 // .lastRow .first {
 

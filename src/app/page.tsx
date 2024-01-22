@@ -1,6 +1,6 @@
 'use client'
 
-import { FormEvent, useEffect, useRef, useState } from 'react'
+import { FormEvent, useState } from 'react'
 import { IValores } from '@/interfaces/IValores'
 import Table from '@/components/Table/Table'
 import Container from '@/components/Container/Container'
@@ -11,9 +11,15 @@ import { IFatores } from '@/interfaces/IFatores'
 
 export default function Home() {
 
-  const [valor, setValor] = useState<number | ''>('')
+  const [valor, setValor] = useState<string>('')
   const [valores, setValores] = useState<IValores[]>([])
-  const [fatores, setFatores] = useState<IFatores[]>([{ origem: 'Padrão', fator: 3 }, { origem: 'Transporte', fator: .01}])
+  const [fatores, setFatores] = useState<IFatores[]>([
+    { origem: 'Padrão', fator: 3 }, 
+    { origem: 'Transporte', fator: .01 },
+    { origem: 'ST', fator: 1.1 },
+    { origem: 'IPI', fator: 1.065 },
+    { origem: 'Fator', fator: 1.4 },
+  ])
 
   function calcularTabela(valor: number, args: number[]): number {
 
@@ -22,16 +28,19 @@ export default function Home() {
   }
 
   const adicionarValor = (evento: FormEvent<HTMLFormElement>) => {
+
     evento.preventDefault()
 
     if (valor) {
+
+      const valorNumerico = parseFloat(valor.replace(/,/g, '.'))
       setValores([...valores, {
-        unitario: valor,
-        tabela1: calcularTabela(valor, [3, 1.065, 1.01, 1.1, 1.4]),
-        tabela2: customRound(valor*1.5),
-        tabela3: customRound((calcularTabela(valor, [3, 1.065, 1.01, 1.1, 1.4]))*1.3)
+        unitario: valorNumerico,
+        tabela1: calcularTabela(valorNumerico, [3, 1.065, 1.01, 1.1, 1.4]),
+        tabela2: customRound(valorNumerico*1.5),
+        tabela3: customRound((calcularTabela(valorNumerico, [3, 1.065, 1.01, 1.1, 1.4]))*1.3)
       }])
-      
+
       setValor('')
     }
 
@@ -101,6 +110,12 @@ export default function Home() {
                 setValor={setValor}
               />
             <button className={styles.botao}>Adicionar</button>
+            <select 
+              className={styles.botao}
+            >
+              <option value="normal">Normal</option>
+              <option value="st">ST</option>
+            </select>
           </form>
           <Table
            valores={fatores}

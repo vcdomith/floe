@@ -1,6 +1,5 @@
-import { IValores } from '@/interfaces/IValores'
 import './TableHeader.scss'
-import { IFatores } from '@/interfaces/IFatores'
+
 
 interface TableHeaderProps {
 
@@ -11,13 +10,18 @@ interface TableHeaderProps {
 const TableHeader = ({ headers }: TableHeaderProps) => {
 
   return (
-    <thead>
-        <tr>
+    <div className='thead'>
+        <div className='tr'>
             {headers.map(
                 (header, index) => 
-                <th key={index}>{header}</th>)}
-        </tr>
-    </thead>
+                  <div
+                    className='th' 
+                    key={index}>
+                      {header}
+                  </div>
+            )}
+        </div>
+    </div>
   )
 }
 

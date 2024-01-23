@@ -20,7 +20,7 @@
         width: 100%;
         // box-sizing: border-box;    
         display: flex;
-        justify-content: space-between;
+        justify-content: center;
         width: 100%;
         align-items: center;
         
@@ -52,7 +52,6 @@
 
             align-items: center;
             flex: 1;
-            min-width: max-content;
 
             &:not(:last-child) {
         
@@ -66,15 +65,9 @@
 
 }
 
-
-
-// tr {
-//     border-radius: 1rem;
-// }
-
 .tr .td {
 
-    padding: 1rem 0.5rem;
+    padding: 0.5rem;
     
 }
 
@@ -83,6 +76,12 @@
     border-bottom-left-radius: 2rem;
 
 }
+
+
+// tr {
+//     border-radius: 1rem;
+// }
+
 
 // .lastRow {
 

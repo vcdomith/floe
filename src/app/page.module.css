@@ -40,11 +40,12 @@
 }
 
 .form {
+    /* max-width: 200px; */
     flex: 1;
     display: flex;
     flex-wrap: wrap;
     align-items: flex-start;
-    flex-direction: column;
+    flex-direction: row;
 
     /* width: 80%; */
 
@@ -105,5 +106,15 @@
 
     background-color: #3b0331;
     color: #e8d4b0;
+
+}
+
+@media (max-width: 800px) {
+    
+    .container {
+
+        flex-direction: column;
+        
+    }
 
 }

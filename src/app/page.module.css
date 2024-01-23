@@ -45,6 +45,8 @@
     display: flex;
     flex-wrap: wrap;
     align-items: flex-start;
+    align-content: start;
+    justify-content: flex-start;
     flex-direction: row;
 
     /* width: 80%; */
@@ -85,7 +87,7 @@
 .botao {
 
     outline: none;
-    border: 2px solid #3b0331;
+    border: 2px solid #591c4a;
     border-radius: 0.5rem;
 
     padding: 0 1rem;
@@ -94,7 +96,7 @@
 
     font-size: 1.2rem;
     font-weight: 500;
-    color: #3b0331;
+    color: #591c4a;
 
     cursor: pointer;
 
@@ -104,16 +106,17 @@
 
 .botao:hover {
 
-    background-color: #3b0331;
+    background-color: #591c4a;
     color: #e8d4b0;
 
 }
 
-@media (max-width: 800px) {
+@media (max-width: 850px) {
     
     .container {
 
         flex-direction: column;
+        width: 100%;
         
     }
 

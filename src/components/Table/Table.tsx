@@ -7,11 +7,12 @@ import TableBody from "./TableBody/TableBody"
 
 interface TableProps<T extends IValores[] | IFatores[]> {
     valores: T
-
+    size?: {maxWidth: '300px'}
+    setState: (valor: any[]) => void 
 }
 
 
-const Table = <T extends IValores[] | IFatores[],>({ valores }: TableProps<T>) => {
+const Table = <T extends IValores[] | IFatores[],>({ valores, size, setState }: TableProps<T>) => {
 
     interface Headers<T = string>{
         valores: [T, T, T, T],
@@ -42,11 +43,14 @@ const Table = <T extends IValores[] | IFatores[],>({ valores }: TableProps<T>) =
     <>
     
     {valores.length > 0 ?
-    <div className={styles.table}>
+    <div 
+      className={styles.table}
+      style={size}
+    >
         <TableHeader
             headers={headers}
         />
-        <TableBody valores={valores} />
+        <TableBody valores={valores} setState={setState} />
     </div>
     : <div
         className={styles.empty}

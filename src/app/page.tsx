@@ -11,15 +11,17 @@ import { IFatores } from '@/interfaces/IFatores'
 
 export default function Home() {
 
-  const [valor, setValor] = useState<string>('')
-  const [valores, setValores] = useState<IValores[]>([])
+  const [valor, setValor] = useState('')
   const [fatores, setFatores] = useState<IFatores[]>([
     { origem: 'Padrão', fator: 3 }, 
-    { origem: 'Transporte', fator: .01 },
+    { origem: 'Transporte', fator: 1.01 },
     { origem: 'ST', fator: 1.1 },
-    { origem: 'IPI', fator: 1.065 },
     { origem: 'Fator', fator: 1.4 },
+    { origem: 'IPI', fator: 1.065 },
   ])
+
+  const [valores, setValores] = useState<IValores[]>([])
+  const [listaFatores, setListaFatores] = useState< (IFatores[])[] >([])
 
   function calcularTabela(valor: number, args: number[]): number {
 
@@ -27,18 +29,30 @@ export default function Home() {
 
   }
 
-  const adicionarValor = (evento: FormEvent<HTMLFormElement>) => {
+  // const adicionarItem = (evento: FormEvent<HTMLFormElement>) => {
+  //   evento.preventDefault()
 
+  //   atualizarFatores()
+  //   const listaFatores = fatores.map(item => item.fator)
+
+  //   adicionarValor()
+
+  // }
+
+
+  const adicionarValor = (evento: FormEvent<HTMLFormElement>) => {
     evento.preventDefault()
+
+    const fatoresAplicados = fatores.map(item => item.fator)
 
     if (valor) {
 
       const valorNumerico = parseFloat(valor.replace(/,/g, '.'))
       setValores([...valores, {
         unitario: valorNumerico,
-        tabela1: calcularTabela(valorNumerico, [3, 1.065, 1.01, 1.1, 1.4]),
+        tabela1: calcularTabela(valorNumerico, fatoresAplicados),
         tabela2: customRound(valorNumerico*1.5),
-        tabela3: customRound((calcularTabela(valorNumerico, [3, 1.065, 1.01, 1.1, 1.4]))*1.3)
+        tabela3: customRound((calcularTabela(valorNumerico, fatoresAplicados))*1.3)
       }])
 
       setValor('')
@@ -66,7 +80,7 @@ export default function Home() {
       diffToNextFloor: diffToNextFloor
     }
     
-    console.table(a);
+    // console.table(a);
   
     if (diffToFloor <= diffToHalfFloor && diffToFloor <= diffToNextFloor) {
       return floorValue - 0.02;
@@ -118,11 +132,14 @@ export default function Home() {
             </select>
           </form>
           <Table
+           size={{maxWidth: '300px'}}
            valores={fatores}
+           setState={setFatores}
           />
         </div>
         <Table 
-          valores={valores} 
+          valores={valores}
+          setState={setValores} 
         />
       </Container>
     </ section>

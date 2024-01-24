@@ -1,7 +1,10 @@
 
 export interface IFatores {
 
-    origem: string
-    fator: number
+    padrao: string
+    st: string
+    transporte: string
+    fator: string
+    ipi: string
 
 }

@@ -1,10 +1,7 @@
 
 export interface IFator {
 
-    padrao: string
-    st: string
-    transporte: string
+    origem: string
     fator: string
-    ipi: string
 
 }

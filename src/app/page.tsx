@@ -8,17 +8,25 @@ import styles from './page.module.css'
 import './padrao.css'
 import NumberInput from '@/components/NumberInput/NumberInput'
 import { IFatores } from '@/interfaces/IFatores'
+import FatoresTable from '@/components/FatoresTable/FatoresTable'
 
 export default function Home() {
 
   const [valor, setValor] = useState('')
-  const [fatores, setFatores] = useState<IFatores[]>([
-    { origem: 'Padrão', fator: 3 }, 
-    { origem: 'Transporte', fator: 1.01 },
-    { origem: 'ST', fator: 1.1 },
-    { origem: 'Fator', fator: 1.4 },
-    { origem: 'IPI', fator: 1.065 },
-  ])
+  // const [fatores, setFatores] = useState<IFatores>({
+  //   padrao: '3',
+  //   st: '1,01',
+  //   transporte: '1,1',
+  //   fator: '1,4',
+  //   ipi: '1,065'
+  // })
+  const [fatores, setFatores] = useState<IFatores>({
+    padrao: '',
+    st: '',
+    transporte: '',
+    fator: '',
+    ipi: ''
+  })
 
   const [valores, setValores] = useState<IValores[]>([])
   const [listaFatores, setListaFatores] = useState< (IFatores[])[] >([])
@@ -43,16 +51,16 @@ export default function Home() {
   const adicionarValor = (evento: FormEvent<HTMLFormElement>) => {
     evento.preventDefault()
 
-    const fatoresAplicados = fatores.map(item => item.fator)
+    const listaFatores = Object.values((fatores)).map(fator => parseFloat(fator))
 
     if (valor) {
 
       const valorNumerico = parseFloat(valor.replace(/,/g, '.'))
       setValores([...valores, {
         unitario: valorNumerico,
-        tabela1: calcularTabela(valorNumerico, fatoresAplicados),
+        tabela1: calcularTabela(valorNumerico, listaFatores),
         tabela2: customRound(valorNumerico*1.5),
-        tabela3: customRound((calcularTabela(valorNumerico, fatoresAplicados))*1.3)
+        tabela3: customRound((calcularTabela(valorNumerico, listaFatores))*1.3)
       }])
 
       setValor('')
@@ -131,11 +139,17 @@ export default function Home() {
               <option value="st">ST</option>
             </select>
           </form>
-          <Table
+          <FatoresTable
+            fatores={fatores}
+            setFatores={setFatores}
+            valor={valor}
+            setValor={setValor}
+          />
+          {/* <Table
            size={{maxWidth: '300px'}}
            valores={fatores}
            setState={setFatores}
-          />
+          /> */}
         </div>
         <Table 
           valores={valores}

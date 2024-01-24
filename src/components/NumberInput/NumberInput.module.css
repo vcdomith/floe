@@ -1,5 +1,7 @@
 .container {
 
+    position: relative;
+
     display: flex;
     flex-direction: column;
     /* width: 100%; */
@@ -48,4 +50,30 @@
 .input::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
+}
+
+.input:not(:disabled) ~ .svg {
+
+    display: none;
+
+}
+
+.svg {
+
+    position: absolute;
+    right: 15px;
+    top: 25%;
+
+    padding: 0.25rem;
+
+    border-radius: 0.5rem;
+    border: 2px solid transparent;
+
+    cursor: pointer;
+}
+
+.svg:hover {
+
+    border: 2px solid #591c4a;
+
 }

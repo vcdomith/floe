@@ -6,7 +6,7 @@ import Table from '@/components/Table/Table'
 import Container from '@/components/Container/Container'
 import styles from './page.module.css'
 import './padrao.css'
-import NumberInput from '@/components/NumberInput/NumberInput'
+import NumberInput from '@/components/FatoresTable/FatoresTableBody/NumberInput/NumberInput'
 import { IFatores } from '@/interfaces/IFatores'
 import FatoresTable from '@/components/FatoresTable/FatoresTable'
 
@@ -51,7 +51,10 @@ export default function Home() {
   const adicionarValor = (evento: FormEvent<HTMLFormElement>) => {
     evento.preventDefault()
 
-    const listaFatores = Object.values((fatores)).map(fator => parseFloat(fator))
+    console.log(fatores);
+    const listaFatores = Object.values((fatores)).map(fator => parseFloat(fator.replace(/,/g, '.')))
+
+    console.log(listaFatores);
 
     if (valor) {
 
@@ -103,7 +106,7 @@ export default function Home() {
     <section className={styles.section}>
       <Container>
         <div className={styles.container}>
-          <form
+          {/* <form
             className={styles.form} 
             onSubmit={adicionarValor}
             >
@@ -138,12 +141,13 @@ export default function Home() {
               <option value="normal">Normal</option>
               <option value="st">ST</option>
             </select>
-          </form>
+          </form> */}
           <FatoresTable
             fatores={fatores}
             setFatores={setFatores}
             valor={valor}
             setValor={setValor}
+            handleSubmit={adicionarValor}
           />
           {/* <Table
            size={{maxWidth: '300px'}}

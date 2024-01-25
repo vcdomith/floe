@@ -47,7 +47,7 @@ const NumberInput = ({ label, placeholder, valor, setValor }: NumberInputProps) 
          : <></>
         }
         <input 
-            className={styles.input}
+            // className={styles.input}
             // disabled={disabled}
             required
             type="text" 

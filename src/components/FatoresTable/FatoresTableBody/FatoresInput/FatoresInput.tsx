@@ -1,7 +1,6 @@
-import { ChangeEvent, FormEvent, KeyboardEvent, MouseEvent, WheelEvent, WheelEventHandler, useEffect, useRef, useState } from 'react'
+import { ChangeEvent, FormEvent, KeyboardEvent, MouseEvent, RefObject, WheelEvent, WheelEventHandler, useEffect, useRef, useState } from 'react'
 import styles from '../NumberInput/NumberInput.module.css'
 import { IFatores } from '@/interfaces/IFatores'
-import { init } from 'next/dist/compiled/webpack/webpack'
 
 interface FatoresInput {
 
@@ -10,16 +9,17 @@ interface FatoresInput {
     index: number
     id: string
 
+    formRef: RefObject<HTMLFormElement>
+
     fator: string
     setFator: (fator: (arr: IFatores) => IFatores) => void
 }
 
-const FatoresInput = ({ label, placeholder, fator, setFator, index, id }: FatoresInput) => {
+const FatoresInput = ({ label, placeholder, fator, setFator, index, id, formRef }: FatoresInput) => {
 
   const inputRef = useRef<HTMLInputElement>(null)
-  const initialMount = useRef<boolean>(true)
 
-  const [a, setA] = useState(false)
+  const [disabled, setDisabled] = useState(false)
   const [firstMount, setFirstMount] = useState(true)
 
   const handleChangeValor = (e: ChangeEvent<HTMLInputElement>) => {
@@ -48,7 +48,7 @@ const FatoresInput = ({ label, placeholder, fator, setFator, index, id }: Fatore
   }
 
 
-  const handleDisable = (e: MouseEvent<SVGSVGElement, MouseEvent>) => {
+  const handleDisable = () => {
 
     // setDisabled((prev: boolean[]) => {
 
@@ -61,9 +61,8 @@ const FatoresInput = ({ label, placeholder, fator, setFator, index, id }: Fatore
     //   return updatedDisabled
 
     // })
-    e
-    setA(false)
-    setInterval(() => inputRef.current!.focus(), 0)
+    setDisabled(false)
+    if (!disabled) inputRef.current!.focus()
     
   }
 
@@ -81,21 +80,19 @@ const FatoresInput = ({ label, placeholder, fator, setFator, index, id }: Fatore
     
     if (fator !== '') {
 
-      setA(true)
+      setDisabled(true)
 
     }
 
   }
 
-  // useEffect(() => {
+  useEffect(() => {
 
-  //     inputRef.current.blur()
-
-  //     if (!initialMount.current) {
-  //       inputRef.current.focus()
-  //     }
-
-  // }, [a, initialMount])
+    if (!firstMount) {
+      inputRef.current!.focus();
+    }
+    setFirstMount(false);
+  }, [disabled]);
 
   return (
     <div className={styles.container}>
@@ -104,10 +101,10 @@ const FatoresInput = ({ label, placeholder, fator, setFator, index, id }: Fatore
          : <></>
         }
         <input 
-            autoFocus={false}
-            className={styles.input}
+            // autoFocus={false}
+            // className={styles.input}
             ref={inputRef}
-            disabled={a}
+            disabled={disabled}
             required={true}
             type="text" 
             value={fator}
@@ -137,9 +134,9 @@ const FatoresInput = ({ label, placeholder, fator, setFator, index, id }: Fatore
             </g>
           </g>
         </svg> */}
-        <svg 
+        {/* <svg 
           className={styles.svg}
-          onClick={ e => handleDisable(e)}
+          onClick={handleDisable}
           fill="#000000" 
           width="25px" 
           height="25px" 
@@ -149,6 +146,35 @@ const FatoresInput = ({ label, placeholder, fator, setFator, index, id }: Fatore
             <path 
               d="M14.19 16.005l7.869 7.868-2.129 2.129-9.996-9.997L19.937 6.002l2.127 2.129z"
             />
+        </svg> */}
+        {/* <svg 
+          onClick={handleDisable}
+          width="25px" 
+          height="25px" 
+          viewBox="0 0 1024 1024" 
+          version="1.1" 
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path 
+          d="M396.8 543.808V627.2h83.392l371.2-371.2L768 172.608l-371.2 371.2zM320 512l448-448 192 192-448 448H320V512z m499.2 371.2V512H896v448H64V128h448v76.8H140.8v678.4h678.4z" 
+          fill="#000000" 
+          />
+        </svg> */}
+        <svg 
+          onClick={handleDisable}
+          width="25px" 
+          height="25px" 
+          viewBox="-2 -2 28 28" 
+          fill="none" 
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path 
+            d="M18 9.99982L14 5.99982M2.5 21.4998L5.88437 21.1238C6.29786 21.0778 6.5046 21.0549 6.69785 20.9923C6.86929 20.9368 7.03245 20.8584 7.18289 20.7592C7.35245 20.6474 7.49955 20.5003 7.79373 20.2061L21 6.99982C22.1046 5.89525 22.1046 4.10438 21 2.99981C19.8955 1.89525 18.1046 1.89524 17 2.99981L3.79373 16.2061C3.49955 16.5003 3.35246 16.6474 3.24064 16.8169C3.14143 16.9674 3.06301 17.1305 3.00751 17.302C2.94496 17.4952 2.92198 17.702 2.87604 18.1155L2.5 21.4998Z" 
+            stroke="#000000" 
+            strokeWidth="2" 
+            strokeLinecap="round" 
+            strokeLinejoin="round"
+          />
         </svg>
     </div>
   )

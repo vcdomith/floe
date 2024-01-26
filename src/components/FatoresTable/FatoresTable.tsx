@@ -22,7 +22,9 @@ const FatoresTable = ({ fatores, setFatores, valor, setValor, handleSubmit }: Fa
     <div
       className={styles.table}
     >
-      <TableHeader headers={['Origem', 'Fator']} />
+      <TableHeader
+        headers={['Origem', 'Fator']} 
+      />
       <FatoresTableBody
         fatores={fatores}
         setFatores={setFatores}

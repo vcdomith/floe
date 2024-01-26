@@ -106,42 +106,6 @@ export default function Home() {
     <section className={styles.section}>
       <Container>
         <div className={styles.container}>
-          {/* <form
-            className={styles.form} 
-            onSubmit={adicionarValor}
-            >
-              <NumberInput
-                label='Valor Unitário'
-                placeholder='Digite o valor unitário'
-                valor={valor}
-                setValor={setValor}
-              />
-              <NumberInput
-                label='Porcentagem IPI'
-                placeholder='Porcentagem ex: 6,5%'
-                valor={valor}
-                setValor={setValor}
-              />
-              <NumberInput
-                label='Porcentagem IPI'
-                placeholder='Porcentagem ex: 6,5%'
-                valor={valor}
-                setValor={setValor}
-              />
-              <NumberInput
-                label='Porcentagem IPI'
-                placeholder='Porcentagem ex: 6,5%'
-                valor={valor}
-                setValor={setValor}
-              />
-            <button className={styles.botao}>Adicionar</button>
-            <select 
-              className={styles.botao}
-            >
-              <option value="normal">Normal</option>
-              <option value="st">ST</option>
-            </select>
-          </form> */}
           <FatoresTable
             fatores={fatores}
             setFatores={setFatores}
@@ -149,11 +113,6 @@ export default function Home() {
             setValor={setValor}
             handleSubmit={adicionarValor}
           />
-          {/* <Table
-           size={{maxWidth: '300px'}}
-           valores={fatores}
-           setState={setFatores}
-          /> */}
         </div>
         <Table 
           valores={valores}

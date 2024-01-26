@@ -1,10 +1,8 @@
 import { IFatores } from '@/interfaces/IFatores'
 import styles from './FatoresTableBody.module.scss'
-
 import { FormEvent, Fragment, useRef, useState } from 'react'
 import NumberInput from '@/components/FatoresTable/FatoresTableBody/NumberInput/NumberInput'
 import FatoresInput from './FatoresInput/FatoresInput'
-import { IValores } from '@/interfaces/IValores'
 
 interface FatoresTableBody {
 
@@ -30,19 +28,6 @@ const FatoresTableBody = ({ fatores, setFatores, valor, setValor, handleSubmit }
         ipi: 'IPI'
     }
 
-    // const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-
-    //     e.preventDefault()
-
-    //     // const fatoresArr = Object.entries(fatores)
-    //     // const fatoresVazios = fatoresArr.filter(([origem, fator], index) => fator === '')
-
-    //     // console.log(fatoresVazios.length)
-
-    //     // adicionaValores()
-
-    // }
-
   return (
     <div className={styles.container}>
         <div className={styles.labelList}>
@@ -54,7 +39,6 @@ const FatoresTableBody = ({ fatores, setFatores, valor, setValor, handleSubmit }
         <form
         ref={formRef} 
             onSubmit={handleSubmit}
-            // onKeyDown={(e) => e.key === 'Enter' && handleSubmit(e)}
         >
             {Object.entries(fatores).map(([origem, fator], index) => 
                 <FatoresInput 
@@ -72,8 +56,7 @@ const FatoresTableBody = ({ fatores, setFatores, valor, setValor, handleSubmit }
                 valor={valor} 
                 setValor={setValor}
             />
-            <input type="submit" hidden />
-            {/* <button>Adicionar</button> invisble button for form to work */}
+            <input type="submit" hidden /> {/* Invisible input for form to work */}
         </form>
 
     </div>

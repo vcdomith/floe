@@ -50,33 +50,12 @@ const FatoresInput = ({ label, placeholder, fator, setFator, index, id, formRef 
 
   const handleDisable = () => {
 
-    // setDisabled((prev: boolean[]) => {
-
-    //   // Salva uma 'cópia' dos valores anteriores
-    //   const updatedDisabled = [...prev] 
-    //   console.log(updatedDisabled);
-    //   // Acessa os valores no indice no componente e inverte o valor "!prev[index]"
-    //   updatedDisabled[index] = !prev[index] 
-    //   console.log(updatedDisabled);
-    //   return updatedDisabled
-
-    // })
     setDisabled(false)
     if (!disabled) inputRef.current!.focus()
     
   }
 
   const handleBlur = () => {
-
-    // setDisabled((prev: boolean[]) => {
-
-    //   // Salva uma 'cópia' dos valores anteriores
-    //   const updatedDisabled = [...prev] 
-    //   // Acessa os valores no indice no componente e inverte o valor "!prev[index]"
-    //   updatedDisabled[index] = true  
-    //   return updatedDisabled
-
-    // })
     
     if (fator !== '') {
 
@@ -101,8 +80,6 @@ const FatoresInput = ({ label, placeholder, fator, setFator, index, id, formRef 
          : <></>
         }
         <input 
-            // autoFocus={false}
-            // className={styles.input}
             ref={inputRef}
             disabled={disabled}
             required={true}
@@ -114,52 +91,6 @@ const FatoresInput = ({ label, placeholder, fator, setFator, index, id, formRef 
             onBlur={handleBlur}
             placeholder={placeholder}
         />
-        {/* <svg 
-          onClick={handleDisable}
-          className={styles.svg}
-          // style={{cursor: 'pointer'}}
-          width="20px" 
-          height="20px" 
-          viewBox="0 -0.5 21 21" 
-          version="1.1" 
-          xmlns="http://www.w3.org/2000/svg" 
-          xmlnsXlink="http://www.w3.org/1999/xlink"
-        >
-          <g id="Page-1" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
-            <g id="Dribbble-Light-Preview" transform="translate(-379.000000, -359.000000)" fill="#591c4a">
-                <g id="icons" transform="translate(56.000000, 160.000000)">
-                    <path d="M323,219 L343.660141,219 L343.660141,217.042095 L323,217.042095 L323,219 Z M330.231049,212.147332 L330.231049,209.51395 L339.088052,201.64513 L340.979487,203.643172 L332.880712,212.147332 L330.231049,212.147332 Z M344,203.64513 L339.144867,199 L328.165035,208.687714 L328.165035,214.105237 L333.764966,214.105237 L344,203.64513 Z" id="edit-[#1482]">
-                    </path>
-                </g>
-            </g>
-          </g>
-        </svg> */}
-        {/* <svg 
-          className={styles.svg}
-          onClick={handleDisable}
-          fill="#000000" 
-          width="25px" 
-          height="25px" 
-          viewBox="0 0 32 32" 
-          xmlns="http://www.w3.org/2000/svg"
-        >
-            <path 
-              d="M14.19 16.005l7.869 7.868-2.129 2.129-9.996-9.997L19.937 6.002l2.127 2.129z"
-            />
-        </svg> */}
-        {/* <svg 
-          onClick={handleDisable}
-          width="25px" 
-          height="25px" 
-          viewBox="0 0 1024 1024" 
-          version="1.1" 
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path 
-          d="M396.8 543.808V627.2h83.392l371.2-371.2L768 172.608l-371.2 371.2zM320 512l448-448 192 192-448 448H320V512z m499.2 371.2V512H896v448H64V128h448v76.8H140.8v678.4h678.4z" 
-          fill="#000000" 
-          />
-        </svg> */}
         <svg 
           onClick={handleDisable}
           width="25px" 

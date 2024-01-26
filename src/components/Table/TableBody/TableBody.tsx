@@ -3,6 +3,7 @@ import './TableBody.scss'
 import { IValores } from '@/interfaces/IValores'
 import FatoresTable from '@/components/FatoresTable/FatoresTable'
 import { IProduto } from '@/interfaces/IProduto'
+import { MouseEvent, useEffect, useState } from 'react'
 
 
 
@@ -11,13 +12,18 @@ interface TableBodyProps {
     controleProdutos: IProduto[]
     setControleProdutos: (fator: (arr:IProduto[]) => IProduto[]) => void
 
-    setFatores?: (fator: (arr: IProduto) => IFatores) => void
+    setFatorAtual: (fator: {fator: string, valor: string}) => void
+    setFatores: (index: number, fator: string) => ((fator: (arr: IFatores) => IFatores) => void)
 
-    setValor?: (valor: string) => void
+    setValor: (index: number) => ((valor: string) => void)
 
 }
 
-const TableBody = ({ controleProdutos, setControleProdutos, setFatores, setValor }: TableBodyProps) => {
+const TableBody = ({ controleProdutos, setFatorAtual, setControleProdutos, setFatores, setValor }: TableBodyProps) => {
+
+    let displayControl = Array(controleProdutos.length).fill(false)
+
+    const [fatoresDisplay, setFatoresDisplay] = useState<boolean[]>(displayControl)
 
     function calcularTabela(valor: number, args: number[]): number {
 
@@ -69,7 +75,31 @@ const TableBody = ({ controleProdutos, setControleProdutos, setFatores, setValor
 
     const mostrarFatores = (index: number) => {
 
-        console.log(controleProdutos[index]);
+        setFatoresDisplay((prev) => {
+            
+            const control = [...displayControl]
+            control[index] = (control[index] === prev[index])? true : false
+            return control
+        
+        })
+
+        // console.log(controleProdutos[index]);
+
+    }
+
+    const handleModalClick = (index: number, e: MouseEvent<HTMLDivElement, globalThis.MouseEvent>) => {
+
+      if (e.target.localName === 'section') {
+
+        mostrarFatores(index)
+        return
+
+      } else {
+
+        return
+
+      }
+
 
     }
 
@@ -88,6 +118,11 @@ const TableBody = ({ controleProdutos, setControleProdutos, setFatores, setValor
         return Object.values(tabelas)
     }
 
+    // useEffect(() => {
+
+    //     setFatoresDisplay(Array(controleProdutos.length).fill(false))
+
+    // }, [controleProdutos])
 
   return (
     <div className='tbody'>
@@ -133,15 +168,22 @@ const TableBody = ({ controleProdutos, setControleProdutos, setFatores, setValor
                                 d="M7.004 23.087l7.08-7.081-7.07-7.071L8.929 7.02l7.067 7.069L23.084 7l1.912 1.913-7.089 7.093 7.075 7.077-1.912 1.913-7.074-7.073L8.917 25z"
                             />
                     </svg>
-
-                    {/* <FatoresTable
-                        fatores={controleProdutos[index]}
-                        setFatores={setFatores}
-                        valor={controleProdutos[index].unitario}
-                        setValor={setValor}
-                        
-
-                    /> */}
+                    
+                    <section 
+                        className='backdrop'
+                        hidden={!fatoresDisplay[index]}
+                        onClick={(e) => handleModalClick(index, e)}
+                    >    
+                        <FatoresTable
+                            // display={fatoresDisplay[index]}
+                            setFatorAtual={setFatorAtual}
+                            fatores={controleProdutos[index].fatores}
+                            setFatores={setFatores(index)}
+                            valor={controleProdutos[index].unitario}
+                            setValor={setValor(index)}
+                            handleSubmit={e => e.preventDefault()}
+                        />
+                    </section>
 
                     </>
                     

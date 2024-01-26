@@ -116,7 +116,7 @@
 
             }
 
-            &:last-child{
+            &:last-of-type{
 
                 right: 10px;
 
@@ -136,10 +136,32 @@
                 background-color: #dac3a6;
                 box-shadow: inset 2px 2px 5px 2px #591c4a44;
             }
-                
-        
 
         }
+
+        .backdrop {
+
+            position: absolute;
+            // bottom: 50%;
+            // bottom: 100px;
+            width: 90vmax;
+            height: 90vmax;
+
+            z-index: 99;
+            
+            span {
+                
+                box-shadow: 2px 2px 20px #000;
+                
+                position: absolute;
+                right: 50px;
+                bottom: 50%;
+                
+                z-index: 10;
+                
+            }
+        }
+
         
     }
 

@@ -3,7 +3,7 @@ import { IFatores } from '@/interfaces/IFatores'
 import TableHeader from '../Table/TableHeader/TableHeader'
 import FatoresTableBody from './FatoresTableBody/FatoresTableBody'
 import styles from './FatoresTable.module.scss'
-import { FormEvent } from 'react'
+import { FormEvent, useEffect, useState } from 'react'
 
 interface FatoresTableProps {
 
@@ -15,17 +15,24 @@ interface FatoresTableProps {
 
   handleSubmit: (evento: FormEvent<HTMLFormElement>) => void
 
+  display?: boolean
+
+  setFatorAtual?: (fator: {fator: string, valor: string}) => void
+
 }
 
-const FatoresTable = ({ fatores, setFatores, valor, setValor, handleSubmit }: FatoresTableProps) => {
+const FatoresTable = ({ fatores, setFatores, valor, setValor, handleSubmit, setFatorAtual, display = true }: FatoresTableProps) => {
+
   return (
-    <div
+    <span
       className={styles.table}
+      style={{display: `${display? 'block' :' none'}`}}
     >
       <TableHeader
         headers={['Origem', 'Fator']} 
       />
       <FatoresTableBody
+        setFatorAtual={setFatorAtual}
         fatores={fatores}
         setFatores={setFatores}
         valor={valor}
@@ -33,7 +40,7 @@ const FatoresTable = ({ fatores, setFatores, valor, setValor, handleSubmit }: Fa
         handleSubmit={handleSubmit}
          />
       
-    </div>
+    </span>
   )
 }
 

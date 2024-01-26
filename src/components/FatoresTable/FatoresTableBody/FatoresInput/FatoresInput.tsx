@@ -12,27 +12,36 @@ interface FatoresInput {
     formRef: RefObject<HTMLFormElement>
 
     fator: string
-    setFator: (fator: (arr: IFatores) => IFatores) => void
+    setFator: (prev: (arr: IFatores) => IFatores) => void
+    setFatorAtual?: (fator: {fator: string, valor: string}) => void
 }
 
-const FatoresInput = ({ label, placeholder, fator, setFator, index, id, formRef }: FatoresInput) => {
+const FatoresInput = ({ label, placeholder, fator, setFator, index, id, formRef, setFatorAtual }: FatoresInput) => {
 
   const inputRef = useRef<HTMLInputElement>(null)
 
   const [disabled, setDisabled] = useState(false)
   const [firstMount, setFirstMount] = useState(true)
 
+  //////////////////////////////////////////////////////////////////////////////////////////////
+  //        |                                                                                 //
+  //  TODO  | implementar lógica para disable=true se ao criar o campo já estiver preenchido  //
+  //        |                                                                                 //
+  //////////////////////////////////////////////////////////////////////////////////////////////
+
   const handleChangeValor = (e: ChangeEvent<HTMLInputElement>) => {
 
+    
     const padrao = /[^0-9|,.]$/
     if (padrao.test(e.target.value)) return
-
+    
     const valorNumerico = e.target.value
     .replace(/\./g, ',')
     .replace(/\,{2,}/g,',')
     .replace(/^0*([^0]\d*\,\d{1,4}).*/g, "$1");
-
+    
     // console.log(valorNumerico);
+    if(setFatorAtual) setFatorAtual({fator: id, valor: valorNumerico});
 
     (valorNumerico !== '')
       ? setFator((prev) => {

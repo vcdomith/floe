@@ -14,107 +14,90 @@ import { IProduto } from '@/interfaces/IProduto'
 export default function Home() {
 
   const [valor, setValor] = useState('')
-  // const [fatores, setFatores] = useState<IFatores>({
-  //   padrao: '3',
-  //   st: '1,01',
-  //   transporte: '1,1',
-  //   fator: '1,4',
-  //   ipi: '1,065'
-  // })
   const [fatores, setFatores] = useState<IFatores>({
-    padrao: '',
-    st: '',
-    transporte: '',
-    fator: '',
-    ipi: ''
+    padrao: '3',
+    st: '1,01',
+    transporte: '1,1',
+    fator: '1,4',
+    ipi: '1,065'
   })
+  // const [fatores, setFatores] = useState<IFatores>({
+  //   padrao: '',
+  //   st: '',
+  //   transporte: '',
+  //   fator: '',
+  //   ipi: ''
+  // })
 
   const [valores, setValores] = useState<IValores[]>([])
   const [controleProdutos, setControleProdutos] = useState<IProduto[]>([])
-
-  function calcularTabela(valor: number, args: number[]): number {
-
-    return customRound(args.reduce((acc, atual) => acc * atual, valor))
-
-  }
-
-  // const adicionarItem = (evento: FormEvent<HTMLFormElement>) => {
-  //   evento.preventDefault()
-
-  //   atualizarFatores()
-  //   const listaFatores = fatores.map(item => item.fator)
-
-  //   adicionarValor()
-
-  // }
-
+  const [fatorAtual, setFatorAtual] = useState<{fator: string, valor: string}>({fator: '', valor: ''})
 
   const adicionarValor = (evento: FormEvent<HTMLFormElement>) => {
     evento.preventDefault()
 
-    console.log(fatores);
-    const listaFatores = Object.values((fatores)).map(fator => parseFloat(fator.replace(/,/g, '.')))
-
-    // console.log(listaFatores);
-
     if (valor) {
-
-      // const valorNumerico = parseFloat(valor.replace(/,/g, '.'))
-      // setValores([...valores, {
-      //   unitario: valorNumerico,
-      //   tabela1: calcularTabela(valorNumerico, listaFatores),
-      //   tabela2: customRound(valorNumerico*1.5),
-      //   tabela3: customRound((calcularTabela(valorNumerico, listaFatores))*1.3)
-      // }])
-
-      // console.log(fatores, valor);
 
       setControleProdutos([...controleProdutos, {
         fatores: fatores,
-        unitario: valor
+        unitario: valor,
       }])
 
       setValor('')
-      // console.log('fatores', controleProdutos);
-      // console.log('valores', valores);
     }
   }
+  //testar isso apra implementar
+  const updateFatoresAtuais = (id: string, valor: string) => {
 
-  useEffect(() => {
+    return () => {
 
-    console.log(controleProdutos);
+        setFatores((prev) => {
+        const updateFator = {...prev, [id]: valor}
+        return updateFator
+        
+      })
+    }
 
-  }, [controleProdutos])
+  }
 
-  function customRound(value: number): number {
-    const floorValue = Math.floor(value);
-    const halfFloorValue = floorValue + 0.5;
-    const nextFloorValue = floorValue + 1;
-  
-    const diffToFloor = Math.abs(value - floorValue);
-    const diffToHalfFloor = Math.abs(value - halfFloorValue);
-    const diffToNextFloor = Math.abs(value - nextFloorValue);
+  const updateFatoresProduto = (index: number): ((func: (arr: IFatores, fator: string) => IFatores) => void) => {                                 
 
-    let a = {
-      value: value,
-      floor: floorValue, 
-      halfFloor: halfFloorValue,
-      doubleFloor: nextFloorValue,
-      diffToFloor: diffToFloor,
-      diffToHalfFloor: diffToHalfFloor,
-      diffToNextFloor: diffToNextFloor
+    // return (fator) => {
+
+    //   setControleProdutos(prev => {
+    //     const update = [...prev]
+    //     update[index].fatores[fatorAtual.fator as keyof IFatores] = fatorAtual.valor
+    //     // console.log(update);
+    //     return update
+    //   })
+
+    // }
+    return () => {
+
+    }
+
+
+  }
+
+  const updateValorProduto = (index: number): ((valor: string) => void) => {
+
+    return (valor) => {
+
+      setControleProdutos(prev => {
+        const update = [...prev]
+        update[index].unitario = valor
+        return update
+      })
+
     }
     
-    // console.table(a);
-  
-    if (diffToFloor <= diffToHalfFloor && diffToFloor <= diffToNextFloor) {
-      return floorValue - 0.02;
-    } else if (diffToHalfFloor <= diffToNextFloor) {
-      return halfFloorValue;
-    } else {
-      return nextFloorValue - 0.02;
-    }
   }
+  
+  useEffect(() => {
+
+    console.log(fatorAtual);
+
+  }, [fatorAtual])
 
   return (
     <section className={styles.section}>
@@ -124,7 +107,7 @@ export default function Home() {
             fatores={fatores}
             setFatores={setFatores}
             valor={valor}
-            setValor={setValor}
+            setValor={updateFatoresAtuais}
             handleSubmit={adicionarValor}
           />
         </div>
@@ -133,6 +116,9 @@ export default function Home() {
           setState={setValores} 
           controleProdutos={controleProdutos}
           setControleProdutos={setControleProdutos}
+          setFatores={updateFatoresProduto}
+          setValor={updateValorProduto}
+          setFatorAtual={setFatorAtual}
         />
       </Container>
     </ section>

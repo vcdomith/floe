@@ -1,6 +1,6 @@
 'use client'
 
-import { FormEvent, useState } from 'react'
+import { FormEvent, useEffect, useState } from 'react'
 import { IValores } from '@/interfaces/IValores'
 import Table from '@/components/Table/Table'
 import Container from '@/components/Container/Container'
@@ -9,6 +9,7 @@ import './padrao.css'
 import NumberInput from '@/components/FatoresTable/FatoresTableBody/NumberInput/NumberInput'
 import { IFatores } from '@/interfaces/IFatores'
 import FatoresTable from '@/components/FatoresTable/FatoresTable'
+import { IProduto } from '@/interfaces/IProduto'
 
 export default function Home() {
 
@@ -29,7 +30,7 @@ export default function Home() {
   })
 
   const [valores, setValores] = useState<IValores[]>([])
-  const [listaFatores, setListaFatores] = useState< (IFatores[])[] >([])
+  const [controleProdutos, setControleProdutos] = useState<IProduto[]>([])
 
   function calcularTabela(valor: number, args: number[]): number {
 
@@ -54,23 +55,36 @@ export default function Home() {
     console.log(fatores);
     const listaFatores = Object.values((fatores)).map(fator => parseFloat(fator.replace(/,/g, '.')))
 
-    console.log(listaFatores);
+    // console.log(listaFatores);
 
     if (valor) {
 
-      const valorNumerico = parseFloat(valor.replace(/,/g, '.'))
-      setValores([...valores, {
-        unitario: valorNumerico,
-        tabela1: calcularTabela(valorNumerico, listaFatores),
-        tabela2: customRound(valorNumerico*1.5),
-        tabela3: customRound((calcularTabela(valorNumerico, listaFatores))*1.3)
+      // const valorNumerico = parseFloat(valor.replace(/,/g, '.'))
+      // setValores([...valores, {
+      //   unitario: valorNumerico,
+      //   tabela1: calcularTabela(valorNumerico, listaFatores),
+      //   tabela2: customRound(valorNumerico*1.5),
+      //   tabela3: customRound((calcularTabela(valorNumerico, listaFatores))*1.3)
+      // }])
+
+      // console.log(fatores, valor);
+
+      setControleProdutos([...controleProdutos, {
+        fatores: fatores,
+        unitario: valor
       }])
 
       setValor('')
+      // console.log('fatores', controleProdutos);
+      // console.log('valores', valores);
     }
-
-    console.log(valores);
   }
+
+  useEffect(() => {
+
+    console.log(controleProdutos);
+
+  }, [controleProdutos])
 
   function customRound(value: number): number {
     const floorValue = Math.floor(value);
@@ -117,6 +131,8 @@ export default function Home() {
         <Table 
           valores={valores}
           setState={setValores} 
+          controleProdutos={controleProdutos}
+          setControleProdutos={setControleProdutos}
         />
       </Container>
     </ section>

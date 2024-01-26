@@ -30,9 +30,9 @@ const FatoresInput = ({ label, placeholder, fator, setFator, index, id, formRef 
     const valorNumerico = e.target.value
     .replace(/\./g, ',')
     .replace(/\,{2,}/g,',')
-    .replace(/^0*([^0]\d*\,\d{1,4}).*/g, "$1")
+    .replace(/^0*([^0]\d*\,\d{1,4}).*/g, "$1");
 
-    console.log(valorNumerico);
+    // console.log(valorNumerico);
 
     (valorNumerico !== '')
       ? setFator((prev) => {

@@ -1,33 +1,103 @@
 import { IFatores } from '@/interfaces/IFatores'
 import './TableBody.scss'
 import { IValores } from '@/interfaces/IValores'
+import FatoresTable from '@/components/FatoresTable/FatoresTable'
+import { IProduto } from '@/interfaces/IProduto'
 
 
 
 interface TableBodyProps {
 
-    valores: IValores[] | IFatores[]
-    setState: (valores: any[]) => void 
+    controleProdutos: IProduto[]
+    setControleProdutos: (fator: (arr:IProduto[]) => IProduto[]) => void
+
+    setFatores?: (fator: (arr: IProduto) => IFatores) => void
+
+    setValor?: (valor: string) => void
 
 }
 
-const TableBody = ({ valores, setState }: TableBodyProps) => {
+const TableBody = ({ controleProdutos, setControleProdutos, setFatores, setValor }: TableBodyProps) => {
+
+    function calcularTabela(valor: number, args: number[]): number {
+
+        return customRound(args.reduce((acc, atual) => acc * atual, valor))
+    
+    }
+
+    function customRound(value: number): number {
+        const floorValue = Math.floor(value);
+        const halfFloorValue = floorValue + 0.5;
+        const nextFloorValue = floorValue + 1;
+      
+        const diffToFloor = Math.abs(value - floorValue);
+        const diffToHalfFloor = Math.abs(value - halfFloorValue);
+        const diffToNextFloor = Math.abs(value - nextFloorValue);
+    
+        let a = {
+          value: value,
+          floor: floorValue, 
+          halfFloor: halfFloorValue,
+          doubleFloor: nextFloorValue,
+          diffToFloor: diffToFloor,
+          diffToHalfFloor: diffToHalfFloor,
+          diffToNextFloor: diffToNextFloor
+        }
+        
+        // console.table(a);
+      
+        if (diffToFloor <= diffToHalfFloor && diffToFloor <= diffToNextFloor) {
+          return floorValue - 0.02;
+        } else if (diffToHalfFloor <= diffToNextFloor) {
+          return halfFloorValue;
+        } else {
+          return nextFloorValue - 0.02;
+        }
+    }
 
     const excluirLinha = (index: number) => {
 
-        setState((valores).filter((valor, id) => index !== id))
+        // setValores((valores).filter((valor, id) => index !== id))
     
+        setControleProdutos((prev) => {
+            const updated = [...prev]
+            updated.splice(index, 1)
+            return updated
+        })
+
     }
+
+    const mostrarFatores = (index: number) => {
+
+        console.log(controleProdutos[index]);
+
+    }
+
+    const getTabelas = (index: number): number[] => {
+
+        const {fatores, unitario} = controleProdutos[index]
+        const listaFatores = Object.values((fatores)).map(fator => parseFloat(fator.replace(/,/g, '.')))
+
+        const valorNumerico = parseFloat(unitario.replace(/,/g, '.'))
+        const tabelas: IValores = {
+            unitario: valorNumerico,
+            tabela1: calcularTabela(valorNumerico, listaFatores),
+            tabela2: customRound(valorNumerico*1.5),
+            tabela3: customRound((calcularTabela(valorNumerico, listaFatores))*1.3)
+        }
+        return Object.values(tabelas)
+    }
+
 
   return (
     <div className='tbody'>
         {}
-            {valores.map((produto, index) => 
+            {controleProdutos.map(({}, index) => 
                 <div  
                     className='tr'
                     key={index}
                 >
-                    {Object.values(produto).map((valor: string | number, index: number) => 
+                    {getTabelas(index).map((valor: string | number, index: number) => 
                         <div 
                             className='td'
                             key={index}
@@ -41,6 +111,7 @@ const TableBody = ({ valores, setState }: TableBodyProps) => {
                     <>
                     
                     <svg 
+                        onClick={() => mostrarFatores(index)}
                         width="25px" 
                         height="25px" 
                         viewBox="0 0 32 32" 
@@ -62,6 +133,15 @@ const TableBody = ({ valores, setState }: TableBodyProps) => {
                                 d="M7.004 23.087l7.08-7.081-7.07-7.071L8.929 7.02l7.067 7.069L23.084 7l1.912 1.913-7.089 7.093 7.075 7.077-1.912 1.913-7.074-7.073L8.917 25z"
                             />
                     </svg>
+
+                    {/* <FatoresTable
+                        fatores={controleProdutos[index]}
+                        setFatores={setFatores}
+                        valor={controleProdutos[index].unitario}
+                        setValor={setValor}
+                        
+
+                    /> */}
 
                     </>
                     

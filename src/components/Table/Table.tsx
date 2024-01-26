@@ -4,15 +4,20 @@ import styles from './Table.module.css'
 import TableHeader from "./TableHeader/TableHeader"
 import { IFatores } from "@/interfaces/IFatores"
 import TableBody from "./TableBody/TableBody"
+import { IProduto } from "@/interfaces/IProduto"
 
-interface TableProps<T extends IValores[] | IFatores[]> {
-    valores: T
+interface TableProps{
+
+    valores: IValores[]
     size?: {maxWidth: '300px'}
-    setState: (valor: any[]) => void 
+    setState: (valor: any[]) => void
+
+    controleProdutos: IProduto[]
+    setControleProdutos: (fator: (arr:IProduto[]) => IProduto[]) => void
 }
 
 
-const Table = <T extends IValores[] | IFatores[],>({ valores, size, setState }: TableProps<T>) => {
+const Table = ({ valores, size, setState, controleProdutos, setControleProdutos }: TableProps) => {
 
     interface Headers<T = string>{
         valores: [T, T, T, T],
@@ -42,15 +47,18 @@ const Table = <T extends IValores[] | IFatores[],>({ valores, size, setState }: 
   return (
     <>
     
-    {valores.length > 0 ?
+    {controleProdutos.length > 0 ?
     <div 
       className={styles.table}
       style={size}
     >
         <TableHeader
-            headers={headers}
+          headers={headers}
         />
-        <TableBody valores={valores} setState={setState} />
+        <TableBody  
+          controleProdutos={controleProdutos}
+          setControleProdutos={setControleProdutos}
+        />
     </div>
     : <div
         className={styles.empty}

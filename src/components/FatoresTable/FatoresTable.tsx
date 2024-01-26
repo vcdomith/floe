@@ -21,7 +21,6 @@ const FatoresTable = ({ fatores, setFatores, valor, setValor, handleSubmit }: Fa
   return (
     <div
       className={styles.table}
-      // className='table'
     >
       <TableHeader
         headers={['Origem', 'Fator']} 

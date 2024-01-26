@@ -2,7 +2,7 @@
 import { IFatores } from '@/interfaces/IFatores'
 import TableHeader from '../Table/TableHeader/TableHeader'
 import FatoresTableBody from './FatoresTableBody/FatoresTableBody'
-import styles from './FatoresTable.module.scss'
+import styles from '@/components/FatoresTable/FatoresTable.module.scss'
 import { FormEvent } from 'react'
 
 interface FatoresTableProps {

@@ -2,7 +2,7 @@
 import { IFatores } from '@/interfaces/IFatores'
 import TableHeader from '../Table/TableHeader/TableHeader'
 import FatoresTableBody from './FatoresTableBody/FatoresTableBody'
-import styles from '@/components/FatoresTable/FatoresTable.module.scss'
+import './FatoresTable.scss'
 import { FormEvent } from 'react'
 
 interface FatoresTableProps {
@@ -20,7 +20,8 @@ interface FatoresTableProps {
 const FatoresTable = ({ fatores, setFatores, valor, setValor, handleSubmit }: FatoresTableProps) => {
   return (
     <div
-      className={styles.table}
+      // className={styles.table}
+      className='table'
     >
       <TableHeader
         headers={['Origem', 'Fator']} 

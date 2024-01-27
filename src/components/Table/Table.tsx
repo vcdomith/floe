@@ -17,7 +17,6 @@ interface TableProps{
 
     controleProdutos: IProduto[]
     setControleProdutos: (fator: (arr:IProduto[]) => IProduto[]) => void
-    setFatorAtual: (fator: {fator: string, valor: string}) => void
 }
 
 
@@ -62,7 +61,6 @@ const Table = ({ valores, size, controleProdutos, setFatorAtual, setControleProd
         <TableBody  
           controleProdutos={controleProdutos}
           setControleProdutos={setControleProdutos}
-          setFatorAtual={setFatorAtual}
           setFatores={setFatores}
           setValor={setValor}
         />

@@ -49,35 +49,126 @@ export default function Home() {
   //testar isso apra implementar
   const updateFatoresAtuais = (id: string, valor: string) => {
 
-    return () => {
-
-        setFatores((prev) => {
+      setFatores((prev) => {
+        
         const updateFator = {...prev, [id]: valor}
         return updateFator
         
       })
-    }
+    
+  }
+
+  // const updateFatoresProduto = (index: number) => (id: string, valor: string): ((func: (arr: IFatores, fator: string) => IFatores) => void) => {                                 
+
+  //   // return (fator) => {
+
+  //   //   setControleProdutos(prev => {
+  //   //     const update = [...prev]
+  //   //     update[index].fatores[fatorAtual.fator as keyof IFatores] = fatorAtual.valor
+  //   //     // console.log(update);
+  //   //     return update
+  //   //   })
+
+  //   // }
+
+
+  //   return () => {
+
+  //       return () => {
+
+  //           setControleProdutos(prev => {
+
+  //             const update = [...prev]
+  //             update[index].fatores[id as keyof IFatores] = valor
+  //             return update
+
+  //           })
+
+  //       }
+
+  //   }
+
+
+  // }
+
+  const updateFatoresProduto = (index: number) => {
+
+    // let indexSalvo = index
+
+    return (id: string, valor: string) => setControleProdutos(prev => {
+
+      const update = [...prev]
+      console.log(index, id, valor);
+      update[index as number].fatores[id as keyof IFatores] = (valor as string) 
+      console.log(index, id, valor);
+
+      return update
+
+    })
 
   }
 
-  const updateFatoresProduto = (index: number): ((func: (arr: IFatores, fator: string) => IFatores) => void) => {                                 
+  // const updateFatoresProduto = (index: number) => {                                 
 
-    // return (fator) => {
+  //   let indexSalvo: number | undefined = undefined
+  //   let idSalvo: string | undefined = undefined
+  //   let valorSalvo: string | undefined = undefined
 
-    //   setControleProdutos(prev => {
-    //     const update = [...prev]
-    //     update[index].fatores[fatorAtual.fator as keyof IFatores] = fatorAtual.valor
-    //     // console.log(update);
-    //     return update
-    //   })
+  //   const funcaoResultado = (id: string, valor: string) => {
 
-    // }
-    return () => {
+  //     if (indexSalvo === undefined) {
 
-    }
+  //       indexSalvo = index
+
+  //     } else if (idSalvo === undefined && valorSalvo === undefined) {
+
+  //       idSalvo = id
+  //       valorSalvo = valor
+
+  //       setControleProdutos(prev => {
+
+  //         const update = [...prev]
+  //         update[indexSalvo as number].fatores[idSalvo as keyof IFatores] = (valorSalvo as string)
+  //         return update
+
+  //       })
+
+  //     }
+
+  //     return funcaoResultado
+
+  //   }
+      
+  //   return (fator) => {
+
+  //     setControleProdutos(prev => {
+  //       const update = [...prev]
+  //       update[index].fatores[fatorAtual.fator as keyof IFatores] = fatorAtual.valor
+  //       // console.log(update);
+  //       return update
+  //     })
+
+  //   }
 
 
-  }
+  //   return () => {
+
+  //       return () => {
+
+  //           setControleProdutos(prev => {
+
+  //             const update = [...prev]
+  //             update[index].fatores[id as keyof IFatores] = valor
+  //             return update
+
+  //           })
+
+  //       }
+
+  //   }
+
+
+  // }
 
   const updateValorProduto = (index: number): ((valor: string) => void) => {
 
@@ -93,11 +184,17 @@ export default function Home() {
     
   }
   
-  useEffect(() => {
+  // useEffect(() => {
 
-    console.log(fatorAtual);
+  //   console.log(controleProdutos);
 
-  }, [fatorAtual])
+  // }, [controleProdutos])
+
+  // useEffect(() => {
+
+  //   console.log(fatorAtual);
+
+  // }, [fatorAtual])
 
   return (
     <section className={styles.section}>
@@ -105,9 +202,9 @@ export default function Home() {
         <div className={styles.container}>
           <FatoresTable
             fatores={fatores}
-            setFatores={setFatores}
+            setFatores={updateFatoresAtuais}
             valor={valor}
-            setValor={updateFatoresAtuais}
+            setValor={setValor}
             handleSubmit={adicionarValor}
           />
         </div>

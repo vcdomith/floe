@@ -12,11 +12,10 @@ interface FatoresInput {
     formRef: RefObject<HTMLFormElement>
 
     fator: string
-    setFator: (prev: (arr: IFatores) => IFatores) => void
-    setFatorAtual?: (fator: {fator: string, valor: string}) => void
+    setFator: (id: string, valor: string) => void
 }
 
-const FatoresInput = ({ label, placeholder, fator, setFator, index, id, formRef, setFatorAtual }: FatoresInput) => {
+const FatoresInput = ({ label, placeholder, fator, setFator, index, id, formRef }: FatoresInput) => {
 
   const inputRef = useRef<HTMLInputElement>(null)
 
@@ -41,18 +40,19 @@ const FatoresInput = ({ label, placeholder, fator, setFator, index, id, formRef,
     .replace(/^0*([^0]\d*\,\d{1,4}).*/g, "$1");
     
     // console.log(valorNumerico);
-    if(setFatorAtual) setFatorAtual({fator: id, valor: valorNumerico});
+    // if(setFatorAtual) setFatorAtual({fator: id, valor: valorNumerico});
 
     (valorNumerico !== '')
-      ? setFator((prev) => {
-        const updateFator = {...prev, [id]: valorNumerico}
-        return updateFator
-      }) 
-
-      : setFator((prev) => {
-        const resetFator = {...prev, [id]: ''}
-        return resetFator
-      })
+      // ? setFator((prev) => {
+      //   const updateFator = {...prev, [id]: valorNumerico}
+      //   return updateFator
+      // }) 
+      ? setFator(id, valorNumerico)
+      : setFator(id, '')
+      // : setFator((prev) => {
+      //   const resetFator = {...prev, [id]: ''}
+      //   return resetFator
+      // })
     
   }
 

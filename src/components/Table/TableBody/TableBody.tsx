@@ -13,7 +13,7 @@ interface TableBodyProps {
     setControleProdutos: (fator: (arr:IProduto[]) => IProduto[]) => void
 
     setFatorAtual: (fator: {fator: string, valor: string}) => void
-    setFatores: (index: number, fator: string) => ((fator: (arr: IFatores) => IFatores) => void)
+    setFatores: (index: number) => (id: string, valor: string) => void
 
     setValor: (index: number) => ((valor: string) => void)
 
@@ -176,7 +176,6 @@ const TableBody = ({ controleProdutos, setFatorAtual, setControleProdutos, setFa
                     >    
                         <FatoresTable
                             // display={fatoresDisplay[index]}
-                            setFatorAtual={setFatorAtual}
                             fatores={controleProdutos[index].fatores}
                             setFatores={setFatores(index)}
                             valor={controleProdutos[index].unitario}

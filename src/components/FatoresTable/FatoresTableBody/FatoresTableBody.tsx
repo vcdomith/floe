@@ -10,7 +10,7 @@ interface FatoresTableBody {
     setFatores: (prev: (arr: IFatores) => IFatores) => void
 
     valor: string
-    setValor: (valor: string ) => void
+    setValor: (id: string, valor: string) => void
 
     handleSubmit: (evento: FormEvent<HTMLFormElement>) => void
 

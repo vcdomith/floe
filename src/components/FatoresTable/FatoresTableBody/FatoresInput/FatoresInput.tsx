@@ -83,7 +83,9 @@ const FatoresInput = ({ label, placeholder, fator, setFator, index, id, formRef 
   }, [disabled]);
 
   return (
-    <div className={styles.container}>
+    <div 
+      className={styles.container}
+    >
         {label
          ? <label className={styles.label}>{label}</label>
          : <></>
@@ -95,13 +97,14 @@ const FatoresInput = ({ label, placeholder, fator, setFator, index, id, formRef 
             type="text" 
             value={fator}
             inputMode='numeric'
+            onClick={e => handleDisable}
             onFocus={(e)=>e.currentTarget.setSelectionRange(e.currentTarget.value.length, e.currentTarget.value.length)}
             onChange={handleChangeValor}
             onBlur={handleBlur}
             placeholder={placeholder}
         />
         <svg 
-          onClick={handleDisable}
+          // onClick={handleDisable}
           width="25px" 
           height="25px" 
           viewBox="-2 -2 28 28" 

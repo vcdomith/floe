@@ -26,7 +26,7 @@ const FatoresTable = ({ fatores, setFatores, valor, setValor, handleSubmit, setF
   return (
     <span
       className={styles.table}
-      style={{display: `${display? 'block' :' none'}`}}
+      style={{display: `${display? 'block' :' none'}`, height: `${display? 'auto' : '0'}`}}
     >
       <TableHeader
         headers={['Origem', 'Fator']} 

@@ -5,44 +5,44 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    
+
     font-size: 1.2rem;
-    
+
     text-align: center;
     height: 100%;
-    // box-sizing: border-box;    
+    // box-sizing: border-box;
 
-    
+
     .tr {
-        
+
         position: relative;
         min-width: max-content;
         flex: 1;
         width: 100%;
-        // box-sizing: border-box;    
+        // box-sizing: border-box;
         display: flex;
         justify-content: center;
         width: 100%;
         align-items: center;
-        
+
         // padding: 0.5rem;
 
         &:nth-child(odd) .td {
-            
+
             background-color: #e8d4b0;
-            
+
         }
         &:nth-child(even) .td {
-            
+
             border-radius: 0;
             background-color: #dac3a6;
-            
+
         }
 
         &:last-child {
             .td{
                 &:first-of-type {
-   
+
                     border-bottom-left-radius: 2rem;
 
                 }
@@ -59,12 +59,12 @@
             &:nth-child(odd) {
 
                 filter: brightness(105%);
-                
+
             }
             &:nth-child(even) {
 
                 filter: brightness(95%);
-                
+
             }
 
             & > svg {
@@ -85,9 +85,9 @@
             transition: filter 400ms;
 
             &:not(:last-of-type) {
-        
+
                 border-right: 2px solid #591c4a44;
-                
+
             }
 
         }
@@ -142,27 +142,36 @@
         .backdrop {
 
             position: absolute;
+            background-color: #2920271f;
             // bottom: 50%;
             // bottom: 100px;
             width: 90vmax;
             height: 90vmax;
 
-            z-index: 99;
-            
+            z-index: 9;
+
             span {
-                
+
                 box-shadow: 2px 2px 20px #000;
-                
+
+                height: 0;
+                overflow: hidden;
+
                 position: absolute;
-                right: 50px;
-                bottom: 50%;
-                
+                right: 150px;
+                bottom: 52%;
+
+                border-radius: 2rem;
+                background-color: #e8d4b0;
+
                 z-index: 10;
-                
+
+                transition: height 400ms;
+
             }
         }
 
-        
+
     }
 
 }
@@ -170,7 +179,7 @@
 .tr .td {
 
     padding: 0.5rem;
-    
+
 }
 
 .lastRow .td:first-child {

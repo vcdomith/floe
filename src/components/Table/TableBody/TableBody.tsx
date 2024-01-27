@@ -99,7 +99,6 @@ const TableBody = ({ controleProdutos, setControleProdutos, setFatores, setValor
 
       }
 
-
     }
 
     const getTabelas = (index: number): number[] => {

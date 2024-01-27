@@ -94,6 +94,7 @@
 
                 filter: brightness(105%);
 
+
                 & > svg {
 
                     opacity: 1;
@@ -147,6 +148,12 @@
                     // background-color: #4b39460f;
                     border-right: 5px solid #591c4a;
                 
+                    &:hover {
+
+                        cursor:cell;
+
+                    }
+
                 }
 
                 &:not(:disabled) ~ svg {
@@ -207,10 +214,10 @@
                 }
             }
         
-        button {
-            
-            display: none;
-        }
-    }
+            button {
+                
+                display: none;
+            }
+        }   
     }
 }

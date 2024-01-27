@@ -11,8 +11,7 @@ interface TableProps{
     valores: IValores[]
     size?: {maxWidth: '300px'}
 
-
-    setFatores: (fator: (arr: IFatores) => IFatores) => void
+    setFatores: (index: number) => (id: string, valor: string) => void
     setValor: (index: number) => ((valor: string) => void)
 
     controleProdutos: IProduto[]
@@ -20,7 +19,7 @@ interface TableProps{
 }
 
 
-const Table = ({ valores, size, controleProdutos, setFatorAtual, setControleProdutos, setFatores, setValor }: TableProps) => {
+const Table = ({ valores, size, controleProdutos, setControleProdutos, setFatores, setValor }: TableProps) => {
 
     interface Headers<T = string>{
         valores: [T, T, T, T],
@@ -56,7 +55,7 @@ const Table = ({ valores, size, controleProdutos, setFatorAtual, setControleProd
       style={size}
     >
         <TableHeader
-          headers={headers}
+          headers={tableHeaders.valores}
         />
         <TableBody  
           controleProdutos={controleProdutos}

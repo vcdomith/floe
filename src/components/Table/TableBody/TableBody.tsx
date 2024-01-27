@@ -12,14 +12,13 @@ interface TableBodyProps {
     controleProdutos: IProduto[]
     setControleProdutos: (fator: (arr:IProduto[]) => IProduto[]) => void
 
-    setFatorAtual: (fator: {fator: string, valor: string}) => void
     setFatores: (index: number) => (id: string, valor: string) => void
 
     setValor: (index: number) => ((valor: string) => void)
 
 }
 
-const TableBody = ({ controleProdutos, setFatorAtual, setControleProdutos, setFatores, setValor }: TableBodyProps) => {
+const TableBody = ({ controleProdutos, setControleProdutos, setFatores, setValor }: TableBodyProps) => {
 
     let displayControl = Array(controleProdutos.length).fill(false)
 
@@ -87,7 +86,7 @@ const TableBody = ({ controleProdutos, setFatorAtual, setControleProdutos, setFa
 
     }
 
-    const handleModalClick = (index: number, e: MouseEvent<HTMLDivElement, globalThis.MouseEvent>) => {
+    const handleModalClick = (index: number, e: MouseEvent<HTMLElement, MouseEvent<Element, MouseEvent>>) => {
 
       if (e.target.localName === 'section') {
 
@@ -130,7 +129,7 @@ const TableBody = ({ controleProdutos, setFatorAtual, setControleProdutos, setFa
             {controleProdutos.map(({}, index) => 
                 <div  
                     className='tr'
-                    key={index}
+                    key={(index*3.1415)}
                 >
                     {getTabelas(index).map((valor: string | number, index: number) => 
                         <div 
@@ -180,7 +179,10 @@ const TableBody = ({ controleProdutos, setFatorAtual, setControleProdutos, setFa
                             setFatores={setFatores(index)}
                             valor={controleProdutos[index].unitario}
                             setValor={setValor(index)}
-                            handleSubmit={e => e.preventDefault()}
+                            handleSubmit={e => {
+                                e.preventDefault()
+                                mostrarFatores(index)
+                            }}
                         />
                     </section>
 

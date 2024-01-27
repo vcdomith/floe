@@ -7,10 +7,10 @@ import FatoresInput from './FatoresInput/FatoresInput'
 interface FatoresTableBody {
 
     fatores: IFatores
-    setFatores: (prev: (arr: IFatores) => IFatores) => void
+    setFatores: (id: string, valor: string) => void
 
     valor: string
-    setValor: (id: string, valor: string) => void
+    setValor: (valor: string) => void
 
     handleSubmit: (evento: FormEvent<HTMLFormElement>) => void
 
@@ -51,7 +51,6 @@ const FatoresTableBody = ({ fatores, setFatores, valor, setValor, handleSubmit, 
                     placeholder='Insira o fator' 
                     fator={fator}
                     setFator={setFatores}
-                    setFatorAtual={setFatorAtual}
                 />
             )}
             <NumberInput 

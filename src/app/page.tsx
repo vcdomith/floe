@@ -46,6 +46,7 @@ export default function Home() {
       setValor('')
     }
   }
+  
   //testar isso apra implementar
   const updateFatoresAtuais = (id: string, valor: string) => {
 
@@ -58,117 +59,27 @@ export default function Home() {
     
   }
 
-  // const updateFatoresProduto = (index: number) => (id: string, valor: string): ((func: (arr: IFatores, fator: string) => IFatores) => void) => {                                 
-
-  //   // return (fator) => {
-
-  //   //   setControleProdutos(prev => {
-  //   //     const update = [...prev]
-  //   //     update[index].fatores[fatorAtual.fator as keyof IFatores] = fatorAtual.valor
-  //   //     // console.log(update);
-  //   //     return update
-  //   //   })
-
-  //   // }
-
-
-  //   return () => {
-
-  //       return () => {
-
-  //           setControleProdutos(prev => {
-
-  //             const update = [...prev]
-  //             update[index].fatores[id as keyof IFatores] = valor
-  //             return update
-
-  //           })
-
-  //       }
-
-  //   }
-
-
-  // }
-
   const updateFatoresProduto = (index: number) => {
 
     // let indexSalvo = index
 
     return (id: string, valor: string) => setControleProdutos(prev => {
 
-      const update = [...prev]
-      console.log(index, id, valor);
-      update[index as number].fatores[id as keyof IFatores] = (valor as string) 
-      console.log(index, id, valor);
+      const updatedProducts = [...prev];
+      const updatedFatores = { ...updatedProducts[index].fatores }
 
-      return update
+      updatedFatores[id as keyof IFatores] = valor as string
+
+      updatedProducts[index] = {
+        ...updatedProducts[index],
+        fatores: updatedFatores,
+      };
+
+      return updatedProducts
 
     })
 
   }
-
-  // const updateFatoresProduto = (index: number) => {                                 
-
-  //   let indexSalvo: number | undefined = undefined
-  //   let idSalvo: string | undefined = undefined
-  //   let valorSalvo: string | undefined = undefined
-
-  //   const funcaoResultado = (id: string, valor: string) => {
-
-  //     if (indexSalvo === undefined) {
-
-  //       indexSalvo = index
-
-  //     } else if (idSalvo === undefined && valorSalvo === undefined) {
-
-  //       idSalvo = id
-  //       valorSalvo = valor
-
-  //       setControleProdutos(prev => {
-
-  //         const update = [...prev]
-  //         update[indexSalvo as number].fatores[idSalvo as keyof IFatores] = (valorSalvo as string)
-  //         return update
-
-  //       })
-
-  //     }
-
-  //     return funcaoResultado
-
-  //   }
-      
-  //   return (fator) => {
-
-  //     setControleProdutos(prev => {
-  //       const update = [...prev]
-  //       update[index].fatores[fatorAtual.fator as keyof IFatores] = fatorAtual.valor
-  //       // console.log(update);
-  //       return update
-  //     })
-
-  //   }
-
-
-  //   return () => {
-
-  //       return () => {
-
-  //           setControleProdutos(prev => {
-
-  //             const update = [...prev]
-  //             update[index].fatores[id as keyof IFatores] = valor
-  //             return update
-
-  //           })
-
-  //       }
-
-  //   }
-
-
-  // }
 
   const updateValorProduto = (index: number): ((valor: string) => void) => {
 
@@ -183,18 +94,6 @@ export default function Home() {
     }
     
   }
-  
-  // useEffect(() => {
-
-  //   console.log(controleProdutos);
-
-  // }, [controleProdutos])
-
-  // useEffect(() => {
-
-  //   console.log(fatorAtual);
-
-  // }, [fatorAtual])
 
   return (
     <section className={styles.section}>
@@ -209,13 +108,11 @@ export default function Home() {
           />
         </div>
         <Table 
-          valores={valores}
-          setState={setValores} 
+          valores={valores} 
           controleProdutos={controleProdutos}
           setControleProdutos={setControleProdutos}
           setFatores={updateFatoresProduto}
           setValor={updateValorProduto}
-          setFatorAtual={setFatorAtual}
         />
       </Container>
     </ section>

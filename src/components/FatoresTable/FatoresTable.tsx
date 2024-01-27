@@ -8,10 +8,10 @@ import { FormEvent, useEffect, useState } from 'react'
 interface FatoresTableProps {
 
   fatores: IFatores
-  setFatores: (fator: (arr: IFatores) => IFatores) => void
+  setFatores: (id: string, valor: string) => void
 
   valor: string
-  setValor: (id: string, valor: string) => void
+  setValor: (valor: string ) => void
 
   handleSubmit: (evento: FormEvent<HTMLFormElement>) => void
 

@@ -100,6 +100,7 @@ export default function Home() {
       <Container>
         <div className={styles.container}>
           <FatoresTable
+            display={true}
             fatores={fatores}
             setFatores={updateFatoresAtuais}
             valor={valor}

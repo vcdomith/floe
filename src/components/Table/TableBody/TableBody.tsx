@@ -116,11 +116,11 @@ const TableBody = ({ controleProdutos, setControleProdutos, setFatores, setValor
         return Object.values(tabelas)
     }
 
-    // useEffect(() => {
+    useEffect(() => {
 
-    //     setFatoresDisplay(Array(controleProdutos.length).fill(false))
+        setFatoresDisplay(Array(controleProdutos.length).fill(false))
 
-    // }, [controleProdutos])
+    }, [controleProdutos])
 
   return (
     <div className='tbody'>
@@ -166,24 +166,25 @@ const TableBody = ({ controleProdutos, setControleProdutos, setFatores, setValor
                                 d="M7.004 23.087l7.08-7.081-7.07-7.071L8.929 7.02l7.067 7.069L23.084 7l1.912 1.913-7.089 7.093 7.075 7.077-1.912 1.913-7.074-7.073L8.917 25z"
                             />
                     </svg>
-                    
+                    <>
                     <section 
                         className='backdrop'
                         hidden={!fatoresDisplay[index]}
                         onClick={(e) => handleModalClick(index, e)}
                     >    
-                        <FatoresTable
-                            // display={fatoresDisplay[index]}
-                            fatores={controleProdutos[index].fatores}
-                            setFatores={setFatores(index)}
-                            valor={controleProdutos[index].unitario}
-                            setValor={setValor(index)}
-                            handleSubmit={e => {
-                                e.preventDefault()
-                                mostrarFatores(index)
-                            }}
-                        />
                     </section>
+                    <FatoresTable
+                        display={fatoresDisplay[index]}
+                        fatores={controleProdutos[index].fatores}
+                        setFatores={setFatores(index)}
+                        valor={controleProdutos[index].unitario}
+                        setValor={setValor(index)}
+                        handleSubmit={e => {
+                            e.preventDefault()
+                            mostrarFatores(index)
+                        }}
+                    />
+                    </>
 
                     </>
                     

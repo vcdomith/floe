@@ -56,12 +56,12 @@
 
         &:hover {
 
-            &:nth-child(odd) {
+            &:nth-child(odd) .td {
 
                 filter: brightness(105%);
 
             }
-            &:nth-child(even) {
+            &:nth-child(even) .td {
 
                 filter: brightness(95%);
 
@@ -141,34 +141,47 @@
 
         .backdrop {
 
-            position: absolute;
-            background-color: #2920271f;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color: #19121741;
             // bottom: 50%;
             // bottom: 100px;
-            width: 90vmax;
-            height: 90vmax;
+            width: 100vmax;
+            height: 100vmax;
 
             z-index: 9;
 
-            span {
+            transition: background-color 600ms ease-out;
 
-                box-shadow: 2px 2px 20px #000;
+            &:hover {
 
-                height: 0;
-                overflow: hidden;
-
-                position: absolute;
-                right: 150px;
-                bottom: 52%;
-
-                border-radius: 2rem;
-                background-color: #e8d4b0;
-
-                z-index: 10;
-
-                transition: height 400ms;
+                background-color: #2920271f;   
 
             }
+
+        }
+        span {
+
+            box-shadow: 2px 2px 50px #000;
+
+            width: 50%;
+
+            height: 0;
+            overflow: hidden;
+
+            position: absolute;
+            // right: 20%;
+            right: -18%;
+            bottom: 100%;
+
+            border-radius: 2rem;
+            background-color: #e8d4b0;
+
+            z-index: 10;
+
+            transition: height 400ms;
+
         }
 
 

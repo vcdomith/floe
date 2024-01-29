@@ -21,7 +21,7 @@ interface FatoresTableProps {
 
 }
 
-const FatoresTable = ({ fatores, setFatores, valor, setValor, handleSubmit, setFatorAtual, display = true }: FatoresTableProps) => {
+const FatoresTable = ({ fatores, setFatores, valor, setValor, handleSubmit, setFatorAtual, display = false }: FatoresTableProps) => {
 
   return (
     <span

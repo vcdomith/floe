@@ -19,7 +19,7 @@ const FatoresInput = ({ label, placeholder, fator, setFator, index, id, formRef 
 
   const inputRef = useRef<HTMLInputElement>(null)
 
-  const [disabled, setDisabled] = useState(false)
+  const [disabled, setDisabled] = useState((fator === '') ? false : true)
   const [firstMount, setFirstMount] = useState(true)
 
   //////////////////////////////////////////////////////////////////////////////////////////////
@@ -76,6 +76,12 @@ const FatoresInput = ({ label, placeholder, fator, setFator, index, id, formRef 
 
   useEffect(() => {
 
+    // if (firstMount) {
+
+    //   if (fator !== '') setDisabled(true)
+
+    // }
+
     if (!firstMount) {
       inputRef.current!.focus();
     }
@@ -85,6 +91,7 @@ const FatoresInput = ({ label, placeholder, fator, setFator, index, id, formRef 
   return (
     <div 
       className={styles.container}
+      // onClick={handleDisable}
     >
         {label
          ? <label className={styles.label}>{label}</label>
@@ -97,14 +104,14 @@ const FatoresInput = ({ label, placeholder, fator, setFator, index, id, formRef 
             type="text" 
             value={fator}
             inputMode='numeric'
-            onClick={e => handleDisable}
+            // onClick={handleDisable}
             onFocus={(e)=>e.currentTarget.setSelectionRange(e.currentTarget.value.length, e.currentTarget.value.length)}
             onChange={handleChangeValor}
             onBlur={handleBlur}
             placeholder={placeholder}
         />
         <svg 
-          // onClick={handleDisable}
+          onClick={handleDisable}
           width="25px" 
           height="25px" 
           viewBox="-2 -2 28 28" 

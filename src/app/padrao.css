@@ -3,3 +3,23 @@ body {
     background: linear-gradient(45deg, #421236, #141414);
     caret-color: #591c4a;
 }
+
+/* width */
+::-webkit-scrollbar {
+    width: 10px;
+}
+  
+/* Track */
+::-webkit-scrollbar-track {
+background: #141414;
+}
+  
+/* Handle */
+::-webkit-scrollbar-thumb {
+background: #421236;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+background: #555;
+}

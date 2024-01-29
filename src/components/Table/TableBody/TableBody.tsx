@@ -118,9 +118,10 @@ const TableBody = ({ controleProdutos, setControleProdutos, setFatores, setValor
 
     useEffect(() => {
 
-        setFatoresDisplay(Array(controleProdutos.length).fill(false))
+        if (controleProdutos.length !== fatoresDisplay.length)
+            setFatoresDisplay(Array(controleProdutos.length).fill(false))
 
-    }, [controleProdutos])
+    }, [controleProdutos, fatoresDisplay.length])
 
   return (
     <div className='tbody'>

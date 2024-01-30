@@ -88,7 +88,7 @@ const TableBody = ({ controleProdutos, setControleProdutos, setFatores, setValor
 
     const handleModalClick = (index: number, e: MouseEvent<HTMLElement, MouseEvent<Element, MouseEvent>>) => {
 
-      if (e.target.localName === 'section') {
+      if ((e.target as HTMLElement).localName === 'section') {
 
         mostrarFatores(index)
         return
@@ -171,7 +171,7 @@ const TableBody = ({ controleProdutos, setControleProdutos, setFatores, setValor
                     <section 
                         className='backdrop'
                         hidden={!fatoresDisplay[index]}
-                        onClick={(e) => handleModalClick(index, e)}
+                        onClick={(e) => handleModalClick(index, e as any)}
                     >    
                     </section>
                     <FatoresTable

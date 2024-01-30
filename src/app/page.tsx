@@ -129,7 +129,7 @@ export default function Home() {
             <p>
               Bem vindo ao Data Flow, para calcular os preços das tabelas dos produtos você pode começar preenchendo esses espaços abaixo ou, se preferir, preencher diretamente os fatores ao lado! Depois que preencher todos os preços são calculados automáticamente! Experimente:
             </p>
-            <span>
+            <form>
               <NumberInput
                 // label='Valor Transporte' 
                 placeholder={'Valor Transporte'} 
@@ -142,7 +142,14 @@ export default function Home() {
                 valor={valorTotalProdutos} 
                 setValor={setValorTotalProdutos}              
               />
-            </span>
+              <NumberInput
+                // label='Valor Transporte' 
+                placeholder={'Valor Total ST'} 
+                valor={valorTotalProdutos} 
+                setValor={setValorTotalProdutos}              
+              />
+              <input type="submit" hidden/>
+            </form>
           </div>
           
         </div>

@@ -21,5 +21,6 @@ background: #421236;
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-background: #555;
+background: #521843;
+background: linear-gradient(90deg, #521843, #421236);
 }

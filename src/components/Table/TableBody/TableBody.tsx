@@ -4,8 +4,7 @@ import { IValores } from '@/interfaces/IValores'
 import FatoresTable from '@/components/FatoresTable/FatoresTable'
 import { IProduto } from '@/interfaces/IProduto'
 import { MouseEvent, useEffect, useState } from 'react'
-
-
+import { stringToFloat } from '@/app/page'
 
 interface TableBodyProps {
 
@@ -104,7 +103,7 @@ const TableBody = ({ controleProdutos, setControleProdutos, setFatores, setValor
     const getTabelas = (index: number): number[] => {
 
         const {fatores, unitario} = controleProdutos[index]
-        const listaFatores = Object.values((fatores)).map(fator => parseFloat(fator.replace(/,/g, '.')))
+        const listaFatores = Object.values((fatores)).map(fator => stringToFloat(fator))
 
         const valorNumerico = parseFloat(unitario.replace(/,/g, '.'))
         const tabelas: IValores = {

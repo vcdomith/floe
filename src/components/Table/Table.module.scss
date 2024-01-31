@@ -1,0 +1,53 @@
+.table {
+
+    display: flex;
+    flex-direction: column;
+
+    flex: 1;
+
+    min-width: 240px;
+    width: 80%;
+    height: fit-content;
+
+    color: #591c4a;
+
+    border: 2px solid #591c4a;
+    border-radius: 2rem;
+
+}
+
+.empty {
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    border: 2px dashed #591c4a;
+    border-radius: 2rem;
+    width: 80%;
+    height: 20vh;
+
+    p {
+    
+        font-size: 1.5rem;
+        color: #591c4a;
+    
+    }
+}
+
+
+@media (max-width: 850px) {
+
+    .table {
+
+        width: 100%;
+
+    }
+
+    .empty {
+
+        width: 100%;
+
+    }
+
+}

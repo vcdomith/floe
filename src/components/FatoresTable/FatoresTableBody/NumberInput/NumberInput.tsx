@@ -1,5 +1,5 @@
 import { ChangeEvent, FormEvent, WheelEvent, WheelEventHandler, useState } from 'react'
-import styles from './NumberInput.module.css'
+import styles from './NumberInput.module.scss'
 import { IFatores } from '@/interfaces/IFatores'
 
 interface NumberInputProps {

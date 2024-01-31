@@ -1,6 +1,6 @@
 import { IValores } from "@/interfaces/IValores"
 
-import styles from './Table.module.css'
+import styles from './Table.module.scss'
 import TableHeader from "./TableHeader/TableHeader"
 import { IFatores } from "@/interfaces/IFatores"
 import TableBody from "./TableBody/TableBody"

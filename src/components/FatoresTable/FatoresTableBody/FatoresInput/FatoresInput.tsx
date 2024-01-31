@@ -1,5 +1,5 @@
 import { ChangeEvent, FormEvent, KeyboardEvent, MouseEvent, RefObject, WheelEvent, WheelEventHandler, useEffect, useRef, useState } from 'react'
-import styles from '../NumberInput/NumberInput.module.css'
+import styles from '../NumberInput/NumberInput.module.scss'
 import { IFatores } from '@/interfaces/IFatores'
 
 interface FatoresInput {
@@ -21,12 +21,6 @@ const FatoresInput = ({ label, placeholder, fator, setFator, index, id, formRef 
 
   const [disabled, setDisabled] = useState((fator === '') ? false : true)
   const [firstMount, setFirstMount] = useState(true)
-
-  //////////////////////////////////////////////////////////////////////////////////////////////
-  //        |                                                                                 //
-  //  TODO  | implementar lógica para disable=true se ao criar o campo já estiver preenchido  //
-  //        |                                                                                 //
-  //////////////////////////////////////////////////////////////////////////////////////////////
 
   const handleChangeValor = (e: ChangeEvent<HTMLInputElement>) => {
 

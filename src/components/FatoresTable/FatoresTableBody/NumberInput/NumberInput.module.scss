@@ -31,32 +31,33 @@
 
     outline: none;
     border: 2px solid #591c4a;
+
+    &::placeholder {
+    
+        font-size: 1.2rem;
+        color: #3b033153;
+    
+    }
+    
+    &:disabled {
+    
+        background-color: #4b39460f;
+    
+    }
+    
+    &::-webkit-inner-spin-button,
+    &::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+    
+    &:not(:disabled) ~ .svg {
+    
+        display: none;
+    
+    }
 }
 
-.input::placeholder {
-
-    font-size: 1.2rem;
-    color: #3b033153;
-
-}
-
-.input:disabled {
-
-    background-color: #4b39460f;
-
-}
-
-.input::-webkit-inner-spin-button,
-.input::-webkit-outer-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-
-.input:not(:disabled) ~ .svg {
-
-    display: none;
-
-}
 
 .svg {
 
@@ -70,10 +71,10 @@
     border: 2px solid transparent;
 
     cursor: pointer;
-}
 
-.svg:hover {
-
-    border: 2px solid #591c4a;
-
+    &:hover {
+    
+        border: 2px solid #591c4a;
+    
+    }
 }

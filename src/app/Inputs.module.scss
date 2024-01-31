@@ -1,0 +1,80 @@
+
+.form {
+
+    .span {
+        
+        display: flex;
+
+        div {
+            
+            label {
+    
+                // font-weight: bold;
+    
+                font-size: 1rem;
+                color: #e8d4b0;
+                background-color: #591c4a;
+    
+                width: fit-content;
+                padding: 0.5rem 0.5rem 0.25rem 0.75rem;
+                margin: 0;
+    
+                border-top-right-radius: 1rem;
+                border-top-left-radius: 1rem;
+    
+    
+            }
+    
+            input {
+    
+                // max-width: 200px;
+
+                padding: 0.5rem 0.5rem;
+    
+                outline: none;
+                background-color: #e8d4b0;
+                color: #591c4a;
+
+                font-size: 1.2rem;
+
+    
+                border: 2px solid #591c4a;
+                // border-radius: 1rem;
+                // border-top-left-radius: 0;
+                // border-top-right-radius: 0;
+    
+                // border-bottom-right-radius: 1rem;
+                // border-bottom-left-radius: 1rem;
+
+                &::placeholder {
+
+                    font-size: 1.2rem;
+                    color: #3b033153;
+
+                }
+    
+            }
+    
+        }
+
+        svg {
+
+            fill: #591c4a;
+            width: clamp(50px, 50px, 50px);
+            height: clamp(50px, 50px, 50px);
+            
+            place-self: end;
+            
+            path {
+                
+                place-self: end;
+
+
+            }
+            
+
+        }
+
+    }
+
+}

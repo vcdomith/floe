@@ -4,18 +4,26 @@ import { FormEvent, useEffect, useState } from 'react'
 import { IValores } from '@/interfaces/IValores'
 import Table from '@/components/Table/Table'
 import Container from '@/components/Container/Container'
-import page from './page.module.css'
-import './padrao.css'
 import NumberInput from '@/components/FatoresTable/FatoresTableBody/NumberInput/NumberInput'
 import { IFatores } from '@/interfaces/IFatores'
 import FatoresTable from '@/components/FatoresTable/FatoresTable'
 import { IProduto } from '@/interfaces/IProduto'
 
+import './padrao.css'
+import page from './page.module.scss'
+import input from './Inputs.module.scss'
+
+export const stringToFloat = (valor: string): number => {
+  return parseFloat(valor.replace(/,/g, '.'))
+}
+
+const floatToString = (valor: number): string => {
+  return valor.toFixed(4).replace(/\./g, ',')
+} 
+
 export default function Home() {
 
-  /////////////////////////////////////////////
   // Estados para cadastros de preços na tabela
-  /////////////////////////////////////////////
   const [valor, setValor] = useState('')
   // const [fatores, setFatores] = useState<IFatores>({
   //   padrao: '3',
@@ -34,13 +42,11 @@ export default function Home() {
   const [valores, setValores] = useState<IValores[]>([])
   const [controleProdutos, setControleProdutos] = useState<IProduto[]>([])
 
-  ///////////////////////////////////////////////////////
-  // Estados para configurações inciais (Transporte e ST)
-  ///////////////////////////////////////////////////////
+  // Estados para configurações inciais (Transporte e ST)  
   const [valorTransporte, setValorTransporte] = useState('')
-  const [valorST, setValorST] = useState('')
   const [valorTotalProdutos, setValorTotalProdutos] = useState('')
-
+  const [valorST, setValorST] = useState('')
+  const [valorTotalProdutosST, setValorTotalProdutosST] = useState('')
 
 
   const adicionarValor = (evento: FormEvent<HTMLFormElement>) => {
@@ -57,7 +63,6 @@ export default function Home() {
     }
   }
   
-  //testar isso apra implementar
   const updateFatoresAtuais = (id: string, valor: string) => {
 
       setFatores((prev) => {
@@ -66,7 +71,7 @@ export default function Home() {
         return updateFator
         
       })
-    
+
   }
 
   const updateFatoresProduto = (index: number) => {
@@ -104,6 +109,35 @@ export default function Home() {
     }
     
   }
+ 
+  const calcularFatorTransporte = () => {
+
+    const fatorTransporte = (stringToFloat(valorTransporte) * 3.4) / stringToFloat(valorTotalProdutos)
+    return floatToString(fatorTransporte)
+
+  }
+
+  const calcularFatorST = () => {
+
+    const fatorST = stringToFloat(valorTotalProdutosST) / stringToFloat(valorST)
+    return floatToString(fatorST)
+
+  }
+
+  const handleConfiguracaoInicial = (e: FormEvent<HTMLFormElement>) => {
+
+    e.preventDefault()
+
+    setFatores( prev => {
+      const update = {
+        ...prev,
+        ['transporte']: calcularFatorTransporte(),
+        ['st']: calcularFatorST(),
+      }
+      return update
+    })
+
+  }
 
   return (
     <section className={page.section}>
@@ -112,8 +146,11 @@ export default function Home() {
           className={page.container_descricao}
         >
           <div>
-            <span>
-              <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <span className={page.span}>
+              <svg className={page.logo}
+                viewBox="0 0 24 24" 
+                xmlns="http://www.w3.org/2000/svg"
+              >
                 <g>
                   <path d="M5.35,14.78a1.84,1.84,0,0,1,1.15.37,3.76,3.76,0,0,0,2.18.64,3.74,3.74,0,0,0,2.18-.64,2,2,0,0,1,2.3,0,4,4,0,0,0,4.36,0,2,2,0,0,1,2.3,0,3.77,3.77,0,0,0,2.16.64v-2a1.89,1.89,0,0,1-1.15-.36,4,4,0,0,0-4.36,0,1.77,1.77,0,0,1-1.15.36,1.89,1.89,0,0,1-1.15-.36,4,4,0,0,0-4.36,0,1.77,1.77,0,0,1-1.15.36,1.89,1.89,0,0,1-1.15-.36,3.82,3.82,0,0,0-2.18-.65,3.82,3.82,0,0,0-2.18.65A1.77,1.77,0,0,1,2,13.77v2a3.9,3.9,0,0,0,2.2-.64A1.84,1.84,0,0,1,5.35,14.78Z"/>
                   <path d="M22,15.79s0,0,0,0h0Z"/>
@@ -126,28 +163,43 @@ export default function Home() {
               </svg>
               <h2>DATA FLOW</h2>
             </span>
-            <p>
+            {/* <p>
               Bem vindo ao Data Flow, para calcular os preços das tabelas dos produtos você pode começar preenchendo esses espaços abaixo ou, se preferir, preencher diretamente os fatores ao lado! Depois que preencher todos os preços são calculados automáticamente! Experimente:
-            </p>
-            <form>
-              <NumberInput
-                // label='Valor Transporte' 
-                placeholder={'Valor Transporte'} 
-                valor={valorTransporte} 
-                setValor={setValorTransporte}              
-              />
-              <NumberInput
-                // label='Valor Transporte' 
-                placeholder={'Total Produtos'} 
-                valor={valorTotalProdutos} 
-                setValor={setValorTotalProdutos}              
-              />
-              <NumberInput
-                // label='Valor Transporte' 
-                placeholder={'Valor Total ST'} 
-                valor={valorTotalProdutos} 
-                setValor={setValorTotalProdutos}              
-              />
+            </p> */}
+            <form
+              className={input.form}
+              onSubmit={handleConfiguracaoInicial}
+            >
+              <span className={input.span}>
+                <NumberInput
+                  label='Transporte' 
+                  placeholder={'Valor Transporte'} 
+                  valor={valorTransporte} 
+                  setValor={setValorTransporte}              
+                />
+                <NumberInput
+                  label='Total Produtos' 
+                  placeholder={'Total Produtos'} 
+                  valor={valorTotalProdutos} 
+                  setValor={setValorTotalProdutos}              
+                />
+                <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><path d="M18.629 15.997l-7.083-7.081L13.462 7l8.997 8.997L13.457 25l-1.916-1.916z"/></svg>
+              </span>
+              <span className={input.span}>
+                <NumberInput
+                  label='Total Produtos com ST' 
+                  placeholder={'Total Produtos ST'} 
+                  valor={valorTotalProdutosST} 
+                  setValor={setValorTotalProdutosST}              
+                />
+                <NumberInput
+                  label='Total ST' 
+                  placeholder={'Valor Total ST'} 
+                  valor={valorST} 
+                  setValor={setValorST}              
+                />
+                <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><path d="M18.629 15.997l-7.083-7.081L13.462 7l8.997 8.997L13.457 25l-1.916-1.916z"/></svg>
+              </span>
               <input type="submit" hidden/>
             </form>
           </div>

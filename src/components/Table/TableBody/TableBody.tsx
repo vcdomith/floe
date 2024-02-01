@@ -4,7 +4,7 @@ import { IValores } from '@/interfaces/IValores'
 import FatoresTable from '@/components/FatoresTable/FatoresTable'
 import { IProduto } from '@/interfaces/IProduto'
 import { MouseEvent, useEffect, useState } from 'react'
-import { stringToFloat } from '@/app/page'
+import Converter from '@/utils/typeConversion'
 
 interface TableBodyProps {
 
@@ -18,6 +18,8 @@ interface TableBodyProps {
 }
 
 const TableBody = ({ controleProdutos, setControleProdutos, setFatores, setValor }: TableBodyProps) => {
+
+    const { stringToFloat } = Converter
 
     let displayControl = Array(controleProdutos.length).fill(false)
 

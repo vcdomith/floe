@@ -8,20 +8,15 @@ import NumberInput from '@/components/FatoresTable/FatoresTableBody/NumberInput/
 import { IFatores } from '@/interfaces/IFatores'
 import FatoresTable from '@/components/FatoresTable/FatoresTable'
 import { IProduto } from '@/interfaces/IProduto'
+import Converter from '@/utils/typeConversion'
 
 import './padrao.css'
 import page from './page.module.scss'
 import input from './Inputs.module.scss'
 
-export const stringToFloat = (valor: string): number => {
-  return parseFloat(valor.replace(/,/g, '.'))
-}
-
-const floatToString = (valor: number): string => {
-  return valor.toFixed(4).replace(/\./g, ',')
-} 
-
 export default function Home() {
+
+  const { stringToFloat, floatToString } = Converter
 
   // Estados para cadastros de preços na tabela
   const [valor, setValor] = useState('')

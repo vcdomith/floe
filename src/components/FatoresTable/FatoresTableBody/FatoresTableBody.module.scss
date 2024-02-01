@@ -107,7 +107,10 @@
 
                 position: relative;
 
-                width: auto;
+                // overflow: hidden;
+
+                // width: 100%;
+                // // min-width: fit-content;
                 height: 50px;
                 background: none;
                 color: #591c4a;

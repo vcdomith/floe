@@ -107,27 +107,52 @@ export default function Home() {
  
   const calcularFatorTransporte = () => {
 
-    const fatorTransporte = (stringToFloat(valorTransporte) * 3.4) / stringToFloat(valorTotalProdutos)
+    const fatorTransporte = 1 + ((stringToFloat(valorTransporte) * 3.4) / stringToFloat(valorTotalProdutos))
     return floatToString(fatorTransporte)
 
   }
 
   const calcularFatorST = () => {
 
-    const fatorST = stringToFloat(valorTotalProdutosST) / stringToFloat(valorST)
+    const fatorST = 1 + (stringToFloat(valorST) / stringToFloat(valorTotalProdutosST))
     return floatToString(fatorST)
 
   }
 
-  const handleConfiguracaoInicial = (e: FormEvent<HTMLFormElement>) => {
+  // const handleConfiguracaoInicial = (e: FormEvent<HTMLFormElement>) => {
+
+  //   e.preventDefault()
+
+  //   setFatores( prev => {
+  //     const update = {
+  //       ...prev,
+  //       ['transporte']: calcularFatorTransporte(),
+  //       ['st']: calcularFatorST(),
+  //     }
+  //     return update
+  //   })
+
+  // }
+
+  const submitTransporte = (e: FormEvent<HTMLFormElement>) => {
 
     e.preventDefault()
-
-    setFatores( prev => {
+    setFatores(prev => {
       const update = {
         ...prev,
-        ['transporte']: calcularFatorTransporte(),
-        ['st']: calcularFatorST(),
+        ['transporte']: calcularFatorTransporte()
+      }
+      return update
+    })
+
+  }
+  const submitST = (e: FormEvent<HTMLFormElement>) => {
+
+    e.preventDefault()
+    setFatores(prev => {
+      const update = {
+        ...prev,
+        ['st']: calcularFatorST()
       }
       return update
     })
@@ -140,7 +165,9 @@ export default function Home() {
         <div
           className={page.container_descricao}
         >
-          <div>
+          <main
+            className={page.descricao}
+            >
             <span className={page.span}>
               <svg className={page.logo}
                 viewBox="0 0 24 24" 
@@ -157,15 +184,17 @@ export default function Home() {
                 <rect width="24" height="24" fill="none"/>
               </svg>
               <h2>DATA FLOW</h2>
+              {/* <p>
+                Bem vindo ao Data Flow, para calcular os preços das tabelas dos produtos você pode começar preenchendo esses espaços abaixo ou, se preferir, preencher diretamente os fatores ao lado! Depois que preencher todos os preços são calculados automáticamente! Experimente:
+              </p> */}
             </span>
-            {/* <p>
-              Bem vindo ao Data Flow, para calcular os preços das tabelas dos produtos você pode começar preenchendo esses espaços abaixo ou, se preferir, preencher diretamente os fatores ao lado! Depois que preencher todos os preços são calculados automáticamente! Experimente:
-            </p> */}
-            <form
-              className={input.form}
-              onSubmit={handleConfiguracaoInicial}
+            <div
+              className={input.form_container}
             >
-              <span className={input.span}>
+              <form 
+                className={input.span}
+                onSubmit={submitTransporte}
+              >
                 <NumberInput
                   label='Transporte' 
                   placeholder={'Valor Transporte'} 
@@ -178,9 +207,16 @@ export default function Home() {
                   valor={valorTotalProdutos} 
                   setValor={setValorTotalProdutos}              
                 />
-                <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><path d="M18.629 15.997l-7.083-7.081L13.462 7l8.997 8.997L13.457 25l-1.916-1.916z"/></svg>
-              </span>
-              <span className={input.span}>
+                <button>
+                  <svg 
+                    viewBox="0 0 32 32" 
+                    xmlns="http://www.w3.org/2000/svg"><path d="M18.629 15.997l-7.083-7.081L13.462 7l8.997 8.997L13.457 25l-1.916-1.916z"/></svg>
+                </button>
+              </form>
+              <form 
+                className={input.span}
+                onSubmit={submitST}
+              >
                 <NumberInput
                   label='Total Produtos com ST' 
                   placeholder={'Total Produtos ST'} 
@@ -193,14 +229,17 @@ export default function Home() {
                   valor={valorST} 
                   setValor={setValorST}              
                 />
-                <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><path d="M18.629 15.997l-7.083-7.081L13.462 7l8.997 8.997L13.457 25l-1.916-1.916z"/></svg>
-              </span>
-              <input type="submit" hidden/>
-            </form>
-          </div>
+                <button>
+                  <svg 
+                    viewBox="0 0 32 32" 
+                    xmlns="http://www.w3.org/2000/svg"><path d="M18.629 15.997l-7.083-7.081L13.462 7l8.997 8.997L13.457 25l-1.916-1.916z"/></svg>
+                </button>
+                {/* <input type="submit" hidden/> */}
+              </form>
+            </div>
+          </main>
           
         </div>
-        <div className={page.container_tabela}>
           <FatoresTable
             display={true}
             fatores={fatores}
@@ -209,7 +248,8 @@ export default function Home() {
             setValor={setValor}
             handleSubmit={adicionarValor}
           />
-        </div>
+        {/* <div className={page.container_tabela}>
+        </div> */}
         </Container>
         <Table 
           valores={valores} 

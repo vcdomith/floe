@@ -33,79 +33,82 @@
 
     overflow: hidden;
 
-    div{
+    .descricao {
     
         display: flex;
         flex-direction: column;
         height: 100%;
     
-    }
-    
-    .span {
-    
-        display: flex;
-        align-items: center;
-        gap: 1rem;
-        color: #591c4a;
-    
-        font-size: 1.5rem;
+        .span {
         
-    }
-
-    form {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            color: #591c4a;
+            
+            font-size: 1.5rem;
+            
+            .logo {
+            
+                width: clamp(100px, 100px, 100px);
+                min-width: 100px;
+                max-width: 100px;
+                fill: #591c4a;
+            
+            }
         
-        display: flex;
-        flex-wrap: wrap;
-        align-items: center;
-        gap: 1rem;
-        color: #591c4a;
+            h2 {
         
-        font-size: 1.5rem;
-    
-    }
-
-    .logo {
-    
-        width: clamp(100px, 100px, 100px);
-        min-width: 100px;
-        max-width: 100px;
-        fill: #591c4a;
-    
-    }
-
-    h2 {
-
-        width: 30%;
-
-    }
-
-    p {
-
-        max-height: 4rem;
-        overflow: scroll;
-        overflow-x: hidden;
-
-        margin: 0;
-        margin-bottom: 2rem;
-        font-size: 1rem;
-        color: #591c4a;
-        background: none;
-        border: none;
+                width: 30%;
         
-        &::-webkit-scrollbar {
-            width: 5px;
+            }
+            
+            p {
+        
+                max-height: 4rem;
+                overflow: scroll;
+                overflow-x: hidden;
+        
+                margin: 0;
+                margin-bottom: 2rem;
+                font-size: 1rem;
+                color: #591c4a;
+                background: none;
+                border: none;
+                
+                &::-webkit-scrollbar {
+                    width: 5px;
+                }
+                
+                &::-webkit-scrollbar-track {
+                    background: none;
+                }
+                      
+                /* Handle */
+                &::-webkit-scrollbar-thumb {
+                    background: #42123622;
+                }
+        
+            }
+            
         }
-        
-        &::-webkit-scrollbar-track {
-            background: none;
-        }
-              
-        /* Handle */
-        &::-webkit-scrollbar-thumb {
-            background: #42123622;
-        }
-
     }
+    
+
+    // form {
+        
+    //     display: flex;
+    //     // flex-wrap: wrap;
+    //     flex-direction: column;
+    //     align-items: center;
+    //     gap: 2rem;
+    //     color: #591c4a;
+        
+    //     font-size: 1.5rem;
+    
+    // }
+
+
 
     // input {
     

@@ -127,7 +127,7 @@ const TableBody = ({ controleProdutos, setControleProdutos, setFatores, setValor
   return (
     <div className='tbody'>
         {}
-            {controleProdutos.map(({}, index) => 
+            {controleProdutos.map(({ id }, index) => 
                 <div  
                     className='tr'
                     key={(index*3.1415)}
@@ -180,7 +180,7 @@ const TableBody = ({ controleProdutos, setControleProdutos, setFatores, setValor
                         fatores={controleProdutos[index].fatores}
                         setFatores={setFatores(index)}
                         valor={controleProdutos[index].unitario}
-                        setValor={setValor(index)}
+                        setValor={setValor(id)}
                         handleSubmit={e => {
                             e.preventDefault()
                             mostrarFatores(index)

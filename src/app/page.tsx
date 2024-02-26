@@ -20,20 +20,20 @@ export default function Home() {
 
   // Estados para cadastros de preços na tabela
   const [valor, setValor] = useState('')
-  // const [fatores, setFatores] = useState<IFatores>({
-  //   padrao: '3',
-  //   st: '1,01',
-  //   transporte: '1,1',
-  //   fator: '1,4',
-  //   ipi: '1,065'
-  // })
   const [fatores, setFatores] = useState<IFatores>({
-    padrao: '',
-    st: '',
-    transporte: '',
-    fator: '',
-    ipi: ''
+    padrao: '3',
+    st: '1,01',
+    transporte: '1,1',
+    fator: '1,4',
+    ipi: '1,065'
   })
+  // const [fatores, setFatores] = useState<IFatores>({
+  //   padrao: '',
+  //   st: '',
+  //   transporte: '',
+  //   fator: '',
+  //   ipi: ''
+  // })
   const [valores, setValores] = useState<IValores[]>([])
   const [controleProdutos, setControleProdutos] = useState<IProduto[]>([])
 
@@ -55,8 +55,9 @@ export default function Home() {
       setControleProdutos([...controleProdutos, {
         fatores: fatores,
         unitario: valor,
+        id: controleProdutos.length
       }])
-
+      console.log(controleProdutos);
       setValor('')
     }
   }
@@ -176,7 +177,16 @@ export default function Home() {
     const filtrarProdutos = () => {
       const filtrado = controleProdutos.filter( produto => produto.unitario.includes(searchParam) )
 
-      setProdutosFiltrados(filtrado)
+      if (filtrado.length > 0) {
+
+        setProdutosFiltrados(filtrado)
+
+      } else {
+
+        setSearchParam('')
+
+      }
+
     }
     
     (searchParam)

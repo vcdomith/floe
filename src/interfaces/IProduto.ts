@@ -4,5 +4,6 @@ export interface IProduto {
 
     fatores: IFatores
     unitario: string
+    id: number
 
 }

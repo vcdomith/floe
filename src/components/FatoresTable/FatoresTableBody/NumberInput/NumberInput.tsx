@@ -1,4 +1,4 @@
-import { ChangeEvent, FormEvent, WheelEvent, WheelEventHandler, useState } from 'react'
+import { ChangeEvent, FormEvent, ReactNode, WheelEvent, WheelEventHandler, useState } from 'react'
 import styles from './NumberInput.module.scss'
 import { IFatores } from '@/interfaces/IFatores'
 
@@ -7,11 +7,13 @@ interface NumberInputProps {
     label?: string
     placeholder: string
     valor: string
-    setValor: (valor: string ) => void
+    setValor: (valor: string) => void
+    // Partial type -> ler mais sobre
+    [key: string]: any
 
 }
 
-const NumberInput = ({ label, placeholder, valor, setValor }: NumberInputProps) => {
+const NumberInput = ({ label, placeholder, valor, setValor, onBlur, ...props }: NumberInputProps) => {
 
   // const [disabled, setDisabled] = useState(true)
 
@@ -54,8 +56,10 @@ const NumberInput = ({ label, placeholder, valor, setValor }: NumberInputProps) 
             value={valor}
             inputMode='numeric'
             onChange={handleChangeValor}
+            onBlur={onBlur}
             // onBlur={() => setDisabled(true)}
             placeholder={placeholder}
+            {...props}
         />
         {/* <svg 
           onClick={handleClick}

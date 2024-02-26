@@ -163,6 +163,13 @@ export default function Home() {
 
   }
 
+  // searchParams reset
+  useEffect(() => {
+
+    setSearchParam('')
+
+  }, [valor])
+
   // useEffect -> Lógica de Busca
   useEffect(() => {
 
@@ -270,11 +277,14 @@ export default function Home() {
         {/* <div className={page.container_tabela}>
         </div> */}
         </Container>
+        {controleProdutos.length > 0 &&
         <NumberInput 
           placeholder='Buscar por um valor'
           valor={searchParam}
           setValor={setSearchParam}
+          // onBlur={() => setSearchParam('')}
         />
+        }
         <Table 
           valores={valores} 
           controleProdutos={produtosFiltrados}

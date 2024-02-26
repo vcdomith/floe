@@ -1,6 +1,6 @@
 'use client'
 
-import { FormEvent, useEffect, useState } from 'react'
+import { ChangeEvent, FormEvent, useEffect, useState } from 'react'
 import { IValores } from '@/interfaces/IValores'
 import Table from '@/components/Table/Table'
 import Container from '@/components/Container/Container'
@@ -43,6 +43,9 @@ export default function Home() {
   const [valorST, setValorST] = useState('')
   const [valorTotalProdutosST, setValorTotalProdutosST] = useState('')
 
+  // Estados para filtrar/procurar lista de valores
+  const [searchParam, setSearchParam] = useState('')
+  const [produtosFiltrados, setProdutosFiltrados] = useState<IProduto[]>([])
 
   const adicionarValor = (evento: FormEvent<HTMLFormElement>) => {
     evento.preventDefault()
@@ -146,6 +149,7 @@ export default function Home() {
     })
 
   }
+
   const submitST = (e: FormEvent<HTMLFormElement>) => {
 
     e.preventDefault()
@@ -158,6 +162,21 @@ export default function Home() {
     })
 
   }
+
+  // useEffect -> Lógica de Busca
+  useEffect(() => {
+
+    const filtrarProdutos = () => {
+      const filtrado = controleProdutos.filter( produto => produto.unitario.includes(searchParam) )
+
+      setProdutosFiltrados(filtrado)
+    }
+    
+    (searchParam)
+    ? filtrarProdutos()
+    : setProdutosFiltrados(controleProdutos)
+
+  }, [searchParam, controleProdutos])
 
   return (
     <section className={page.section}>
@@ -251,9 +270,14 @@ export default function Home() {
         {/* <div className={page.container_tabela}>
         </div> */}
         </Container>
+        <NumberInput 
+          placeholder='Buscar por um valor'
+          valor={searchParam}
+          setValor={setSearchParam}
+        />
         <Table 
           valores={valores} 
-          controleProdutos={controleProdutos}
+          controleProdutos={produtosFiltrados}
           setControleProdutos={setControleProdutos}
           setFatores={updateFatoresProduto}
           setValor={updateValorProduto}

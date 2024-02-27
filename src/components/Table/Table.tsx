@@ -20,10 +20,12 @@ interface TableProps{
 
     fatoresDisplay: boolean[]
     setFatoresDisplay: Dispatch<SetStateAction<boolean[]>>
+
+    getIndex: (id: number) => number
 }
 
 
-const Table = ({ valores, size, controleProdutos, setControleProdutos, setFatores, setValor,fatoresDisplay, setFatoresDisplay }: TableProps) => {
+const Table = ({ valores, size, controleProdutos, setControleProdutos, setFatores, setValor,fatoresDisplay, setFatoresDisplay, getIndex }: TableProps) => {
 
     interface Headers<T = string>{
         valores: [T, T, T, T],
@@ -68,6 +70,7 @@ const Table = ({ valores, size, controleProdutos, setControleProdutos, setFatore
           setValor={setValor}
           fatoresDisplay={fatoresDisplay}
           setFatoresDisplay={setFatoresDisplay}
+          getIndex={getIndex}
         />
     </div>
     : <div

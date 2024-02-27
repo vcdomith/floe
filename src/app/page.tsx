@@ -168,6 +168,12 @@ export default function Home() {
 
   }
 
+  const getControleProdutoIndex = (id: number): number => {
+
+    return controleProdutos.findIndex(produto => produto.id === id)
+
+}
+
   // searchParams reset
   useEffect(() => {
 
@@ -179,31 +185,19 @@ export default function Home() {
   useEffect(() => {
 
     const filtrarProdutos = () => {
-      const filtrado = controleProdutos.filter( produto => produto.unitario.includes(searchParam) )
+      
+      const filtrado = controleProdutos.filter( produto => produto.unitario.includes(searchParam) );
 
-      if (filtrado.length > 0) {
-
-        setProdutosFiltrados(filtrado)
-
-      } else {
-
-        setSearchParam('')
-
-      }
+      (filtrado.length > 0)
+        ? setProdutosFiltrados(filtrado)
+        : setSearchParam('')
 
     }
     
-    if (searchParam) {
-
-      if (fatoresDisplay.includes(true)) return
-
-      filtrarProdutos()
-
-    } else {
-
-      setProdutosFiltrados(controleProdutos)
-
-    }
+    (searchParam)
+      ? (fatoresDisplay.includes(true) || filtrarProdutos())
+      
+      : setProdutosFiltrados(controleProdutos)
 
   }, [searchParam, controleProdutos, fatoresDisplay])
 
@@ -315,6 +309,7 @@ export default function Home() {
           setValor={updateValorProduto}
           fatoresDisplay={fatoresDisplay}
           setFatoresDisplay={setFatoresDisplay}
+          getIndex={getControleProdutoIndex}
         />
     </ section>
 

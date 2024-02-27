@@ -18,15 +18,22 @@ interface TableBodyProps {
     fatoresDisplay: boolean[]
     setFatoresDisplay: Dispatch<SetStateAction<boolean[]>>
 
+    getIndex: (id: number) => number
 }
 
-const TableBody = ({ controleProdutos, setControleProdutos, setFatores, setValor, fatoresDisplay, setFatoresDisplay }: TableBodyProps) => {
+const TableBody = ({ controleProdutos, setControleProdutos, setFatores, setValor, fatoresDisplay, setFatoresDisplay, getIndex }: TableBodyProps) => {
 
     const { stringToFloat } = Converter
 
     let displayControl = Array(controleProdutos.length).fill(false)
 
     // const [fatoresDisplay, setFatoresDisplay] = useState<boolean[]>(displayControl)
+
+    // const getIndex = (id: number): number => {
+
+    //     return controleProdutos.findIndex(produto => produto.id === id)
+
+    // }
 
     function calcularTabela(valor: number, args: number[]): number {
 
@@ -67,10 +74,17 @@ const TableBody = ({ controleProdutos, setControleProdutos, setFatores, setValor
     const excluirLinha = (index: number) => {
 
         // setValores((valores).filter((valor, id) => index !== id))
-    
+
+        // const indexToRemove = controleProdutos.indexOf(id)
+        // const arrToRemove = controleProdutos.filter(produto => produto.id === id)
+
         setControleProdutos((prev) => {
-            const updated = [...prev]
-            updated.splice(index, 1)
+            const updated = [...prev];
+
+            (updated.length > 1) 
+                ? updated.splice(index, 1)
+                : updated.splice(0, 1)
+
             return updated
         })
 
@@ -125,14 +139,14 @@ const TableBody = ({ controleProdutos, setControleProdutos, setFatores, setValor
         if (controleProdutos.length !== fatoresDisplay.length)
             setFatoresDisplay(Array(controleProdutos.length).fill(false))
 
-    }, [controleProdutos, fatoresDisplay.length])
+    }, [controleProdutos, fatoresDisplay.length, setFatoresDisplay])
 
   return (
     <div className='tbody'>
-        {}
             {controleProdutos.map(({ id }, index) => 
                 <div  
                     className='tr'
+                    onClick={() => console.log(getIndex(id), id)}
                     key={(index*3.1415)}
                 >
                     {getTabelas(index).map((valor: string | number, index: number) => 
@@ -161,7 +175,7 @@ const TableBody = ({ controleProdutos, setControleProdutos, setFatores, setValor
                     </svg>
                     
                     <svg 
-                        onClick={() => excluirLinha(index)}
+                        onClick={() => excluirLinha(id)}
                         width="25px" 
                         height="25px" 
                         viewBox="0 0 32 32" 
@@ -181,9 +195,9 @@ const TableBody = ({ controleProdutos, setControleProdutos, setFatores, setValor
                     <FatoresTable
                         display={fatoresDisplay[index]}
                         fatores={controleProdutos[index].fatores}
-                        setFatores={setFatores(index)}
+                        setFatores={setFatores(getIndex(id))}
                         valor={controleProdutos[index].unitario}
-                        setValor={setValor(id)}
+                        setValor={setValor(getIndex(id))}
                         handleSubmit={e => {
                             e.preventDefault()
                             mostrarFatores(index)

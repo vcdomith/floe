@@ -4,6 +4,13 @@ body {
     caret-color: #591c4a;
 }
 
+::selection {
+
+    background: #591c4a;
+    color: #e8d4b0;
+
+}
+
 /* width */
 ::-webkit-scrollbar {
     width: 10px;

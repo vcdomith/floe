@@ -175,7 +175,7 @@ const TableBody = ({ controleProdutos, setControleProdutos, setFatores, setValor
                     </svg>
                     
                     <svg 
-                        onClick={() => excluirLinha(id)}
+                        onClick={() => excluirLinha(getIndex(id))}
                         width="25px" 
                         height="25px" 
                         viewBox="0 0 32 32" 

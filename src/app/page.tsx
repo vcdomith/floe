@@ -188,9 +188,10 @@ export default function Home() {
       
       const filtrado = controleProdutos.filter( produto => produto.unitario.includes(searchParam) );
 
-      (filtrado.length > 0)
-        ? setProdutosFiltrados(filtrado)
-        : setSearchParam('')
+      setProdutosFiltrados(filtrado)
+      // (filtrado.length > 0)
+      //   ? setProdutosFiltrados(filtrado)
+      //   : setSearchParam('')
 
     }
     

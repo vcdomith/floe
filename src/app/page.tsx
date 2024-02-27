@@ -47,6 +47,10 @@ export default function Home() {
   const [searchParam, setSearchParam] = useState('')
   const [produtosFiltrados, setProdutosFiltrados] = useState<IProduto[]>([])
 
+  // Produto Ativo
+  let displayRef = Array(controleProdutos.length).fill(false)
+  const [fatoresDisplay, setFatoresDisplay] = useState<boolean[]>(displayRef)
+
   const adicionarValor = (evento: FormEvent<HTMLFormElement>) => {
     evento.preventDefault()
 
@@ -57,7 +61,7 @@ export default function Home() {
         unitario: valor,
         id: controleProdutos.length
       }])
-      console.log(controleProdutos);
+  
       setValor('')
     }
   }
@@ -189,11 +193,19 @@ export default function Home() {
 
     }
     
-    (searchParam)
-    ? filtrarProdutos()
-    : setProdutosFiltrados(controleProdutos)
+    if (searchParam) {
 
-  }, [searchParam, controleProdutos])
+      if (fatoresDisplay.includes(true)) return
+
+      filtrarProdutos()
+
+    } else {
+
+      setProdutosFiltrados(controleProdutos)
+
+    }
+
+  }, [searchParam, controleProdutos, fatoresDisplay])
 
   return (
     <section className={page.section}>
@@ -301,6 +313,8 @@ export default function Home() {
           setControleProdutos={setControleProdutos}
           setFatores={updateFatoresProduto}
           setValor={updateValorProduto}
+          fatoresDisplay={fatoresDisplay}
+          setFatoresDisplay={setFatoresDisplay}
         />
     </ section>
 

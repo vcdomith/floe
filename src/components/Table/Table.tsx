@@ -5,6 +5,7 @@ import TableHeader from "./TableHeader/TableHeader"
 import { IFatores } from "@/interfaces/IFatores"
 import TableBody from "./TableBody/TableBody"
 import { IProduto } from "@/interfaces/IProduto"
+import { Dispatch, SetStateAction } from "react"
 
 interface TableProps{
 
@@ -16,10 +17,13 @@ interface TableProps{
 
     controleProdutos: IProduto[]
     setControleProdutos: (fator: (arr:IProduto[]) => IProduto[]) => void
+
+    fatoresDisplay: boolean[]
+    setFatoresDisplay: Dispatch<SetStateAction<boolean[]>>
 }
 
 
-const Table = ({ valores, size, controleProdutos, setControleProdutos, setFatores, setValor }: TableProps) => {
+const Table = ({ valores, size, controleProdutos, setControleProdutos, setFatores, setValor,fatoresDisplay, setFatoresDisplay }: TableProps) => {
 
     interface Headers<T = string>{
         valores: [T, T, T, T],
@@ -62,6 +66,8 @@ const Table = ({ valores, size, controleProdutos, setControleProdutos, setFatore
           setControleProdutos={setControleProdutos}
           setFatores={setFatores}
           setValor={setValor}
+          fatoresDisplay={fatoresDisplay}
+          setFatoresDisplay={setFatoresDisplay}
         />
     </div>
     : <div

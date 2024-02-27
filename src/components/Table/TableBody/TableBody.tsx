@@ -3,7 +3,7 @@ import './TableBody.scss'
 import { IValores } from '@/interfaces/IValores'
 import FatoresTable from '@/components/FatoresTable/FatoresTable'
 import { IProduto } from '@/interfaces/IProduto'
-import { MouseEvent, useEffect, useState } from 'react'
+import { Dispatch, MouseEvent, SetStateAction, useEffect, useState } from 'react'
 import Converter from '@/utils/typeConversion'
 
 interface TableBodyProps {
@@ -15,15 +15,18 @@ interface TableBodyProps {
 
     setValor: (index: number) => ((valor: string) => void)
 
+    fatoresDisplay: boolean[]
+    setFatoresDisplay: Dispatch<SetStateAction<boolean[]>>
+
 }
 
-const TableBody = ({ controleProdutos, setControleProdutos, setFatores, setValor }: TableBodyProps) => {
+const TableBody = ({ controleProdutos, setControleProdutos, setFatores, setValor, fatoresDisplay, setFatoresDisplay }: TableBodyProps) => {
 
     const { stringToFloat } = Converter
 
     let displayControl = Array(controleProdutos.length).fill(false)
 
-    const [fatoresDisplay, setFatoresDisplay] = useState<boolean[]>(displayControl)
+    // const [fatoresDisplay, setFatoresDisplay] = useState<boolean[]>(displayControl)
 
     function calcularTabela(valor: number, args: number[]): number {
 

@@ -226,7 +226,7 @@ export default function Home() {
                 </g>
                 <rect width="24" height="24" fill="none"/>
               </svg>
-              <h2>DATA FLOW</h2>
+              <h2>TABELA DE PREÇOS</h2>
               {/* <p>
                 Bem vindo ao Data Flow, para calcular os preços das tabelas dos produtos você pode começar preenchendo esses espaços abaixo ou, se preferir, preencher diretamente os fatores ao lado! Depois que preencher todos os preços são calculados automáticamente! Experimente:
               </p> */}
@@ -294,12 +294,13 @@ export default function Home() {
         {/* <div className={page.container_tabela}>
         </div> */}
         </Container>
+        <div className={page.table}>
         {controleProdutos.length > 0 &&
         <span
-          className={input.span}
+          className={input.container}
         >
           <NumberInput 
-            placeholder='Valor Unitário'
+            placeholder='Buscar'
             valor={searchParam}
             setValor={setSearchParam}
             className={input.search}
@@ -331,6 +332,7 @@ export default function Home() {
           setFatoresDisplay={setFatoresDisplay}
           getIndex={getControleProdutoIndex}
         />
+        </div>
     </ section>
 
   )

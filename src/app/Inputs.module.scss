@@ -126,35 +126,77 @@
     }
 
 }
-.span {
+.container {
+
+    position: relative;
 
     display: flex;
-    width: 80%;
+    // width: 80%;
 
-    // justify-content: flex-end;
+    justify-content: flex-end;
 
     .search {
-    
+
         background: none;
         outline: none;
     
         padding: 0.75rem 1.5rem;
-        border: 2px solid #591c4a;
-        border-radius: 1rem;
+        border: 2px solid transparent;
+        border-top-left-radius: 1.5rem;
+        border-bottom-right-radius: 1.5rem;
     
-        background-color: #e8d4b0;
+        background-color: #591c4a1a;
     
-        font-size: 1.5rem;
+        font-size: 1.2rem;
         font-weight: 500;
         color: #591c4a;
     
         width: 100px;
     
+        transition: all 400ms;
+
+        &:focus-within {
+
+            border: 2px solid #591c4a;
+            background-color: #e8d4b0;
+            box-shadow: 2px 2px 15px #591c4a39;
+
+        }
+
         &::placeholder {
     
             font-size: 1.2rem;
             color: #591c4a60;
     
         }
+
     }
+
+    svg {
+    
+        position: absolute;
+        right: 10px;
+        top: 25%;
+
+        cursor: pointer;
+        
+        
+        path {
+            
+            fill: #591c4a;
+            transition: fill 300ms;
+    
+        }
+
+        &:active {
+
+            path {
+            
+                fill: #e8d4b0;
+            }
+
+        }
+    
+    }
+
 }

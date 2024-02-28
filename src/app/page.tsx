@@ -59,7 +59,7 @@ export default function Home() {
       setControleProdutos([...controleProdutos, {
         fatores: fatores,
         unitario: valor,
-        id: controleProdutos.length
+        id: new Date().getTime()
       }])
   
       setValor('')

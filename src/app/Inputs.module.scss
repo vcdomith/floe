@@ -126,60 +126,106 @@
     }
 
 }
+
+.sort {
+
+    display: flex;
+    flex-direction: column;
+
+}
 .container {
 
     position: relative;
 
     display: flex;
+    width: fit-content;
     // width: 80%;
 
     justify-content: flex-end;
+    align-items: center;
+    // gap: 1rem;
+
+    border: 2px solid #591c4a;
+    border-radius: 1rem;
+
+    padding: 0.5rem 0.5rem 0.5rem 0.75rem;
+
+    transition: all 400ms ease-in;
+
+    &:focus-within {
+
+        border: 2px solid #591c4a;
+        // background-color: #e8d4b0;
+        box-shadow: 2px 2px 15px #591c4a39;
+
+    }
+
+    &:has(.search:valid) {
+
+        background-color: #591c4a0b;
+
+    }
+
+    &:has(.search:invalid) {
+
+        background-color: #e8d4b0;
+
+    }
 
     .search {
 
         background: none;
         outline: none;
     
-        padding: 0.75rem 1.5rem;
-        border: 2px solid transparent;
-        border-top-left-radius: 1.5rem;
-        border-bottom-right-radius: 1.5rem;
-    
-        background-color: #591c4a1a;
+        padding-left: 0.5rem;
+        border: none;
     
         font-size: 1.2rem;
         font-weight: 500;
         color: #591c4a;
     
-        width: 100px;
+        width: 75px;
     
         transition: all 400ms;
-
-        &:focus-within {
-
-            border: 2px solid #591c4a;
-            background-color: #e8d4b0;
-            box-shadow: 2px 2px 15px #591c4a39;
-
-        }
 
         &::placeholder {
     
             font-size: 1.2rem;
-            color: #591c4a60;
+            // color: #591c4a60;
+            color: #591c4a91;
     
         }
 
     }
 
-    svg {
-    
-        position: absolute;
+    .lupa {
+
+        fill: #591c4a;
+
+        path {
+
+            max-width: 14px;
+
+        }
+
+    }
+
+    .clear {
+        
+        border: none;
+        outline: none;
+        background: none;
+        padding: 0;
+        margin: 0;
+        height: 25px;
+
+        // position: absolute;
         right: 10px;
-        top: 25%;
+        top: 20%;
 
         cursor: pointer;
         
+        transition: opacity 400ms;
         
         path {
             

@@ -146,7 +146,7 @@ const TableBody = ({ controleProdutos, setControleProdutos, setFatores, setValor
             {controleProdutos.map(({ id }, index) => 
                 <div  
                     className='tr'
-                    onClick={() => console.log(getIndex(id), id)}
+                    onClick={() => console.log(getIndex(id))}
                     key={(index*3.1415)}
                 >
                     {getTabelas(index).map((valor: string | number, index: number) => 

@@ -127,146 +127,150 @@
 
 }
 
-.filters {
-
-
-
-}
-.sort {
+.filtros {
 
     display: flex;
-    flex-direction: column;
+    gap: 1rem;
 
-    .button {
+    .sort {
     
-        border: 2px solid transparent;
-
-        outline: none;
-        background: none;
-        border: none;
-        padding: 0;
-
-        cursor: pointer;
-
-        svg {
-
-            fill: #591c4a;
-
-        }
-
-    }
-
-}
-.container {
-
-    position: relative;
-
-    display: flex;
-    width: fit-content;
-    // width: 80%;
-
-    justify-content: flex-end;
-    align-items: center;
-    // gap: 1rem;
-
-    border: 2px solid #591c4a;
-    border-radius: 1rem;
-
-    padding: 0.5rem 0.5rem 0.5rem 0.75rem;
-
-    transition: all 400ms ease-in;
-
-    &:focus-within {
-
-        border: 2px solid #591c4a;
-        // background-color: #e8d4b0;
-        box-shadow: 2px 2px 15px #591c4a39;
-
-    }
-
-    &:has(.search:valid) {
-
-        background-color: #591c4a0b;
-
-    }
-
-    &:has(.search:invalid) {
-
-        background-color: #e8d4b0;
-
-    }
-
-    .search {
-
-        background: none;
-        outline: none;
+        display: flex;
+        flex-direction: column;
     
-        padding-left: 0.5rem;
-        border: none;
-    
-        font-size: 1.2rem;
-        font-weight: 500;
-        color: #591c4a;
-    
-        width: 75px;
-    
-        transition: all 400ms;
-
-        &::placeholder {
-    
-            font-size: 1.2rem;
-            // color: #591c4a60;
-            color: #591c4a91;
-    
-        }
-
-    }
-
-    .lupa {
-
-        fill: #591c4a;
-
-        path {
-
-            max-width: 14px;
-
-        }
-
-    }
-
-    .clear {
+        .button {
         
-        border: none;
-        outline: none;
-        background: none;
-        padding: 0;
-        margin: 0;
-        height: 25px;
-
-        // position: absolute;
-        right: 10px;
-        top: 20%;
-
-        cursor: pointer;
-        
-        transition: opacity 400ms;
-        
-        path {
-            
-            fill: #591c4a;
-            transition: fill 300ms;
+            border: 2px solid transparent;
     
-        }
-
-        &:active {
-
-            path {
-            
-                fill: #e8d4b0;
+            outline: none;
+            background: none;
+            border: none;
+            padding: 0;
+            max-height: 20px;
+    
+            cursor: pointer;
+    
+            svg {
+    
+                fill: #591c4a;
+    
             }
-
+    
         }
     
     }
+    .search {
+    
+        position: relative;
+    
+        display: flex;
+        width: fit-content;
+        // width: 80%;
+    
+        justify-content: flex-end;
+        align-items: center;
+        // gap: 1rem;
+    
+        border: 2px solid #591c4a;
+        border-radius: 1rem;
+    
+        padding: 0.5rem 0.5rem 0.5rem 0.75rem;
+    
+        transition: all 400ms ease-in;
+    
+        &:focus-within {
+    
+            border: 2px solid #591c4a;
+            // background-color: #e8d4b0;
+            box-shadow: 2px 2px 15px #591c4a39;
+    
+        }
+    
+        &:has(.search:valid) {
+    
+            background-color: #591c4a0b;
+    
+        }
+    
+        &:has(.search:invalid) {
+    
+            background-color: #e8d4b0;
+    
+        }
+    
+        .input {
+    
+            background: none;
+            outline: none;
+        
+            padding-left: 0.5rem;
+            border: none;
+        
+            font-size: 1.2rem;
+            font-weight: 500;
+            color: #591c4a;
+        
+            width: 75px;
+        
+            transition: all 400ms;
+    
+            &::placeholder {
+        
+                font-size: 1.2rem;
+                // color: #591c4a60;
+                color: #591c4a91;
+        
+            }
+    
+        }
+    
+        .lupa {
+    
+            fill: #591c4a;
+    
+            path {
+    
+                max-width: 14px;
+    
+            }
+    
+        }
+    
+        .clear {
+            
+            border: none;
+            outline: none;
+            background: none;
+            padding: 0;
+            margin: 0;
+            height: 25px;
+    
+            // position: absolute;
+            right: 10px;
+            top: 20%;
+    
+            cursor: pointer;
+            
+            transition: opacity 400ms;
+            
+            path {
+                
+                fill: #591c4a;
+                transition: fill 300ms;
+        
+            }
+    
+            &:active {
+    
+                path {
+                
+                    fill: #e8d4b0;
+                }
+    
+            }
+        
+        }
+    
+    }
+
 
 }

@@ -127,10 +127,34 @@
 
 }
 
+.filters {
+
+
+
+}
 .sort {
 
     display: flex;
     flex-direction: column;
+
+    .button {
+    
+        border: 2px solid transparent;
+
+        outline: none;
+        background: none;
+        border: none;
+        padding: 0;
+
+        cursor: pointer;
+
+        svg {
+
+            fill: #591c4a;
+
+        }
+
+    }
 
 }
 .container {

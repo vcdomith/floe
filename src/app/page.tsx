@@ -46,7 +46,7 @@ export default function Home() {
   // Estados para filtrar/procurar lista de valores
   const [searchParam, setSearchParam] = useState('')
   const [produtosFiltrados, setProdutosFiltrados] = useState<IProduto[]>([])
-  const [sorted, setSorted] = useState(false)
+  const [sorted, setSorted] = useState<false | 'ascending' | 'descending' >(false)
 
   // Produto Ativo
   let displayRef = Array(controleProdutos.length).fill(false)
@@ -175,20 +175,54 @@ export default function Home() {
 
   }
 
-  const handleSort = () => {
+  const handleSort = (sortType: 'ascending' | 'descending') => {
 
-    const sortFn = (a: IProduto, b: IProduto) => {
+    if (sorted) { 
+
+      (sorted === sortType) ? setSorted(false) : setSorted(sortType)  
+
+    } else {
       
-      return stringToFloat(a.unitario) - stringToFloat(b.unitario)
+      setSorted(sortType); 
+      return 
 
     }
 
-    const sorted = controleProdutos.toSorted(sortFn);
-    (!(JSON.stringify(sorted) === JSON.stringify(produtosFiltrados)))
-    ? setProdutosFiltrados(sorted)
-    : setProdutosFiltrados(controleProdutos)
+  }
+
+  const resetDisplay = () => {
+
+    setSearchParam('')
+    setSorted(false)
 
   }
+
+  // const handleSort = (ascending = true) => {
+
+  //   const sortFn = (a: IProduto, b: IProduto) => {
+
+  //     const valorA = stringToFloat(a.unitario)
+  //     const valorB = stringToFloat(b.unitario)
+      
+  //     if (ascending) {
+  //       return valorA - valorB
+  //     } else {
+  //       return valorB - valorA
+  //     }
+
+  //   }
+
+  //   const sortLogic = () => {
+  //     setProdutosFiltrados(sorted)
+  //     // setSorted( (ascending) ? 'asceding' : 'descending' )
+  //   }
+
+  //   const sorted = produtosFiltrados.toSorted(sortFn);
+  //   (!(JSON.stringify(sorted) === JSON.stringify(produtosFiltrados)))
+  //   ? sortLogic()
+  //   : setProdutosFiltrados(controleProdutos)
+
+  // }
 
   // searchParams reset
   useEffect(() => {
@@ -197,29 +231,111 @@ export default function Home() {
 
   }, [valor])
 
-  useEffect(() => {
-    console.log('controleProdutos Alterado', sorted);
-  }, [controleProdutos])
-
   // useEffect -> Lógica de Busca
+  // useEffect(() => {
+
+  //   const filtrarProdutos = () => {
+      
+  //     const filtrado = controleProdutos.filter( produto => produto.unitario.includes(searchParam) );
+
+  //     setProdutosFiltrados(filtrado)
+  //     // (filtrado.length > 0)
+  //     //   ? setProdutosFiltrados(filtrado)
+  //     //   : setSearchParam('')
+
+  //   }
+
+  //   const resetFilter = () => {
+  //     setProdutosFiltrados(controleProdutos)
+  //   }
+
+  //   (searchParam) 
+  //     ? (fatoresDisplay.includes(true) || filtrarProdutos())
+  //     : (fatoresDisplay.includes(true) || resetFilter())
+
+  // }, [searchParam, controleProdutos, fatoresDisplay])
+
+  // useEffect(() => {
+
+  //   const sortFn = (a: IProduto, b: IProduto) => {
+
+  //     const valorA = stringToFloat(a.unitario)
+  //     const valorB = stringToFloat(b.unitario)
+      
+  //     if (sorted === "ascending") {
+  //       return valorA - valorB
+  //     } else {
+  //       return valorB - valorA
+  //     }
+
+  //   }
+
+  //   if (!sorted) return 
+
+  //   const sortedProdutos = produtosFiltrados.toSorted(sortFn);
+  //   (!(JSON.stringify(sorted) === JSON.stringify(produtosFiltrados)))
+  //   ? setProdutosFiltrados(sortedProdutos)
+  //   : setProdutosFiltrados([...controleProdutos])
+
+  // }, [sorted])
+
   useEffect(() => {
 
-    const filtrarProdutos = () => {
-      
-      const filtrado = controleProdutos.filter( produto => produto.unitario.includes(searchParam) );
+    if (fatoresDisplay.includes(true)) return
 
-      setProdutosFiltrados(filtrado)
-      // (filtrado.length > 0)
-      //   ? setProdutosFiltrados(filtrado)
-      //   : setSearchParam('')
+    // setProdutosFiltrados([...controleProdutos])
+    let displayProdutos = [...controleProdutos]
+
+    if(sorted) {
+
+      const sortFn = (a: IProduto, b: IProduto) => {
+
+        const valorA = stringToFloat(a.unitario)
+        const valorB = stringToFloat(b.unitario)
+        
+        if (sorted === "ascending") {
+          return valorA - valorB
+        } else {
+          return valorB - valorA
+        }
+  
+      }
+
+      // const sortedProdutos = produtosFiltrados.toSorted(sortFn);
+      // (!(JSON.stringify(sorted) === JSON.stringify(produtosFiltrados)))
+      //   ? setProdutosFiltrados(sortedProdutos)
+      //   : setProdutosFiltrados([...controleProdutos])
+      displayProdutos = displayProdutos.toSorted(sortFn)
 
     }
 
-    (searchParam)
-      ? (fatoresDisplay.includes(true) || filtrarProdutos())
-      : (!sorted || setProdutosFiltrados(controleProdutos))
+    if(searchParam) {
 
-  }, [searchParam, controleProdutos, fatoresDisplay, sorted])
+      // const filtrarProdutos = () => {
+      
+      //   const filtrado = controleProdutos.filter( produto => produto.unitario.includes(searchParam) );
+  
+      //   setProdutosFiltrados(filtrado)
+  
+      // }
+
+      // (fatoresDisplay.includes(true) || filtrarProdutos())
+
+      // (fatoresDisplay.includes(true) || displayProdutos.filter(produto => produto.unitario.includes(searchParam)))
+
+      const filtrarProdutos = () => {
+
+        displayProdutos = displayProdutos.filter(produto => produto.unitario.includes(searchParam))
+
+      }
+
+      filtrarProdutos()
+
+    }
+
+    setProdutosFiltrados(displayProdutos)
+
+  }, [controleProdutos, searchParam, sorted])
 
   return (
     <section className={page.section}>
@@ -319,11 +435,28 @@ export default function Home() {
         <div
           className={input.sort}
         >
-          <button>
-            <svg onClick={() => handleSort()} fill="#000000" width="25px" height="25px" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><path d="M24 11.305l-7.997 11.39L8 11.305z"/></svg>
+          <button className={input.button} >
+            <svg 
+              onClick={() => handleSort('ascending')}
+              style={{opacity: `${sorted === 'ascending' ? '1' : '0.3'}`}} 
+              width="25px" 
+              height="25px" 
+              viewBox="0 0 32 32" 
+              xmlns="http://www.w3.org/2000/svg">
+                <path d="M24 11.305l-7.997 11.39L8 11.305z"/>
+              </svg>
           </button>
-          <button>
-            <svg fill="#000000" width="25px" height="25px" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><path d="M8 20.695l7.997-11.39L24 20.695z"/></svg>
+          <button className={input.button} >
+            <svg 
+              onClick={() => handleSort('descending')} 
+              style={{opacity: `${sorted === 'descending' ? '1' : '0.3'}`}} 
+              fill="#000000" 
+              width="25px" 
+              height="25px" 
+              viewBox="0 0 32 32" 
+              xmlns="http://www.w3.org/2000/svg">
+              <path d="M8 20.695l7.997-11.39L24 20.695z"/>
+            </svg>
           </button>
         </div>
         <span

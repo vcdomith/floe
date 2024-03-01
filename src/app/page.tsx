@@ -217,7 +217,7 @@ export default function Home() {
 
     (searchParam)
       ? (fatoresDisplay.includes(true) || filtrarProdutos())
-      : (sorted || setProdutosFiltrados(controleProdutos))
+      : (!sorted || setProdutosFiltrados(controleProdutos))
 
   }, [searchParam, controleProdutos, fatoresDisplay, sorted])
 

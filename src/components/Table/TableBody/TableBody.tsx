@@ -3,7 +3,7 @@ import './TableBody.scss'
 import { IValores } from '@/interfaces/IValores'
 import FatoresTable from '@/components/FatoresTable/FatoresTable'
 import { IProduto } from '@/interfaces/IProduto'
-import { Dispatch, MouseEvent, SetStateAction, useEffect, useState } from 'react'
+import { Dispatch, MouseEvent, SetStateAction, TransitionEvent, useEffect, useState } from 'react'
 import Converter from '@/utils/typeConversion'
 
 interface TableBodyProps {
@@ -24,6 +24,9 @@ interface TableBodyProps {
 const TableBody = ({ controleProdutos, setControleProdutos, setFatores, setValor, fatoresDisplay, setFatoresDisplay, getIndex }: TableBodyProps) => {
 
     const { stringToFloat } = Converter
+
+    const [visiblity, setVisibility] = useState(true)
+    const [listLength, setListLength] = useState(0)
 
     let displayControl = Array(controleProdutos.length).fill(false)
 
@@ -77,6 +80,8 @@ const TableBody = ({ controleProdutos, setControleProdutos, setFatores, setValor
 
         // const indexToRemove = controleProdutos.indexOf(id)
         // const arrToRemove = controleProdutos.filter(produto => produto.id === id)
+        
+        if(listLength > 0) setListLength(prev => prev-1)
 
         setControleProdutos((prev) => {
             const updated = [...prev];
@@ -87,6 +92,18 @@ const TableBody = ({ controleProdutos, setControleProdutos, setFatores, setValor
 
             return updated
         })
+
+        // setTimeout(() => 
+        //     setControleProdutos((prev) => {
+        //         const updated = [...prev];
+
+        //         (updated.length > 1) 
+        //             ? updated.splice(index, 1)
+        //             : updated.splice(0, 1)
+
+        //         return updated
+        //     })
+        // , 350)
 
     }
 
@@ -111,11 +128,12 @@ const TableBody = ({ controleProdutos, setControleProdutos, setFatores, setValor
         mostrarFatores(index)
         return
 
-      } else {
-
-        return
-
       }
+    //    else {
+
+    //     return
+
+    //   }
 
     }
 
@@ -134,6 +152,18 @@ const TableBody = ({ controleProdutos, setControleProdutos, setFatores, setValor
         return Object.values(tabelas)
     }
 
+    const toggleVisibility = () => {
+
+        setVisibility(!visiblity)
+
+    }
+
+    // const handleListLength = () => {
+
+    //     if (listLength > 0) setListLength(prev => prev-1)
+
+    // }
+
     useEffect(() => {
 
         if (controleProdutos.length !== fatoresDisplay.length)
@@ -141,12 +171,22 @@ const TableBody = ({ controleProdutos, setControleProdutos, setFatores, setValor
 
     }, [controleProdutos, fatoresDisplay.length, setFatoresDisplay])
 
+    useEffect(() => {   
+
+        setListLength(controleProdutos.length)
+
+    }, [controleProdutos])
+
   return (
-    <div className='tbody'>
+    <div 
+        className='tbody' 
+        style={{height: `${listLength*55.2}px`}}
+    >
             {controleProdutos.map(({ id }, index) => 
                 <div  
-                    className='tr'
-                    onClick={() => console.log(getIndex(id), id)}
+                    className={`tr`}
+                    // onClick={() => toggleVisibility()}
+                    // onClick={() => handleListLength()}
                     key={(index*3.1415)}
                 >
                     {getTabelas(index).map((valor: string | number, index: number) => 

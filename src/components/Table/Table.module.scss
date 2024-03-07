@@ -14,9 +14,13 @@
     border: 2px solid #591c4a;
     border-radius: 2rem;
 
-    overflow: hidden;
-
     z-index: 2;
+    
+    &:last-of-type(div) {
+        
+        overflow: hidden;
+
+    }
 
 }
 

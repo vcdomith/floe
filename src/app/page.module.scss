@@ -7,16 +7,18 @@
 
     /* width: minmax(400px, 800px); */
     /* height: minmax(100vh, auto); */
-    height: auto;
+    height: max-content;
     /* min-height: 100vh; */
 
     gap: 4rem;
     
     margin: 4rem;
-    padding: 2rem;
+    padding: 4rem 2rem;
     border-radius: 2rem;
 
     background-color: #e8d4b0;
+
+    transition: all 400ms;
 
 }
 
@@ -222,6 +224,12 @@
     }
 
     .container_descricao {
+
+        width: 100%;
+
+    }
+
+    .table {
 
         width: 100%;
 

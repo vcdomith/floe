@@ -68,10 +68,15 @@
         align-items: center;
         max-height: 55.2px;
 
+        overflow: visible;
+
         animation: slideIn 450ms;
         animation: appear 600ms;
         transition: all 400ms ease;
 
+        &:not(span) {
+            animation: none;
+        }
         // padding: 0.5rem;
 
         &:nth-child(odd) .td {

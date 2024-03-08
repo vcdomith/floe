@@ -6,6 +6,7 @@ import { IProduto } from '@/interfaces/IProduto'
 import { Dispatch, MouseEvent, SetStateAction, TransitionEvent, useEffect, useState } from 'react'
 import Converter from '@/utils/typeConversion'
 import { get } from 'http'
+import { motion, AnimatePresence } from 'framer-motion'
 
 interface TableBodyProps {
 
@@ -96,15 +97,6 @@ const TableBody = ({ controleProdutos, setControleProdutos, setFatores, setValor
 
     }
 
-    const excluirLinhaSpring = (produto: IProduto) => {
-
-        setControleProdutos((prev) => {
-            const updated = prev.filter((p) => p !== produto);
-            return updated;
-        });
-
-    }
-
     const mostrarFatores = (index: number) => {
 
         setFatoresDisplay((prev) => {
@@ -127,12 +119,6 @@ const TableBody = ({ controleProdutos, setControleProdutos, setFatores, setValor
         return
 
       }
-    //    else {
-
-    //     return
-
-    //   }
-
     }
 
     const getTabelas = (index: number): number[] => {
@@ -150,40 +136,6 @@ const TableBody = ({ controleProdutos, setControleProdutos, setFatores, setValor
         return Object.values(tabelas)
     }
 
-    const getTabelasSpring = (produto: IProduto): number[] => {
-
-        const index = controleProdutos.indexOf(produto)
-
-        if (index === -1 || !controleProdutos[index]) {
-            // Handle the case where controleProdutos[index] doesn't exist
-            return [];
-        }
-
-        const {fatores, unitario} = controleProdutos[index]
-        const listaFatores = Object.values((fatores)).map(fator => stringToFloat(fator))
-
-        const valorNumerico = parseFloat(unitario.replace(/,/g, '.'))
-        const tabelas: IValores = {
-            unitario: valorNumerico,
-            tabela1: calcularTabela(valorNumerico, listaFatores),
-            tabela2: customRound(valorNumerico*1.5),
-            tabela3: customRound((calcularTabela(valorNumerico, listaFatores))*1.3)
-        }
-        return Object.values(tabelas)
-    }
-
-    const toggleVisibility = () => {
-
-        setVisibility(!visiblity)
-
-    }
-
-    // const handleListLength = () => {
-
-    //     if (listLength > 0) setListLength(prev => prev-1)
-
-    // }
-
     useEffect(() => {
 
         if (controleProdutos.length !== fatoresDisplay.length)
@@ -196,13 +148,18 @@ const TableBody = ({ controleProdutos, setControleProdutos, setFatores, setValor
         className='tbody' 
         style={{height: `${controleProdutos.length*55.2}px`}}
     >  
+        <AnimatePresence mode='sync'>
         {controleProdutos.map(({ id }, index) => 
-            <div  
+            <motion.div  
                 className={`tr`}
+                key={index}
+                onClick={() => console.log(id)}
 
-                // onClick={() => toggleVisibility()}
-                // onClick={() => handleListLength()}
-                key={(index*3.1415)}
+                initial={{ height: 0, opacity: 0 }}
+                animate={{ height: 55.2, opacity: 1 }}
+                exit={{ height: 0, opacity: 0 }}
+                transition={{ delayChildren: 0.5 }}
+                // transition={{ type: 'spring'}}-
             >
                 {getTabelas(index).map((valor: string | number, index: number) => 
                     <div 
@@ -262,8 +219,9 @@ const TableBody = ({ controleProdutos, setControleProdutos, setFatores, setValor
 
             </>
                 
-            </div>
+            </motion.div>
         )}
+        </AnimatePresence>
     </div>
   )
 }

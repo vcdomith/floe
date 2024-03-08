@@ -4,7 +4,6 @@ import { IValores } from '@/interfaces/IValores'
 import FatoresTable from '@/components/FatoresTable/FatoresTable'
 import { IProduto } from '@/interfaces/IProduto'
 import { Dispatch, MouseEvent, SetStateAction, TransitionEvent, useEffect, useState } from 'react'
-import { animated, useSpring, useTransition } from '@react-spring/web'
 import Converter from '@/utils/typeConversion'
 import { get } from 'http'
 
@@ -29,23 +28,6 @@ const TableBody = ({ controleProdutos, setControleProdutos, setFatores, setValor
 
     const [visiblity, setVisibility] = useState(true)
     const [listLength, setListLength] = useState(0)
-
-    const transitions = useTransition(
-        controleProdutos.map(({ id }, index) => ({ id, index })),
-        {
-          key: ({ id }) => id,
-          from: { opacity: 0, height: 0 },
-          enter: { opacity: 1, height: 'auto' },
-          leave: { opacity: 0, height: 0, x: 100, zIndex: -2 },
-          config: { tension: 220, friction: 20 } // Adjust as needed
-        }
-      );
-
-    // const transitions = useTransition(controleProdutos, {
-    //     from: { opacity: 0, x: -100 },
-    //     enter: { opacity: 1, x: 0 },
-    //     leave: { opacity: 0, x: 100 },
-    //   })
 
     let displayControl = Array(controleProdutos.length).fill(false)
 
@@ -162,7 +144,7 @@ const TableBody = ({ controleProdutos, setControleProdutos, setFatores, setValor
         const tabelas: IValores = {
             unitario: valorNumerico,
             tabela1: calcularTabela(valorNumerico, listaFatores),
-            tabela2: customRound(valorNumerico*1.5),
+            tabela2: valorNumerico*1.5,
             tabela3: customRound((calcularTabela(valorNumerico, listaFatores))*1.3)
         }
         return Object.values(tabelas)
@@ -214,102 +196,27 @@ const TableBody = ({ controleProdutos, setControleProdutos, setFatores, setValor
         className='tbody' 
         style={{height: `${controleProdutos.length*55.2}px`}}
     >  
-        {transitions((style, { id, index }) => (
-            <animated.div
-                style={style}
+        {controleProdutos.map(({ id }, index) => 
+            <div  
                 className={`tr`}
-                key={id}
-            >
 
+                // onClick={() => toggleVisibility()}
+                // onClick={() => handleListLength()}
+                key={(index*3.1415)}
+            >
                 {getTabelas(index).map((valor: string | number, index: number) => 
-                        <div 
-                            className='td'
-                            key={index}
-                        >{
-                            (typeof valor === 'number')
-                            ? valor.toLocaleString('pt-br', {minimumFractionDigits: 2, maximumFractionDigits: 4})
-                            : valor
-                        }
-                        </div>
-                    )}
-                    <>
-                    
-                    <svg 
-                        onClick={() => mostrarFatores(index)}
-                        width="25px" 
-                        height="25px" 
-                        viewBox="0 0 32 32" 
-                        xmlns="http://www.w3.org/2000/svg"
-                    >
-                            <path 
-                                d="M6.001 7.128L6 10.438l19.998-.005L26 7.124zM6.001 21.566L6 24.876l19.998-.006.002-3.308zM6.001 14.341L6 17.65l19.998-.004.002-3.309z"
-                            />
-                    </svg>
-                    
-                    <svg 
-                        onClick={() => excluirLinha(getIndex(id))}
-                        width="25px" 
-                        height="25px" 
-                        viewBox="0 0 32 32" 
-                        xmlns="http://www.w3.org/2000/svg"
-                    >
-                            <path 
-                                d="M7.004 23.087l7.08-7.081-7.07-7.071L8.929 7.02l7.067 7.069L23.084 7l1.912 1.913-7.089 7.093 7.075 7.077-1.912 1.913-7.074-7.073L8.917 25z"
-                            />
-                    </svg>
-                    <>
-                    <section 
-                        className='backdrop'
-                        hidden={!fatoresDisplay[index]}
-                        onClick={(e) => handleModalClick(index, e as any)}
-                    >    
-                    </section>
-                    <FatoresTable
-                        display={fatoresDisplay[index]}
-                        fatores={controleProdutos[index].fatores}
-                        setFatores={setFatores(getIndex(id))}
-                        valor={controleProdutos[index].unitario}
-                        setValor={setValor(getIndex(id))}
-                        handleSubmit={e => {
-                            e.preventDefault()
-                            mostrarFatores(index)
-                        }}
-                    />
-                    </>
-
-                    </>
-
-
-            </animated.div>
-        ))}
-        {/* {transitions((style, produto, b) => {
-
-            let index = controleProdutos.indexOf(produto)
-            if (index === -1 || !produto) return null // Checa para ver se existe o produto e indice
-            let id = produto.id
-
-            return (
-            <animated.div  
-            className={`tr`}
-            style={style}
-
-            // onClick={() => toggleVisibility()}
-            // onClick={() => handleListLength()}
-            key={(index*3.1415)}
-            >
-            {getTabelasSpring(produto).map((valor: string | number, index: number) => 
-                <div 
-                    className='td'
-                    key={index}
-                >{
-                    (typeof valor === 'number')
-                    ? valor.toLocaleString('pt-br', {minimumFractionDigits: 2, maximumFractionDigits: 4})
-                    : valor
-                }
-                </div>
-            )}
+                    <div 
+                        className='td'
+                        key={index}
+                    >{
+                        (typeof valor === 'number')
+                        ? valor.toLocaleString('pt-br', {minimumFractionDigits: 2, maximumFractionDigits: 4})
+                        : valor
+                    }
+                    </div>
+                )}
             <>
-
+            
             <svg 
                 onClick={() => mostrarFatores(index)}
                 width="25px" 
@@ -321,9 +228,9 @@ const TableBody = ({ controleProdutos, setControleProdutos, setFatores, setValor
                         d="M6.001 7.128L6 10.438l19.998-.005L26 7.124zM6.001 21.566L6 24.876l19.998-.006.002-3.308zM6.001 14.341L6 17.65l19.998-.004.002-3.309z"
                     />
             </svg>
-
+            
             <svg 
-                onClick={() => excluirLinhaSpring(produto)}
+                onClick={() => excluirLinha(getIndex(id))}
                 width="25px" 
                 height="25px" 
                 viewBox="0 0 32 32" 
@@ -354,78 +261,9 @@ const TableBody = ({ controleProdutos, setControleProdutos, setFatores, setValor
             </>
 
             </>
-
-            </animated.div>)}
-        
-        )}  */}
-            {/* {controleProdutos.map(({ id }, index) => 
-                <div  
-                    className={`tr`}
-
-                    // onClick={() => toggleVisibility()}
-                    // onClick={() => handleListLength()}
-                    key={(index*3.1415)}
-                >
-                    {getTabelas(index).map((valor: string | number, index: number) => 
-                        <div 
-                            className='td'
-                            key={index}
-                        >{
-                            (typeof valor === 'number')
-                            ? valor.toLocaleString('pt-br', {minimumFractionDigits: 2, maximumFractionDigits: 4})
-                            : valor
-                        }
-                        </div>
-                    )}
-                    <>
-                    
-                    <svg 
-                        onClick={() => mostrarFatores(index)}
-                        width="25px" 
-                        height="25px" 
-                        viewBox="0 0 32 32" 
-                        xmlns="http://www.w3.org/2000/svg"
-                    >
-                            <path 
-                                d="M6.001 7.128L6 10.438l19.998-.005L26 7.124zM6.001 21.566L6 24.876l19.998-.006.002-3.308zM6.001 14.341L6 17.65l19.998-.004.002-3.309z"
-                            />
-                    </svg>
-                    
-                    <svg 
-                        onClick={() => excluirLinha(getIndex(id))}
-                        width="25px" 
-                        height="25px" 
-                        viewBox="0 0 32 32" 
-                        xmlns="http://www.w3.org/2000/svg"
-                    >
-                            <path 
-                                d="M7.004 23.087l7.08-7.081-7.07-7.071L8.929 7.02l7.067 7.069L23.084 7l1.912 1.913-7.089 7.093 7.075 7.077-1.912 1.913-7.074-7.073L8.917 25z"
-                            />
-                    </svg>
-                    <>
-                    <section 
-                        className='backdrop'
-                        hidden={!fatoresDisplay[index]}
-                        onClick={(e) => handleModalClick(index, e as any)}
-                    >    
-                    </section>
-                    <FatoresTable
-                        display={fatoresDisplay[index]}
-                        fatores={controleProdutos[index].fatores}
-                        setFatores={setFatores(getIndex(id))}
-                        valor={controleProdutos[index].unitario}
-                        setValor={setValor(getIndex(id))}
-                        handleSubmit={e => {
-                            e.preventDefault()
-                            mostrarFatores(index)
-                        }}
-                    />
-                    </>
-
-                    </>
-                    
-                </div>
-            )} */}
+                
+            </div>
+        )}
     </div>
   )
 }

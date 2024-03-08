@@ -282,7 +282,7 @@ export default function Home() {
   useEffect(() => {
 
     if (fatoresDisplay.includes(true)) return
-
+    
     // setProdutosFiltrados([...controleProdutos])
     let displayProdutos = [...controleProdutos]
 

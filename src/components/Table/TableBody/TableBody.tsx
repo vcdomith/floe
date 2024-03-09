@@ -153,12 +153,12 @@ const TableBody = ({ controleProdutos, setControleProdutos, setFatores, setValor
         {controleProdutos.map(({ id }, index) => 
             <motion.div  
                 className={`tr`}
-                key={index}
+                key={id}
                 onClick={() => console.log(controleProdutos)}
 
                 initial={{ height: 0, opacity: 0 }}
                 animate={{ height: 55.2, opacity: 1 }}
-                exit={{ height: 0, opacity: 0, zIndex: -2 }}
+                exit={{ height: 0, opacity: 1, zIndex: -2 }}
                 transition={{ delayChildren: 0.5 }}
                 // transition={{ type: 'spring'}}
             >

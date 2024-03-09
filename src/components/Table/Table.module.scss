@@ -17,9 +17,20 @@
     z-index: 2;
     
     overflow: hidden;
+    // &:not(:last-of-type(div)) {
+        
+    //     overflow: visible;
+
+    // }
     // &:last-of-type(div) {
         
     //     overflow: hidden;
+
+    // }
+    // &:not(span) {
+
+    //     overflow: hidden;
+        
 
     // }
 

@@ -144,22 +144,23 @@ const TableBody = ({ controleProdutos, setControleProdutos, setFatores, setValor
     }, [controleProdutos, fatoresDisplay.length, setFatoresDisplay])
 
   return(
-    <div 
+      <AnimatePresence mode='sync'>
+    <motion.div 
         className='tbody' 
         style={{height: `${controleProdutos.length*55.2}px`}}
     >  
-        <AnimatePresence mode='sync'>
+        <AnimatePresence>
         {controleProdutos.map(({ id }, index) => 
             <motion.div  
                 className={`tr`}
-                key={id}
+                key={index}
                 onClick={() => console.log(controleProdutos)}
 
                 initial={{ height: 0, opacity: 0 }}
                 animate={{ height: 55.2, opacity: 1 }}
-                exit={{ height: 0, opacity: 0 }}
-                // transition={{ delayChildren: 0.5 }}
-                // transition={{ type: 'spring'}}-
+                exit={{ height: 0, opacity: 0, zIndex: -2 }}
+                transition={{ delayChildren: 0.5 }}
+                // transition={{ type: 'spring'}}
             >
                 {getTabelas(index).map((valor: string | number, index: number) => 
                     <div 
@@ -221,8 +222,10 @@ const TableBody = ({ controleProdutos, setControleProdutos, setFatores, setValor
                 
             </motion.div>
         )}
+                    
+                    </AnimatePresence>
+    </motion.div>
         </AnimatePresence>
-    </div>
   )
 }
 

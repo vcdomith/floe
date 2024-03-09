@@ -31,12 +31,12 @@ const TableBody = ({ controleProdutos, setControleProdutos, setFatores, setValor
     const [listLength, setListLength] = useState(0)
 
     const transitions = useTransition(
-        controleProdutos.map(({ id }, index) => ({ id, index })),
+        [...controleProdutos].map(({ id }, index) => ({ id, index })),
         {   
           key: ({ id }: { id: string }) => id,
           from: { opacity: 0, height: 0 },
           enter: { opacity: 1, height: 'auto' },
-          leave: { opacity: 0, height: 0, zIndex: -2 },
+          leave: { opacity: 0, height: 0, x: 100, zIndex: -2 },
           config: { tension: 220, friction: 20 } // Adjust as needed
         }
       );
@@ -329,7 +329,7 @@ const TableBody = ({ controleProdutos, setControleProdutos, setFatores, setValor
                     </>
                 </animated.div>
             );
-            })}
+        })}
         {/* {transitions((style, produto, b) => {
 
             let index = controleProdutos.indexOf(produto)

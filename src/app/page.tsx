@@ -52,14 +52,28 @@ export default function Home() {
   let displayRef = Array(controleProdutos.length).fill(false)
   const [fatoresDisplay, setFatoresDisplay] = useState<boolean[]>(displayRef)
 
+  const formatValor = (valor: string): string => {
+
+    if (stringToFloat(valor) % 1 !== 0) {
+      return valor
+    } else {
+      return valor.endsWith(',') ? valor + '0' : valor + ',0'
+    }
+
+  }
+
   const adicionarValor = (evento: FormEvent<HTMLFormElement>) => {
     evento.preventDefault()
 
+    console.log(stringToFloat(valor));
+    
     if (valor) {
+
+      const valorFormat = formatValor(valor)
 
       setControleProdutos([...controleProdutos, {
         fatores: fatores,
-        unitario: valor,
+        unitario: valorFormat,
         id: new Date().getTime()
       }])
   

@@ -6,12 +6,12 @@
         opacity: 1;
     }
 }
-@keyframes pop {
+@keyframes grow {
     0% {
-        transform: translateY(25%);
+        height: 0;
     }
     100% {
-        transform: translateY(0);
+        height: 352px;
     }
 }
 
@@ -30,7 +30,8 @@
     width: 450px;
     // max-width: 350px;
     
-    // animation: appear 400ms ease-in;
+    animation: appear 400ms;
+    // animation: grow 300ms;
 
     div {
 

@@ -96,15 +96,6 @@ const TableBody = ({ controleProdutos, setControleProdutos, setFatores, setValor
 
     }
 
-    const excluirLinhaSpring = (produto: IProduto) => {
-
-        setControleProdutos((prev) => {
-            const updated = prev.filter((p) => p !== produto);
-            return updated;
-        });
-
-    }
-
     const mostrarFatores = (index: number) => {
 
         setFatoresDisplay((prev) => {
@@ -114,8 +105,6 @@ const TableBody = ({ controleProdutos, setControleProdutos, setFatores, setValor
             return control
         
         })
-
-        // console.log(controleProdutos[index]);
 
     }
 
@@ -127,11 +116,6 @@ const TableBody = ({ controleProdutos, setControleProdutos, setFatores, setValor
         return
 
       }
-    //    else {
-
-    //     return
-
-    //   }
 
     }
 
@@ -150,39 +134,6 @@ const TableBody = ({ controleProdutos, setControleProdutos, setFatores, setValor
         return Object.values(tabelas)
     }
 
-    const getTabelasSpring = (produto: IProduto): number[] => {
-
-        const index = controleProdutos.indexOf(produto)
-
-        if (index === -1 || !controleProdutos[index]) {
-            // Handle the case where controleProdutos[index] doesn't exist
-            return [];
-        }
-
-        const {fatores, unitario} = controleProdutos[index]
-        const listaFatores = Object.values((fatores)).map(fator => stringToFloat(fator))
-
-        const valorNumerico = parseFloat(unitario.replace(/,/g, '.'))
-        const tabelas: IValores = {
-            unitario: valorNumerico,
-            tabela1: calcularTabela(valorNumerico, listaFatores),
-            tabela2: customRound(valorNumerico*1.5),
-            tabela3: customRound((calcularTabela(valorNumerico, listaFatores))*1.3)
-        }
-        return Object.values(tabelas)
-    }
-
-    const toggleVisibility = () => {
-
-        setVisibility(!visiblity)
-
-    }
-
-    // const handleListLength = () => {
-
-    //     if (listLength > 0) setListLength(prev => prev-1)
-
-    // }
 
     useEffect(() => {
 
@@ -194,7 +145,10 @@ const TableBody = ({ controleProdutos, setControleProdutos, setFatores, setValor
   return(
     <div 
         className='tbody' 
-        style={{height: `${controleProdutos.length*55.2}px`}}
+        style={{
+            height: `${controleProdutos.length*55.2}px`,
+            transition: `height ${400+(50*(controleProdutos.length))}ms ease-out`
+        }}
     >  
         {controleProdutos.map(({ id }, index) => 
             <div  
@@ -217,29 +171,33 @@ const TableBody = ({ controleProdutos, setControleProdutos, setFatores, setValor
                 )}
             <>
             
-            <svg 
-                onClick={() => mostrarFatores(index)}
-                width="25px" 
-                height="25px" 
-                viewBox="0 0 32 32" 
-                xmlns="http://www.w3.org/2000/svg"
-            >
-                    <path 
-                        d="M6.001 7.128L6 10.438l19.998-.005L26 7.124zM6.001 21.566L6 24.876l19.998-.006.002-3.308zM6.001 14.341L6 17.65l19.998-.004.002-3.309z"
-                    />
-            </svg>
+            <button>
+                <svg 
+                    onClick={() => mostrarFatores(index)}
+                    width="25px" 
+                    height="25px" 
+                    viewBox="0 0 32 32" 
+                    xmlns="http://www.w3.org/2000/svg"
+                >
+                        <path 
+                            d="M6.001 7.128L6 10.438l19.998-.005L26 7.124zM6.001 21.566L6 24.876l19.998-.006.002-3.308zM6.001 14.341L6 17.65l19.998-.004.002-3.309z"
+                        />
+                </svg>
+            </button>
             
-            <svg 
-                onClick={() => excluirLinha(getIndex(id))}
-                width="25px" 
-                height="25px" 
-                viewBox="0 0 32 32" 
-                xmlns="http://www.w3.org/2000/svg"
-            >
-                    <path 
-                        d="M7.004 23.087l7.08-7.081-7.07-7.071L8.929 7.02l7.067 7.069L23.084 7l1.912 1.913-7.089 7.093 7.075 7.077-1.912 1.913-7.074-7.073L8.917 25z"
-                    />
-            </svg>
+            <button>
+                <svg 
+                    onClick={() => excluirLinha(getIndex(id))}
+                    width="25px" 
+                    height="25px" 
+                    viewBox="0 0 32 32" 
+                    xmlns="http://www.w3.org/2000/svg"
+                >
+                        <path 
+                            d="M7.004 23.087l7.08-7.081-7.07-7.071L8.929 7.02l7.067 7.069L23.084 7l1.912 1.913-7.089 7.093 7.075 7.077-1.912 1.913-7.074-7.073L8.917 25z"
+                        />
+                </svg>
+            </button>
             <>
             <section 
                 className='backdrop'

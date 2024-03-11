@@ -43,7 +43,7 @@
     // height: max-content;
     // box-sizing: border-box;
 
-    transition: height 400ms;
+    // transition: height 400ms;
 
     .rowVisible {
         opacity: 1;
@@ -119,7 +119,7 @@
 
             }
 
-            & > svg {
+            & > button {
 
                 display: block;
                 opacity: 1;
@@ -144,23 +144,16 @@
 
         }
 
-        svg {
+        button {
 
             display: block;
             opacity: 0;
             position: absolute;
-            fill: #591c4a46;
-            border: 2px solid transparent;
 
-            border-radius: 0.25rem;
-            // padding: 0.25rem;
-
-            cursor: pointer;
-
-            transition: fill 400ms,
-                        opacity 200ms ease-out,
-                        border 400ms,
-                        box-shadow 400ms ease-out;
+            background: none;
+            border: none;
+            outline: none;
+            padding: 0;
 
             &:first-of-type{
 
@@ -173,22 +166,38 @@
                 right: 10px;
 
             }
-
-            &:hover {
-
-                fill: #591c4a;
-                background-color: #e8d4b0;
-                border: 2px solid #591c4a;
-                box-shadow: 3px 3px 10px 2px #591c4a44;
-
+            svg {
+    
+                fill: #591c4a46;
+                border: 2px solid transparent;
+    
+                border-radius: 0.25rem;
+                // padding: 0.25rem;
+    
+                cursor: pointer;
+    
+                transition: fill 400ms,
+                            opacity 200ms ease-out,
+                            border 400ms,
+                            box-shadow 400ms ease-out;
+    
+    
+                &:hover {
+    
+                    fill: #591c4a;
+                    background-color: #e8d4b0;
+                    border: 2px solid #591c4a;
+                    box-shadow: 3px 3px 10px 2px #591c4a44;
+    
+                }
+    
+                &:active {
+    
+                    background-color: #dac3a6;
+                    box-shadow: inset 2px 2px 5px 2px #591c4a44;
+                }
+    
             }
-
-            &:active {
-
-                background-color: #dac3a6;
-                box-shadow: inset 2px 2px 5px 2px #591c4a44;
-            }
-
         }
 
         .backdrop {

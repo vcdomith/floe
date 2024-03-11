@@ -25,7 +25,7 @@ interface TableProps{
 }
 
 
-const Table = ({ valores, size, controleProdutos, setControleProdutos, setFatores, setValor,fatoresDisplay, setFatoresDisplay, getIndex }: TableProps) => {
+const Table = ({ valores, size, controleProdutos, setControleProdutos, setFatores, setValor, fatoresDisplay, setFatoresDisplay, getIndex }: TableProps) => {
 
     interface Headers<T = string>{
         valores: [T, T, T, T],
@@ -58,7 +58,7 @@ const Table = ({ valores, size, controleProdutos, setControleProdutos, setFatore
     {controleProdutos.length > 0 ?
     <div 
       className={styles.table}
-      style={size}
+      style={{ overflow: `${fatoresDisplay.includes(true) ? 'visible' : 'hidden' }` }}
     >
         <TableHeader
           headers={tableHeaders.valores}

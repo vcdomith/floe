@@ -27,7 +27,7 @@ const NumberInput = ({ label, placeholder, valor, setValor, onBlur, ...props }: 
     .replace(/\,{2,}/g,',')
     .replace(/^0*([^0]\d*\,\d{1,4}).*/g, "$1");
 
-    // console.log(valorNumerico);
+    // console.log(valorNumerico.toLocaleString());
 
     (valorNumerico !== '')
       ? setValor(valorNumerico.toLocaleString()) 

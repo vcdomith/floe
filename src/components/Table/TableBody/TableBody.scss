@@ -202,6 +202,17 @@
 
         .backdrop {
 
+            @keyframes blur {
+                0%{
+                    backdrop-filter: blur(0px);
+                } 
+                100%{
+                    backdrop-filter: blur(2px);
+                }
+            }
+
+            backdrop-filter: blur(2px);
+
             position: fixed;
             top: 0;
             left: 0;
@@ -213,7 +224,11 @@
 
             z-index: 9;
 
-            transition: background-color 600ms ease-out;
+            transition: background-color 600ms ease-out
+                        // backdrop-filter 1200ms ease-out
+                        ;
+
+            // animation: blur 600ms;                        
 
             &:hover {
 

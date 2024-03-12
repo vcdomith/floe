@@ -71,7 +71,7 @@
         overflow: visible;
 
         animation: slideIn 450ms;
-        animation: appear 600ms;
+        animation: appear 600ms ease-out;
         transition: all 400ms ease;
 
         &:not(span) {
@@ -207,11 +207,11 @@
                     backdrop-filter: blur(0px);
                 } 
                 100%{
-                    backdrop-filter: blur(2px);
+                    backdrop-filter: blur(3px);
                 }
             }
 
-            backdrop-filter: blur(2px);
+            backdrop-filter: blur(3px);
 
             position: fixed;
             top: 0;
@@ -224,11 +224,9 @@
 
             z-index: 9;
 
-            transition: background-color 600ms ease-out
-                        // backdrop-filter 1200ms ease-out
-                        ;
+            transition: background-color 600ms ease-out;
 
-            // animation: blur 600ms;                        
+            animation: blur 1200ms ease-out;                        
 
             &:hover {
 

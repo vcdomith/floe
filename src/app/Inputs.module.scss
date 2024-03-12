@@ -1,11 +1,4 @@
-@keyframes appear {
-    0% {
-        opacity: 0;
-    }
-    100% {
-        opacity: 1;
-    }
-}
+@use './globalStyle.scss' as *;
 
 .form_container {
 
@@ -19,8 +12,7 @@
         
         display: flex;
         flex-direction: row;
-        background-color: #591c4a1a;
-        // border: 2px solid #591c4a;
+        background-color: transparentize($cor-primaria, 0.9);
         padding: 0.5rem;
         border-radius: 1rem;
 
@@ -38,12 +30,12 @@
                 font-weight: 600;
     
                 font-size: 1rem;
-                color: #591c4a;
-                background-color: #e8d4b0;
+                color: $cor-primaria;
+                background-color: $cor-secundaria;
                 // color: #e8d4b0;
                 // background-color: #591c4a;
                 // background: linear-gradient(100deg, #591c4a3f, #e8d4b0 75%);
-                border: 2px solid #591c4a;
+                border: 2px solid $cor-primaria;
                 border-bottom: 0;
     
                 width: fit-content;
@@ -58,7 +50,6 @@
     
             input {
     
-                
                 gap: 1rem;
 
                 max-width: 200px;
@@ -69,13 +60,13 @@
                 padding-left: 1rem;
     
                 outline: none;
-                background-color: #e8d4b0;
-                color: #591c4a;
+                background-color: $cor-secundaria;
+                color: $cor-primaria;
 
                 font-size: 1.2rem;
 
     
-                border: 2px solid #591c4a;
+                border: 2px solid $cor-primaria;
                 // border-radius: 1rem;
                 // border-top-left-radius: 0;
                 // border-top-right-radius: 0;
@@ -87,7 +78,8 @@
 
                     // padding-left: 1rem;
                     font-size: 1.2rem;
-                    color: #3b033153;
+                    // color: #3b033153;
+                    color: transparentize($cor-primaria, 0.5);
 
                 }
     
@@ -104,7 +96,7 @@
 
             svg {
     
-                fill: #591c4a;
+                fill: $cor-primaria;
                 width: clamp(50px, 50px, 50px);
                 height: clamp(50px, 50px, 50px);
                 
@@ -116,7 +108,7 @@
                 
                 &:active {
     
-                    fill: #e8d4b0;
+                    fill: $cor-secundaria;
                     // background-color: #591c4a;
     
                 }
@@ -161,7 +153,7 @@
     
             svg {
     
-                fill: #591c4a;
+                fill: $cor-primaria;
     
             }
     
@@ -180,7 +172,7 @@
         align-items: center;
         // gap: 1rem;
     
-        border: 2px solid #591c4a;
+        border: 2px solid $cor-primaria;
         border-radius: 1rem;
     
         padding: 0.5rem 0.5rem 0.5rem 0.75rem;
@@ -189,21 +181,22 @@
     
         &:focus-within {
     
-            border: 2px solid #591c4a;
-            // background-color: #e8d4b0;
-            box-shadow: 2px 2px 15px #591c4a39;
+            border: 2px solid $cor-primaria;
+            // box-shadow: 2px 2px 15px #591c4a39;
+            box-shadow: 2px 2px 15px transparentize($cor-primaria, 0.7);
     
         }
     
         &:has(.search:valid) {
     
-            background-color: #591c4a0b;
+            // background-color: #591c4a0b;
+            background-color: transparentize($cor-primaria, 0.5);
     
         }
     
         &:has(.search:invalid) {
     
-            background-color: #e8d4b0;
+            background-color: $cor-secundaria;
     
         }
     
@@ -217,7 +210,7 @@
         
             font-size: 1.2rem;
             font-weight: 500;
-            color: #591c4a;
+            color: $cor-primaria;
         
             width: 75px;
         
@@ -226,8 +219,7 @@
             &::placeholder {
         
                 font-size: 1.2rem;
-                // color: #591c4a60;
-                color: #591c4a91;
+                color: transparentize($cor-primaria, 0.6);
         
             }
     
@@ -235,7 +227,7 @@
     
         .lupa {
     
-            fill: #591c4a;
+            fill: $cor-primaria;
     
             path {
     
@@ -264,7 +256,7 @@
             
             path {
                 
-                fill: #591c4a;
+                fill: $cor-primaria;
                 transition: fill 300ms;
         
             }
@@ -273,7 +265,7 @@
     
                 path {
                 
-                    fill: #e8d4b0;
+                    fill: $cor-secundaria;
                 }
     
             }

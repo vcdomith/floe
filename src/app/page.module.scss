@@ -1,3 +1,4 @@
+@use './globalStyle.scss' as *;
 
 .section {
 
@@ -16,7 +17,7 @@
     padding: 4rem 2rem;
     border-radius: 2rem;
 
-    background-color: #e8d4b0;
+    background-color: $cor-secundaria;
 
     transition: all 400ms;
 
@@ -49,7 +50,7 @@
             display: flex;
             align-items: center;
             gap: 1rem;
-            color: #591c4a;
+            color: $cor-primaria;
             
             font-size: 1.5rem;
             
@@ -58,10 +59,11 @@
                 width: clamp(100px, 100px, 100px);
                 min-width: 100px;
                 max-width: 100px;
-                fill: #591c4a;
+                fill: $cor-primaria;
 
                 padding-right: 1rem;
-                border-right: 2px solid #591c4a61;
+                // border-right: 2px solid #591c4a61;
+                border-right: 2px solid transparentize($cor-primaria, 0.6);
             
             }
         
@@ -180,16 +182,16 @@
 .botao {
 
     outline: none;
-    border: 2px solid #591c4a;
+    border: 2px solid $cor-primaria;
     border-radius: 0.5rem;
 
     padding: 0 1rem;
 
-    background-color: #e8d4b0;
+    background-color: $cor-secundaria;
 
     font-size: 1.2rem;
     font-weight: 500;
-    color: #591c4a;
+    color: $cor-primaria;
 
     cursor: pointer;
 
@@ -197,8 +199,8 @@
 
     &:hover {
     
-        background-color: #591c4a;
-        color: #e8d4b0;
+        background-color: $cor-primaria;
+        color: $cor-secundaria;
     
     }
 }

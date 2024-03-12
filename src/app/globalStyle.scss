@@ -1,0 +1,28 @@
+$cor-primaria: #591c4a;
+$cor-secundaria: #e8d4b0;
+
+//Animations
+@keyframes appear {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+//Types
+// @font-face {
+//     font-family: 'Garamond';
+//     src: url('../fonts/EBGaramond-VariableFont_wght.ttf') format('ttf');
+//     /* Add more src lines for different file formats if needed */
+//     font-weight: normal; /* Adjust as per font file */
+//     font-style: normal; /* Adjust as per font file */
+// }
+// @font-face {
+//     font-family: 'Garamond';
+//     src: url('../fonts/EBGaramond-Italic-VariableFont_wght.ttf') format('ttf');
+//     /* Add more src lines for different file formats if needed */
+//     font-weight: normal; /* Adjust as per font file */
+//     font-style: italic; /* Adjust as per font file */
+// }

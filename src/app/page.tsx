@@ -13,6 +13,7 @@ import Converter from '@/utils/typeConversion'
 import './padrao.css'
 import page from './page.module.scss'
 import input from './Inputs.module.scss'
+import './globalStyle.scss'
 
 export default function Home() {
 
@@ -54,18 +55,23 @@ export default function Home() {
 
   const formatValor = (valor: string): string => {
 
-    if (stringToFloat(valor) % 1 !== 0) {
-      return valor
-    } else {
-      return valor.endsWith(',') ? valor + '0' : valor + ',0'
-    }
+    if (valor === ',') return '0,0'
+
+    const valorFloat = stringToFloat(valor)
+    const fracional = valorFloat % 1 !== 0
+    const leadingComma = valor.startsWith(',')
+    const trailingComma = valor.endsWith(',')
+
+    const valorFormatado = fracional
+      ? leadingComma ? '0' + valor : valor
+      : trailingComma ? valor + '0' : valor + ',0' 
+
+    return valorFormatado 
 
   }
 
   const adicionarValor = (evento: FormEvent<HTMLFormElement>) => {
     evento.preventDefault()
-
-    console.log(stringToFloat(valor));
     
     if (valor) {
 

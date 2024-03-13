@@ -1,6 +1,57 @@
 @use './globalStyle.scss' as *;
 
+@keyframes wave {
+    0% { filter: url('#wave0'); }
+    25% { filter: url('#wave1'); }
+    50% { filter: url('#wave2'); }
+    75% { filter: url('#wave3'); }
+    100% { filter: url('#wave4'); }
+}
+
+.bg {
+
+    // background-image: url('../../public/assets/png.monster-688.png');
+    // background-position: -10%;
+    // filter: invert(1);
+    // background:
+    // repeating-linear-gradient(
+    //   -45deg, 
+    //   transparent 2px, 
+    //   transparent 9px, 
+    //   $cor-secundaria 2px, 
+    //   $cor-secundaria 10px
+    // );
+    background:
+    repeating-linear-gradient(
+      -45deg, 
+      transparent, 
+      transparent .6%, 
+      transparentize($cor-secundaria, 0.5) .2%, 
+      transparentize($cor-secundaria, 0.5) .8%
+    );
+    // background-size: 20%;   
+    background-size: cover; 
+    opacity: .5;
+    // filter: url('#wave0');
+    filter: url('#waveFilter');
+
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    width: 100vmax;
+    height: 100vh;
+
+    z-index: -1;
+
+    overflow: hidden;
+
+    // animation: wave 1000ms linear infinite;
+}
+
 .section {
+
+    position: relative;
 
     display: flex;
     flex-direction: column;
@@ -54,6 +105,45 @@
             
             font-size: 1.5rem;
             
+            .logoHole {
+
+                position: absolute;
+                top: 50px;
+                left: 50px;
+                width: 100px;
+                height: 100px;
+                background: linear-gradient(45deg, #421236, #141414);
+               
+                .logoLine {
+                
+                    width: 100%;
+                    height: 100%;
+
+                    background:
+                    repeating-linear-gradient(
+                    -45deg, 
+                    transparent, 
+                    transparent 8%, 
+                    $cor-secundaria 5%, 
+                    $cor-secundaria 10%
+                    );
+                    // background-size: 20%;   
+                    // background-size: cover; 
+                    // opacity: .5;
+                    // filter: url('#wave0');
+                    filter: url('#waveFilter');
+    
+                    // position: fixed;
+                    // top: 0;
+                    // left: 0;
+    
+                    overflow: hidden;
+
+                }
+
+
+            }
+
             .logo {
             
                 width: clamp(100px, 100px, 100px);

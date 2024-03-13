@@ -217,87 +217,12 @@ export default function Home() {
 
   }
 
-  // const handleSort = (ascending = true) => {
-
-  //   const sortFn = (a: IProduto, b: IProduto) => {
-
-  //     const valorA = stringToFloat(a.unitario)
-  //     const valorB = stringToFloat(b.unitario)
-      
-  //     if (ascending) {
-  //       return valorA - valorB
-  //     } else {
-  //       return valorB - valorA
-  //     }
-
-  //   }
-
-  //   const sortLogic = () => {
-  //     setProdutosFiltrados(sorted)
-  //     // setSorted( (ascending) ? 'asceding' : 'descending' )
-  //   }
-
-  //   const sorted = produtosFiltrados.toSorted(sortFn);
-  //   (!(JSON.stringify(sorted) === JSON.stringify(produtosFiltrados)))
-  //   ? sortLogic()
-  //   : setProdutosFiltrados(controleProdutos)
-
-  // }
-
   // searchParams reset
   useEffect(() => {
 
     setSearchParam('')
 
   }, [valor])
-
-  // useEffect -> Lógica de Busca
-  // useEffect(() => {
-
-  //   const filtrarProdutos = () => {
-      
-  //     const filtrado = controleProdutos.filter( produto => produto.unitario.includes(searchParam) );
-
-  //     setProdutosFiltrados(filtrado)
-  //     // (filtrado.length > 0)
-  //     //   ? setProdutosFiltrados(filtrado)
-  //     //   : setSearchParam('')
-
-  //   }
-
-  //   const resetFilter = () => {
-  //     setProdutosFiltrados(controleProdutos)
-  //   }
-
-  //   (searchParam) 
-  //     ? (fatoresDisplay.includes(true) || filtrarProdutos())
-  //     : (fatoresDisplay.includes(true) || resetFilter())
-
-  // }, [searchParam, controleProdutos, fatoresDisplay])
-
-  // useEffect(() => {
-
-  //   const sortFn = (a: IProduto, b: IProduto) => {
-
-  //     const valorA = stringToFloat(a.unitario)
-  //     const valorB = stringToFloat(b.unitario)
-      
-  //     if (sorted === "ascending") {
-  //       return valorA - valorB
-  //     } else {
-  //       return valorB - valorA
-  //     }
-
-  //   }
-
-  //   if (!sorted) return 
-
-  //   const sortedProdutos = produtosFiltrados.toSorted(sortFn);
-  //   (!(JSON.stringify(sorted) === JSON.stringify(produtosFiltrados)))
-  //   ? setProdutosFiltrados(sortedProdutos)
-  //   : setProdutosFiltrados([...controleProdutos])
-
-  // }, [sorted])
 
   useEffect(() => {
 
@@ -321,27 +246,11 @@ export default function Home() {
   
       }
 
-      // const sortedProdutos = produtosFiltrados.toSorted(sortFn);
-      // (!(JSON.stringify(sorted) === JSON.stringify(produtosFiltrados)))
-      //   ? setProdutosFiltrados(sortedProdutos)
-      //   : setProdutosFiltrados([...controleProdutos])
       displayProdutos = displayProdutos.toSorted(sortFn)
 
     }
 
     if(searchParam) {
-
-      // const filtrarProdutos = () => {
-      
-      //   const filtrado = controleProdutos.filter( produto => produto.unitario.includes(searchParam) );
-  
-      //   setProdutosFiltrados(filtrado)
-  
-      // }
-
-      // (fatoresDisplay.includes(true) || filtrarProdutos())
-
-      // (fatoresDisplay.includes(true) || displayProdutos.filter(produto => produto.unitario.includes(searchParam)))
 
       const filtrarProdutos = () => {
 
@@ -358,6 +267,9 @@ export default function Home() {
   }, [controleProdutos, searchParam, sorted])
 
   return (
+    <>
+    <div className={page.bg}
+    ></div>
     <section className={page.section}>
       <Container>
         <div
@@ -367,7 +279,10 @@ export default function Home() {
             className={page.descricao}
             >
             <span className={page.span}>
-              <svg className={page.logo}
+              <div className={page.logoHole}>
+                <div className={page.logoLine}></div>
+              </div>
+              {/* <svg className={page.logo}
                 viewBox="0 0 24 24" 
                 xmlns="http://www.w3.org/2000/svg"
               >
@@ -380,7 +295,7 @@ export default function Home() {
                   <path d="M20.85,8.85a4,4,0,0,0-4.36,0,2,2,0,0,1-2.3,0A3.74,3.74,0,0,0,12,8.21a3.87,3.87,0,0,0-2.19.64,1.82,1.82,0,0,1-1.15.37,1.78,1.78,0,0,1-1.15-.37,3.78,3.78,0,0,0-2.18-.64,3.87,3.87,0,0,0-2.19.64A1.84,1.84,0,0,1,2,9.22v2a3.88,3.88,0,0,0,2.19-.65,1.75,1.75,0,0,1,1.15-.36,1.77,1.77,0,0,1,1.15.36,4,4,0,0,0,4.37,0A1.77,1.77,0,0,1,12,10.23a1.89,1.89,0,0,1,1.15.36,4,4,0,0,0,4.36,0,1.77,1.77,0,0,1,1.15-.36,1.89,1.89,0,0,1,1.15.36,3.82,3.82,0,0,0,2.18.65h0v-2A1.84,1.84,0,0,1,20.85,8.85Z"/>
                 </g>
                 <rect width="24" height="24" fill="none"/>
-              </svg>
+              </svg> */}
               <h2>TABELA DE PREÇOS</h2>
               {/* <p>
                 Bem vindo ao Data Flow, para calcular os preços das tabelas dos produtos você pode começar preenchendo esses espaços abaixo ou, se preferir, preencher diretamente os fatores ao lado! Depois que preencher todos os preços são calculados automáticamente! Experimente:
@@ -533,6 +448,86 @@ export default function Home() {
         />
         </div>
     </ section>
-
+    
+    {/* <WaveFilters /> */}
+    <OscilateFilter />
+    </>
   )
+}
+
+const WaveFilters = () => {
+
+  return (
+    <svg>
+      <defs>
+        <filter id='wave0'>
+          <feTurbulence id='turbulence' baseFrequency='0.002 0.03' numOctaves='100' seed='0' result='noise' />
+          <feDisplacementMap id='displacement' in='SourceGraphic' in2='noise' scale='1' />
+        </filter>
+        <filter id='wave1'>
+          <feTurbulence id='turbulence' baseFrequency='0.004' numOctaves='10' seed='1' />
+          <feDisplacementMap id='displacement' in='SourceGraphic' in2='noise' scale='5' />
+        </filter>
+        <filter id='wave2'>
+          <feTurbulence id='turbulence' baseFrequency='0.006' numOctaves='3' seed='2' />
+          <feDisplacementMap id='displacement' in='SourceGraphic' in2='noise' scale='10' />
+        </filter>
+        <filter id='wave3'>
+          <feTurbulence id='turbulence' baseFrequency='0.004' numOctaves='3' seed='3' />
+          <feDisplacementMap id='displacement' in='SourceGraphic' in2='noise' scale='5' />
+        </filter>
+        <filter id='wave4'>
+          <feTurbulence id='turbulence' baseFrequency='0.02' numOctaves='3' seed='4' />
+          <feDisplacementMap id='displacement' in='SourceGraphic' in2='noise' scale='1' />
+        </filter>
+      </defs>
+    </svg>
+  )
+
+}
+
+const OscilateFilter = () => {
+
+  const [scale, setScale] = useState(10)
+  const [channelOne, setChannelOne] = useState('R')
+  const [channelTwo, setChannelTwo] = useState('G')
+
+  const channels = ['R', 'G', 'B']
+
+  useEffect(() => {
+
+    const randomElement = channels[Math.floor(Math.random() * channels.length)];
+    const intervalId = setInterval(() => {
+
+      const newScale = Math.random()*100 
+
+      console.log(newScale);
+
+      setScale(newScale)
+      setChannelOne(channels[Math.floor(Math.random() * channels.length)])
+      setChannelTwo(channels[Math.floor(Math.random() * channels.length)])
+
+    }, 1000)
+
+    return () => clearInterval(intervalId)
+
+  }, [])
+
+  return (
+    <>
+    {/* <svg width="0" height="0">
+      <filter id="waveFilter">
+        <feTurbulence type="fractalNoise" baseFrequency="0.01" numOctaves="3" result="turbulence"/>
+        <feDisplacementMap in="SourceGraphic" in2="turbulence" scale="20" xChannelSelector="R" yChannelSelector="G"/>
+      </filter>
+    </svg> */}
+    <svg width="0" height="0">
+      <filter id="waveFilter">
+        <feTurbulence type="fractalNoise" baseFrequency="0.002" numOctaves="100" result="turbulence"/>
+        <feDisplacementMap in="SourceGraphic" in2="turbulence" scale={scale} xChannelSelector={channelOne} yChannelSelector={channelTwo}/>
+      </filter>
+    </svg>
+    </>
+  )
+
 }

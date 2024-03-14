@@ -1,10 +1,23 @@
+@keyframes bg-pan {
+    0% {
+        background-position: 0% top ;
+    }
+    100% {
+        background-position: -200% top ;
+    }
+}
+
 body {
     /* background-color: #141414; */
     background: linear-gradient(45deg, #421236, #141414);
+    /* background: linear-gradient(45deg, #421236, #141414, #421236); */
+    /* background-size: 200%; */
     /* background: linear-gradient(45deg, #e8d4b0, #a59981); */
     /* background-image: url('../../public/assets/png.monster-688.png');
     background-size: 10%; */
     caret-color: #591c4a;
+
+    /* animation: bg-pan 3s linear infinite; */
 }
 
 ::selection {

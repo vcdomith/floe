@@ -268,8 +268,8 @@ export default function Home() {
 
   return (
     <>
-    <div className={page.bg}
-    ></div>
+    <div className={page.bg}></div>
+
     <section className={page.section}>
       <Container>
         <div
@@ -281,6 +281,7 @@ export default function Home() {
             <span className={page.span}>
               <div className={page.logoHole}>
                 <div className={page.logoLine}></div>
+                {/* <ParallelLinesSVG width={100} height={100} lineCount={20} /> */}
               </div>
               {/* <svg className={page.logo}
                 viewBox="0 0 24 24" 
@@ -488,44 +489,67 @@ const WaveFilters = () => {
 
 const OscilateFilter = () => {
 
-  const [scale, setScale] = useState(10)
-  const [channelOne, setChannelOne] = useState('R')
-  const [channelTwo, setChannelTwo] = useState('G')
+  // const [freq, setFreq] = useState('0.002 0.02') 
 
-  const channels = ['R', 'G', 'B']
+  // useEffect(() => {
 
-  useEffect(() => {
+  //   const intervalId = setInterval(() => {
 
-    const randomElement = channels[Math.floor(Math.random() * channels.length)];
-    const intervalId = setInterval(() => {
+  //     setFreq(`${Math.random()/100} ${Math.random()/100}`)
 
-      const newScale = Math.random()*100 
+  //   }, 1000)
 
-      console.log(newScale);
+  //   return () => clearInterval(intervalId)
 
-      setScale(newScale)
-      setChannelOne(channels[Math.floor(Math.random() * channels.length)])
-      setChannelTwo(channels[Math.floor(Math.random() * channels.length)])
+  // }, [])
 
-    }, 1000)
+  const generateValues = (count: number, min: number, max: number) => {
+    const values = [];
+    for (let i = 0; i < count; i++) {
+      const randomValue = (Math.random() * (max - min)) + min;
+      values.push(randomValue.toFixed(3)); // Round to 3 decimal places
+    }
+    return values.join('; '); // Convert array to string separated by semicolons
+  };
 
-    return () => clearInterval(intervalId)
-
-  }, [])
+  // Generate values for the animation
+  const animationValues = generateValues(10, 0.003, 0.02); // Adjust count, min, and max as needed
+  console.log(animationValues);
 
   return (
     <>
+
     {/* <svg width="0" height="0">
       <filter id="waveFilter">
-        <feTurbulence type="fractalNoise" baseFrequency="0.01" numOctaves="3" result="turbulence"/>
-        <feDisplacementMap in="SourceGraphic" in2="turbulence" scale="20" xChannelSelector="R" yChannelSelector="G"/>
+        <feTurbulence type="turbulence" baseFrequency={freq} numOctaves="100" result="turbulence"/>
+        <feDisplacementMap in="SourceGraphic" in2="turbulence" scale={2} xChannelSelector={'R'} yChannelSelector={'R'}/>
       </filter>
     </svg> */}
-    <svg width="0" height="0">
-      <filter id="waveFilter">
-        <feTurbulence type="fractalNoise" baseFrequency="0.002" numOctaves="100" result="turbulence"/>
-        <feDisplacementMap in="SourceGraphic" in2="turbulence" scale={scale} xChannelSelector={channelOne} yChannelSelector={channelTwo}/>
+    <svg>
+      <filter id="wave">
+
+        <feTurbulence type="fractalNoise" baseFrequency="0.003" numOctaves="30" result="turbulence" seed={1}>
+        <animate
+          attributeName="baseFrequency"
+          dur="1s"
+          repeatCount="indefinite"
+          values={animationValues}
+          keyTimes="0; 0.5; 1"
+          keySplines="0.4 0 0.2 1; 0.4 0 0.2 1"
+        />
+        </ feTurbulence>  
+        <feDisplacementMap in="SourceGraphic" in2="turbulence" scale="10" xChannelSelector="R" yChannelSelector="G">
+          <animate attributeName="scale" dur="4s" repeatCount="indefinite" values="10; 20; 10" />
+        </feDisplacementMap>
+
       </filter>
+      {/* <filter id="wave1">
+
+        <feTurbulence type="fractalNoise" baseFrequency="0.01 0.02" numOctaves="30" result="turbulence"/>
+
+        <feDisplacementMap in="SourceGraphic" in2="turbulence" scale="10" xChannelSelector="R" yChannelSelector="G"/>
+
+      </filter> */}
     </svg>
     </>
   )

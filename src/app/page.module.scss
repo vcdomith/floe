@@ -1,4 +1,4 @@
-@use './globalStyle.scss' as *;
+@use './globalStyle.module.scss' as *;
 
 @keyframes wave {
     0% {
@@ -7,6 +7,28 @@
     100% {
         filter: url('#wave1');
     }
+}
+
+$steps: 11;
+
+$step-size: 100% /($steps + 1);
+
+@for $i from 1 through $steps {
+
+    $percentage: $step-size * $i;
+  
+    // Mix the two colors based on the percentage
+    $mixed-color: mix($cor-secundaria, $cor-primaria, $percentage);
+    // $mixed-color: mix($cor-primaria, $cor-secundaria, $percentage);
+  
+    // Assigning rules to specific elements
+    .background svg path:nth-child(#{$i}),
+    .logoHole svg path:nth-child(#{$i}) {
+    fill: darken(saturate($mixed-color, 10%), 5%);
+    // fill: $mixed-color;
+
+  }
+
 }
 
 .bg {
@@ -71,6 +93,9 @@
         path {
 
             transition: d 2s;
+
+            // fill: transparentize($cor-secundaria, 0.5);
+            // background: linear-gradient(180deg, $cor-secundaria, black);
 
         }
     }
@@ -150,11 +175,14 @@
             .logoHole {
 
                 position: absolute;
-                top: 50px;
-                left: 50px;
+                top: 3rem;
+                left: 2rem;
                 width: 100px;
                 height: 100px;
-                background: linear-gradient(45deg, #421236, #141414);
+                // background: linear-gradient(45deg, #421236, #141414);
+                background-color: $cor-secundaria;
+
+                border: 2px solid transparentize($cor-primaria, 0.8);
 
                 overflow: hidden;
 
@@ -165,7 +193,7 @@
 
                     path {
 
-                        transition: d 2s ;
+                        transition: d 2s;
 
                     }
                 }
@@ -225,10 +253,8 @@
         
             h2 {
         
-                // width: 30%;
                 width: fit-content;
-
-                // filter: url('#wave');
+                // margin: 0;
 
                 outline: 1px solid transparent;
         

@@ -1,7 +1,11 @@
-import { useEffect, useState } from "react"
+import React, { ReactNode, useEffect, useState } from "react"
 
+interface SvgArrayProps {
+    className: string
+    interval: number
+}
 
-const SvgArray = ({ className, interval }) => {
+const SvgArray = ({ className, interval }: SvgArrayProps) => {
 
 
     const svg0 = () => {
@@ -30,7 +34,7 @@ const SvgArray = ({ className, interval }) => {
         )
     }
 
-    const [svg, setSvg] = useState<(() => JSX.Element)>(svg0)
+    const [svg, setSvg] = useState<(() => React.JSX.Element)>(svg0)
     const [prevIndex, setPrevIndex] = useState(-1)
 
 
@@ -44,7 +48,6 @@ const SvgArray = ({ className, interval }) => {
             while (randomIndex === prevIndex) {
                 randomIndex = Math.floor(Math.random() * svgArray.length);
             }
-            console.log(randomIndex);
             setPrevIndex(randomIndex);
             setSvg(svgArray[randomIndex]);
 
@@ -58,12 +61,11 @@ const SvgArray = ({ className, interval }) => {
       
           return () => clearInterval(intervalId)
 
-
     }, [])
 
 
   return (
-    <div className={className}>
+    <div className={className} >
     {svg&& svg}
     </div>
   )

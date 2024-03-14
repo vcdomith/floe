@@ -10,13 +10,12 @@ import FatoresTable from '@/components/FatoresTable/FatoresTable'
 import { IProduto } from '@/interfaces/IProduto'
 import Converter from '@/utils/typeConversion'
 
-import svg from '../../public/assets/stacked-waves-haikei.svg'
-
 import './padrao.css'
 import page from './page.module.scss'
 import input from './Inputs.module.scss'
-import './globalStyle.scss'
+import vars from './globalStyle.module.scss'
 import SvgArray from '@/components/SvgArray/SvgArray'
+import interpolateColors from '@/utils/colorSteps'
 
 export default function Home() {
 
@@ -273,9 +272,9 @@ export default function Home() {
     <>
     {/* <div className={page.bg}></div> */}
     <SvgArray className={page.background} interval={1000}/>
-    <div className={page.backgroundOverlay}></div>
+    {/* <div className={page.backgroundOverlay}></div> */}
 
-    <section className={page.section}>
+    <section className={page.section} onClick={() => console.log(interpolateColors('#591c4a', '#e8d4b0', 7))}>
       <Container>
         <div
           className={page.container_descricao}

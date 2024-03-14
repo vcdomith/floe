@@ -32,7 +32,7 @@
     );
     background-size: 200%;   
     background-size: cover; 
-    opacity: .2;
+    opacity: .4;
     // filter: url('#wave0');
     // filter: url('#waveFilter');
     filter: url('#wave');
@@ -49,6 +49,46 @@
     overflow: hidden;
 
     // animation: wave 1s linear infinite;
+}
+
+.background {
+
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-size: contain;
+
+    width: 100vmax;
+    // width: 100vh;
+    // height: 100vh;
+
+    filter: url('#noise');
+
+    z-index: -1;
+
+    svg {
+
+        path {
+
+            transition: d 2s;
+
+        }
+    }
+
+}
+
+.backgroundOverlay {
+
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-size: contain;
+
+    width: 100vmax;
+    height: 100vh;
+
+    // backdrop-filter: blur(2px);
+
 }
 
 .section {
@@ -117,6 +157,18 @@
                 background: linear-gradient(45deg, #421236, #141414);
 
                 overflow: hidden;
+
+                svg {
+
+                    width: 100%;
+                    height: 100%;
+
+                    path {
+
+                        transition: d 2s ;
+
+                    }
+                }
                
                 .logoLine {
                     
@@ -176,7 +228,7 @@
                 // width: 30%;
                 width: fit-content;
 
-                filter: url('#wave');
+                // filter: url('#wave');
 
                 outline: 1px solid transparent;
         

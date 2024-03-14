@@ -10,10 +10,13 @@ import FatoresTable from '@/components/FatoresTable/FatoresTable'
 import { IProduto } from '@/interfaces/IProduto'
 import Converter from '@/utils/typeConversion'
 
+import svg from '../../public/assets/stacked-waves-haikei.svg'
+
 import './padrao.css'
 import page from './page.module.scss'
 import input from './Inputs.module.scss'
 import './globalStyle.scss'
+import SvgArray from '@/components/SvgArray/SvgArray'
 
 export default function Home() {
 
@@ -268,7 +271,9 @@ export default function Home() {
 
   return (
     <>
-    <div className={page.bg}></div>
+    {/* <div className={page.bg}></div> */}
+    <SvgArray className={page.background} interval={1000}/>
+    <div className={page.backgroundOverlay}></div>
 
     <section className={page.section}>
       <Container>
@@ -279,10 +284,11 @@ export default function Home() {
             className={page.descricao}
             >
             <span className={page.span}>
-              <div className={page.logoHole}>
+              <SvgArray className={page.logoHole} interval={1000}/>
+              {/* <div className={page.logoHole}>
                 <div className={page.logoLine}></div>
-                {/* <ParallelLinesSVG width={100} height={100} lineCount={20} /> */}
-              </div>
+
+              </div> */}
               {/* <svg className={page.logo}
                 viewBox="0 0 24 24" 
                 xmlns="http://www.w3.org/2000/svg"
@@ -489,32 +495,32 @@ const WaveFilters = () => {
 
 const OscilateFilter = () => {
 
-  // const [freq, setFreq] = useState('0.002 0.02') 
+  const [freq, setFreq] = useState('0.002 0.02') 
 
-  // useEffect(() => {
+  useEffect(() => {
 
-  //   const intervalId = setInterval(() => {
+    const intervalId = setInterval(() => {
 
-  //     setFreq(`${Math.random()/100} ${Math.random()/100}`)
+      setFreq(`${Math.random()/100} ${Math.random()/100}`)
 
-  //   }, 1000)
+    }, 1000)
 
-  //   return () => clearInterval(intervalId)
+    return () => clearInterval(intervalId)
 
-  // }, [])
+  }, [])
 
-  const generateValues = (count: number, min: number, max: number) => {
-    const values = [];
-    for (let i = 0; i < count; i++) {
-      const randomValue = (Math.random() * (max - min)) + min;
-      values.push(randomValue.toFixed(3)); // Round to 3 decimal places
-    }
-    return values.join('; '); // Convert array to string separated by semicolons
-  };
+  // const generateValues = (count: number, min: number, max: number) => {
+  //   const values = [];
+  //   for (let i = 0; i < count; i++) {
+  //     const randomValue = (Math.random() * (max - min)) + min;
+  //     values.push(randomValue.toFixed(3)); // Round to 3 decimal places
+  //   }
+  //   return values.join('; '); // Convert array to string separated by semicolons
+  // };
 
-  // Generate values for the animation
-  const animationValues = generateValues(10, 0.003, 0.02); // Adjust count, min, and max as needed
-  console.log(animationValues);
+  // // Generate values for the animation
+  // const animationValues = generateValues(10, 0.006, 0.01); // Adjust count, min, and max as needed
+  // console.log(animationValues);
 
   return (
     <>
@@ -528,20 +534,27 @@ const OscilateFilter = () => {
     <svg>
       <filter id="wave">
 
-        <feTurbulence type="fractalNoise" baseFrequency="0.003" numOctaves="30" result="turbulence" seed={1}>
-        <animate
+        <feTurbulence type="fractalNoise" baseFrequency={freq} numOctaves="30" result="turbulence" seed={1}>
+        {/* <animate
           attributeName="baseFrequency"
           dur="1s"
           repeatCount="indefinite"
           values={animationValues}
           keyTimes="0; 0.5; 1"
           keySplines="0.4 0 0.2 1; 0.4 0 0.2 1"
-        />
+        /> */}
         </ feTurbulence>  
         <feDisplacementMap in="SourceGraphic" in2="turbulence" scale="10" xChannelSelector="R" yChannelSelector="G">
-          <animate attributeName="scale" dur="4s" repeatCount="indefinite" values="10; 20; 10" />
+          {/* <animate attributeName="scale" dur="4s" repeatCount="indefinite" values="10; 20; 10" /> */}
         </feDisplacementMap>
 
+      </filter>
+      <filter id='noiseFilter'>
+        <feTurbulence 
+          type='fractalNoise' 
+          baseFrequency='0.002' 
+          numOctaves='3' 
+          stitchTiles='stitch' />
       </filter>
       {/* <filter id="wave1">
 

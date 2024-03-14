@@ -1,3 +1,4 @@
+@use '../../../app/globalStyle.module.scss' as *;
 
 .thead {
 
@@ -18,15 +19,18 @@
             text-align: center;
             font-size: 1.2rem;
             padding: 1rem;
-            border-bottom: 2px solid #591c4a;
+            border-bottom: 2px solid $cor-primaria;
             font-weight: 600;
+
+            background-color: $cor-secundaria;
+            color: $cor-primaria;
 
             z-index: 1;
             // box-sizing: border-box;
         
             &:not(:last-child) {
         
-                border-right: 2px solid #591c4a44;
+                border-right: 2px solid transparentize($cor-primaria, 0.8);
             
             }
         }

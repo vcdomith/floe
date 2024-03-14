@@ -1,3 +1,6 @@
+@use '../../app/globalStyle.module.scss' as *;
+
+
 .table {
 
     display: flex;
@@ -11,7 +14,7 @@
 
     color: #591c4a;
 
-    border: 2px solid #591c4a;
+    border: 2px solid $cor-primaria;
     border-radius: 2rem;
 
     z-index: 2;
@@ -42,7 +45,7 @@
     justify-content: center;
     align-items: center;
 
-    border: 2px dashed #591c4a;
+    border: 2px dashed $cor-primaria;
     border-radius: 2rem;
     width: 100%;
     height: 20vh;
@@ -52,7 +55,7 @@
     p {
     
         font-size: 1.5rem;
-        color: #591c4a;
+        color: $cor-primaria;
     
     }
 }

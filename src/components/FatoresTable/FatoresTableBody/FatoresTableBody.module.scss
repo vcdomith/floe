@@ -1,3 +1,4 @@
+@use '../../../app/globalStyle.module.scss' as *;
 
 .container {
 
@@ -9,13 +10,13 @@
 
         &:nth-child(odd) {
 
-            background-color: #e8d4b0;
+            background-color: $cor-secundaria;
 
 
         }
         &:nth-child(even) {
 
-            background-color: #dac3a6;
+            background-color: $cor-mix;
 
         }
 

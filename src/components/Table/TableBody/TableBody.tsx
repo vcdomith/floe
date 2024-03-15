@@ -212,7 +212,7 @@ const TableBody = ({ controleProdutos, setControleProdutos, setFatores, setValor
                 display={fatoresDisplay[index]}
                 fatores={control[getIndex(id)].fatores}
                 setFatores={setFatores(getIndex(id))}
-                valor={control[getIndex(id)].unitario}
+                valor={controleProdutos[index].unitario}
                 setValor={setValor(getIndex(id))}
                 handleSubmit={e => {
                     e.preventDefault()

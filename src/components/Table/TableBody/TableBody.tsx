@@ -270,7 +270,13 @@ const TableBody = ({ controleProdutos, setControleProdutos, setFatores, setValor
             </div>
         )
         
-        : <div >Nenhum dado correponde à pesquisa!</div>
+        : 
+        <div>
+            <span>
+                {/* svg placeholder - search not found */}
+                <p>Nenhum dado correponde à pesquisa!</p>
+            </span>
+        </div>
 
     }
     </div>

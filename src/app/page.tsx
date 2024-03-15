@@ -10,7 +10,7 @@ import FatoresTable from '@/components/FatoresTable/FatoresTable'
 import { IProduto } from '@/interfaces/IProduto'
 import Converter from '@/utils/typeConversion'
 
-import './padrao.css'
+import './padrao.scss'
 import page from './page.module.scss'
 import input from './Inputs.module.scss'
 import vars from './globalStyle.module.scss'

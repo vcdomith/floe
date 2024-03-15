@@ -34,7 +34,7 @@ const SvgArray = ({ className, interval }: SvgArrayProps) => {
         )
     }
 
-    const [svg, setSvg] = useState<(() => React.JSX.Element)>(svg0)
+    const [svg, setSvg] = useState<(() => ReactNode)>(svg0)
     const [prevIndex, setPrevIndex] = useState(-1)
 
 
@@ -66,7 +66,7 @@ const SvgArray = ({ className, interval }: SvgArrayProps) => {
 
   return (
     <div className={className} >
-    {svg&& svg}
+    {svg}
     </div>
   )
 }

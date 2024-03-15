@@ -170,7 +170,6 @@ const TableBody = ({ controleProdutos, setControleProdutos, setFatores, setValor
         // setProdutosFiltrados(displayProdutos)
 
         produtosFiltrados.current = displayProdutos
-        console.log(produtosFiltrados);
         return displayProdutos
 
     }

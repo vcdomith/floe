@@ -188,21 +188,20 @@ const TableBody = ({ controleProdutos, setControleProdutos, setFatores, setValor
     }, [controleProdutos, fatoresDisplay.length, setFatoresDisplay])
 
   return(
+    
     <div 
         className='tbody' 
         style={{
-            height: `${aplicarFiltros(controleProdutos).length*55.2}px`,
+            height: `${aplicarFiltros(controleProdutos).length > 0 ? aplicarFiltros(controleProdutos).length*55.2 : 100}px`,
             transition: `height ${400+(50*(aplicarFiltros(controleProdutos).length))}ms ease-out`
         }}
     >  
-        {aplicarFiltros(controleProdutos).map(({ id }, index) => 
+        {(aplicarFiltros(controleProdutos).length > 0) 
+        ?
+        aplicarFiltros(controleProdutos).map(({ id }, index) => 
+        
             <div  
                 className={`tr`}
-
-                // onClick={() => toggleVisibility()}
-                // onClick={() => handleListLength()}
-                // onClick={() => console.log(control[control.findIndex(produto => produto.id === id)], index)}
-                // onClick={() => console.log(controleProdutos.filter(p => p.unitario.includes(searchParam)))}
                 onClick={() => console.log(aplicarFiltros(controleProdutos))}
                 key={(index*3.1415)}
             >
@@ -269,7 +268,10 @@ const TableBody = ({ controleProdutos, setControleProdutos, setFatores, setValor
             </>
                 
             </div>
-        )}
+        )
+        
+        : <div >Nenhum dado correponde à pesquisa!</div>
+    }
     </div>
   )
 }

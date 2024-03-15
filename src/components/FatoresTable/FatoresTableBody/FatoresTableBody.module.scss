@@ -69,10 +69,11 @@
             
             padding-left: 1rem;
             // border-bottom: 2px solid transparent;
-            border-right: 1px solid #591c4a44;
+            // border-right: 1px solid #591c4a44;
+            border-right: 1px solid $cor-primaria-transparent;
 
             font-size: 1.2rem;
-            color: #591c4a;
+            color: $cor-primaria;
 
         }
 
@@ -114,14 +115,15 @@
                 // // min-width: fit-content;
                 height: 50px;
                 background: none;
-                color: #591c4a;
+                color: $cor-primaria;
                 font-size: 1.5rem;
                 padding: 0;
                 padding-left: 1rem;
 
                 outline: none;
                 border: none;
-                border-left: 1px solid #591c4a44;
+                // border-left: 1px solid #591c4a44;
+                border-left: 1px solid $cor-primaria-transparent;
                 border-right: 5px solid transparent;
                 
                 transition: border-right 400ms ease-out;
@@ -135,7 +137,8 @@
                 &::placeholder {
 
                     font-size: 1.2rem;
-                    color: #3b033153;
+                    // color: #3b033153;
+                    color: transparentize($cor-primaria, 0.7);
                 
                 }
 
@@ -143,14 +146,15 @@
 
                     // background: linear-gradient(to right, #edddbe, #ffffff00 75%);
                     // background-color: #591c4a74;
-                    border-right: 15px solid #591c4a5d;
+                    // border-right: 15px solid #591c4a5d;
+                    border-right: 15px solid $cor-primaria-transparent;
                     
                 }
 
                 &:disabled {
                     
                     // background-color: #4b39460f;
-                    border-right: 5px solid #591c4a;
+                    border-right: 5px solid $cor-primaria;
                 
                     // &:hover {
 
@@ -193,7 +197,8 @@
                 
                 path {
                     
-                    stroke: #591c4a46;
+                    // stroke: #591c4a46;
+                    stroke: $cor-primaria-transparent;
                     transition: stroke 400ms;
 
                 }
@@ -202,20 +207,22 @@
 
                     path {
 
-                        stroke: #591c4a;
+                        stroke: $cor-primaria;
 
                     }
                     
-                    background-color: #e8d4b0;
-                    border: 2px solid #591c4a;
-                    box-shadow: 3px 3px 10px 2px #591c4a44;
+                    background-color: $cor-secundaria;
+                    border: 2px solid $cor-primaria;
+                    // box-shadow: 3px 3px 10px 2px #591c4a44;
+                    box-shadow: 3px 3px 10px 2px $cor-primaria-transparent;
 
                 }
 
                 &:active {
 
-                    background-color: #dac3a6;
-                    box-shadow: inset 2px 2px 5px 2px #591c4a44;
+                    background-color: $cor-mix;
+                    // box-shadow: inset 2px 2px 5px 2px #591c4a44;
+                    box-shadow: inset 2px 2px 5px 2px $cor-primaria-transparent;
                 }
             }
         

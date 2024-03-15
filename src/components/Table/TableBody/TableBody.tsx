@@ -20,9 +20,11 @@ interface TableBodyProps {
     setFatoresDisplay: Dispatch<SetStateAction<boolean[]>>
 
     getIndex: (id: number) => number
+
+    control: IProduto[]
 }
 
-const TableBody = ({ controleProdutos, setControleProdutos, setFatores, setValor, fatoresDisplay, setFatoresDisplay, getIndex }: TableBodyProps) => {
+const TableBody = ({ controleProdutos, setControleProdutos, setFatores, setValor, fatoresDisplay, setFatoresDisplay, getIndex, control }: TableBodyProps) => {
 
     const { stringToFloat } = Converter
 
@@ -156,6 +158,7 @@ const TableBody = ({ controleProdutos, setControleProdutos, setFatores, setValor
 
                 // onClick={() => toggleVisibility()}
                 // onClick={() => handleListLength()}
+                onClick={() => console.log(control[control.findIndex(produto => produto.id === id)], index)}
                 key={(index*3.1415)}
             >
                 {getTabelas(index).map((valor: string | number, index: number) => 
@@ -207,9 +210,9 @@ const TableBody = ({ controleProdutos, setControleProdutos, setFatores, setValor
             </section>
             <FatoresTable
                 display={fatoresDisplay[index]}
-                fatores={controleProdutos[index].fatores}
+                fatores={control[getIndex(id)].fatores}
                 setFatores={setFatores(getIndex(id))}
-                valor={controleProdutos[index].unitario}
+                valor={control[getIndex(id)].unitario}
                 setValor={setValor(getIndex(id))}
                 handleSubmit={e => {
                     e.preventDefault()

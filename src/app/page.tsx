@@ -425,14 +425,14 @@ export default function Home() {
         }
         <Table 
           valores={valores} 
-          controleProdutos={produtosFiltrados}
+          controleProdutos={controleProdutos}
+          filtros={{ searchParam: searchParam, sorted: sorted }}
           setControleProdutos={setControleProdutos}
           setFatores={updateFatoresProduto}
           setValor={updateValorProduto}
           fatoresDisplay={fatoresDisplay}
           setFatoresDisplay={setFatoresDisplay}
           getIndex={getControleProdutoIndex}
-          control={controleProdutos}
         />
         </div>
     </ section>

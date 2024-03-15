@@ -17,17 +17,16 @@ interface TableProps{
 
     controleProdutos: IProduto[]
     setControleProdutos: (fator: (arr:IProduto[]) => IProduto[]) => void
+    filtros: { searchParam: string, sorted: false | "ascending" | "descending" }
 
     fatoresDisplay: boolean[]
     setFatoresDisplay: Dispatch<SetStateAction<boolean[]>>
 
     getIndex: (id: number) => number
-
-    control: IProduto[]
 }
 
 
-const Table = ({ valores, size, controleProdutos, setControleProdutos, setFatores, setValor, fatoresDisplay, setFatoresDisplay, getIndex, control }: TableProps) => {
+const Table = ({ valores, size, controleProdutos, setControleProdutos, setFatores, setValor, fatoresDisplay, setFatoresDisplay, getIndex, filtros }: TableProps) => {
 
     interface Headers<T = string>{
         valores: [T, T, T, T],
@@ -68,12 +67,12 @@ const Table = ({ valores, size, controleProdutos, setControleProdutos, setFatore
         <TableBody  
           controleProdutos={controleProdutos}
           setControleProdutos={setControleProdutos}
+          filtros={filtros}
           setFatores={setFatores}
           setValor={setValor}
           fatoresDisplay={fatoresDisplay}
           setFatoresDisplay={setFatoresDisplay}
           getIndex={getIndex}
-          control={control}
         />
     </div>
     : <div

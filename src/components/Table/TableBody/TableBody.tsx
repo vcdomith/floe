@@ -11,6 +11,7 @@ interface TableBodyProps {
 
     controleProdutos: IProduto[]
     setControleProdutos: (fator: (arr:IProduto[]) => IProduto[]) => void
+    filtros: { searchParam: string, sorted: false | "ascending" | "descending" }
 
     setFatores: (index: number) => (id: string, valor: string) => void
 
@@ -21,15 +22,16 @@ interface TableBodyProps {
 
     getIndex: (id: number) => number
 
-    control: IProduto[]
 }
 
-const TableBody = ({ controleProdutos, setControleProdutos, setFatores, setValor, fatoresDisplay, setFatoresDisplay, getIndex, control }: TableBodyProps) => {
+const TableBody = ({ controleProdutos, setControleProdutos, setFatores, setValor, fatoresDisplay, setFatoresDisplay, getIndex, filtros }: TableBodyProps) => {
 
     const { stringToFloat } = Converter
 
     const [visiblity, setVisibility] = useState(true)
     const [listLength, setListLength] = useState(0)
+
+    const { searchParam, sorted } = filtros
 
     let displayControl = Array(controleProdutos.length).fill(false)
 
@@ -136,6 +138,47 @@ const TableBody = ({ controleProdutos, setControleProdutos, setFatores, setValor
         return Object.values(tabelas)
     }
 
+    const aplicarFiltros = (produtos: IProduto[]) => {
+
+        
+        // setProdutosFiltrados([...controleProdutos])
+        let displayProdutos = [...produtos]
+        if (displayControl.includes(true)) return displayProdutos
+
+        if(sorted) {
+
+        const sortFn = (a: IProduto, b: IProduto) => {
+
+            const valorA = stringToFloat(a.unitario)
+            const valorB = stringToFloat(b.unitario)
+            
+            if (sorted === "ascending") {
+            return valorA - valorB
+            } else {
+            return valorB - valorA
+            }
+    
+        }
+
+            displayProdutos = displayProdutos.toSorted(sortFn)
+
+        }
+
+        if(searchParam) {
+
+        const filtrarProdutos = () => {
+
+            displayProdutos = displayProdutos.filter(produto => produto.unitario.includes(searchParam))
+
+        }
+
+        filtrarProdutos()
+
+        }
+
+        return displayProdutos
+
+    }
 
     useEffect(() => {
 
@@ -148,20 +191,22 @@ const TableBody = ({ controleProdutos, setControleProdutos, setFatores, setValor
     <div 
         className='tbody' 
         style={{
-            height: `${controleProdutos.length*55.2}px`,
-            transition: `height ${400+(50*(controleProdutos.length))}ms ease-out`
+            height: `${aplicarFiltros(controleProdutos).length*55.2}px`,
+            transition: `height ${400+(50*(aplicarFiltros(controleProdutos).length))}ms ease-out`
         }}
     >  
-        {controleProdutos.map(({ id }, index) => 
+        {aplicarFiltros(controleProdutos).map(({ id }, index) => 
             <div  
                 className={`tr`}
 
                 // onClick={() => toggleVisibility()}
                 // onClick={() => handleListLength()}
-                onClick={() => console.log(control[control.findIndex(produto => produto.id === id)], index)}
+                // onClick={() => console.log(control[control.findIndex(produto => produto.id === id)], index)}
+                // onClick={() => console.log(controleProdutos.filter(p => p.unitario.includes(searchParam)))}
+                onClick={() => console.log(aplicarFiltros(controleProdutos))}
                 key={(index*3.1415)}
             >
-                {getTabelas(index).map((valor: string | number, index: number) => 
+                {getTabelas(getIndex(id)).map((valor: string | number, index: number) => 
                     <div 
                         className='td'
                         key={index}
@@ -210,7 +255,7 @@ const TableBody = ({ controleProdutos, setControleProdutos, setFatores, setValor
             </section>
             <FatoresTable
                 display={fatoresDisplay[index]}
-                fatores={control[getIndex(id)].fatores}
+                fatores={controleProdutos[getIndex(id)].fatores}
                 setFatores={setFatores(getIndex(id))}
                 valor={controleProdutos[index].unitario}
                 setValor={setValor(getIndex(id))}

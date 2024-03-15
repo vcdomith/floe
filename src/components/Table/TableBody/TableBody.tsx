@@ -3,7 +3,7 @@ import './TableBody.scss'
 import { IValores } from '@/interfaces/IValores'
 import FatoresTable from '@/components/FatoresTable/FatoresTable'
 import { IProduto } from '@/interfaces/IProduto'
-import { Dispatch, MouseEvent, SetStateAction, TransitionEvent, useEffect, useState } from 'react'
+import { Dispatch, MouseEvent, SetStateAction, TransitionEvent, use, useEffect, useRef, useState } from 'react'
 import Converter from '@/utils/typeConversion'
 import { get } from 'http'
 
@@ -26,10 +26,9 @@ interface TableBodyProps {
 
 const TableBody = ({ controleProdutos, setControleProdutos, setFatores, setValor, fatoresDisplay, setFatoresDisplay, getIndex, filtros }: TableBodyProps) => {
 
-    const { stringToFloat } = Converter
+    const produtosFiltrados = useRef<IProduto[] | null>(null)
 
-    const [visiblity, setVisibility] = useState(true)
-    const [listLength, setListLength] = useState(0)
+    const { stringToFloat } = Converter
 
     const { searchParam, sorted } = filtros
 
@@ -80,13 +79,6 @@ const TableBody = ({ controleProdutos, setControleProdutos, setFatores, setValor
     }
 
     const excluirLinha = (index: number) => {
-
-        // setValores((valores).filter((valor, id) => index !== id))
-
-        // const indexToRemove = controleProdutos.indexOf(id)
-        // const arrToRemove = controleProdutos.filter(produto => produto.id === id)
-        
-        // if(listLength > 0) setListLength(prev => prev-1)
 
         setControleProdutos((prev) => {
             const updated = [...prev];
@@ -141,9 +133,8 @@ const TableBody = ({ controleProdutos, setControleProdutos, setFatores, setValor
     const aplicarFiltros = (produtos: IProduto[]) => {
 
         
-        // setProdutosFiltrados([...controleProdutos])
         let displayProdutos = [...produtos]
-        if (displayControl.includes(true)) return displayProdutos
+        if(produtoAtivo && produtosFiltrados.current !== null) return produtosFiltrados.current
 
         if(sorted) {
 
@@ -176,15 +167,22 @@ const TableBody = ({ controleProdutos, setControleProdutos, setFatores, setValor
 
         }
 
+        // setProdutosFiltrados(displayProdutos)
+
+        produtosFiltrados.current = displayProdutos
+        console.log(produtosFiltrados);
         return displayProdutos
 
     }
+
+    const produtoAtivo = fatoresDisplay.includes(true)
 
     useEffect(() => {
 
         if (controleProdutos.length !== fatoresDisplay.length)
             setFatoresDisplay(Array(controleProdutos.length).fill(false))
 
+            
     }, [controleProdutos, fatoresDisplay.length, setFatoresDisplay])
 
   return(
@@ -197,12 +195,15 @@ const TableBody = ({ controleProdutos, setControleProdutos, setFatores, setValor
         }}
     >  
         {(aplicarFiltros(controleProdutos).length > 0) 
+
         ?
         aplicarFiltros(controleProdutos).map(({ id }, index) => 
         
             <div  
                 className={`tr`}
-                onClick={() => console.log(aplicarFiltros(controleProdutos))}
+                // onClick={() => console.log(aplicarFiltros(controleProdutos))}
+                // onClick={() => console.log(fatoresDisplay.includes(true))}
+                onClick={() => console.log(produtosFiltrados)}
                 key={(index*3.1415)}
             >
                 {getTabelas(getIndex(id)).map((valor: string | number, index: number) => 
@@ -256,7 +257,7 @@ const TableBody = ({ controleProdutos, setControleProdutos, setFatores, setValor
                 display={fatoresDisplay[index]}
                 fatores={controleProdutos[getIndex(id)].fatores}
                 setFatores={setFatores(getIndex(id))}
-                valor={controleProdutos[index].unitario}
+                valor={controleProdutos[getIndex(id)].unitario}
                 setValor={setValor(getIndex(id))}
                 handleSubmit={e => {
                     e.preventDefault()
@@ -271,6 +272,7 @@ const TableBody = ({ controleProdutos, setControleProdutos, setFatores, setValor
         )
         
         : <div >Nenhum dado correponde à pesquisa!</div>
+
     }
     </div>
   )

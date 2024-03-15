@@ -226,47 +226,47 @@ export default function Home() {
 
   }, [valor])
 
-  useEffect(() => {
+  // useEffect(() => {
 
-    if (fatoresDisplay.includes(true)) return
+  //   if (fatoresDisplay.includes(true)) return
 
-    // setProdutosFiltrados([...controleProdutos])
-    let displayProdutos = [...controleProdutos]
+  //   // setProdutosFiltrados([...controleProdutos])
+  //   let displayProdutos = [...controleProdutos]
 
-    if(sorted) {
+  //   if(sorted) {
 
-      const sortFn = (a: IProduto, b: IProduto) => {
+  //     const sortFn = (a: IProduto, b: IProduto) => {
 
-        const valorA = stringToFloat(a.unitario)
-        const valorB = stringToFloat(b.unitario)
+  //       const valorA = stringToFloat(a.unitario)
+  //       const valorB = stringToFloat(b.unitario)
         
-        if (sorted === "ascending") {
-          return valorA - valorB
-        } else {
-          return valorB - valorA
-        }
+  //       if (sorted === "ascending") {
+  //         return valorA - valorB
+  //       } else {
+  //         return valorB - valorA
+  //       }
   
-      }
+  //     }
 
-      displayProdutos = displayProdutos.toSorted(sortFn)
+  //     displayProdutos = displayProdutos.toSorted(sortFn)
 
-    }
+  //   }
 
-    if(searchParam) {
+  //   if(searchParam) {
 
-      const filtrarProdutos = () => {
+  //     const filtrarProdutos = () => {
 
-        displayProdutos = displayProdutos.filter(produto => produto.unitario.includes(searchParam))
+  //       displayProdutos = displayProdutos.filter(produto => produto.unitario.includes(searchParam))
 
-      }
+  //     }
 
-      filtrarProdutos()
+  //     filtrarProdutos()
 
-    }
+  //   }
 
-    setProdutosFiltrados(displayProdutos)
+  //   setProdutosFiltrados(displayProdutos)
 
-  }, [controleProdutos, searchParam, sorted])
+  // }, [controleProdutos, searchParam, sorted])
 
   return (
     <>

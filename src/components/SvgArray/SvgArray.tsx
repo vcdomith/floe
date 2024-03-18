@@ -48,7 +48,7 @@ const SvgArray = ({ className, interval }: SvgArrayProps) => {
             while (randomIndex === prevIndex) {
                 randomIndex = Math.floor(Math.random() * svgArray.length);
             }
-            setPrevIndex(randomIndex);
+            setPrevIndex(prevIndex => randomIndex);
             setSvg(svgArray[randomIndex]);
 
             // const randomIndex = Math.floor(Math.random() * svgArray.length);

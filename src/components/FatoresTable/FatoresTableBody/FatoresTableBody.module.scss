@@ -91,6 +91,7 @@
         div  {
 
             display: flex;
+            transition: filter 400ms ease;
 
             &:hover {
 

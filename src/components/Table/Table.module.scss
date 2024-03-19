@@ -1,5 +1,11 @@
 @use '../../app/globalStyle.module.scss' as *;
 
+.div {
+
+    transition: all 1000ms;
+    animation: appear 600ms ease-out    ;             
+
+}
 
 .table {
 
@@ -10,7 +16,8 @@
 
     min-width: 240px;
     width: 100%;
-    height: fit-content;
+    height: 110px;
+    // height: fit-content;
 
     color: $cor-primaria;
 
@@ -28,15 +35,6 @@
 
     animation: appear 600ms ease-out;
 
-}
-
-@keyframes appear {
-    0% {
-        opacity: 0;
-    }
-    100% {
-        opacity: 1;
-    }
 }
 
 .empty {

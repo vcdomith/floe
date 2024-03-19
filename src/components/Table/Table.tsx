@@ -6,6 +6,7 @@ import { IFatores } from "@/interfaces/IFatores"
 import TableBody from "./TableBody/TableBody"
 import { IProduto } from "@/interfaces/IProduto"
 import { Dispatch, SetStateAction } from "react"
+import { AnimatePresence, motion } from "framer-motion"
 
 interface TableProps{
 
@@ -54,12 +55,46 @@ const Table = ({ valores, size, controleProdutos, setControleProdutos, setFatore
             
 
   return (
-    <>
-    
+    // <AnimatePresence>
+    // <motion.div
+    //   className={`${styles.div} ${controleProdutos.length > 0 ? styles.table : styles.empty}`}
+    //   style={{ overflow: `${fatoresDisplay.includes(true) ? 'visible' : 'hidden' }` }}
+
+    //   initial={{ opacity: 0, height: 0 }}
+    //   animate={{ opacity: 1, height: 'auto' }}
+    //   exit={{ opacity: 0, height: 0 }}
+    // >
+    //   {controleProdutos.length > 0 
+    //   ?
+    //   <>
+    //   <TableHeader
+    //       headers={tableHeaders.valores}
+    //     />
+    //   <TableBody  
+    //     controleProdutos={controleProdutos}
+    //     setControleProdutos={setControleProdutos}
+    //     filtros={filtros}
+    //     setFatores={setFatores}
+    //     setValor={setValor}
+    //     fatoresDisplay={fatoresDisplay}
+    //     setFatoresDisplay={setFatoresDisplay}
+    //     getIndex={getIndex}
+    //   />
+    //   </>
+    //   :
+    //   <p>Sem dados</p>
+    //   }
+    // </motion.div>
+    // </AnimatePresence>
+    <AnimatePresence mode="popLayout">
     {controleProdutos.length > 0 ?
-    <div 
+    <motion.div 
       className={styles.table}
       style={{ overflow: `${fatoresDisplay.includes(true) ? 'visible' : 'hidden' }` }}
+
+      initial={{ opacity: 0, height: 0 }}
+      animate={{ opacity: 1, height: 'auto' }}
+      exit={{ opacity: 0, height: 0 }}
     >
         <TableHeader
           headers={tableHeaders.valores}
@@ -74,14 +109,14 @@ const Table = ({ valores, size, controleProdutos, setControleProdutos, setFatore
           setFatoresDisplay={setFatoresDisplay}
           getIndex={getIndex}
         />
-    </div>
+    </motion.div>
     : <div
         className={styles.empty}
       >
         <p>Sem dados</p>
       </div>
     }
-    </>
+    </AnimatePresence>
   )
 }
 

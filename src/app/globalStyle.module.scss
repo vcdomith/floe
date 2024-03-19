@@ -13,6 +13,7 @@ $cor-secundaria: #e8d4b0;
 
 // $cor-primaria: #baaa8c;
 // $cor-secundaria: #2e282c;
+// $cor-secundaria: #0e0e2b;
 
 $cor-primaria-transparent: transparentize($cor-primaria, 0.8);
 $cor-mix: mix($cor-primaria ,$cor-secundaria, 10%);
@@ -60,7 +61,30 @@ $cor-mix: mix($cor-primaria ,$cor-secundaria, 10%);
     }
 }
 
+$fonte-titulo: 'Glamuk';
+$fonte-body: 'Archivo';
+$fonte-header: 'Archivo SE';
+
+
 //Types
+@font-face {
+    font-family: 'Archivo';
+    src: url('../fonts/Archivo-Regular.ttf');
+    font-weight: normal;
+    font-size: normal;
+}
+@font-face {
+    font-family: 'Archivo SE';
+    src: url('../fonts/Archivo_SemiExpanded-Light.ttf');
+    font-weight: normal;
+    font-size: normal;
+}
+@font-face {
+    font-family: 'Glamuk';
+    src: url('../fonts/glamukdisplaydemoversionregular-mavxr.otf');
+    font-weight: normal;
+    font-size: normal;
+}
 // @font-face {
 //     font-family: 'Garamond';
 //     src: url('../fonts/EBGaramond-VariableFont_wght.ttf') format('ttf');

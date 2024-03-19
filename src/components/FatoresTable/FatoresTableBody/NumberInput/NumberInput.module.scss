@@ -8,11 +8,15 @@
     flex-direction: column;
     /* width: 100%; */
 
+    font-family: $fonte-body;
+
 }
 
 .label {
 
     margin-bottom: 0.25rem;
+    font-family: $fonte-header;
+
 
 }
 
@@ -35,7 +39,7 @@
     border: 2px solid $cor-primaria;
 
     &::placeholder {
-    
+
         font-size: 1.2rem;
         // color: #3b033153;
         color: $cor-primaria-transparent;
@@ -62,6 +66,11 @@
     }
 }
 
+.inputFont {
+
+    font-family: $fonte-body;
+
+}
 
 .svg {
 

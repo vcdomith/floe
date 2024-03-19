@@ -285,7 +285,9 @@ export default function Home() {
             <span className={page.span}>
               <SvgArray className={page.logoHole} interval={1000}/>
               
-              <h2>TABELA DE PREÇOS</h2>
+              {/* <h2>TABELA DE PREÇOS</h2> */}
+              <h2>Tabela de Preços</h2>
+              {/* <h2>RipTide</h2> */}
   
             </span>
             <div

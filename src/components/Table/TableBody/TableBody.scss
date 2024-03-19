@@ -35,7 +35,9 @@
         justify-content: center;
         width: 100%;
         align-items: center;
+        // max-height: 55.2px;
         max-height: 55.2px;
+        // min-height: 55.2px;
 
         overflow: visible;
 
@@ -107,6 +109,10 @@
             padding: 1rem;
             align-items: center;
             flex: 1;
+
+            height: calc(55.2px - 2*(1rem));
+            // max-height: 55.2px;
+            // min-height: 55.2px;
 
             transition: filter 400ms;
 

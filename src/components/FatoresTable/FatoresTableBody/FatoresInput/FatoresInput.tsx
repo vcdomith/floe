@@ -92,6 +92,7 @@ const FatoresInput = ({ label, placeholder, fator, setFator, index, id, formRef 
          : <></>
         }
         <input 
+            className={styles.inputFont}
             ref={inputRef}
             disabled={disabled}
             required={true}

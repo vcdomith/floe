@@ -8,7 +8,7 @@ const Path = () => {
     const props = useSpring({
         // strokeDasharray: length,
         // strokeDashoffset: toggle ? length : 0,
-        from: { stroke: '#591c4ab', strokeDasharray: length, strokeDashoffset: length },
+        from: { stroke: '#591c4ab', strokeDasharray: length, strokeDashoffset: length, d: '' },
         to: { stroke: '#591C4A', strokeDasharray: length, strokeDashoffset: 0 },
         config: {
             tension: 200,
@@ -28,7 +28,7 @@ const Path = () => {
     
     return (
         <animated.path 
-            style={props}
+            style={props as any}
             ref={(ref) => { 
                 if(ref) {
                     console.log(ref.getTotalLength());

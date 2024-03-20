@@ -16,6 +16,7 @@ import input from './Inputs.module.scss'
 import vars from './globalStyle.module.scss'
 import SvgArray from '@/components/SvgArray/SvgArray'
 import interpolateColors from '@/utils/colorSteps'
+import LogoSvg from '@/components/SvgArray/LogoSvg'
 
 export default function Home() {
 
@@ -220,11 +221,6 @@ export default function Home() {
   }
 
   // searchParams reset
-  useEffect(() => {
-
-    setSearchParam('')
-
-  }, [valor])
 
   // useEffect(() => {
 
@@ -283,7 +279,8 @@ export default function Home() {
             className={page.descricao}
             >
             <span className={page.span}>
-              <SvgArray className={page.logoHole} interval={1000}/>
+              {/* <SvgArray className={page.logoHole} interval={1000}/> */}
+              <LogoSvg />
               
               {/* <h2>TABELA DE PREÇOS</h2> */}
               <h2>Tabela de Preços</h2>

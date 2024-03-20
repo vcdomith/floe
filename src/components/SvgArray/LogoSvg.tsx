@@ -43,19 +43,10 @@ const Circle = () => {
 
     const animation = useSpring({
         from: { y: 0 },
-        to: { y: 100 },
-        // reset: true,
-        loop: true,
-        config: {
-            tension: 300,                   // Tension of the spring
-            friction: 100,
-            mass: 100,                   // Friction of the spring
-            precision: 0.1,
-            clamp: true 
-            // You can adjust other parameters like mass, damping, etc.
-        },
-
-    })
+        to: { y: 20 },
+        config: { duration: 2000, easing: t => Math.sin(t * Math.PI * 2) }, // Using sinewave easing
+        reset: true, // Reset animation to 'from' value when it reaches 'to' value
+    });
 
     return (
         <animated.circle style={animation} cx="250" cy="250" r="75" fill="url(#paint0_linear_3_31)"/>

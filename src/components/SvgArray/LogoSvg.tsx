@@ -44,7 +44,7 @@ const Circle = () => {
     const animation = useSpring({
         from: { y: 0 },
         to: { y: 20 },
-        config: { duration: 2000, easing: t => Math.sin(t * Math.PI * 2) }, // Using sinewave easing
+        config: { duration: 2000 , easing: t => Math.sin(t * Math.PI * 2) }, // Using sinewave easing
         reset: true, // Reset animation to 'from' value when it reaches 'to' value
     });
 

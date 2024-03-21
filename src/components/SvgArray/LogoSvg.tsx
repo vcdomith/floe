@@ -10,8 +10,8 @@ const Path = () => {
     const props = useSpring({
         // strokeDasharray: length,
         // strokeDashoffset: toggle ? length : 0,
-        from: { stroke: '#591c4ab', strokeDasharray: length, strokeDashoffset: length, d: '' },
-        to: { stroke: '#591C4A', strokeDasharray: length, strokeDashoffset: 0 },
+        from: { strokeDasharray: length, strokeDashoffset: length, d: '' },
+        to: { strokeDasharray: length, strokeDashoffset: 0 },
         config: {
             tension: 200,
             friction: 200,
@@ -37,7 +37,7 @@ const Path = () => {
                     setLength(ref.getTotalLength()) 
                 } 
             }}
-            d="M29.7784 404.32C38.2784 410.82 153.778 495.32 198.278 459.32C242.778 423.32 5.27837 290.82 29.7784 204.32C49.3784 135.12 146.5 179.83 198.278 211.82C250.057 243.809 392.5 388 463 320.5C533.5 253 263.5 74.5 305.5 42C347.5 9.49999 444.5 80 463 92.5" stroke="#591c4a" stroke-width="20"/>
+            d="M29.7784 404.32C38.2784 410.82 153.778 495.32 198.278 459.32C242.778 423.32 5.27837 290.82 29.7784 204.32C49.3784 135.12 146.5 179.83 198.278 211.82C250.057 243.809 392.5 388 463 320.5C533.5 253 263.5 74.5 305.5 42C347.5 9.49999 444.5 80 463 92.5" stroke="#591C4A" stroke-width="40"/>
     )
 }
 
@@ -63,13 +63,13 @@ const Circle = () => {
     // });
 
     const styles = useSpring({
-        from: { r: 75, zIndex: 2 },
+        from: { r: 100, zIndex: 2 },
         to: [
             { r: 90 },
-            { r: 75 }
+            { r: 100 }
         ],
         delay: 500,
-        config: { tension: 50, friction: 10 },
+        config: { tension: 50, friction: 5 },
     })
     
   
@@ -81,7 +81,9 @@ const Circle = () => {
         // style={{
         //     transform: styles.y.to((val) => `rotate(${val}deg)`)
         // }}
-            cx="250" cy="250" r="75" fill="url(#paint0_linear_3_31)"
+            cx="250" cy="250" r="100" 
+            fill="url(#paint0_linear_3_31)"
+            // fill='#E8D4B0'
         />
     )
 
@@ -93,9 +95,12 @@ const LogoSvg = () => {
 
     
   return (
-    <svg width="100" height="100" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg" 
+    <svg
+    // style={{ backgroundColor: '#591C4A' }}
+     width="75" height="75" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg" 
     // onClick={() => setToggle(prev => !prev)}
     >
+        {/* <rect width="500" height="500" fill="url(#paint0_linear_3_31)"/> */}
         <Path 
         // toggle={toggle}
          />

@@ -283,7 +283,8 @@ export default function Home() {
               <LogoSvg />
               
               {/* <h2>TABELA DE PREÇOS</h2> */}
-              <h2>Tabela de Preços</h2>
+              {/* <h2>Tabela de Preços</h2> */}
+              <h2>Floe</h2>
               {/* <h2>RipTide</h2> */}
   
             </span>

@@ -3,29 +3,17 @@ import { animated, useSpring } from '@react-spring/web'
 
 import svg from './LogoSvg.module.scss'
 
-const Path = () => {
+const Path = ({ loop }: { loop: boolean }) => {
 
     const [length, setLength] = useState<null | number>(null)
+    const config = loop 
+    ? { tension: 600, friction: 0, mass: 500, precision: 0.1 }
+    : { tension: 200, friction: 200, mass: 10, damping: 1, precision: 0.1 }
 
     const props = useSpring({
-        // strokeDasharray: length,
-        // strokeDashoffset: toggle ? length : 0,
-        from: { strokeDasharray: length, strokeDashoffset: length, d: '' },
-        to: { strokeDasharray: length, strokeDashoffset: 0 },
-        config: {
-            tension: 200,
-            friction: 200,
-            mass: 10,
-            damping: 1,
-            precision: 0.1,
-        }
-        // Com essas configs existe um loop
-        // config: {
-        //     tension: 300,                  
-        //     friction: 1,
-        //     mass: 500,                  
-        //     precision: 0.1,
-        //   },
+        from: { stroke: '#591c4a10' , strokeDasharray: length, strokeDashoffset: length, d: '' },
+        to: { stroke: '#591C4A', strokeDasharray: length, strokeDashoffset: 0 },
+        config: config
     })
     
     return (
@@ -33,7 +21,6 @@ const Path = () => {
             style={props as any}
             ref={(ref) => { 
                 if(ref) {
-                    console.log(ref.getTotalLength());
                     setLength(ref.getTotalLength()) 
                 } 
             }}
@@ -43,25 +30,6 @@ const Path = () => {
 
 const Circle = () => {
 
-    // const animation = useSpring({
-    //     from: { y: 0 },
-    //     to: { y: 20 },
-    //     config: { duration: 2000 , easing: t => Math.sin(t * Math.PI * 2) }, // Using sinewave easing
-    //     loop: true, // Reset animation to 'from' value when it reaches 'to' value
-    // });
-
-    // const styles = useSpring({
-    //     from: { y: 0 },
-    //     to: [
-    //     { y: 60 },
-    //     { y: -60 },
-    //     { y: 0 },
-    //     ],
-    //     config: { tension: 50, friction: 10 },
-    //     reset: true,
-    //     loop: true,
-    // });
-
     const styles = useSpring({
         from: { r: 100, zIndex: 2 },
         to: [
@@ -69,7 +37,7 @@ const Circle = () => {
             { r: 100 }
         ],
         delay: 500,
-        config: { tension: 50, friction: 5 },
+        config: { tension: 50, friction: 0 },
     })
     
   
@@ -91,7 +59,7 @@ const Circle = () => {
 
   
 
-const LogoSvg = () => {
+const LogoSvg = ({ loop }: { loop: boolean }) => {
 
     
   return (
@@ -101,7 +69,7 @@ const LogoSvg = () => {
     // onClick={() => setToggle(prev => !prev)}
     >
         {/* <rect width="500" height="500" fill="url(#paint0_linear_3_31)"/> */}
-        <Path 
+        <Path loop={loop}
         // toggle={toggle}
          />
         <circle style={{ zIndex: 1 }} cx="250" cy="250" r="200" fill="url(#paint0_radial_3_31)"/>

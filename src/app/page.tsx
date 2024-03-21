@@ -17,6 +17,7 @@ import vars from './globalStyle.module.scss'
 import SvgArray from '@/components/SvgArray/SvgArray'
 import interpolateColors from '@/utils/colorSteps'
 import LogoSvg from '@/components/SvgArray/LogoSvg'
+import { ICadastro } from '@/interfaces/ICadastro'
 
 export default function Home() {
 
@@ -220,6 +221,23 @@ export default function Home() {
 
   }
 
+  const handleSave = () => {
+
+    
+    const cadastro: ICadastro = {
+      id: new Date().getTime(),
+      produtos: controleProdutos,
+      data: new Date().toLocaleString(),
+    }
+    const cadastroString = JSON.stringify(cadastro)
+
+    const keyToSave = cadastro.id.toString()
+    localStorage.setItem(keyToSave, cadastroString)
+
+    console.log('Cadastro realizado com sucesso!');
+
+  }
+
   // searchParams reset
 
   // useEffect(() => {
@@ -280,11 +298,11 @@ export default function Home() {
             >
             <span className={page.span}>
               {/* <SvgArray className={page.logoHole} interval={1000}/> */}
-              <LogoSvg />
+              <LogoSvg loop={false}/>
               
               {/* <h2>TABELA DE PREÇOS</h2> */}
-              {/* <h2>Tabela de Preços</h2> */}
-              <h2>Floe</h2>
+              <h2>Tabela de Preços</h2>
+              {/* <h2>Floe</h2> */}
               {/* <h2>RipTide</h2> */}
   
             </span>
@@ -435,6 +453,11 @@ export default function Home() {
           getIndex={getControleProdutoIndex}
         />
         </div>
+        <button
+          onClick={() => handleSave()}
+        >
+          Salvar Dados
+        </button>
     </ section>
     
     </>

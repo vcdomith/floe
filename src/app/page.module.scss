@@ -254,14 +254,15 @@ $step-size: 100% /($steps + 1);
         
             h2 {
         
-                width: fit-content;
+                // width: fit-content;
+                width: 150px;
                 // margin: 0;
 
                 outline: 1px solid transparent;
 
                 font-family: $fonte-body;
-                font-weight: normal;
-                font-size: 3rem;
+                font-weight:600;
+                font-size: 2rem;
         
             }
             

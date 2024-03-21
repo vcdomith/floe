@@ -63,12 +63,12 @@ const Circle = () => {
     // });
 
     const styles = useSpring({
-        from: { r: 75 },
+        from: { r: 75, zIndex: 2 },
         to: [
             { r: 90 },
             { r: 75 }
         ],
-        delay: 1550,
+        delay: 500,
         config: { tension: 50, friction: 10 },
     })
     
@@ -99,12 +99,19 @@ const LogoSvg = () => {
         <Path 
         // toggle={toggle}
          />
+        <circle style={{ zIndex: 1 }} cx="250" cy="250" r="200" fill="url(#paint0_radial_3_31)"/>
         <Circle />
         <defs>
             <linearGradient id="paint0_linear_3_31" x1="291.5" y1="181" x2="207" y2="319" gradientUnits="userSpaceOnUse">
                 <stop stopColor="#591C4A"/>
                 <stop offset="1" stopColor="#E8D4B0" stopOpacity="0.90"/>
             </linearGradient>
+            <radialGradient id="paint0_radial_3_31" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(249.799 250.5) rotate(126.557) scale(157.482)">
+            <stop stop-color="#E8D4B0" stop-opacity="0"/>
+            <stop offset="0.4359" stop-color="#E8D4B0" stop-opacity="0"/>
+            <stop offset="0.436" stop-color="#E8D4B0"/>
+            <stop offset="1" stop-color="#E8D4B0" stop-opacity="0"/>
+            </radialGradient>
         </defs>
     </svg>
   )

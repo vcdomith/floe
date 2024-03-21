@@ -41,15 +41,31 @@ const Path = () => {
 
 const Circle = () => {
 
-    const animation = useSpring({
+    // const animation = useSpring({
+    //     from: { y: 0 },
+    //     to: { y: 20 },
+    //     config: { duration: 2000 , easing: t => Math.sin(t * Math.PI * 2) }, // Using sinewave easing
+    //     loop: true, // Reset animation to 'from' value when it reaches 'to' value
+    // });
+
+    const styles = useSpring({
         from: { y: 0 },
-        to: { y: 20 },
-        config: { duration: 2000 , easing: t => Math.sin(t * Math.PI * 2) }, // Using sinewave easing
-        loop: true, // Reset animation to 'from' value when it reaches 'to' value
+        to: [
+        { y: 60 },
+        { y: 0 },
+        { y: -60 },
+        { y: 0 },
+        ],
+        config: { tension: 50, friction: 10 },
+        loop: true,
     });
+    
 
     return (
-        <animated.circle style={animation} cx="250" cy="250" r="75" fill="url(#paint0_linear_3_31)"/>
+        <animated.circle 
+        style={styles}
+            cx="250" cy="250" r="75" fill="url(#paint0_linear_3_31)"
+        />
     )
 
 }
@@ -69,8 +85,8 @@ const LogoSvg = () => {
         <Circle />
         <defs>
             <linearGradient id="paint0_linear_3_31" x1="291.5" y1="181" x2="207" y2="319" gradientUnits="userSpaceOnUse">
-                <stop stop-color="#591C4A"/>
-                <stop offset="1" stop-color="#E8D4B0" stop-opacity="0.90"/>
+                <stop stopColor="#591C4A"/>
+                <stop offset="1" stopColor="#E8D4B0" stopOpacity="0.90"/>
             </linearGradient>
         </defs>
     </svg>

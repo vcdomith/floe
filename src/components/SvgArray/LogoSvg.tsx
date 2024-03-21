@@ -64,7 +64,10 @@ const Circle = () => {
 
     const styles = useSpring({
         from: { r: 75 },
-        to: { r: 90 },
+        to: [
+            { r: 90 },
+            { r: 75 }
+        ],
         delay: 1550,
         config: { tension: 50, friction: 10 },
     })

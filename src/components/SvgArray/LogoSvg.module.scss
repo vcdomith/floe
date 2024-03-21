@@ -1,0 +1,22 @@
+@use '../../app/globalStyle.module.scss' as *;
+
+.circle {
+
+    animation: oscillate 400ms ease;
+    animation-delay: 1550ms;
+
+}
+
+@keyframes oscillate {
+
+    0% {
+        r: 75;
+    }
+    50% {
+        r: 90;
+    }
+    100% {
+        r: 75;
+    }
+
+}

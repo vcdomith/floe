@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { animated, useSpring } from '@react-spring/web'
 
+import svg from './LogoSvg.module.scss'
+
 const Path = () => {
 
     const [length, setLength] = useState<null | number>(null)
@@ -48,22 +50,34 @@ const Circle = () => {
     //     loop: true, // Reset animation to 'from' value when it reaches 'to' value
     // });
 
+    // const styles = useSpring({
+    //     from: { y: 0 },
+    //     to: [
+    //     { y: 60 },
+    //     { y: -60 },
+    //     { y: 0 },
+    //     ],
+    //     config: { tension: 50, friction: 10 },
+    //     reset: true,
+    //     loop: true,
+    // });
+
     const styles = useSpring({
-        from: { y: 0 },
-        to: [
-        { y: 60 },
-        { y: 0 },
-        { y: -60 },
-        { y: 0 },
-        ],
+        from: { r: 75 },
+        to: { r: 90 },
+        delay: 1550,
         config: { tension: 50, friction: 10 },
-        loop: true,
-    });
+    })
     
+  
 
     return (
-        <animated.circle 
-        style={styles}
+        <animated.circle
+        // className={svg.circle} 
+        style={styles as any}
+        // style={{
+        //     transform: styles.y.to((val) => `rotate(${val}deg)`)
+        // }}
             cx="250" cy="250" r="75" fill="url(#paint0_linear_3_31)"
         />
     )

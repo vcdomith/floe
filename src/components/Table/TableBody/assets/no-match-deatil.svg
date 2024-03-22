@@ -1,7 +1,7 @@
 <svg width="500" height="500" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M252 453C252 464.598 242.598 474 231 474C219.402 474 210 464.598 210 453C210 441.402 219.402 432 231 432C242.598 432 252 441.402 252 453Z" fill="black"/>
-<path d="M55.5 173C118.5 35.5 370 34 426 184C473.362 310.863 141 204.5 141 204.5L360 322.5C360 322.5 230.5 318.5 230.5 424" stroke="black" stroke-width="40"/>
+<path d="M24 170C97.5 -72 516 39.5 474.5 212.5C435.894 373.434 125.074 196.773 125.074 196.773C230.179 253.505 289.107 285.312 394.212 342.043C394.212 342.043 249.5 317.5 249.5 449" stroke="black" stroke-width="40"/>
 <circle cx="250" cy="250" r="69" fill="url(#paint0_linear_16_5)"/>
+<circle cx="250" cy="479" r="21" fill="black"/>
 <defs>
 <linearGradient id="paint0_linear_16_5" x1="291.5" y1="181" x2="207" y2="319" gradientUnits="userSpaceOnUse">
 <stop stop-color="#E8D4B0"/>

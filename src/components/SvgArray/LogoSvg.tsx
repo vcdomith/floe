@@ -37,7 +37,7 @@ const Circle = () => {
             { r: 100 }
         ],
         delay: 500,
-        config: { tension: 50, friction: 0 },
+        config: { tension: 600, friction: 0, mass: 500 },
     })
     
   

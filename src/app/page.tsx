@@ -18,6 +18,7 @@ import SvgArray from '@/components/SvgArray/SvgArray'
 import interpolateColors from '@/utils/colorSteps'
 import LogoSvg from '@/components/SvgArray/LogoSvg'
 import { ICadastro } from '@/interfaces/ICadastro'
+import NoMatch from '@/components/SvgArray/NoMatch'
 
 export default function Home() {
 
@@ -299,6 +300,7 @@ export default function Home() {
             <span className={page.span}>
               {/* <SvgArray className={page.logoHole} interval={1000}/> */}
               <LogoSvg loop={false}/>
+              {/* <NoMatch /> */}
               
               {/* <h2>TABELA DE PREÇOS</h2> */}
               <h2>Tabela de Preços</h2>

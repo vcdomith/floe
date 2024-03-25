@@ -1,0 +1,9 @@
+@use '../../app/globalStyle.module.scss' as *;
+
+:root {
+
+    --cor1: #{$cor-primaria};
+    --cor1-t: #{$cor-primaria-transparent};
+    --cor2: #{$cor-secundaria};
+
+}

@@ -20,3 +20,44 @@
     }
 
 }
+
+.svg {
+
+    path {
+
+        stroke: $cor-primaria;
+
+    }
+
+    linearGradient {
+
+        stop {
+
+            &:first-of-type {
+
+                stop-color: $cor-secundaria;
+                
+            }
+            
+            &:last-of-type {
+                
+                stop-color: $cor-primaria;
+
+            }
+
+        }
+
+    }
+
+    radialGradient {
+
+
+        stop {
+
+            stop-color: $cor-secundaria;
+
+        }
+
+    }
+
+}

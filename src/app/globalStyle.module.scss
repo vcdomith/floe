@@ -13,10 +13,12 @@ $cor-secundaria: #e8d4b0;
 
 // $cor-primaria: #baaa8c;
 // $cor-secundaria: #2e282c;
+// $cor-secundaria: #222222;
+// $cor-primaria: #b4a992;
 // $cor-secundaria: #0e0e2b;
 
 $cor-primaria-transparent: transparentize($cor-primaria, 0.8);
-$cor-mix: mix($cor-primaria ,$cor-secundaria, 10%);
+$cor-mix: mix($cor-primaria, $cor-secundaria, 10%);
 
 //Animations
 @keyframes appear {

@@ -1,6 +1,9 @@
 import { animated, useSpring } from "@react-spring/web"
 import { useState } from "react"
 
+import './svgColorMap.scss'
+import svg from '../SvgArray/LogoSvg.module.scss'
+
 const Path = () => {
 
     const [length, setLength] = useState<null | number>(null)
@@ -8,8 +11,8 @@ const Path = () => {
     const config = { tension: 300, friction: 200, mass: 5, damping: 1, precision: 0.1 }
 
     const animation = useSpring({
-        from: { stroke: '#591c4a10' , strokeDasharray: length, strokeDashoffset: length },
-        to: { stroke: '#591C4A', strokeDasharray: length, strokeDashoffset: 0 },
+        from: { stroke: 'var(--cor1-t)' , strokeDasharray: length, strokeDashoffset: length },
+        to: { stroke: 'var(--cor1)', strokeDasharray: length, strokeDashoffset: 0 },
         config: config
     })
 
@@ -36,22 +39,23 @@ const NoMatch = () => {
     })
 
     return (
-        <svg style={{ minWidth: '75px' }} width="75" height="75" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg 
+        className={svg.svg}
+        style={{ minWidth: '50px' }} width="75" height="75" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
         <Path />
-        {/* <path d="M273 427.5C273 439.926 262.926 450 250.5 450C238.074 450 228 439.926 228 427.5C228 415.074 238.074 405 250.5 405C262.926 405 273 415.074 273 427.5Z" fill="black"/> */}
         <circle style={{ zIndex: 1 }} cx="250" cy="250" r="200" fill="url(#paint0_radial_3_31)"/>
         <circle cx="250" cy="250" r="69" fill="url(#paint0_linear_16_5)"/>
         <animated.circle style={animation} cx="250" cy="464" r="21" fill="#591C4A"/>
         <defs>
         <linearGradient id="paint0_linear_16_5" x1="291.5" y1="181" x2="207" y2="319" gradientUnits="userSpaceOnUse">
-        <stop stop-color="#E8D4B0"/>
-        <stop offset="1" stop-color="#591C4A" stop-opacity="0.86"/>
+            <stop stopColor="#E8D4B0"/>
+            <stop offset="1" stopColor="#591C4A" stopOpacity="0.86"/>
         </linearGradient>
         <radialGradient id="paint0_radial_3_31" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(249.799 250.5) rotate(126.557) scale(157.482)">
-            <stop stop-color="#E8D4B0" stop-opacity="0"/>
-            <stop offset="0.4359" stop-color="#E8D4B0" stop-opacity="0"/>
-            <stop offset="0.436" stop-color="#E8D4B0"/>
-            <stop offset="1" stop-color="#E8D4B0" stop-opacity="0"/>
+            <stop stopColor="#E8D4B0" stopOpacity="0"/>
+            <stop offset="0.4359" stopColor="#E8D4B0" stopOpacity="0"/>
+            <stop offset="0.436" stopColor="#E8D4B0"/>
+            <stop offset="1" stopColor="#E8D4B0" stopOpacity="0"/>
             </radialGradient>
         </defs>
         </svg>

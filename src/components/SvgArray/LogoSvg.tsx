@@ -19,8 +19,8 @@ const Path = ({ loop }: SvgProps) => {
     : { tension: 200, friction: 200, mass: 10, damping: 1, precision: 0.1 }
 
     const props = useSpring({
-        from: { stroke: 'var(--cor1-t)' , strokeDasharray: length, strokeDashoffset: length, d: '' },
-        to: { stroke: 'var(--cor1)', strokeDasharray: length, strokeDashoffset: 0 },
+        from: { stroke: 'var(--cor-primaria-transparente)' , strokeDasharray: length, strokeDashoffset: length },
+        to: { stroke: 'var(--cor-primaria)', strokeDasharray: length, strokeDashoffset: 0 },
         config: config
     })
     

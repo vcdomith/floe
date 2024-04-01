@@ -21,12 +21,12 @@ import { ICadastro } from '@/interfaces/ICadastro'
 import NoMatch from '@/components/SvgArray/NoMatch'
 import { dbConnect } from '@/utils/db/supabase'
 
-export const supabase = dbConnect()
-
 export default function Home() {
-
+  
   const { stringToFloat, floatToString } = Converter
 
+  const supabase = dbConnect()
+  
   // Estados para cadastros de preços na tabela
   const [valor, setValor] = useState('')
   const [fatores, setFatores] = useState<IFatores>({

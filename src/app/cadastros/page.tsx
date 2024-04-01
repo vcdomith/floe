@@ -1,3 +1,4 @@
+import { IProduto } from "@/interfaces/IProduto"
 import { dbConnect } from "@/utils/db/supabase"
 import { createClient } from "@supabase/supabase-js"
 
@@ -20,7 +21,7 @@ export default async function Cadastros() {
         {cadastros?.map( ({id, created_at, produtos}) => 
             <div key={id}>
                 <p>{created_at}</p>
-                {produtos.map(({ id, unitario, fatores }) => 
+                {produtos.map(({ id, unitario, fatores }: IProduto) => 
                     <div key={id}>
                         <p>{unitario}</p>
                     </div>

@@ -19,6 +19,7 @@ import interpolateColors from '@/utils/colorSteps'
 import LogoSvg from '@/components/SvgArray/LogoSvg'
 import { ICadastro } from '@/interfaces/ICadastro'
 import NoMatch from '@/components/SvgArray/NoMatch'
+import { dbConnect } from '@/utils/db/supabase'
 
 export default function Home() {
 
@@ -57,6 +58,8 @@ export default function Home() {
   // Produto Ativo
   let displayRef = Array(controleProdutos.length).fill(false)
   const [fatoresDisplay, setFatoresDisplay] = useState<boolean[]>(displayRef)
+
+  const supabase = dbConnect()
 
   const formatValor = (valor: string): string => {
 
@@ -283,6 +286,49 @@ export default function Home() {
 
   // }, [controleProdutos, searchParam, sorted])
 
+  async function handleSaveDB() {
+
+    try {
+
+      let { data: cadastros, error } = await supabase
+        .from('cadastros')
+        .insert([{ produtos: controleProdutos }])
+      
+      console.log('Cadastro realizado com sucesso!', cadastros);
+
+      // let { data: cadastros, error } = await supabase
+      //   .from('cadastros')
+      //   .select('produtos')
+
+      // console.log(cadastros);
+
+    } catch(error) {
+
+      console.error(error)
+
+    }
+    
+  }
+  
+  async function handleReadDB() {
+    
+    try {
+  
+      let { data: produtos, error } = await supabase
+        .from('cadastros')
+        .select()
+      
+      console.log(produtos);
+  
+  
+    } catch(error) {
+  
+      console.error(error)
+  
+    }
+
+  }
+
   return (
     <>
     {/* <div className={page.bg}></div> */}
@@ -456,9 +502,16 @@ export default function Home() {
         />
         </div>
         <button
-          onClick={() => handleSave()}
+          // onClick={() => handleSave()}
+          onClick={() => handleSaveDB()}
         >
           Salvar Dados
+        </button>
+        <button
+          // onClick={() => handleSave()}
+          onClick={() => handleReadDB()}
+        >
+          Ler Dados
         </button>
     </ section>
     

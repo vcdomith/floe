@@ -1,6 +1,6 @@
 'use client'
 
-import { ChangeEvent, FormEvent, SyntheticEvent, use, useEffect, useRef, useState } from 'react'
+import { ChangeEvent, FormEvent, SyntheticEvent, use, useEffect, useMemo, useRef, useState } from 'react'
 import { IValores } from '@/interfaces/IValores'
 import Table from '@/components/Table/Table'
 import Container from '@/components/Container/Container'
@@ -25,7 +25,7 @@ export default function Home() {
   
   const { stringToFloat, floatToString } = Converter
 
-  const supabase = dbConnect()
+  const supabase = useMemo(() => dbConnect(), [])
   
   // Estados para cadastros de preços na tabela
   const [valor, setValor] = useState('')

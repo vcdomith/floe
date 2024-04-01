@@ -1,6 +1,6 @@
 'use client'
 
-import { ChangeEvent, FormEvent, SyntheticEvent, use, useEffect, useState } from 'react'
+import { ChangeEvent, FormEvent, SyntheticEvent, use, useEffect, useRef, useState } from 'react'
 import { IValores } from '@/interfaces/IValores'
 import Table from '@/components/Table/Table'
 import Container from '@/components/Container/Container'
@@ -20,6 +20,8 @@ import LogoSvg from '@/components/SvgArray/LogoSvg'
 import { ICadastro } from '@/interfaces/ICadastro'
 import NoMatch from '@/components/SvgArray/NoMatch'
 import { dbConnect } from '@/utils/db/supabase'
+
+export const supabase = dbConnect()
 
 export default function Home() {
 
@@ -58,8 +60,6 @@ export default function Home() {
   // Produto Ativo
   let displayRef = Array(controleProdutos.length).fill(false)
   const [fatoresDisplay, setFatoresDisplay] = useState<boolean[]>(displayRef)
-
-  const supabase = dbConnect()
 
   const formatValor = (valor: string): string => {
 
@@ -313,7 +313,7 @@ export default function Home() {
   async function handleReadDB() {
     
     try {
-  
+
       let { data: produtos, error } = await supabase
         .from('cadastros')
         .select()
@@ -332,7 +332,7 @@ export default function Home() {
   return (
     <>
     {/* <div className={page.bg}></div> */}
-    <SvgArray className={page.background} interval={1000}/>
+    {/* <SvgArray className={page.background} interval={1000}/> */}
     {/* <div className={page.backgroundOverlay}></div> */}
 
     <section className={page.section}>

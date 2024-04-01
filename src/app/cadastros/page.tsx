@@ -2,6 +2,9 @@ import { IProduto } from "@/interfaces/IProduto"
 import { dbConnect } from "@/utils/db/supabase"
 import { createClient } from "@supabase/supabase-js"
 
+//Exportando 'revalidate' com valor 0, desse componente, a API do supabase sabe que deve revalidar os dados a cada refresh assim como um getServerSideProps
+export const revalidate = 0
+
 export default async function Cadastros() {
     
     const supabase = dbConnect()
@@ -13,8 +16,9 @@ export default async function Cadastros() {
     <>
     <div
         style={{
-            width: '200px',
-            height: '200px',
+            width: '400px',
+            height: 'auto',
+            padding: '1rem',
             backgroundColor: 'wheat'
         }}
     >

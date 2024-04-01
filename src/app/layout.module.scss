@@ -1,0 +1,30 @@
+@use './globalStyle.module.scss' as *;
+
+.background {
+
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-size: contain;
+
+    width: 100vmax;
+    // width: 100vh;
+    // height: 100vh;
+
+    filter: url('#noise');
+
+    z-index: -1;
+
+    svg {
+
+        path {
+
+            transition: d 2s;
+
+            // fill: transparentize($cor-secundaria, 0.5);
+            // background: linear-gradient(180deg, $cor-secundaria, black);
+
+        }
+    }
+
+}

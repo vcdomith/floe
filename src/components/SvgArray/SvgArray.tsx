@@ -1,3 +1,5 @@
+'use client'
+
 import React, { ReactNode, useEffect, useState } from "react"
 
 interface SvgArrayProps {
@@ -67,7 +69,7 @@ const SvgArray = ({ className, interval }: SvgArrayProps) => {
   return (
     <div className={className} >
     {
-    svg //This is just so TypeScript shuts up, it works fine
+    svg 
     }
     </div>
   )

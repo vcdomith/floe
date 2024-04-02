@@ -6,11 +6,13 @@ interface ContainerProps {
     children: React.ReactNode
 }
 
-const Container = ({ children }:ContainerProps) => {
+const Container = ({ children }: ContainerProps) => {
   return (
-    <div className={styles.container}>
-        { children }
-    </div>
+    <section className={styles.section}>
+      <div className={styles.container}>
+          { children }
+      </div>
+    </section>
   )
 }
 

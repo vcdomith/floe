@@ -1,6 +1,11 @@
+import Container from "@/components/Container/Container"
+import TableBody from "@/components/Table/TableBody/TableBody"
+import { ICadastro } from "@/interfaces/ICadastro"
 import { IProduto } from "@/interfaces/IProduto"
 import { dbConnect } from "@/utils/db/supabase"
 import { createClient } from "@supabase/supabase-js"
+import { useState } from "react"
+import Cadastro from "./Cadastro/Cadastro"
 
 //Exportando 'revalidate' com valor 0, desse componente, a API do supabase sabe que deve revalidar os dados a cada refresh assim como um getServerSideProps
 export const revalidate = 0
@@ -13,27 +18,28 @@ export default async function Cadastros() {
     // const 
 
     return (
-    <>
-    <div
-        style={{
-            width: '400px',
-            height: 'auto',
-            padding: '1rem',
-            backgroundColor: 'wheat'
-        }}
-    >
-        {cadastros?.map( ({id, created_at, produtos}) => 
-            <div key={id}>
-                <p>{created_at}</p>
-                {produtos.map(({ id, unitario, fatores }: IProduto) => 
-                    <div key={id}>
-                        <p>{unitario}</p>
-                    </div>
-                )}
+    <Container>
+        <div style={{
+            backgroundColor: '#e8d4b0',
+            width: '100%'
+        }}>
+            <div>
+                <div>
+                    <div>Id</div>
+                    <div>Criado em:</div>
+                </div>
             </div>
-        )}
-    </div>
-    </>
+            <div
+                style={{
+                    border: '2px solid purple'
+                }}
+            >
+            {cadastros?.map( (cadastro: ICadastro) => 
+                <Cadastro key={cadastro.id} cadastro={cadastro}/>
+            )}
+            </div>
+        </div>
+    </Container>
     )
 
 }

@@ -1,18 +1,52 @@
-.container {
+@use '../../app/globalStyle.module.scss' as *;
+
+.section {
+
+    position: relative;
 
     display: flex;
-    flex-wrap: wrap;
-    width: 80%;
-    /* min-width: 80%; */
-    /* flex-direction: column; */
-    /* align-items: center; */
+    flex-direction: column;
+    align-items: center;
 
-    gap: 3rem;
+    /* width: minmax(400px, 800px); */
+    /* height: minmax(100vh, auto); */
+    height: max-content;
+    /* min-height: 100vh; */
 
-    // transition: all 500ms;
+    gap: 4rem;
+    
+    margin: 4rem;
+    padding: 4rem 2rem;
+    border-radius: 2rem;
+
+    background-color: $cor-secundaria;
+
+    transition: all 400ms;
+
+    .container {
+    
+        display: flex;
+        flex-wrap: wrap;
+        width: 80%;
+        /* min-width: 80%; */
+        /* flex-direction: column; */
+        /* align-items: center; */
+    
+        gap: 3rem;
+    
+        // transition: all 500ms;
+    }
 }
 
-@media (max-width: 900px) {
+
+@media (max-width: 850px) {
+
+    .container {
+
+        flex-direction: column;
+        width: 100%;
+        
+    }
 
     .container {
 

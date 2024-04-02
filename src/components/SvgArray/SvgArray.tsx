@@ -38,6 +38,7 @@ const SvgArray = ({ className, interval }: SvgArrayProps) => {
 
     const [svg, setSvg] = useState<ReactNode>(svg0)
     const [prevIndex, setPrevIndex] = useState(-1)
+    const [firstCall, setFirstCall] = useState(true)
 
 
     let svgArray = [svg0, svg1, svg2, svg3, svg4]
@@ -53,17 +54,21 @@ const SvgArray = ({ className, interval }: SvgArrayProps) => {
             setPrevIndex(prevIndex => randomIndex);
             setSvg(svgArray[randomIndex]);
 
+            if (firstCall) {
+                setFirstCall(prev => !prev)
+            }
+
             // const randomIndex = Math.floor(Math.random() * svgArray.length);
             // setSvg(svgArray[randomIndex])
             // const getRandomSvg = () => {
             //     return svgArray[randomIndex];
             //   };
       
-          }, interval)
+          }, firstCall ? 0 : interval)
       
           return () => clearInterval(intervalId)
 
-    }, [])
+    }, [firstCall, prevIndex])
 
 
   return (

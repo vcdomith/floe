@@ -231,7 +231,7 @@ export default function Home() {
     const cadastro: ICadastro = {
       id: new Date().getTime(),
       produtos: controleProdutos,
-      data: new Date().toLocaleString(),
+      created_at: new Date().toLocaleString(),
     }
     const cadastroString = JSON.stringify(cadastro)
 
@@ -335,7 +335,6 @@ export default function Home() {
     {/* <SvgArray className={page.background} interval={1000}/> */}
     {/* <div className={page.backgroundOverlay}></div> */}
 
-    <section className={page.section}>
       <Container>
         <div
           className={page.container_descricao}
@@ -416,7 +415,7 @@ export default function Home() {
           />
         {/* <div className={page.container_tabela}>
         </div> */}
-        </Container>
+      {/* <div className='table-container'> */}
         <div className={page.table}>
         {controleProdutos.length > 0 &&
         <span className={input.filtros}>
@@ -500,21 +499,21 @@ export default function Home() {
           setFatoresDisplay={setFatoresDisplay}
           getIndex={getControleProdutoIndex}
         />
-        </div>
         <button
           // onClick={() => handleSave()}
           onClick={() => handleSaveDB()}
-        >
+          >
           Salvar Dados
         </button>
         <button
           // onClick={() => handleSave()}
           onClick={() => handleReadDB()}
-        >
+          >
           Ler Dados
         </button>
-    </ section>
-    
+        </div>
+      {/* </div> */}
+    </Container>
     </>
   )
 }

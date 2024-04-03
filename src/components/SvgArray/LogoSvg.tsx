@@ -1,7 +1,7 @@
+'use client'
 import React, { useEffect, useState } from 'react'
 import { animated, useSpring } from '@react-spring/web'
 
-import './svgColorMap.scss'
 import svg from './LogoSvg.module.scss'
 
 interface SvgProps {
@@ -18,9 +18,14 @@ const Path = ({ loop }: SvgProps) => {
     ? { tension: 600, friction: 0, mass: 500, precision: 0.1 }
     : { tension: 200, friction: 200, mass: 10, damping: 1, precision: 0.1 }
 
+    // const props = useSpring({
+    //     from: { stroke: 'var(--cor-primaria-transparente)' , strokeDasharray: 1000, strokeDashoffset: 1000 },
+    //     to: { stroke: 'var(--cor-primaria)', strokeDasharray: 1000, strokeDashoffset: 0 },
+    //     config: config
+    // })
     const props = useSpring({
-        from: { stroke: 'var(--cor-primaria-transparente)' , strokeDasharray: length, strokeDashoffset: length },
-        to: { stroke: 'var(--cor-primaria)', strokeDasharray: length, strokeDashoffset: 0 },
+        from: { opacity: 0 , strokeDasharray: length, strokeDashoffset: length },
+        to: { opacity: 1, strokeDasharray: length, strokeDashoffset: 0 },
         config: config
     })
     

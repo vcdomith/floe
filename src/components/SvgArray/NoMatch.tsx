@@ -1,7 +1,6 @@
 import { animated, useSpring } from "@react-spring/web"
 import { useState } from "react"
 
-import './svgColorMap.scss'
 import svg from '../SvgArray/LogoSvg.module.scss'
 
 const Path = () => {
@@ -11,8 +10,8 @@ const Path = () => {
     const config = { tension: 300, friction: 200, mass: 5, damping: 1, precision: 0.1 }
 
     const animation = useSpring({
-        from: { stroke: 'var(--cor-primaria-transparente)' , strokeDasharray: length, strokeDashoffset: length },
-        to: { stroke: 'var(--cor-primaria)', strokeDasharray: length, strokeDashoffset: 0 },
+        from: { opacity: 0 , strokeDasharray: length, strokeDashoffset: length },
+        to: { opacity: 1, strokeDasharray: length, strokeDashoffset: 0 },
         config: config
     })
 

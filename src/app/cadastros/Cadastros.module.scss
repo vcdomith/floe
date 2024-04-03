@@ -1,0 +1,9 @@
+@use '../globalStyle.module.scss' as *;
+
+.container {
+
+    border: 2px solid $cor-primaria;
+    border-radius: 0.5rem;
+    overflow: hidden;
+
+}

@@ -10,8 +10,14 @@
 
     /* width: minmax(400px, 800px); */
     /* height: minmax(100vh, auto); */
+    box-sizing: border-box;
+    width: calc(100vw - 8rem);
+    max-width: calc(100vw - 8rem);
+    // max-width: 100% ;
+    // max-width: 100%;
     height: max-content;
     /* min-height: 100vh; */
+    // overflow-x: hidden;
 
     gap: 4rem;
     
@@ -19,9 +25,10 @@
     padding: 4rem 2rem;
     border-radius: 2rem;
 
-    background-color: $cor-secundaria;
+    background-color: transparentize($cor-secundaria, 0.1);
+    backdrop-filter: blur(1px);
 
-    transition: all 400ms;
+    // transition: width 600ms;
 
     .container {
     

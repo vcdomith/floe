@@ -9,28 +9,6 @@
     }
 }
 
-$steps: 11;
-
-$step-size: 100% /($steps + 1);
-
-@for $i from 1 through $steps {
-
-    $percentage: $step-size * $i;
-  
-    // Mix the two colors based on the percentage
-    $mixed-color: mix($cor-secundaria, $cor-primaria, $percentage);
-    // $mixed-color: mix($cor-primaria, $cor-secundaria, $percentage);
-  
-    // Assigning rules to specific elements
-    .background svg path:nth-child(#{$i}),
-    .logoHole svg path:nth-child(#{$i}) {
-    fill: darken(saturate($mixed-color, 10%), 5%);
-    // fill: $mixed-color;
-
-  }
-
-}
-
 .bg {
 
     // background-image: url('../../public/assets/png.monster-688.png');

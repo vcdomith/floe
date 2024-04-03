@@ -3,7 +3,7 @@ import { Inter } from 'next/font/google'
 import './globalStyle.module.scss'
 import SvgArray from '@/components/SvgArray/SvgArray'
 // import './globals.css'
-import layout from '@/app/layout.module.scss'
+import '@/app/layout.scss'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -22,7 +22,7 @@ export default function RootLayout({
       <body 
         // className={inter.className}
       >
-        <SvgArray className={layout.background} interval={1000}/>
+        <SvgArray className='background' interval={1000}/>
         {children}
       </body>
     </html>

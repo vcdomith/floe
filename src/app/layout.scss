@@ -1,0 +1,81 @@
+@use './globalStyle.module.scss' as *;
+
+$steps: 11;
+
+$step-size: 100% /($steps + 1);
+
+@for $i from 1 through $steps {
+
+    $percentage: $step-size * $i;
+  
+    // Mix the two colors based on the percentage
+    $mixed-color: mix($cor-secundaria, $cor-primaria, $percentage);
+    // $mixed-color: mix($cor-primaria, $cor-secundaria, $percentage);
+  
+    // Assigning rules to specific elements
+    .background svg path:nth-child(#{$i}),
+    .logoHole svg path:nth-child(#{$i}) {
+    fill: darken(saturate($mixed-color, 15%), 5%);
+    // fill: $mixed-color;
+
+  }
+
+}
+
+.background {
+
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-size: contain;
+
+    width: 100vmax;
+    // width: 100vh;
+    // height: 100vh;
+
+    // filter: url('#noise');
+
+    z-index: -1;
+
+    svg {
+
+        path {
+
+            transition: d 2s;
+
+            // fill: transparentize($cor-secundaria, 0.5);
+            // background: linear-gradient(180deg, $cor-secundaria, black);
+
+        }
+    }
+
+}
+
+body {
+    overflow-x: hidden;
+    font-family: $fonte-body;
+    color: $cor-primaria;
+}
+
+/* width */
+::-webkit-scrollbar {
+    width: 10px;
+}
+  
+/* Track */
+::-webkit-scrollbar-track {
+// background: #141414;
+// background: linear-gradient(180deg, $cor-primaria, $cor-secundaria);
+background: darken($cor-primaria, 5%);
+}
+  
+/* Handle */
+::-webkit-scrollbar-thumb {
+background: $cor-primaria;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+background: lighten($cor-primaria, 5%);
+// background: linear-gradient(90deg, #521843, #421236);
+}

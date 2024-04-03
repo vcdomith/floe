@@ -20,6 +20,7 @@ import LogoSvg from '@/components/SvgArray/LogoSvg'
 import { ICadastro } from '@/interfaces/ICadastro'
 import NoMatch from '@/components/SvgArray/NoMatch'
 import { dbConnect } from '@/utils/db/supabase'
+import Link from 'next/link'
 
 export default function Home() {
   
@@ -344,7 +345,7 @@ export default function Home() {
             >
             <span className={page.span}>
               {/* <SvgArray className={page.logoHole} interval={1000}/> */}
-              <LogoSvg loop={false}/>
+              <LogoSvg />
               {/* <NoMatch /> */}
               
               {/* <h2>TABELA DE PREÇOS</h2> */}
@@ -404,7 +405,7 @@ export default function Home() {
             </div>
           </main>
           
-        </div>
+          </div>
           <FatoresTable
             display={true}
             fatores={fatores}
@@ -412,7 +413,7 @@ export default function Home() {
             valor={valor}
             setValor={setValor}
             handleSubmit={adicionarValor}
-          />
+            />
         {/* <div className={page.container_tabela}>
         </div> */}
       {/* <div className='table-container'> */}
@@ -505,12 +506,15 @@ export default function Home() {
           >
           Salvar Dados
         </button>
-        <button
+        <Link href='/cadastros'>
+          <button>Ver cadastros</button>
+        </Link>
+        {/* <button
           // onClick={() => handleSave()}
           onClick={() => handleReadDB()}
           >
           Ler Dados
-        </button>
+        </button> */}
         </div>
       {/* </div> */}
     </Container>

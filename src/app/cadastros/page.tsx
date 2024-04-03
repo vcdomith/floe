@@ -7,6 +7,9 @@ import { createClient } from "@supabase/supabase-js"
 import { useState } from "react"
 import Cadastro from "./Cadastro/Cadastro"
 
+import style from './Cadastros.module.scss'
+import Link from "next/link"
+
 //Exportando 'revalidate' com valor 0, desse componente, a API do supabase sabe que deve revalidar os dados a cada refresh assim como um getServerSideProps
 export const revalidate = 0
 
@@ -30,15 +33,16 @@ export default async function Cadastros() {
                 </div>
             </div>
             <div
-                style={{
-                    border: '2px solid purple'
-                }}
+                className={style.container}
             >
             {cadastros?.map( (cadastro: ICadastro) => 
                 <Cadastro key={cadastro.id} cadastro={cadastro}/>
             )}
             </div>
         </div>
+        <Link href='/'>
+          <button>Voltar home</button>
+        </Link>
     </Container>
     )
 

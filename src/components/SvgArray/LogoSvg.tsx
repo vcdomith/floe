@@ -6,7 +6,7 @@ import svg from './LogoSvg.module.scss'
 
 interface SvgProps {
 
-    loop: boolean
+    loop?: boolean
     corPrimaria?: string
     corSecundaria?: string
 
@@ -78,7 +78,7 @@ const LogoSvg = ({ loop }: SvgProps) => {
     // onClick={() => setToggle(prev => !prev)}
     >
         {/* <rect width="500" height="500" fill="url(#paint0_linear_3_31)"/> */}
-        <Path loop={loop}
+        <Path loop={loop ? true : false}
         // toggle={toggle}
          />
         <circle style={{ zIndex: 1 }} cx="250" cy="250" r="200" fill="url(#paint0_radial_3_31)"/>

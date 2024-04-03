@@ -9,6 +9,8 @@ import { useState } from "react"
 
 import '@/components/Table/TableBody/TableBody.scss'
 
+import style from './Cadastro.module.scss'
+
 interface CadastroProps {
     cadastro: ICadastro
 }
@@ -75,16 +77,7 @@ const Cadastro = ({ cadastro }: CadastroProps) => {
     return (
         <>    
         <span 
-            style={{
-                display: 'flex',
-                justifyContent: 'space-evenly',
-                alignItems: 'center',
-                backgroundColor: 'white',
-                width: '100%',
-                height: '55.2px',
-                borderBottom: `${display ? '2px solid purple' : '2px solid transparent'}`,
-                transition: 'border-color 600ms ease-out',
-            }}
+            className={display ? `${style.wrapper} ${style.active}` : style.wrapper }
         >
             <div>{id}</div>
             <div>{new Date(created_at).toLocaleString()}</div>
@@ -103,20 +96,27 @@ const Cadastro = ({ cadastro }: CadastroProps) => {
         <div 
             className='tbody' 
             style={{
-                height: `${display ? produtos.length*55.2 : 0}px`,
-                transition: `height ${(55.2*produtos.length)/0.6}ms ease-out`,
+                height: `${display ? produtos.length*42 : 0}px`,
+                transition: `height ${(55.2*produtos.length)/0.6}ms ease-in, border-color ${(55.2*produtos.length)/0.6}ms ease-in`,
+                // transition: 'height 1000ms ease-out',
                 overflow: "hidden",
+                borderBottom: `${display ? '2px solid purple' : '0px solid transparent'}`,
             }}
         >  
             {produtos.map(({ id }, index) => 
             
                 <div  
                     className={`tr`}
+                    style={{ 
+                        maxHeight: '42px',
+                        // overflow: 'hidden'
+                     }}
                     key={(index*3.1415)}
                 >
                     {getTabelas(index).map((valor: string | number, index: number) => 
                         <div 
                             className='td'
+                            style={{ maxHeight: '42px', padding: '9.4px' }}
                             key={index}
                         >{
                             (typeof valor === 'number')

@@ -21,7 +21,7 @@ export default async function Cadastros() {
     // const 
 
     return (
-    <Container>
+    <>
         <div style={{
             backgroundColor: '#e8d4b0',
             width: '100%'
@@ -43,7 +43,7 @@ export default async function Cadastros() {
         <Link href='/'>
           <button>Voltar home</button>
         </Link>
-    </Container>
+    </>
     )
 
 }

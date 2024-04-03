@@ -4,6 +4,7 @@ import './globalStyle.module.scss'
 import SvgArray from '@/components/SvgArray/SvgArray'
 // import './globals.css'
 import '@/app/layout.scss'
+import Container from '@/components/Container/Container'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -23,7 +24,9 @@ export default function RootLayout({
         // className={inter.className}
       >
         <SvgArray className='background' interval={1000}/>
-        {children}
+        <Container>
+         {children}
+        </Container>
       </body>
     </html>
   )

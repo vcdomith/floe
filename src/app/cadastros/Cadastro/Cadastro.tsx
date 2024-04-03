@@ -90,17 +90,28 @@ const Cadastro = ({ cadastro }: CadastroProps) => {
             <button
                 onClick={() => setDisplay(prev => !prev)}
             >
-                mostar
+                <svg fill="#000000" width="30px"viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+                    <path 
+                        d={`${display 
+                            ? "M15.997 13.374l-7.081 7.081L7 18.54l8.997-8.998 9.003 9-1.916 1.916z"
+                            : "M16.003 18.626l7.081-7.081L25 13.46l-8.997 8.998-9.003-9 1.917-1.916z"
+                        }`}
+                    />
+                </svg>
             </button>
         </span>
         <div 
-            className='tbody' 
+            className={`tbody ${display ? 'active' : ''}`} 
             style={{
                 height: `${display ? produtos.length*42 : 0}px`,
-                transition: `height ${(55.2*produtos.length)/0.6}ms ease-in, border-color ${(55.2*produtos.length)/0.6}ms ease-in`,
+                transition: `
+                    height ${(produtos.length > 10) ? 1000 : 500}ms ease-in-out, 
+                    border ${(produtos.length > 10) ? 1000 : 500}ms ease-in-out
+                `,
+                fontSize: '1rem',
                 // transition: 'height 1000ms ease-out',
                 overflow: "hidden",
-                borderBottom: `${display ? '2px solid purple' : '0px solid transparent'}`,
+                borderBottom: `${display ? '2px solid' : '0px solid'}`,
             }}
         >  
             {produtos.map(({ id }, index) => 
@@ -109,6 +120,7 @@ const Cadastro = ({ cadastro }: CadastroProps) => {
                     className={`tr`}
                     style={{ 
                         maxHeight: '42px',
+                        borderRadius: 0,
                         // overflow: 'hidden'
                      }}
                     key={(index*3.1415)}

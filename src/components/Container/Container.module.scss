@@ -25,8 +25,9 @@
     padding: 4rem 2rem;
     border-radius: 2rem;
 
-    background-color: transparentize($cor-secundaria, 0.1);
-    backdrop-filter: blur(1px);
+    // background-color: transparentize($cor-secundaria, 0.1);
+    background-color: $cor-secundaria;
+    // backdrop-filter: blur(3px);
 
     // transition: width 600ms;
 

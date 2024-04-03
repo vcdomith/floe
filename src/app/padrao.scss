@@ -31,23 +31,23 @@ body {
 
 }
 
-/* width */
-::-webkit-scrollbar {
-    width: 10px;
-}
+// /* width */
+// ::-webkit-scrollbar {
+//     width: 10px;
+// }
   
-/* Track */
-::-webkit-scrollbar-track {
-background: #141414;
-}
+// /* Track */
+// ::-webkit-scrollbar-track {
+// background: #141414;
+// }
   
-/* Handle */
-::-webkit-scrollbar-thumb {
-background: #421236;
-}
+// /* Handle */
+// ::-webkit-scrollbar-thumb {
+// background: #421236;
+// }
 
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-background: #521843;
-background: linear-gradient(90deg, #521843, #421236);
-}
+// /* Handle on hover */
+// ::-webkit-scrollbar-thumb:hover {
+// background: #521843;
+// background: linear-gradient(90deg, #521843, #421236);
+// }

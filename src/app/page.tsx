@@ -289,6 +289,11 @@ export default function Home() {
 
   async function handleSaveDB() {
 
+    if (controleProdutos.length === 0) {
+      console.log('Não é possível fazer um cadastro vazio!');
+      return
+    }
+
     try {
 
       let { data: cadastros, error } = await supabase
@@ -312,7 +317,7 @@ export default function Home() {
   }
   
   async function handleReadDB() {
-    
+
     try {
 
       let { data: produtos, error } = await supabase
@@ -336,7 +341,7 @@ export default function Home() {
     {/* <SvgArray className={page.background} interval={1000}/> */}
     {/* <div className={page.backgroundOverlay}></div> */}
 
-      <Container>
+      {/* <Container> */}
         <div
           className={page.container_descricao}
         >
@@ -349,8 +354,8 @@ export default function Home() {
               {/* <NoMatch /> */}
               
               {/* <h2>TABELA DE PREÇOS</h2> */}
-              <h2>Tabela de Preços</h2>
-              {/* <h2>Floe</h2> */}
+              {/* <h2>Tabela de Preços</h2> */}
+              <h2>Floe</h2>
               {/* <h2>RipTide</h2> */}
   
             </span>
@@ -418,6 +423,18 @@ export default function Home() {
         </div> */}
       {/* <div className='table-container'> */}
         <div className={page.table}>
+          <span
+            id='target'
+            onClick={() => {
+              const target = document.getElementById('target')
+              target?.scrollIntoView({ behavior: 'smooth'})
+            }}
+            style={{
+              width: '100%',
+              height: '1rem',
+              borderTop: '2px dashed',
+            }}
+          ></span>
         {controleProdutos.length > 0 &&
         <span className={input.filtros}>
           <div
@@ -517,7 +534,7 @@ export default function Home() {
         </button> */}
         </div>
       {/* </div> */}
-    </Container>
+    {/* </Container> */}
     </>
   )
 }

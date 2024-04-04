@@ -65,7 +65,7 @@ export default function Home() {
   let displayRef = Array(controleProdutos.length).fill(false)
   const [fatoresDisplay, setFatoresDisplay] = useState<boolean[]>(displayRef)
 
-  const scrollRef = useRef<HTMLSpanElement | null>(null)
+  const scrollRef = useRef<SVGSVGElement | null>(null)
 
   const [pattern, setPattern] = useState("M0 276C78.5 276 75.9948 156 198.5 156C311.5 156 180 378 311 378C434.077 378 402.5 276.5 500 276.5")
 

@@ -40,7 +40,7 @@ export default async function Cadastros() {
             )}
             </div>
         </div>
-        <Link href='/'>
+        <Link href='/' prefetch>
           <button>Voltar home</button>
         </Link>
     </>

@@ -1,6 +1,6 @@
 'use client'
 
-import { ChangeEvent, FormEvent, SyntheticEvent, use, useEffect, useMemo, useRef, useState } from 'react'
+import { ChangeEvent, FormEvent, Suspense, SyntheticEvent, use, useEffect, useMemo, useRef, useState } from 'react'
 import { IValores } from '@/interfaces/IValores'
 import Table from '@/components/Table/Table'
 import Container from '@/components/Container/Container'
@@ -21,11 +21,14 @@ import { ICadastro } from '@/interfaces/ICadastro'
 import NoMatch from '@/components/SvgArray/NoMatch'
 import { dbConnect } from '@/utils/db/supabase'
 import Link from 'next/link'
+import Loading from './loading/page'
 
 export default function Home() {
   
+  // Utils
   const { stringToFloat, floatToString } = Converter
 
+  // Conexão DB
   const supabase = useMemo(() => dbConnect(), [])
   
   // Estados para cadastros de preços na tabela
@@ -61,6 +64,10 @@ export default function Home() {
   // Produto Ativo
   let displayRef = Array(controleProdutos.length).fill(false)
   const [fatoresDisplay, setFatoresDisplay] = useState<boolean[]>(displayRef)
+
+  const scrollRef = useRef<HTMLSpanElement | null>(null)
+
+  const [pattern, setPattern] = useState("M0 276C78.5 276 75.9948 156 198.5 156C311.5 156 180 378 311 378C434.077 378 402.5 276.5 500 276.5")
 
   const formatValor = (valor: string): string => {
 
@@ -335,6 +342,37 @@ export default function Home() {
 
   }
 
+  useEffect(() => {
+
+    const paths = [
+      "M0 276C78.5 276 123.995 454 246.5 454C359.5 454 130.5 454 261.5 454C384.577 454 402.5 276.5 500 276.5",
+      "M0 377C78.5 377 123.995 199 246.5 199C359.5 199 130.5 199 261.5 199C384.577 199 402.5 376.5 500 376.5"
+    ]
+
+    const intervalId = setInterval(() => {
+
+      setPattern(prev => {
+        if (paths[0] === prev) {
+
+          return paths[1]
+        } 
+
+        return paths[0]
+      })
+      
+
+      // const randomIndex = Math.floor(Math.random() * svgArray.length);
+      // setSvg(svgArray[randomIndex])
+      // const getRandomSvg = () => {
+      //     return svgArray[randomIndex];
+      //   };
+
+    }, 800)
+
+    return () => clearInterval(intervalId)
+
+  }, [])
+
   return (
     <>
     {/* <div className={page.bg}></div> */}
@@ -423,18 +461,33 @@ export default function Home() {
         </div> */}
       {/* <div className='table-container'> */}
         <div className={page.table}>
-          <span
-            id='target'
+          <svg 
+            className={page.scroll}
+            ref={scrollRef}
             onClick={() => {
-              const target = document.getElementById('target')
-              target?.scrollIntoView({ behavior: 'smooth'})
+              if (scrollRef.current)
+              scrollRef.current.scrollIntoView({ behavior: 'smooth', block: 'start'})
             }}
-            style={{
-              width: '100%',
-              height: '1rem',
-              borderTop: '2px dashed',
+            // onMouseEnter={() => setPattern("M0 276C78.5 276 123.995 454 246.5 454C359.5 454 130.5 454 261.5 454C384.577 454 402.5 276.5 500 276.5")}
+            // onMouseLeave={() => setPattern("M0 377C78.5 377 123.995 199 246.5 199C359.5 199 130.5 199 261.5 199C384.577 199 402.5 376.5 500 376.5")}
+          >
+            <defs>
+              <pattern id="pattern" patternUnits="userSpaceOnUse" width="50" height="50">
+              <svg width="50" height="50" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d={pattern} stroke="black" stroke-width="40"/>
+              </svg>
+              </pattern>
+            </defs>
+            <rect width='100%' height='100%' fill='url(#pattern)'/>
+          </svg>
+          {/* <span
+            className={page.scroll}
+            ref={scrollRef}
+            onClick={() => {
+              if (scrollRef.current)
+              scrollRef.current.scrollIntoView({ behavior: 'smooth', block: 'start'})
             }}
-          ></span>
+          ></span> */}
         {controleProdutos.length > 0 &&
         <span className={input.filtros}>
           <div
@@ -523,9 +576,11 @@ export default function Home() {
           >
           Salvar Dados
         </button>
-        <Link href='/cadastros'>
-          <button>Ver cadastros</button>
-        </Link>
+        <Suspense fallback={<Loading/>}>
+          <Link href='/cadastros' prefetch>
+            <button>Ver cadastros</button>
+          </Link>
+        </Suspense>
         {/* <button
           // onClick={() => handleSave()}
           onClick={() => handleReadDB()}
@@ -538,3 +593,18 @@ export default function Home() {
     </>
   )
 }
+
+export const SvgTile = () => {
+
+  return (
+    <svg>
+      <defs>
+        <filter id="tile" x="0" y="0" width="100%" height="100%">
+          <feTile in="SourceGraphic" x="50" y="50" width="50" height="50"></feTile>
+        </filter>
+      </defs>
+    </svg>
+  )
+
+}
+

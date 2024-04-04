@@ -38,3 +38,66 @@
     background-color: $cor-mix;
 
 }
+
+.scroll {
+
+    // background-color: $cor-mix;
+    // mask-image: url('../assets/tile.svg');
+    // position: relative;
+    border-radius: 1rem;
+    width: 30%;
+    height: 50px;
+    // border: 2px dashed transparent;
+    // border-top: 2px dashed $cor-primaria-transparent;
+
+    // transition: d 600ms;
+
+    // filter: url('#tile');
+
+    cursor: pointer;
+
+    .down {
+        position: absolute;
+        left: 0;
+
+        background-color: transparent;
+
+        opacity: 0;
+        transition: opacity 600ms;
+    }
+
+    &:hover {
+        
+        background-color: transparentize($cor-primaria, 0.98);
+        border-top-color: transparent;
+        // mask-image: url('../assets/tile2.svg');
+        
+        // border: 2px dashed;
+        
+        pattern {
+
+            svg {
+                path {
+                    stroke: $cor-primaria-transparent;
+                }
+            }
+        }
+
+        & > .down {
+            opacity: 1;
+            background-color: $cor-primaria;
+        }
+    }
+
+    pattern {
+        svg {
+            path {
+                stroke: $cor-mix;
+
+                transition: all 850ms ease-out;
+
+            }
+        }
+    }
+
+}

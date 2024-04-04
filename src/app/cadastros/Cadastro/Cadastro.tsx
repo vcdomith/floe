@@ -5,7 +5,7 @@ import { IProduto } from "@/interfaces/IProduto"
 import { IValores } from "@/interfaces/IValores"
 import Converter from "@/utils/typeConversion"
 import { table } from "console"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
 import '@/components/Table/TableBody/TableBody.scss'
 
@@ -18,6 +18,8 @@ interface CadastroProps {
 const Cadastro = ({ cadastro }: CadastroProps) => {
 
     const [display, setDisplay] = useState(false)
+
+    const [pattern, setPattern] = useState("M0 377C78.5 377 123.995 199 246.5 199C359.5 199 130.5 199 261.5 199C384.577 199 402.5 376.5 500 376.5")
 
     const { id, created_at, produtos } = cadastro
 
@@ -74,6 +76,37 @@ const Cadastro = ({ cadastro }: CadastroProps) => {
         return Object.values(tabelas)
     }
 
+    useEffect(() => {
+
+        const paths = [
+        "M0 276C78.5 276 123.995 454 246.5 454C359.5 454 130.5 454 261.5 454C384.577 454 402.5 276.5 500 276.5",
+        "M0 377C78.5 377 123.995 199 246.5 199C359.5 199 130.5 199 261.5 199C384.577 199 402.5 376.5 500 376.5"
+        ]
+
+        const intervalId = setInterval(() => {
+
+        setPattern(prev => {
+            if (paths[0] === prev) {
+
+            return paths[1]
+            } 
+
+            return paths[0]
+        })
+        
+
+        // const randomIndex = Math.floor(Math.random() * svgArray.length);
+        // setSvg(svgArray[randomIndex])
+        // const getRandomSvg = () => {
+        //     return svgArray[randomIndex];
+        //   };
+
+        }, 800)
+
+        return () => clearInterval(intervalId)
+
+    }, [])
+
     return (
         <>    
         <span 
@@ -82,6 +115,22 @@ const Cadastro = ({ cadastro }: CadastroProps) => {
             <div>{id}</div>
             <div>{new Date(created_at).toLocaleString()}</div>
             <div>{`${produtos.length} produtos`}</div>
+            <svg 
+            className={style.scroll}
+            style={{ transition: `d ${1000/produtos.length}ms`}}
+            // onMouseEnter={() => setPattern("M0 199C78.5 199 238.5 269 238.5 377C238.5 485 259 487 259 377C259 267 402.5 199.5 500 199.5")}
+            // onMouseLeave={() => setPattern("M0 276C78.5 276 123.995 454 246.5 454C359.5 454 130.5 454 261.5 454C384.577 454 402.5 276.5 500 276.5")}
+            >
+                <defs>
+                <pattern id={`pattern${id}`} patternUnits="userSpaceOnUse" width='50' height="50">
+                <svg width="50" height="50" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path style={{ transition: `d ${20000/produtos.length}ms`}} d={pattern} stroke="black" stroke-width='40'/>
+                </svg>
+                <rect width='100%' height='100%' fill={`url(#pattern${id})`}/>
+                </pattern>
+                </defs>
+                <rect width='100%' height='100%' fill={`url(#pattern${id})`}/>
+            </svg>
             {/* {produtos.map(({ id, unitario, fatores }: IProduto) => 
                 <td key={id}>
                     <p>{unitario}</p>

@@ -67,7 +67,7 @@ export default function Home() {
 
   const scrollRef = useRef<SVGSVGElement | null>(null)
 
-  const [pattern, setPattern] = useState("M0 276C78.5 276 75.9948 156 198.5 156C311.5 156 180 378 311 378C434.077 378 402.5 276.5 500 276.5")
+  const [pattern, setPattern] = useState("M0 377C78.5 377 123.995 199 246.5 199C359.5 199 130.5 199 261.5 199C384.577 199 402.5 376.5 500 376.5")
 
   const formatValor = (valor: string): string => {
 
@@ -342,36 +342,36 @@ export default function Home() {
 
   }
 
-  useEffect(() => {
+  // useEffect(() => {
 
-    const paths = [
-      "M0 276C78.5 276 123.995 454 246.5 454C359.5 454 130.5 454 261.5 454C384.577 454 402.5 276.5 500 276.5",
-      "M0 377C78.5 377 123.995 199 246.5 199C359.5 199 130.5 199 261.5 199C384.577 199 402.5 376.5 500 376.5"
-    ]
+  //   const paths = [
+  //     "M0 276C78.5 276 123.995 454 246.5 454C359.5 454 130.5 454 261.5 454C384.577 454 402.5 276.5 500 276.5",
+  //     "M0 377C78.5 377 123.995 199 246.5 199C359.5 199 130.5 199 261.5 199C384.577 199 402.5 376.5 500 376.5"
+  //   ]
 
-    const intervalId = setInterval(() => {
+  //   const intervalId = setInterval(() => {
 
-      setPattern(prev => {
-        if (paths[0] === prev) {
+  //     setPattern(prev => {
+  //       if (paths[0] === prev) {
 
-          return paths[1]
-        } 
+  //         return paths[1]
+  //       } 
 
-        return paths[0]
-      })
+  //       return paths[0]
+  //     })
       
 
-      // const randomIndex = Math.floor(Math.random() * svgArray.length);
-      // setSvg(svgArray[randomIndex])
-      // const getRandomSvg = () => {
-      //     return svgArray[randomIndex];
-      //   };
+  //     // const randomIndex = Math.floor(Math.random() * svgArray.length);
+  //     // setSvg(svgArray[randomIndex])
+  //     // const getRandomSvg = () => {
+  //     //     return svgArray[randomIndex];
+  //     //   };
 
-    }, 800)
+  //   }, 800)
 
-    return () => clearInterval(intervalId)
+  //   return () => clearInterval(intervalId)
 
-  }, [])
+  // }, [])
 
   return (
     <>
@@ -461,25 +461,7 @@ export default function Home() {
         </div> */}
       {/* <div className='table-container'> */}
         <div className={page.table}>
-          <svg 
-            className={page.scroll}
-            ref={scrollRef}
-            onClick={() => {
-              if (scrollRef.current)
-              scrollRef.current.scrollIntoView({ behavior: 'smooth', block: 'start'})
-            }}
-            // onMouseEnter={() => setPattern("M0 276C78.5 276 123.995 454 246.5 454C359.5 454 130.5 454 261.5 454C384.577 454 402.5 276.5 500 276.5")}
-            // onMouseLeave={() => setPattern("M0 377C78.5 377 123.995 199 246.5 199C359.5 199 130.5 199 261.5 199C384.577 199 402.5 376.5 500 376.5")}
-          >
-            <defs>
-              <pattern id="pattern" patternUnits="userSpaceOnUse" width="50" height="50">
-              <svg width="50" height="50" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d={pattern} stroke="black" stroke-width="40"/>
-              </svg>
-              </pattern>
-            </defs>
-            <rect width='100%' height='100%' fill='url(#pattern)'/>
-          </svg>
+          
           {/* <span
             className={page.scroll}
             ref={scrollRef}
@@ -489,7 +471,34 @@ export default function Home() {
             }}
           ></span> */}
         {controleProdutos.length > 0 &&
+        <>
+        <svg 
+            className={page.scroll}
+            ref={scrollRef}
+            onClick={() => {
+              if (scrollRef.current)
+              scrollRef.current.scrollIntoView({ behavior: 'smooth', block: 'start'})
+            }}
+            onMouseEnter={() => setPattern("M0 199C78.5 199 238.5 269 238.5 377C238.5 485 259 487 259 377C259 267 402.5 199.5 500 199.5")}
+            onMouseLeave={() => setPattern("M0 276C78.5 276 123.995 454 246.5 454C359.5 454 130.5 454 261.5 454C384.577 454 402.5 276.5 500 276.5")}
+          >
+            <defs>
+              <pattern id="pattern" patternUnits="userSpaceOnUse" width="50" height="50">
+              <svg width="50" height="50" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d={pattern} stroke="black" stroke-width="40"/>
+              </svg>
+              <rect width='100%' height='100%' fill='url(#pattern)'/>
+            <svg className={page.down} fill="#000000" width="50px" height="50px" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><path d="M16.003 18.626l7.081-7.081L25 13.46l-8.997 8.998-9.003-9 1.917-1.916z"/></svg>
+              </pattern>
+            </defs>
+            <rect width='100%' height='100%' fill='url(#pattern)'/>
+            {/* <svg className={page.down} fill="#000000" width="50px" height="50px" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><path d="M16.003 18.626l7.081-7.081L25 13.46l-8.997 8.998-9.003-9 1.917-1.916z"/></svg> */}
+          </svg>
         <span className={input.filtros}>
+          <h1 style={{
+            fontSize: '2rem'
+          }}>#</h1>
+          <h3>novo</h3>
           <div
             className={input.sort}
           >
@@ -558,6 +567,7 @@ export default function Home() {
         
           </span>
         </span>
+        </>
         }
         <Table 
           valores={valores} 
@@ -570,15 +580,17 @@ export default function Home() {
           setFatoresDisplay={setFatoresDisplay}
           getIndex={getControleProdutoIndex}
         />
+        {controleProdutos.length > 0 &&
         <button
-          // onClick={() => handleSave()}
+          className={page.botao}
           onClick={() => handleSaveDB()}
           >
           Salvar Dados
         </button>
+        }
         <Suspense fallback={<Loading/>}>
           <Link href='/cadastros' prefetch>
-            <button>Ver cadastros</button>
+            <button className={page.botao}>Ver cadastros</button>
           </Link>
         </Suspense>
         {/* <button

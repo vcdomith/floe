@@ -388,21 +388,32 @@
 
         // background-color: $cor-mix;
         // mask-image: url('../assets/tile.svg');
-
+        position: relative;
+        border-radius: 1rem;
         width: 100%;
         height: 50px;
         // border: 2px dashed transparent;
         // border-top: 2px dashed $cor-primaria-transparent;
 
-        transition: all 600ms;
+        transition: d 600ms;
 
         // filter: url('#tile');
 
         cursor: pointer;
 
+        .down {
+            position: absolute;
+            left: 0;
+
+            background-color: transparent;
+
+            opacity: 0;
+            transition: opacity 600ms;
+        }
+
         &:hover {
             
-            // background-color: $cor-primaria-transparent;
+            background-color: transparentize($cor-primaria, 0.98);
             border-top-color: transparent;
             // mask-image: url('../assets/tile2.svg');
             
@@ -417,6 +428,10 @@
                 }
             }
 
+            & > .down {
+                opacity: 1;
+                background-color: $cor-primaria;
+            }
         }
 
         pattern {

@@ -593,18 +593,3 @@ export default function Home() {
     </>
   )
 }
-
-export const SvgTile = () => {
-
-  return (
-    <svg>
-      <defs>
-        <filter id="tile" x="0" y="0" width="100%" height="100%">
-          <feTile in="SourceGraphic" x="50" y="50" width="50" height="50"></feTile>
-        </filter>
-      </defs>
-    </svg>
-  )
-
-}
-

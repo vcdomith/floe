@@ -78,34 +78,32 @@ const Cadastro = ({ cadastro }: CadastroProps) => {
 
     useEffect(() => {
 
+        // const paths = [
+        // `M0 276C78.5 276 123.995 454 246.5 454C359.5 454 130.5 454 261.5 454C384.577 454 402.5 276.5 500 276.5`,
+        // "M0 377C78.5 377 123.995 199 246.5 199C359.5 199 130.5 199 261.5 199C384.577 199 402.5 376.5 500 376.5"
+        // ]
+
         const paths = [
-        "M0 276C78.5 276 123.995 454 246.5 454C359.5 454 130.5 454 261.5 454C384.577 454 402.5 276.5 500 276.5",
-        "M0 377C78.5 377 123.995 199 246.5 199C359.5 199 130.5 199 261.5 199C384.577 199 402.5 376.5 500 376.5"
+            "M0 161C78.5 161 123.995 339 246.5 339C359.5 339 130.5 339 261.5 339C384.577 339 402.5 161.5 500 161.5",
+            "M0 339C78.5 339 123.995 161 246.5 161C359.5 161 130.5 161 261.5 161C384.577 161 402.5 338.5 500 338.5"
         ]
 
         const intervalId = setInterval(() => {
 
-        setPattern(prev => {
-            if (paths[0] === prev) {
+            setPattern(prev => {
+                if (paths[0] === prev) {
 
-            return paths[1]
-            } 
+                return paths[1]
+                } 
 
-            return paths[0]
-        })
-        
+                return paths[0]
+            })
 
-        // const randomIndex = Math.floor(Math.random() * svgArray.length);
-        // setSvg(svgArray[randomIndex])
-        // const getRandomSvg = () => {
-        //     return svgArray[randomIndex];
-        //   };
-
-        }, 800)
+        }, 15000/produtos.length)
 
         return () => clearInterval(intervalId)
 
-    }, [])
+    }, [produtos.length])
 
     return (
         <>    
@@ -122,9 +120,9 @@ const Cadastro = ({ cadastro }: CadastroProps) => {
             // onMouseLeave={() => setPattern("M0 276C78.5 276 123.995 454 246.5 454C359.5 454 130.5 454 261.5 454C384.577 454 402.5 276.5 500 276.5")}
             >
                 <defs>
-                <pattern id={`pattern${id}`} patternUnits="userSpaceOnUse" width='50' height="50">
+                <pattern id={`pattern${id}`} patternUnits="userSpaceOnUse" x={0} y={0} width='50' height="50">
                 <svg width="50" height="50" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path style={{ transition: `d ${20000/produtos.length}ms`}} d={pattern} stroke="black" stroke-width='40'/>
+                <path d={pattern} style={{ transition: `d ${20000/produtos.length}ms`}} stroke="black" stroke-width='40'/>
                 </svg>
                 <rect width='100%' height='100%' fill={`url(#pattern${id})`}/>
                 </pattern>

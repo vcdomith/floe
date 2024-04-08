@@ -67,7 +67,7 @@ export default function Home() {
 
   const scrollRef = useRef<SVGSVGElement | null>(null)
 
-  const [pattern, setPattern] = useState("M0 377C78.5 377 123.995 199 246.5 199C359.5 199 130.5 199 261.5 199C384.577 199 402.5 376.5 500 376.5")
+  const [pattern, setPattern] = useState("M250 344.5C129.581 344.5 0 159.5 0 159.5V500H500V159.5C500 159.5 370.419 344.5 250 344.5Z")
 
   const formatValor = (valor: string): string => {
 
@@ -342,36 +342,42 @@ export default function Home() {
 
   }
 
-  // useEffect(() => {
+  const [iconPat, setIconPat] = useState("M0 161C78.5 161 123.995 339 246.5 339C359.5 339 130.5 339 261.5 339C384.577 339 402.5 161.5 500 161.5")
 
-  //   const paths = [
-  //     "M0 276C78.5 276 123.995 454 246.5 454C359.5 454 130.5 454 261.5 454C384.577 454 402.5 276.5 500 276.5",
-  //     "M0 377C78.5 377 123.995 199 246.5 199C359.5 199 130.5 199 261.5 199C384.577 199 402.5 376.5 500 376.5"
-  //   ]
+  useEffect(() => {
 
-  //   const intervalId = setInterval(() => {
+    // const paths = [
+    //   "M0 161C78.5 161 123.995 339 246.5 339C359.5 339 130.5 339 261.5 339C384.577 339 402.5 161.5 500 161.5",
+    //   "M0 339C78.5 339 123.995 161 246.5 161C359.5 161 130.5 161 261.5 161C384.577 161 402.5 338.5 500 338.5"
+    // ]
+    const paths = [
+      "M250 344.5C129.581 344.5 0 159.5 0 159.5V500H500V159.5C500 159.5 370.419 344.5 250 344.5Z",
+      "M250 149C129.581 149 0 339 0 339V500H500V339C500 339 370.419 149 250 149Z"
+    ]
 
-  //     setPattern(prev => {
-  //       if (paths[0] === prev) {
+    const intervalId = setInterval(() => {
 
-  //         return paths[1]
-  //       } 
+      setPattern(prev => {
+        if (paths[0] === prev) {
 
-  //       return paths[0]
-  //     })
+          return paths[1]
+        } 
+
+        return paths[0]
+      })
       
 
-  //     // const randomIndex = Math.floor(Math.random() * svgArray.length);
-  //     // setSvg(svgArray[randomIndex])
-  //     // const getRandomSvg = () => {
-  //     //     return svgArray[randomIndex];
-  //     //   };
+      // const randomIndex = Math.floor(Math.random() * svgArray.length);
+      // setSvg(svgArray[randomIndex])
+      // const getRandomSvg = () => {
+      //     return svgArray[randomIndex];
+      //   };
 
-  //   }, 800)
+    }, 2000)
 
-  //   return () => clearInterval(intervalId)
+    return () => clearInterval(intervalId)
 
-  // }, [])
+  }, [])
 
   return (
     <>
@@ -392,8 +398,8 @@ export default function Home() {
               {/* <NoMatch /> */}
               
               {/* <h2>TABELA DE PREÇOS</h2> */}
-              {/* <h2>Tabela de Preços</h2> */}
-              <h2>Floe</h2>
+              <h2>Tabela de Preços</h2>
+              {/* <h2>Floe</h2> */}
               {/* <h2>RipTide</h2> */}
   
             </span>
@@ -448,7 +454,6 @@ export default function Home() {
             </div>
           </main>
           
-          </div>
           <FatoresTable
             display={true}
             fatores={fatores}
@@ -457,6 +462,7 @@ export default function Home() {
             setValor={setValor}
             handleSubmit={adicionarValor}
             />
+          </div>
         {/* <div className={page.container_tabela}>
         </div> */}
       {/* <div className='table-container'> */}
@@ -476,11 +482,19 @@ export default function Home() {
             className={page.scroll}
             ref={scrollRef}
             onClick={() => {
-              if (scrollRef.current)
-              scrollRef.current.scrollIntoView({ behavior: 'smooth', block: 'start'})
+              if (scrollRef.current) {
+
+                const rect = scrollRef.current.getBoundingClientRect()
+                const viewportHeight: number = window.innerHeight
+
+                scrollRef.current.scrollIntoView({ 
+                  behavior: 'smooth', 
+                  block: `${(rect.top < viewportHeight / 2) ? 'end' : 'start'}`
+                })
+              }
             }}
-            onMouseEnter={() => setPattern("M0 199C78.5 199 238.5 269 238.5 377C238.5 485 259 487 259 377C259 267 402.5 199.5 500 199.5")}
-            onMouseLeave={() => setPattern("M0 276C78.5 276 123.995 454 246.5 454C359.5 454 130.5 454 261.5 454C384.577 454 402.5 276.5 500 276.5")}
+            // onMouseEnter={() => setPattern("M0 199C78.5 199 238.5 269 238.5 377C238.5 485 259 487 259 377C259 267 402.5 199.5 500 199.5")}
+            // onMouseLeave={() => setPattern("M0 276C78.5 276 123.995 454 246.5 454C359.5 454 130.5 454 261.5 454C384.577 454 402.5 276.5 500 276.5")}
           >
             <defs>
               <pattern id="pattern" patternUnits="userSpaceOnUse" width="50" height="50">
@@ -494,79 +508,91 @@ export default function Home() {
             <rect width='100%' height='100%' fill='url(#pattern)'/>
             {/* <svg className={page.down} fill="#000000" width="50px" height="50px" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><path d="M16.003 18.626l7.081-7.081L25 13.46l-8.997 8.998-9.003-9 1.917-1.916z"/></svg> */}
           </svg>
-        <span className={input.filtros}>
-          <h1 style={{
-            fontSize: '2rem'
-          }}>#</h1>
-          <h3>novo</h3>
-          <div
-            className={input.sort}
-          >
-            <button className={input.button} >
-              <svg 
-                onClick={() => handleSort('ascending')}
-                style={{opacity: `${sorted === 'ascending' ? '1' : '0.3'}`}} 
-                width="25px" 
-                height="25px" 
-                viewBox="0 0 32 32" 
-                xmlns="http://www.w3.org/2000/svg">
-                  <path d="M24 11.305l-7.997 11.39L8 11.305z"/>
+        <span className={input.header}>
+          <span className={input.id}>
+            <h1>#</h1>
+            {/* <svg className={input.icon}>
+              <defs>
+                <pattern id="patternIcon" patternUnits="userSpaceOnUse" width="50" height="50">
+                <svg width="50" height="50" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d={iconPat} stroke="black" stroke-width="40"/>
                 </svg>
-            </button>
-            <button className={input.button} >
-              <svg 
-                onClick={() => handleSort('descending')} 
-                style={{opacity: `${sorted === 'descending' ? '1' : '0.3'}`}} 
-                fill="#000000" 
-                width="25px" 
-                height="25px" 
-                viewBox="0 0 32 32" 
-                xmlns="http://www.w3.org/2000/svg">
-                <path d="M8 20.695l7.997-11.39L24 20.695z"/>
-              </svg>
-            </button>
-          </div>
-          <span
-            className={input.search}
-          >
-            {searchParam.length > 0 
-            
-            ? <button className={input.clear} >
-                <svg
-                  style={{opacity: `${searchParam.length > 0 ? '1' : '0'}`}}
-                  onClick={() => setSearchParam('')}
+                </pattern>
+              </defs>
+              <rect width='100%' height='100%' fill='url(#patternIcon)'/>
+            </svg> */}
+            <h3>novo</h3>
+          </span>
+          <span className={input.filtros}>
+            <div
+              className={input.sort}
+            >
+              <button className={input.button} >
+                <svg 
+                  onClick={() => handleSort('ascending')}
+                  style={{opacity: `${sorted === 'ascending' ? '1' : '0.3'}`}} 
                   width="25px" 
                   height="25px" 
                   viewBox="0 0 32 32" 
-                  xmlns="http://www.w3.org/2000/svg"
-                >   
-                    <path 
-                        d="M7.004 23.087l7.08-7.081-7.07-7.071L8.929 7.02l7.067 7.069L23.084 7l1.912 1.913-7.089 7.093 7.075 7.077-1.912 1.913-7.074-7.073L8.917 25z"
-                    />
+                  xmlns="http://www.w3.org/2000/svg">
+                    <path d="M24 11.305l-7.997 11.39L8 11.305z"/>
+                  </svg>
+              </button>
+              <button className={input.button} >
+                <svg 
+                  onClick={() => handleSort('descending')} 
+                  style={{opacity: `${sorted === 'descending' ? '1' : '0.3'}`}} 
+                  fill="#000000" 
+                  width="25px" 
+                  height="25px" 
+                  viewBox="0 0 32 32" 
+                  xmlns="http://www.w3.org/2000/svg">
+                  <path d="M8 20.695l7.997-11.39L24 20.695z"/>
                 </svg>
-            </button>
-            : <svg 
-                className={input.lupa}
-                width="25px" 
-                height="25px" 
-                viewBox="-100 -300 2700 2700" 
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                  <path d="M1458.948 1305.626c104.637-136.95 167.527-307.187 167.527-492.388C1626.475 364.764 1261.711 0 813.238 0 364.764 0 0 364.764 0 813.238c0 448.473 364.764 813.237 813.238 813.237 185.201 0 355.547-62.89 492.496-167.527L1766.678 1920 1920 1766.678l-461.052-461.052Zm-645.71 103.986c-328.874 0-596.375-267.61-596.375-596.374 0-328.765 267.501-596.375 596.375-596.375 328.873 0 596.374 267.61 596.374 596.375s-267.501 596.374-596.374 596.374Z" fillRule="evenodd"/>
-              </svg>
-            }
-            <NumberInput 
-              placeholder='Buscar'
-              valor={searchParam}
-              setValor={setSearchParam}
-              className={input.input}
-              onKeyDown={(e: KeyboardEvent) => {if(e.key === 'Escape') setSearchParam('')}}
-              // required={false}
-              // onBlur={() => setSearchParam('')}
-            />
-        
+              </button>
+            </div>
+            <span
+              className={input.search}
+            >
+              {searchParam.length > 0 
+              
+              ? <button className={input.clear} >
+                  <svg
+                    style={{opacity: `${searchParam.length > 0 ? '1' : '0'}`}}
+                    onClick={() => setSearchParam('')}
+                    width="25px" 
+                    height="25px" 
+                    viewBox="0 0 32 32" 
+                    xmlns="http://www.w3.org/2000/svg"
+                  >   
+                      <path 
+                          d="M7.004 23.087l7.08-7.081-7.07-7.071L8.929 7.02l7.067 7.069L23.084 7l1.912 1.913-7.089 7.093 7.075 7.077-1.912 1.913-7.074-7.073L8.917 25z"
+                      />
+                  </svg>
+              </button>
+              : <svg 
+                  className={input.lupa}
+                  width="25px" 
+                  height="25px" 
+                  viewBox="-100 -300 2700 2700" 
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                    <path d="M1458.948 1305.626c104.637-136.95 167.527-307.187 167.527-492.388C1626.475 364.764 1261.711 0 813.238 0 364.764 0 0 364.764 0 813.238c0 448.473 364.764 813.237 813.238 813.237 185.201 0 355.547-62.89 492.496-167.527L1766.678 1920 1920 1766.678l-461.052-461.052Zm-645.71 103.986c-328.874 0-596.375-267.61-596.375-596.374 0-328.765 267.501-596.375 596.375-596.375 328.873 0 596.374 267.61 596.374 596.375s-267.501 596.374-596.374 596.374Z" fillRule="evenodd"/>
+                </svg>
+              }
+              <NumberInput 
+                placeholder='Buscar'
+                valor={searchParam}
+                setValor={setSearchParam}
+                className={input.input}
+                onKeyDown={(e: KeyboardEvent) => {if(e.key === 'Escape') setSearchParam('')}}
+                // required={false}
+                // onBlur={() => setSearchParam('')}
+              />
+          
+            </span>
           </span>
-        </span>
+        </span> 
         </>
         }
         <Table 

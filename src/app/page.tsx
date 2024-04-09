@@ -351,8 +351,8 @@ export default function Home() {
     //   "M0 339C78.5 339 123.995 161 246.5 161C359.5 161 130.5 161 261.5 161C384.577 161 402.5 338.5 500 338.5"
     // ]
     const paths = [
-      "M250 344.5C129.581 344.5 0 159.5 0 159.5V500H500V159.5C500 159.5 370.419 344.5 250 344.5Z",
-      "M250 149C129.581 149 0 339 0 339V500H500V339C500 339 370.419 149 250 149Z"
+      "M178.5 250C65 250 62.5 275.5 0 275.5V500H500V275.5C437.5 275.5 292 250 178.5 250Z",
+      "M340 147C226.5 147 62.5 202.015 0 202.015V500H500V202.015C476.5 202.015 453.5 147 340 147Z"
     ]
 
     const intervalId = setInterval(() => {
@@ -466,8 +466,13 @@ export default function Home() {
         {/* <div className={page.container_tabela}>
         </div> */}
       {/* <div className='table-container'> */}
-        <div className={page.table}>
-          
+        <div 
+          className={page.table}
+          style={{ 
+            background: `${controleProdutos.length > 0 ? '' : 'none'}`, 
+            width: `${controleProdutos.length > 0 ? '' : '100%'}`,
+          }}
+        >  
           {/* <span
             className={page.scroll}
             ref={scrollRef}
@@ -511,16 +516,6 @@ export default function Home() {
         <span className={input.header}>
           <span className={input.id}>
             <h1>#</h1>
-            {/* <svg className={input.icon}>
-              <defs>
-                <pattern id="patternIcon" patternUnits="userSpaceOnUse" width="50" height="50">
-                <svg width="50" height="50" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d={iconPat} stroke="black" stroke-width="40"/>
-                </svg>
-                </pattern>
-              </defs>
-              <rect width='100%' height='100%' fill='url(#patternIcon)'/>
-            </svg> */}
             <h3>novo</h3>
           </span>
           <span className={input.filtros}>

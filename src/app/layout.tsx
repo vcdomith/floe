@@ -24,9 +24,9 @@ export default function RootLayout({
         // className={inter.className}
       >
         <SvgArray className='background' interval={2000}/>
-        <Container>
+        {/* <Container> */}
          {children}
-        </Container>
+        {/* </Container> */}
       </body>
     </html>
   )

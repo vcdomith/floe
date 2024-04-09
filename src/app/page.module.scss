@@ -390,7 +390,7 @@
 
     }
 
-    > * {
+    > *:not(.empty) {
 
         width: 90%;
 
@@ -408,7 +408,7 @@
         // border: 2px dashed transparent;
         // border-top: 2px dashed $cor-primaria-transparent;
 
-        transition: d 3000ms,
+        transition: d 3000ms ease-in,
         background-color 600ms;
 
         // filter: url('#tile');
@@ -428,7 +428,7 @@
         &:hover {
             
             // background-color: transparentize($cor-primaria, 0.98);
-            background-color: $cor-primaria;
+            background-color: $cor-primaria-transparent;
             border-top-color: transparent;
             // mask-image: url('../assets/tile2.svg');
             

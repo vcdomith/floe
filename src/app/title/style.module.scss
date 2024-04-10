@@ -15,7 +15,6 @@
     .wrapper {
 
         display: flex;
-        flex-direction: column;
         gap: 1rem;
 
         svg {
@@ -56,10 +55,24 @@
             }
         }
 
+        h2 {
+
+            font-size: 3rem;
+            color: $cor-secundaria;
+            width: 300px;
+
+
+        }
+
         .buttons {
 
             display: flex;
+            flex-direction: column;
+            justify-content: center;
             gap: 1rem;
+
+            border-left: 2px solid $cor-mix;
+            padding-left: 1rem;
 
             // height: 0;
             // animation: appear-down 2s forwards ease-out;
@@ -68,35 +81,33 @@
             a {
 
                 button {
+
                     display: inline-flex;
                     align-items: center;
+                    gap: 1rem;
                     padding: 0.5rem;
 
-                    width: 70px;
-
-                    height: 50px;
-                    // background-color: transparentize($cor-secundaria, 0.9);
+                    width: 200px;
+                    height: 75px;
                     background: none;
-                    color: $cor-secundaria;
-
-                    border: 2px solid transparent;
-                    // border: none;
                     outline: none;
+                    
+                    border: 2px solid transparent;
                     border-radius: 1rem;
-                    font-size: 1.5rem;
+                    
+                    color: $cor-secundaria;
                     font-family: $fonte-body;
-
+                    font-size: 1.5rem;
+                    text-align: start;
+                    font-weight: 500;
                     
                     backdrop-filter: blur(10px) saturate(110%);
-
-                    width: 200px;
-                    height: 100px;
 
                     overflow: hidden;
 
                     cursor: pointer;
 
-                    animation: appear-down 1s;
+                    animation: appear-left 1s;
 
                     transition: backdrop-filter 600ms,
                                 border 600ms,
@@ -106,7 +117,7 @@
 
                         border: 2px solid $cor-secundaria;
 
-                        width: 200px;
+                        // width: 200px;
 
                         backdrop-filter: blur(20px) saturate(120%);
                         filter: brightness(100%);
@@ -120,18 +131,29 @@
                     }
 
                     svg {
-                        width: 100px;
-                        height: 100px;
+                        min-width: 50px;
+                        max-width: 50px;
+                        max-height: 50px;
+                        // width: 100px;
+                        // height: 100px;
 
-                        path {
-
+                        
+                        path, circle {
+                            
                             stroke: $cor-secundaria;
 
                         }
 
-                        circle {
+                        .line {
 
-                            stroke: $cor-secundaria;
+                            stroke: $cor-primaria;
+
+                        }
+
+                        .fill {
+
+                            fill: $cor-secundaria;
+
                         }
                     }
 
@@ -168,7 +190,7 @@
     }
     100% {
 
-        height: 100px;
+        height: 75px;
 
     }
 

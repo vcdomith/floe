@@ -1,4 +1,4 @@
-@use '../globalStyle.module.scss' as *;
+@use './globalStyle.module.scss' as *;
 
 .container {
 
@@ -11,6 +11,13 @@
     height: 100vh;
 
     backdrop-filter: blur(10px);
+
+    strong { 
+
+        // color: saturate(mix($cor-primaria, $cor-secundaria, 5%), 50%); 
+        color: saturate($cor-secundaria, 30%);
+
+    }
 
     .wrapper {
 
@@ -30,37 +37,54 @@
         div {
 
             display: flex;
+            flex-direction: column;
             justify-content: center;
-            align-items: center;
+            // align-items: center;
 
             gap: 1rem;
 
-            span {
-        
-                width: 0;
-                overflow: hidden;
-        
-                animation: appear-left 2s forwards ease-out;
-                animation-delay: 2.5s;
-        
-                h1 {
+            .logoContainer {
+
+                display: flex;
+                gap: 1rem;
+
+                .nameContainer {
             
-                    color: $cor-secundaria;
-                    font-family: $fonte-body;
-                    font-style: italic;
-                    font-size: 3rem;
+                    display: flex;
+
+                    width: 0;
+                    overflow: hidden;
             
-                    user-select: none;
+                    animation: appear-left-100 2s forwards ease-out;
+                    animation-delay: 2.5s;
+            
+                    h1 {
+                
+                        display: flex;
+                        align-items: center;
+
+                        margin: 0;
+
+                        color: $cor-secundaria;
+                        font-family: $fonte-body;
+                        font-style: italic;
+                        font-size: 3rem;
+                
+                        user-select: none;
+                    }
                 }
+
             }
+
         }
 
         h2 {
 
             font-size: 3rem;
             color: $cor-secundaria;
-            width: 300px;
+            width: 40vw;
 
+            margin: 0;
 
         }
 
@@ -107,7 +131,7 @@
 
                     cursor: pointer;
 
-                    animation: appear-left 1s;
+                    animation: appear-left-200 2s;
 
                     transition: backdrop-filter 600ms,
                                 border 600ms,
@@ -166,7 +190,7 @@
     }
 }
 
-@keyframes appear-left {
+@keyframes appear-left-100 {
     
     0% {
 
@@ -176,6 +200,21 @@
     100% {
 
         width: 100px;
+
+    }
+
+}
+@keyframes appear-left-200 {
+    
+    0% {
+        opacity: 0;
+        width: 0;
+
+    }
+    100% {
+
+        opacity: 1;
+        width: 200px;
 
     }
 

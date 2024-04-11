@@ -70,7 +70,7 @@ $cor-mix: mix($cor-primaria, $cor-secundaria, 10%);
 $fonte-titulo: 'Glamuk';
 $fonte-body: 'Archivo';
 $fonte-header: 'Archivo SE';
-
+$fonte-destaque: 'Playfair Display';
 
 //Types
 @font-face {
@@ -88,6 +88,12 @@ $fonte-header: 'Archivo SE';
 @font-face {
     font-family: 'Glamuk';
     src: url('../fonts/glamukdisplaydemoversionregular-mavxr.otf');
+    font-weight: normal;
+    font-size: normal;
+}
+@font-face {
+    font-family: 'Playfair Display';
+    src: url('../fonts/PlayfairDisplay-Italic-VariableFont_wght.ttf');
     font-weight: normal;
     font-size: normal;
 }

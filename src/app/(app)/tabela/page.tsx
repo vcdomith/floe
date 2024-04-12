@@ -23,6 +23,8 @@ import { dbConnect } from '@/utils/db/supabase'
 import Link from 'next/link'
 import Loading from '../../loading/page'
 
+import Logos from '../(svg)/Logos'
+
 export default function Home() {
   
   // Utils
@@ -379,6 +381,8 @@ export default function Home() {
 
   }, [])
 
+  const { SvgTabela } = Logos
+
   return (
     <>
     {/* <div className={page.bg}></div> */}
@@ -394,11 +398,12 @@ export default function Home() {
             >
             <span className={page.span}>
               {/* <SvgArray className={page.logoHole} interval={1000}/> */}
-              <LogoSvg />
+              {/* <LogoSvg /> */}
+              {/* <SvgTabela /> */}
               {/* <NoMatch /> */}
               
               {/* <h2>TABELA DE PREÇOS</h2> */}
-              <h2>Tabela de Preços</h2>
+              {/* <h2>Tabela de Preços</h2> */}
               {/* <h2>Floe</h2> */}
               {/* <h2>RipTide</h2> */}
   

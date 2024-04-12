@@ -1,0 +1,11 @@
+@use '../../globalStyle.module.scss' as *;
+
+.logo {
+
+    path, circle {
+
+        stroke: $cor-primaria;
+
+    }
+
+}

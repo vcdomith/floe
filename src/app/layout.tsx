@@ -9,7 +9,7 @@ import Container from '@/components/Container/Container'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'Cálculo Tabelas',
+  title: 'Floe',
   description: 'Developed by DOMI studio',
 }
 

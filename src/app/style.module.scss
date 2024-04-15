@@ -96,11 +96,12 @@
             gap: 1rem;
 
             border-left: 2px solid $cor-mix;
-            padding-left: 1rem;
+            padding-left: 3rem;
 
             // height: 0;
             // animation: appear-down 2s forwards ease-out;
-            transition: opacity 2s ease-in;
+            // transition: opacity 2s ease-in;
+            animation: appear-left-200 2s;
 
             a {
 
@@ -109,9 +110,10 @@
                     display: inline-flex;
                     align-items: center;
                     gap: 1rem;
-                    padding: 0.5rem;
+                    padding: 1rem;
 
-                    width: 200px;
+                    // width: 200px;
+                    width: min-content;
                     height: 75px;
                     background: none;
                     outline: none;
@@ -131,7 +133,7 @@
 
                     cursor: pointer;
 
-                    animation: appear-left-200 2s;
+                    // animation: appear-left-200 2s;
 
                     transition: backdrop-filter 600ms,
                                 border 600ms,

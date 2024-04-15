@@ -1,0 +1,102 @@
+@use '../globalStyle.module.scss' as *;
+
+.header {
+
+    position: sticky;
+
+    display: flex;
+    width: 100vw;
+    gap: 2rem;
+
+    padding-left: 4rem;
+
+    border-bottom: 2px solid transparentize($cor-secundaria, 0.9);
+    
+    transition: border 1s ease;
+
+    &:hover {
+
+        border-bottom: 2px solid $cor-secundaria;
+
+        > span a button {
+
+            opacity: 1;
+
+        }
+
+    }
+
+    svg {
+
+        width: clamp(50px, 50px, 50px);
+        height: clamp(50px, 50px, 50px);
+
+        path, circle {
+
+            stroke: $cor-mix;
+
+        }
+
+    }
+
+    div {
+
+        display: inline-flex;
+        gap: 0.5rem;
+
+        transition: border 1s ease;
+
+        h2 {
+
+            display: flex;
+            align-items: center;
+            margin: 0;
+            padding: 0;
+            color: $cor-secundaria;
+            font-style: italic;
+
+        }
+    }
+
+
+    span {
+
+        display: flex;
+        gap: 1rem;
+        box-sizing: border-box;
+
+        a {
+
+            button {
+
+                display: inline-flex;
+                align-items: center;
+
+                background: none;
+                outline: none;
+                border: none;
+                border-bottom: 4px solid transparent;
+
+                color: $cor-secundaria;
+                font-size: 1rem;
+                
+                width: min-content;
+
+                opacity: 0;
+
+                cursor: pointer;
+
+                transition: opacity 1s ease, border 600ms ease;
+
+                &:hover {
+
+                    border-bottom: 4px solid $cor-secundaria;
+
+                }
+            }
+
+        }
+
+    }
+
+}

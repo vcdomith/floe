@@ -614,11 +614,11 @@ export default function Home() {
           Salvar Dados
         </button>
         }
-        <Suspense fallback={<Loading/>}>
+        {/* <Suspense fallback={<Loading/>}>
           <Link href='/cadastros' prefetch>
             <button className={page.botao}>Ver cadastros</button>
           </Link>
-        </Suspense>
+        </Suspense> */}
         {/* <button
           // onClick={() => handleSave()}
           onClick={() => handleReadDB()}

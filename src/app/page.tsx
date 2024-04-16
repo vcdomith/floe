@@ -4,10 +4,22 @@ import LogoSvg from "@/components/SvgArray/LogoSvg";
 import style from './style.module.scss'
 import { useState } from "react";
 import Link from "next/link";
+import { motion } from 'framer-motion'
 
 export default function Title() {
 
     const [showOptions, setShowOptions] = useState(false)
+
+    const spanVariants = {
+        visible: {
+          opacity: 1,
+        //   width: 0,
+        },
+        hidden: {
+          opacity: 0,
+        //   width: '200px',
+        },
+      }
 
     return (
         <section className={style.container}>
@@ -19,20 +31,26 @@ export default function Title() {
                             className={style.nameContainer}
                             onAnimationEnd={() => setShowOptions(true)}
                         >
-                            <h1>Floe</h1>
+                            <h1>floe</h1>
                         </span>
                     </span>
                 <div className={style.sub}>
                     <h2>Uma forma <I>prática</I> para calcular todas tabelas de preços <I>automáticamente</I> para seu negócio!</h2>
                 </div>
                 </div>
-                {showOptions&&
-                <span 
+                {/* {showOptions&& */}
+                <motion.span 
                     className={style.buttons}
-                    style={{ opacity: `${showOptions ? 1 : 0}`, }}
+                    style={{ width: `${showOptions ? '250px' : 0}`, borderColor: `${showOptions ? '' : 'transparent'}` }}
+                    // style={{ opacity: `${showOptions ? 1 : 0}`, }}
+                    // initial='hidden'
+                    // animate='visible'
+                    // variants={spanVariants}
+                    // transition={{ duration: 1 }}
                 >
                     <Link href='/configurar' prefetch>
-                        <button>
+                        <motion.button
+                        >
                             <svg width="500" height="500" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <circle cx="250" cy="247" r="125" stroke="#591C4A" stroke-width="40"/>
                             <path d="M0.5 271C97.5 271 61.8621 20.9999 205 21C258.5 21 250 70 250 129" stroke="#591C4A" stroke-width="40"/>
@@ -40,20 +58,20 @@ export default function Title() {
                             <path d="M249.969 140C249.969 177 214 187.5 214 225.5C214 269.434 296.165 223.104 298 267C299.317 298.507 249.969 315 249.969 355.448" stroke="white" stroke-width="40"/>
                             </svg>
                             Configurar Fatores
-                        </button>
+                        </motion.button>
                     </Link>
                     <Link href='/tabela' prefetch>
-                        <button>
+                        <motion.button>
                         <svg width="500" height="500" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M29.7784 404.32C38.2784 410.82 153.778 495.32 198.278 459.32C242.778 423.32 5.27837 290.82 29.7784 204.32C49.3784 135.12 150.278 180.487 198.278 211.82" stroke="#591C4A" stroke-width="40"/>
                         <path d="M474.07 98.893C465.57 92.393 350.07 7.89299 305.57 43.893C261.07 79.893 498.57 212.393 474.07 298.893C454.47 368.093 353.57 322.726 305.57 291.393" stroke="#591C4A" stroke-width="40"/>
                         <circle cx="250" cy="250" r="69" stroke="#591C4A" stroke-width="40"/>
                         </svg>
                             Calcular Tabela
-                        </button>
+                        </motion.button>
                     </Link>
                     <Link href='/cadastros' prefetch>
-                        <button>
+                        <motion.button>
                         <svg width="500" height="500" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M0 480C137.5 480 124 359 249.5 359" stroke="#591C4A" stroke-width="40"/>
                             <path d="M0 301C137.5 301 124 180 249.5 180" stroke="#591C4A" stroke-width="40"/>
@@ -73,10 +91,10 @@ export default function Title() {
                             <circle cx="250" cy="250" r="69" stroke="#591C4A" stroke-width="40"/>
                         </svg> */}
                             Conferir Cadastros
-                        </button>
+                        </motion.button>
                     </Link>
-                </span>
-                }
+                </motion.span>
+                {/* }  */}
             </div>
         </section>
     )

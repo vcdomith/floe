@@ -90,6 +90,7 @@
 
                 &:hover {
 
+                    background-color: transparentize($cor-secundaria, 0.95);
                     border-bottom: 4px solid $cor-secundaria;
 
                 }

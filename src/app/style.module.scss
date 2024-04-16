@@ -11,18 +11,20 @@
     height: 100vh;
 
     backdrop-filter: blur(10px);
-
+    
     strong { 
-
+        
         // color: saturate(mix($cor-primaria, $cor-secundaria, 5%), 50%); 
         color: saturate($cor-secundaria, 30%);
-
+        
     }
-
+    
     .wrapper {
-
+        
         display: flex;
         gap: 1rem;
+
+        transition: width 500ms;
 
         svg {
 
@@ -100,10 +102,14 @@
             border-left: 2px solid $cor-mix;
             padding-left: 3rem;
 
+            overflow: hidden;
+
             // height: 0;
             // animation: appear-down 2s forwards ease-out;
             // transition: opacity 2s ease-in;
-            animation: appear-left-200 2s;
+            // animation: appear-left-200 forwards 2s;
+
+            transition: width 1s ease, border-color 1s ease;
 
             a {
 
@@ -120,12 +126,12 @@
                     background: none;
                     outline: none;
                     
-                    border: 2px solid transparent;
+                    border: 3px solid transparent;
                     border-radius: 1rem;
                     
                     color: $cor-secundaria;
                     font-family: $fonte-body;
-                    font-size: 1.5rem;
+                    font-size: 1.7rem;
                     text-align: start;
                     font-weight: 500;
                     
@@ -143,12 +149,14 @@
 
                     &:hover {
 
-                        border: 2px solid $cor-secundaria;
+                        border: 3px solid $cor-secundaria;
 
                         // width: 200px;
 
-                        backdrop-filter: blur(20px) saturate(120%);
-                        filter: brightness(100%);
+                        background-color: transparentize($cor-secundaria, 0.99);
+
+                        // backdrop-filter: blur(40px) saturate(120%);
+                        // filter: brightness(100%);
 
                     }
 
@@ -213,13 +221,12 @@
     0% {
         opacity: 0;
         width: 0;
-
+        // border-left: 0px solid transparent;
     }
     100% {
-
         opacity: 1;
         width: 200px;
-
+        // border-left: 2px solid $cor-secundaria;
     }
 
 }

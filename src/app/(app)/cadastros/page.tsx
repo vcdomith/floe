@@ -27,10 +27,10 @@ export default async function Cadastros() {
             width: '100%'
         }}>
             <div>
-                <div>
+                <span>
                     <div>Id</div>
                     <div>Criado em:</div>
-                </div>
+                </span>
             </div>
             <div
                 className={style.container}

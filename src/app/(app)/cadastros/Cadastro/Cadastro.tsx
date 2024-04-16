@@ -10,6 +10,7 @@ import { useEffect, useState } from "react"
 import '@/components/Table/TableBody/TableBody.scss'
 
 import style from './Cadastro.module.scss'
+import NumberInput from "@/components/FatoresTable/FatoresTableBody/NumberInput/NumberInput"
 
 interface CadastroProps {
     cadastro: ICadastro
@@ -21,7 +22,34 @@ const Cadastro = ({ cadastro }: CadastroProps) => {
 
     const [pattern, setPattern] = useState("M0 377C78.5 377 123.995 199 246.5 199C359.5 199 130.5 199 261.5 199C384.577 199 402.5 376.5 500 376.5")
 
-    const { id, created_at, produtos } = cadastro
+    // States that render table values
+    const [produtos, setProdutos] = useState(cadastro.produtos)
+    const resetProdutos = () => setProdutos(cadastro.produtos)
+    const [busca, setBusca] = useState('')
+
+    useEffect(() => {
+
+        if (busca.length > 0) {
+            
+            const searchedList = produtos.filter(produto => produto.unitario.includes(busca))
+            console.log(searchedList);
+            setProdutos(searchedList)
+
+        } else {
+
+            resetProdutos()
+
+        }
+            
+        // console.log(busca, produtos);
+
+    }, [busca])
+
+    useEffect(() => {
+        resetProdutos()
+    }, [display])
+
+    const { id, created_at } = cadastro
 
     const { stringToFloat } = Converter
 
@@ -61,9 +89,15 @@ const Cadastro = ({ cadastro }: CadastroProps) => {
         }
     }
 
-    const getTabelas = (index: number): number[] => {
+    const getIndex = (id: number): number => {
 
-        const {fatores, unitario} = produtos[index]
+        return produtos.findIndex(produto => produto.id === id)
+    
+    }
+
+    const getTabelas = (id: number): number[] => {
+
+        const {fatores, unitario} = produtos[getIndex(id)]
         const listaFatores = Object.values((fatores)).map(fator => stringToFloat(fator))
 
         const valorNumerico = parseFloat(unitario.replace(/,/g, '.'))
@@ -113,6 +147,8 @@ const Cadastro = ({ cadastro }: CadastroProps) => {
             <div>{id}</div>
             <div>{new Date(created_at).toLocaleString()}</div>
             <div>{`${produtos.length} produtos`}</div>
+            {!display
+            ?
             <svg 
             className={style.scroll}
             style={{ transition: `d ${1000/produtos.length}ms`}}
@@ -122,13 +158,24 @@ const Cadastro = ({ cadastro }: CadastroProps) => {
                 <defs>
                 <pattern id={`pattern${id}`} patternUnits="userSpaceOnUse" x={0} y={0} width='50' height="50">
                 <svg width="50" height="50" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d={pattern} style={{ transition: `d ${20000/produtos.length}ms`}} stroke="black" stroke-width='40'/>
+                <path d={pattern} style={{ transition: `d ${20000/produtos.length}ms`}} stroke="black" strokeWidth='40'/>
                 </svg>
                 <rect width='100%' height='100%' fill={`url(#pattern${id})`}/>
                 </pattern>
                 </defs>
                 <rect width='100%' height='100%' fill={`url(#pattern${id})`}/>
             </svg>
+            :
+            <span
+                className={style.scroll}
+            >
+            <NumberInput 
+                placeholder="buscar"
+                valor={busca}
+                setValor={setBusca}
+            />
+            </span>
+            }
             {/* {produtos.map(({ id, unitario, fatores }: IProduto) => 
                 <td key={id}>
                     <p>{unitario}</p>
@@ -161,18 +208,18 @@ const Cadastro = ({ cadastro }: CadastroProps) => {
                 borderBottom: `${display ? '2px solid' : '0px solid'}`,
             }}
         >  
-            {produtos.map(({ id }, index) => 
+            {produtos.map(({ id, unitario }, index) => 
             
                 <div  
-                    className={`tr`}
+                    className={`tr ${id} ${unitario}`}
                     style={{ 
                         maxHeight: '42px',
                         borderRadius: 0,
                         // overflow: 'hidden'
                      }}
-                    key={(index*3.1415)}
+                    key={(id*3.1415)}
                 >
-                    {getTabelas(index).map((valor: string | number, index: number) => 
+                    {getTabelas(id).map((valor: string | number, index: number) => 
                         <div 
                             className='td'
                             style={{ maxHeight: '42px', padding: '9.4px' }}

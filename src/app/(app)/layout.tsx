@@ -45,7 +45,7 @@ export default function AppLayout({ children }: { children: React.ReactNode}) {
                     </Link>
                     <Link href='/cadastros' prefetch>
                         <button>
-                        <svg width="500" height="500" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        {/* <svg width="500" height="500" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M0 480C137.5 480 124 359 249.5 359" stroke="#591C4A" stroke-width="40"/>
                             <path d="M0 301C137.5 301 124 180 249.5 180" stroke="#591C4A" stroke-width="40"/>
                             <path d="M250 480C387.5 480 374 359 499.5 359" stroke="#591C4A" stroke-width="40"/>
@@ -53,8 +53,8 @@ export default function AppLayout({ children }: { children: React.ReactNode}) {
                             <path d="M250 141.5C387.5 141.5 374 20 499.5 20" stroke="#591C4A" stroke-width="40"/>
                             <path d="M0 141.5C137.5 141.5 124 20 249.5 20" stroke="#591C4A" stroke-width="40"/>
                             <circle cx="250" cy="250" r="69" stroke="#591C4A" stroke-width="40"/>
-                        </svg>
-                        {/* <svg width="500" height="500" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        </svg> */}
+                        <svg width="500" height="500" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M0 480.001C249.5 480.001 0 359 249.5 359" stroke="#591C4A" stroke-width="40"/>
                             <path d="M250 480.001C499.5 480.001 250 359 499.5 359" stroke="#591C4A" stroke-width="40"/>
                             <path d="M0 141C249.5 141 0 20 249.5 20" stroke="#591C4A" stroke-width="40"/>
@@ -62,7 +62,7 @@ export default function AppLayout({ children }: { children: React.ReactNode}) {
                             <path d="M0 302C249.5 302 0 181 249.5 181" stroke="#591C4A" stroke-width="40"/>
                             <path d="M250 319.5C499.5 319.5 250 181 499.5 181" stroke="#591C4A" stroke-width="40"/>
                             <circle cx="250" cy="250" r="69" stroke="#591C4A" stroke-width="40"/>
-                        </svg> */}
+                        </svg>
                             Conferir Cadastros
                         </button>
                     </Link>
@@ -94,10 +94,14 @@ const Logo = ({ route }: { route: string }): React.ReactNode => {
 
     }
 
-    const { SvgTabela, SvgCadastros } = Logos
+    const { SvgConfigurar, SvgTabela, SvgCadastros } = Logos
 
     const SvgLogos: SvgLogos = {
-
+        
+        configurar: {
+            Svg: () => <SvgConfigurar />,
+            Titulo: 'Configurar Tabela',
+        },
         tabela: {
             Svg: () => <SvgTabela/>,
             Titulo: 'Calcular Tabela'
@@ -112,19 +116,11 @@ const Logo = ({ route }: { route: string }): React.ReactNode => {
     const { Svg, Titulo } = SvgLogos[route.slice(1,) as keyof SvgLogos]!
 
     return (
-        <span style={{
-            display: 'flex',
-            gap: '1rem'
-        }}>
+        <span 
+            className={style.logo}
+        >
             <Svg />
-            <h2 style={{
-                display: 'flex',
-                alignItems: 'center',
-                margin: 0, 
-                fontSize: '2rem',
-                fontWeight: 600,
-                width: 'min-content' 
-                }}>{Titulo}</h2>
+            <h2>{Titulo}</h2>
         </span>
      
     )

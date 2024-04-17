@@ -24,6 +24,7 @@ import Link from 'next/link'
 import Loading from '../../loading/page'
 
 import Logos from '../(svg)/Logos'
+import Search from '@/components/Search/Search'
 
 export default function Home() {
   
@@ -509,7 +510,7 @@ export default function Home() {
             <defs>
               <pattern id="pattern" patternUnits="userSpaceOnUse" width="50" height="50">
               <svg width="50" height="50" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d={pattern} stroke="black" stroke-width="40"/>
+              <path d={pattern} stroke="black" strokeWidth="40"/>
               </svg>
               <rect width='100%' height='100%' fill='url(#pattern)'/>
             <svg className={page.down} fill="#000000" width="50px" height="50px" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><path d="M16.003 18.626l7.081-7.081L25 13.46l-8.997 8.998-9.003-9 1.917-1.916z"/></svg>
@@ -551,7 +552,12 @@ export default function Home() {
                 </svg>
               </button>
             </div>
-            <span
+            <Search 
+              className={input.search} 
+              searchParam={searchParam} 
+              setSearchParam={setSearchParam} 
+            />
+            {/* <span
               className={input.search}
             >
               {searchParam.length > 0 
@@ -590,7 +596,7 @@ export default function Home() {
                 // onBlur={() => setSearchParam('')}
               />
           
-            </span>
+            </span> */}
           </span>
         </span> 
         </>

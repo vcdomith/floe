@@ -1,0 +1,116 @@
+@use '../../app/globalStyle.module.scss' as *;
+
+.search {
+            
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+
+    position: relative;
+    // width: fit-content;
+
+    background-color: $cor-secundaria;
+
+    border: 2px solid $cor-primaria;
+    border-radius: 1rem;
+
+    padding: 0.5rem 0.5rem 0.5rem 0.75rem;
+
+    animation: appear 1s ease;
+
+    transition: all 400ms ease-in;
+
+    &:focus-within {
+
+        border: 2px solid $cor-primaria;
+        // box-shadow: 2px 2px 15px #591c4a39;
+        box-shadow: 2px 2px 15px transparentize($cor-primaria, 0.7);
+
+    }
+
+    &:has(.search:valid) {
+
+        // background-color: #591c4a0b;
+        background-color: transparentize($cor-primaria, 0.5);
+
+    }
+
+    &:has(.search:invalid) {
+
+        background-color: $cor-secundaria;
+
+    }
+
+    .input {
+
+        background: none;
+        outline: none;
+    
+        padding-left: 0.5rem;
+        border: none;
+    
+        font-size: 1.2rem;
+        font-weight: 500;
+        color: $cor-primaria;
+    
+        width: 75px;
+    
+        transition: all 400ms;
+
+        &::placeholder {
+    
+            font-size: 1.2rem;
+            color: transparentize($cor-primaria, 0.6);
+    
+        }
+
+    }
+
+    .lupa {
+
+        fill: $cor-primaria;
+
+        path {
+
+            max-width: 14px;
+
+        }
+
+    }
+
+    .clear {
+        
+        border: none;
+        outline: none;
+        background: none;
+        padding: 0;
+        margin: 0;
+        height: 25px;
+
+        // position: absolute;
+        right: 10px;
+        top: 20%;
+
+        cursor: pointer;
+        
+        transition: opacity 400ms;
+        
+        path {
+            
+            fill: $cor-primaria;
+            transition: fill 300ms;
+    
+        }
+
+        &:active {
+
+            path {
+            
+                fill: $cor-secundaria;
+            }
+
+        }
+    
+    }
+
+}

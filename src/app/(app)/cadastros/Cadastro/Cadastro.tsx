@@ -11,6 +11,7 @@ import '@/components/Table/TableBody/TableBody.scss'
 
 import style from './Cadastro.module.scss'
 import NumberInput from "@/components/FatoresTable/FatoresTableBody/NumberInput/NumberInput"
+import Search from "@/components/Search/Search"
 
 interface CadastroProps {
     cadastro: ICadastro
@@ -22,7 +23,7 @@ const Cadastro = ({ cadastro }: CadastroProps) => {
 
     const [pattern, setPattern] = useState("M0 377C78.5 377 123.995 199 246.5 199C359.5 199 130.5 199 261.5 199C384.577 199 402.5 376.5 500 376.5")
 
-    // States that render table values
+    // States that renders table values
     const [produtos, setProdutos] = useState(cadastro.produtos)
     const resetProdutos = () => setProdutos(cadastro.produtos)
     const [busca, setBusca] = useState('')
@@ -46,7 +47,7 @@ const Cadastro = ({ cadastro }: CadastroProps) => {
     }, [busca])
 
     useEffect(() => {
-        resetProdutos()
+        setBusca('')
     }, [display])
 
     const { id, created_at } = cadastro
@@ -146,7 +147,7 @@ const Cadastro = ({ cadastro }: CadastroProps) => {
         >
             <div>{id}</div>
             <div>{new Date(created_at).toLocaleString()}</div>
-            <div>{`${produtos.length} produtos`}</div>
+            <div>{`${cadastro.produtos.length} produtos`}</div>
             {!display
             ?
             <svg 
@@ -169,11 +170,11 @@ const Cadastro = ({ cadastro }: CadastroProps) => {
             <span
                 className={style.scroll}
             >
-            <NumberInput 
-                placeholder="buscar"
-                valor={busca}
-                setValor={setBusca}
-            />
+                <Search
+                    className={style.search}
+                    searchParam={busca}
+                    setSearchParam={setBusca}
+                />    
             </span>
             }
             {/* {produtos.map(({ id, unitario, fatores }: IProduto) => 

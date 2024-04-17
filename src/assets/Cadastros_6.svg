@@ -1,9 +1,9 @@
 <svg width="500" height="500" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M0 480C137.5 480 124 359 249.5 359" stroke="#591C4A" stroke-width="40"/>
-<path d="M0 350C116.146 350 124 254 187 248" stroke="#591C4A" stroke-width="40"/>
-<path d="M250 401C387.5 401 374 280 499.5 280" stroke="#591C4A" stroke-width="40"/>
-<path d="M499.5 150C399.955 150 387.861 226.127 318.5 257.615" stroke="#591C4A" stroke-width="40"/>
-<path d="M250 141.5C387.5 141.5 374 20 499.5 20" stroke="#591C4A" stroke-width="40"/>
-<path d="M0 222.5C137.5 222.5 124 101 249.5 101" stroke="#591C4A" stroke-width="40"/>
-<circle cx="250" cy="250" r="69" stroke="#591C4A" stroke-width="40"/>
+<path d="M0 480C137.5 480 124 359 249.5 359" stroke="#591C4A" strokeWidth="40"/>
+<path d="M0 350C116.146 350 124 254 187 248" stroke="#591C4A" strokeWidth="40"/>
+<path d="M250 401C387.5 401 374 280 499.5 280" stroke="#591C4A" strokeWidth="40"/>
+<path d="M499.5 150C399.955 150 387.861 226.127 318.5 257.615" stroke="#591C4A" strokeWidth="40"/>
+<path d="M250 141.5C387.5 141.5 374 20 499.5 20" stroke="#591C4A" strokeWidth="40"/>
+<path d="M0 222.5C137.5 222.5 124 101 249.5 101" stroke="#591C4A" strokeWidth="40"/>
+<circle cx="250" cy="250" r="69" stroke="#591C4A" strokeWidth="40"/>
 </svg>

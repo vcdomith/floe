@@ -23,16 +23,20 @@ const Cadastro = ({ cadastro }: CadastroProps) => {
 
     const [pattern, setPattern] = useState("M0 377C78.5 377 123.995 199 246.5 199C359.5 199 130.5 199 261.5 199C384.577 199 402.5 376.5 500 376.5")
 
+    const controleProdutos = cadastro.produtos
+
     // States that renders table values
     const [produtos, setProdutos] = useState(cadastro.produtos)
-    const resetProdutos = () => setProdutos(cadastro.produtos)
+    const resetProdutos = () => setProdutos(controleProdutos)
     const [busca, setBusca] = useState('')
 
     useEffect(() => {
 
+        console.log(busca);
+
         if (busca.length > 0) {
             
-            const searchedList = produtos.filter(produto => produto.unitario.includes(busca))
+            const searchedList = controleProdutos.filter(produto => produto.unitario.includes(busca))
             console.log(searchedList);
             setProdutos(searchedList)
 
@@ -42,8 +46,6 @@ const Cadastro = ({ cadastro }: CadastroProps) => {
 
         }
             
-        // console.log(busca, produtos);
-
     }, [busca])
 
     useEffect(() => {

@@ -24,6 +24,7 @@ const Cadastro = ({ cadastro }: CadastroProps) => {
     const [pattern, setPattern] = useState("M0 377C78.5 377 123.995 199 246.5 199C359.5 199 130.5 199 261.5 199C384.577 199 402.5 376.5 500 376.5")
 
     const controleProdutos = cadastro.produtos
+    const dateTime = new Date(cadastro.created_at).toLocaleString().split(',')
 
     // States that renders table values
     const [produtos, setProdutos] = useState(cadastro.produtos)
@@ -147,9 +148,10 @@ const Cadastro = ({ cadastro }: CadastroProps) => {
         <span 
             className={display ? `${style.wrapper} ${style.active}` : style.wrapper }
         >
-            <div>{id}</div>
-            <div>{new Date(created_at).toLocaleString()}</div>
-            <div>{`${cadastro.produtos.length} produtos`}</div>
+            <div><strong style={{ fontSize: '1.1rem', fontWeight: 600 }}>{id}</strong></div>
+            <div><strong>{dateTime[0]}</strong> <span style={{ fontWeight: 400, fontSize: '0.8rem'}}>as {dateTime[1].slice(1,)}</span></div>
+            <div><strong>Denlex</strong></div>
+            {/* <div>{`${cadastro.produtos.length} produtos`}</div> */}
             {!display
             ?
             <svg 

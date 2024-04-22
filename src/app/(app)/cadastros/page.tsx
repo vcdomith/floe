@@ -34,6 +34,9 @@ export default async function Cadastros() {
             </div>
             <div
                 className={style.container}
+                style={{
+                    width: '80%'
+                }}
             >
             {cadastros?.map( (cadastro: ICadastro) => 
                 <Cadastro key={cadastro.id} cadastro={cadastro}/>

@@ -5,13 +5,16 @@ import { IProduto } from "@/interfaces/IProduto"
 import { IValores } from "@/interfaces/IValores"
 import Converter from "@/utils/typeConversion"
 import { table } from "console"
-import { MouseEvent, useEffect, useRef, useState } from "react"
+import { MouseEvent, useEffect, useMemo, useRef, useState } from "react"
 
 import '@/components/Table/TableBody/TableBody.scss'
 
 import style from './Cadastro.module.scss'
 import NumberInput from "@/components/FatoresTable/FatoresTableBody/NumberInput/NumberInput"
 import Search from "@/components/Search/Search"
+import { IFatores } from "@/interfaces/IFatores"
+import { IFator } from "@/interfaces/IFator"
+import { AnimatePresence, motion } from "framer-motion"
 
 interface CadastroProps {
     cadastro: ICadastro
@@ -26,9 +29,9 @@ const Cadastro = ({ cadastro }: CadastroProps) => {
     const controleProdutos = cadastro.produtos
     const dateTime = new Date(cadastro.created_at).toLocaleString().split(',')
 
-    const [firstMount, setFirstMount] = useState(false)
     const [ref, setRef] = useState<HTMLDivElement | null>(null)
     const [coordinates, setCoordinates] = useState({ x: 0, y: 0 })
+    const [fatores, setFatores] = useState<IFatores | null>(cadastro.produtos[1].fatores)
 
     // States that renders table values
     const [produtos, setProdutos] = useState(cadastro.produtos)
@@ -55,11 +58,11 @@ const Cadastro = ({ cadastro }: CadastroProps) => {
 
     useEffect(() => {
         setBusca('')
+        setFatores(null)
+        setCoordinates({ x: 0, y: 0 })
     }, [display])
 
     const { id, created_at } = cadastro
-
-    
 
     // useEffect(() => {
 
@@ -90,27 +93,117 @@ const Cadastro = ({ cadastro }: CadastroProps) => {
 
     // }, [produtos.length])
 
+    const { stringToFloat } = Converter
+
+    // const formatValor = (valor: string): string => {
+
+    //     if (valor === ',') return '0,0'
+    
+    //     const valorFloat = stringToFloat(valor)
+    //     const fracional = valorFloat % 1 !== 0
+    //     const leadingComma = valor.startsWith(',')
+    //     const trailingComma = valor.endsWith(',')
+    
+    //     const valorFormatado = fracional
+    //       ? leadingComma ? '0' + valor : valor
+    //       : trailingComma ? valor + '00' : valor + ',00' 
+    
+    //     return valorFormatado 
+    
+    // }
+
+    const format = (string: string) => {
+
+        const newString = string.replace(',', '.')
+        return parseFloat(newString)
+
+    }
+
+    const origemLookupTable: IFatores = {
+        padrao: 'Padrão',
+        st: 'ST',
+        transporte: 'Transp.',
+        fator: 'Fator',
+        ipi: 'IPI'
+    }
+
     return (
         <>
-        <div
-            style={{
-                top:0,
-                left: 0,
-                transform: `translate(${coordinates.x}px, ${coordinates.y - 130}px)`,
-                position: 'absolute',
-                zIndex: 3,
-            }}
-            ref={(element) => {
-                if(element) setRef(element)
-            }}
-        >
-            {JSON.stringify(coordinates)}
-        </div>    
+        <AnimatePresence>
+        {fatores&&
+            <motion.div
+                //framer.motion
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+
+                style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignContent: 'center',
+                    top: 0,
+                    left: 0,
+                    transform: `translate(${coordinates.x - 32}px, ${coordinates.y - 130}px)`,
+                    position: 'absolute',
+                    zIndex: 3,
+                    backgroundColor: '#e8d4b0',
+                    border: '2px solid',
+                    borderRadius: '1rem',
+                    borderTopLeftRadius: 0,
+                    boxShadow: '2px 2px 15px rgba(33, 15, 48, 0.3)' 
+                    // overflow: 'hidden'
+                }}
+                ref={(element) => {
+                    if(element) setRef(element)
+                }}
+            >
+                {Object.entries(fatores).map( ([origem, fator], index) => 
+                    <span 
+                        key={origem}
+                        style={{
+                            display: 'flex',
+                            position: 'relative',
+                            padding: '0 0.5rem',
+                            gap: '0.5rem',
+                            height: '100%',
+                            // overflow: 'hidden' 
+                            // width: '200px'
+                        }}
+                    >   
+                        {(index === 0)&&
+                        <svg 
+                        style={{ position: 'absolute', top: 0, left: -32}}
+                        fill='#210f30' width="25px" height="25px" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><path d="M14.19 16.005l7.869 7.868-2.129 2.129-9.996-9.997L19.937 6.002l2.127 2.129z"/></svg>
+                        }
+                        <p 
+                        style={{ 
+                            margin: 0, 
+                            padding: '0.5rem', 
+                            display: "flex", 
+                            // flex: 1, 
+                            borderRight: '2px solid', 
+                            height: '100%',
+                            width: '50px',
+                            overflow: 'hidden'
+                            }}
+                        >{origemLookupTable[origem as keyof IFatores]}</p>
+                        <p style={{ 
+                            margin: 0, 
+                            padding: '0.5rem', 
+                            display: "flex", 
+                            // flex: 1, 
+                            height: '100%',
+                            width: '35px',
+                        }}>{format(fator).toLocaleString('pt-br', {minimumFractionDigits: 2, maximumFractionDigits: 4})}</p>
+                    </span>)}
+            </motion.div>    
+        }
+        </AnimatePresence>
         <span 
             className={display ? `${style.wrapper} ${style.active}` : style.wrapper }
         >
             <div><strong style={{ fontSize: '1.1rem', fontWeight: 600 }}>{id}</strong></div>
-            <div><strong>{dateTime[0]}</strong> <span style={{ fontWeight: 400, fontSize: '0.8rem'}}>as {dateTime[1].slice(1,)}</span></div>
+            <div><strong>{dateTime[0]}</strong> <span style={{ fontWeight: 400, fontSize: '0.8rem'}}>as {dateTime[1].slice(1,)}h</span></div>
             <div><strong>Denlex</strong></div>
             {/* <div>{`${cadastro.produtos.length} produtos`}</div> */}
             {!display
@@ -175,14 +268,13 @@ const Cadastro = ({ cadastro }: CadastroProps) => {
                 borderBottom: `${display ? '2px solid' : '0px solid'}`,
             }}
         >  
-            {produtos.map(({ id, unitario }, index) => 
+            {produtos.map((produto, index) => 
             
                 <Produto
-                    key={id} 
-                    id={id} 
-                    unitario={unitario} 
-                    setCoordinates={setCoordinates} 
-                    produtos={produtos}
+                    key={id*index} 
+                    produto={produto}
+                    setCoordinates={setCoordinates}
+                    setFatores={setFatores} 
                 />    
             )
         }
@@ -231,16 +323,16 @@ export default Cadastro
 
 interface ProdutoProps {
 
-    id: number
-    unitario: string
+    produto: IProduto
     setCoordinates: ({ x, y }: { x: number, y: number }) => void
-    produtos: IProduto[]
+    setFatores: (fatores: (IFatores | null)) => void
 
 }
 
-const Produto = ({ id, unitario, setCoordinates, produtos }: ProdutoProps ) => {
+const Produto = ({ produto, setCoordinates, setFatores }: ProdutoProps ) => {
 
     const { stringToFloat } = Converter
+    const { id, unitario, fatores } = produto
 
     function calcularTabela(valor: number, args: number[]): number {
 
@@ -278,15 +370,15 @@ const Produto = ({ id, unitario, setCoordinates, produtos }: ProdutoProps ) => {
         }
     }
 
-    const getIndex = (id: number): number => {
+    // const getIndex = (id: number): number => {
 
-        return produtos.findIndex(produto => produto.id === id)
+    //     return produtos.findIndex(produto => produto.id === id)
     
-    }
+    // }
 
-    const getTabelas = (id: number): number[] => {
+    const getTabelas = (): number[] => {
 
-        const {fatores, unitario} = produtos[getIndex(id)]
+        const {fatores, unitario} = produto
         const listaFatores = Object.values((fatores)).map(fator => stringToFloat(fator))
 
         const valorNumerico = parseFloat(unitario.replace(/,/g, '.'))
@@ -302,16 +394,62 @@ const Produto = ({ id, unitario, setCoordinates, produtos }: ProdutoProps ) => {
     const [coord, setCoord] = useState({ x: 0, y: 0 })
     const currentRef = useRef<HTMLDivElement | null>(null)
     
-    const handleClick = (e: MouseEvent<HTMLDivElement, globalThis.MouseEvent>) => {
+    // const handleClick = (e: MouseEvent<HTMLDivElement, globalThis.MouseEvent>) => {
 
+    //     const scrollX = window.scrollX || document.documentElement.scrollLeft;
+    //     const scrollY = window.scrollY || document.documentElement.scrollTop;
+
+    //     const { right, top } = e.target.getBoundingClientRect()!
+    //     setCoordinates((prev: {x:number, y:number}) => {
+    //         const newCoordinates = { x: right + scrollX, y: top + scrollY}
+    //         if(JSON.stringify(prev) === JSON.stringify(newCoordinates)) {
+    //             setFatores(null)   
+    //             return { x:0, y: 0}
+    //         }
+    //         setFatores(fatores)   
+    //         return newCoordinates
+    //     })
+
+    // }
+
+  
+    
+    const handleHover = () => {
+        
         const scrollX = window.scrollX || document.documentElement.scrollLeft;
         const scrollY = window.scrollY || document.documentElement.scrollTop;
+    
+        const { right, top } = currentRef.current?.getBoundingClientRect()!
+        setCoordinates({ x: right + scrollX, y: top + scrollY})
+        setFatores(fatores)
 
-        const { right, top } = e.target.getBoundingClientRect()!
-        setCoordinates({ x: right + scrollX, y: top + scrollY})   
+        // setCoordinates((prev: {x:number, y:number}) => {
+        //     if(JSON.stringify(prev) === JSON.stringify(newCoordinates)) {
+        //         setFatores(null)   
+        //         return { x:0, y: 0 }
+        //     }
+        //     setFatores(fatores)   
+        //     return newCoordinates
+        // })
 
     }
 
+    
+    // const handleWindowChange = () => {
+    //     setCoordinates(updateCoordinates())
+    // }
+    // useMemo(() => {
+    //     handleWindowChange()
+    // }, [])
+    
+    // useEffect(() => {
+
+    //     window.addEventListener('resize', handleWindowChange)
+    //     return () => {
+    //         window.removeEventListener('resize', handleWindowChange)
+
+    //     }
+    // }, [])
 
     return (
         <div  
@@ -322,14 +460,16 @@ const Produto = ({ id, unitario, setCoordinates, produtos }: ProdutoProps ) => {
                 // overflow: 'hidden'
             }}
             key={(id*3.1415)}
-            onClick={ e => handleClick(e) }
-            // ref={(ref) => {
-            //     if(ref) {
-            //         currentRef.current = ref
-            //     }
-            // }}
+            // onClick={ e => handleClick() }
+            onMouseEnter={() => handleHover()}
+            onMouseLeave={() => setFatores(null)}
+            ref={(ref) => {
+                if(ref) {
+                    currentRef.current = ref
+                }
+            }}
         >
-            {getTabelas(id).map((valor: string | number, index: number) => 
+            {getTabelas().map((valor: string | number, index: number) => 
                 <div 
                     className='td'
                     style={{ maxHeight: '42px', padding: '9.4px' }}

@@ -1,30 +1,25 @@
 'use client'
 
-import { ChangeEvent, FormEvent, Suspense, SyntheticEvent, use, useEffect, useMemo, useRef, useState } from 'react'
+import { FormEvent, useEffect, useMemo, useRef, useState } from 'react'
 import { IValores } from '@/interfaces/IValores'
-import Table from '@/components/Table/Table'
-import Container from '@/components/Container/Container'
-import NumberInput from '@/components/FatoresTable/FatoresTableBody/NumberInput/NumberInput'
-import { IFatores } from '@/interfaces/IFatores'
-import FatoresTable from '@/components/FatoresTable/FatoresTable'
 import { IProduto } from '@/interfaces/IProduto'
+import { IFatores } from '@/interfaces/IFatores'
+import { ICadastro } from '@/interfaces/ICadastro'
+
+import { dbConnect } from '@/utils/db/supabase'
 import Converter from '@/utils/typeConversion'
 
+import Table from '@/components/Table/Table'
+import NumberInput from '@/components/FatoresTable/FatoresTableBody/NumberInput/NumberInput'
+import FatoresTable from '@/components/FatoresTable/FatoresTable'
+import Search from '@/components/Search/Search'
+
 import '@/app/padrao.scss'
+import '@/app/globalStyle.module.scss'
 import page from './page.module.scss'
 import input from '@/app/Inputs.module.scss'
-import '@/app/globalStyle.module.scss'
-import SvgArray from '@/components/SvgArray/SvgArray'
-import interpolateColors from '@/utils/colorSteps'
-import LogoSvg from '@/components/SvgArray/LogoSvg'
-import { ICadastro } from '@/interfaces/ICadastro'
-import NoMatch from '@/components/SvgArray/NoMatch'
-import { dbConnect } from '@/utils/db/supabase'
-import Link from 'next/link'
-import Loading from '../../loading/page'
 
 import Logos from '../(svg)/Logos'
-import Search from '@/components/Search/Search'
 
 export default function Home() {
   

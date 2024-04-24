@@ -75,6 +75,10 @@ const Cadastro = ({ cadastro }: CadastroProps) => {
     //         "M0 161C78.5 161 123.995 339 246.5 339C359.5 339 130.5 339 261.5 339C384.577 339 402.5 161.5 500 161.5",
     //         "M0 339C78.5 339 123.995 161 246.5 161C359.5 161 130.5 161 261.5 161C384.577 161 402.5 338.5 500 338.5"
     //     ]
+    //     // const paths = [
+    //     //     "M178.5 250C65 250 62.5 275.5 0 275.5V500H500V275.5C437.5 275.5 292 250 178.5 250Z",
+    //     //     "M340 147C226.5 147 62.5 202.015 0 202.015V500H500V202.015C476.5 202.015 453.5 147 340 147Z"
+    //     //   ]
 
     //     const intervalId = setInterval(() => {
 
@@ -92,8 +96,6 @@ const Cadastro = ({ cadastro }: CadastroProps) => {
     //     return () => clearInterval(intervalId)
 
     // }, [produtos.length])
-
-    const { stringToFloat } = Converter
 
     // const formatValor = (valor: string): string => {
 
@@ -127,6 +129,9 @@ const Cadastro = ({ cadastro }: CadastroProps) => {
         ipi: 'IPI'
     }
 
+    // const lengthString = `cor-${produtos.length}`
+    const lengthStep = Math.floor(produtos.length / 10)
+
     return (
         <>
         <AnimatePresence>
@@ -143,7 +148,7 @@ const Cadastro = ({ cadastro }: CadastroProps) => {
                     alignContent: 'center',
                     top: 0,
                     left: 0,
-                    transform: `translate(${coordinates.x - 32}px, ${coordinates.y - 130}px)`,
+                    transform: `translate(${coordinates.x - 32}px, ${coordinates.y - 122}px)`,
                     position: 'absolute',
                     zIndex: 3,
                     backgroundColor: '#e8d4b0',
@@ -183,7 +188,7 @@ const Cadastro = ({ cadastro }: CadastroProps) => {
                             // flex: 1, 
                             borderRight: '2px solid', 
                             height: '100%',
-                            width: '50px',
+                            width: '75px',
                             overflow: 'hidden'
                             }}
                         >{origemLookupTable[origem as keyof IFatores]}</p>
@@ -193,8 +198,10 @@ const Cadastro = ({ cadastro }: CadastroProps) => {
                             display: "flex", 
                             // flex: 1, 
                             height: '100%',
-                            width: '35px',
-                        }}>{format(fator).toLocaleString('pt-br', {minimumFractionDigits: 2, maximumFractionDigits: 4})}</p>
+                            width: '75px',
+                        }}>
+                            {format(fator).toLocaleString('pt-br', {minimumFractionDigits: 2, maximumFractionDigits: 4})}
+                        </p>
                     </span>)}
             </motion.div>    
         }
@@ -203,30 +210,44 @@ const Cadastro = ({ cadastro }: CadastroProps) => {
             className={display ? `${style.wrapper} ${style.active}` : style.wrapper }
         >
             <div><strong style={{ fontSize: '1.1rem', fontWeight: 600 }}>{id}</strong></div>
-            <div><strong>{dateTime[0]}</strong> <span style={{ fontWeight: 400, fontSize: '0.8rem'}}>as {dateTime[1].slice(1,)}h</span></div>
+            <div><strong>{dateTime[0]}</strong> <span style={{ fontWeight: 400, fontSize: '0.8rem', display: 'flex', flexDirection: 'column'}}>as {dateTime[1].slice(1,)}h</span></div>
             <div><strong>Denlex</strong></div>
-            {/* <div>{`${cadastro.produtos.length} produtos`}</div> */}
+            <div style={{ fontWeight: 400, fontSize: '0.8rem' }}>{`${cadastro.produtos.length} produtos`}</div>
+            <AnimatePresence>
             {!display
             ?
-            ''
-            // <svg 
-            // className={style.scroll}
-            // style={{ transition: `d ${1000/produtos.length}ms`}}
-            // // onMouseEnter={() => setPattern("M0 199C78.5 199 238.5 269 238.5 377C238.5 485 259 487 259 377C259 267 402.5 199.5 500 199.5")}
-            // // onMouseLeave={() => setPattern("M0 276C78.5 276 123.995 454 246.5 454C359.5 454 130.5 454 261.5 454C384.577 454 402.5 276.5 500 276.5")}
-            // >
-            //     <defs>
-            //     <pattern id={`pattern${id}`} patternUnits="userSpaceOnUse" x={0} y={0} width='50' height="50">
-            //     <svg width="50" height="50" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
-            //     <path d={pattern} style={{ transition: `d ${20000/produtos.length}ms`}} stroke="black" strokeWidth='40'/>
-            //     </svg>
-            //     <rect width='100%' height='100%' fill={`url(#pattern${id})`}/>
-            //     </pattern>
-            //     </defs>
-            //     <rect width='100%' height='100%' fill={`url(#pattern${id})`}/>
-            // </svg>
+            // ''
+            <motion.svg 
+                //framer.motion
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 1 }}
+
+
+            className={style.scroll}
+            style={{ transition: `d ${1000/produtos.length}ms`}}
+            // onMouseEnter={() => setPattern("M0 199C78.5 199 238.5 269 238.5 377C238.5 485 259 487 259 377C259 267 402.5 199.5 500 199.5")}
+            // onMouseLeave={() => setPattern("M0 276C78.5 276 123.995 454 246.5 454C359.5 454 130.5 454 261.5 454C384.577 454 402.5 276.5 500 276.5")}
+            >
+                <defs>
+                <pattern id={`pattern${id}`} patternUnits="userSpaceOnUse" x={0} y={0} width='50' height="50">
+                <svg width="50" height="50" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d={pattern} className={style[`cor-${lengthStep}`]} style={{ transition: `d ${20000/produtos.length}ms`}} stroke="black" strokeWidth='40'/>
+                </svg>
+                <rect width='100%' height='100%' fill={`url(#pattern${id})`}/>
+                </pattern>
+                </defs>
+                <rect width='100%' height='100%' fill={`url(#pattern${id})`}/>
+            </motion.svg>
             :
-            <span
+            <motion.span
+                //framer.motion
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 1 }}
+
                 className={style.scroll}
             >
                 <Search
@@ -234,8 +255,9 @@ const Cadastro = ({ cadastro }: CadastroProps) => {
                     searchParam={busca}
                     setSearchParam={setBusca}
                 />    
-            </span>
+            </motion.span>
             }
+            </AnimatePresence>
             {/* {produtos.map(({ id, unitario, fatores }: IProduto) => 
                 <td key={id}>
                     <p>{unitario}</p>
@@ -257,7 +279,11 @@ const Cadastro = ({ cadastro }: CadastroProps) => {
         <div 
             className={`tbody ${display ? 'active' : ''}`} 
             style={{
-                height: `${display ? produtos.length*42 : 0}px`,
+                height: `${display 
+                            ? produtos.length > 0 
+                                ? produtos.length*42 
+                                : 100
+                            : 0}px`,
                 transition: `
                     height ${(produtos.length > 10) ? 1000 : 500}ms ease-in-out, 
                     border ${(produtos.length > 10) ? 1000 : 500}ms ease-in-out
@@ -268,16 +294,35 @@ const Cadastro = ({ cadastro }: CadastroProps) => {
                 borderBottom: `${display ? '2px solid' : '0px solid'}`,
             }}
         >  
-            {produtos.map((produto, index) => 
-            
-                <Produto
-                    key={id*index} 
-                    produto={produto}
-                    setCoordinates={setCoordinates}
-                    setFatores={setFatores} 
-                />    
-            )
+        {produtos.length > 0
+        ?
+        produtos.map((produto, index) => 
+        
+            <Produto
+                key={id*index} 
+                produto={produto}
+                setCoordinates={setCoordinates}
+                setFatores={setFatores} 
+            />    
+        )
+        :
+        <div
+            style={{ 
+                display: 'flex',
+                height: '100%',
+                alignItems: 'center',
+                gap: '1rem'
+            }}
+        >
+            <svg width="50" height="50" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M29.7784 404.32C38.2784 410.82 153.778 495.32 198.278 459.32C242.778 423.32 5.27837 290.82 29.7784 204.32C49.3784 135.12 150.278 180.487 198.278 211.82" stroke="#591C4A" strokeWidth="40" stroke-dasharray="40 20"/>
+            <path d="M474.07 98.893C465.57 92.393 350.07 7.89299 305.57 43.893C261.07 79.893 498.57 212.393 474.07 298.893C454.47 368.093 353.57 322.726 305.57 291.393" stroke="#591C4A" strokeWidth="40" stroke-dasharray="40 20"/>
+            <circle cx="250" cy="250" r="69" stroke="#591C4A" strokeWidth="40"/>
+            </svg>
+            Nenhum produto encontrado
+        </div>
         }
+        
         </div>
         </>
     )
@@ -349,6 +394,7 @@ const Produto = ({ produto, setCoordinates, setFatores }: ProdutoProps ) => {
         const diffToHalfFloor = Math.abs(value - halfFloorValue);
         const diffToNextFloor = Math.abs(value - nextFloorValue);
     
+        // Variable to log for checking the rounding/calculations
         let a = {
           value: value,
           floor: floorValue, 
@@ -358,8 +404,6 @@ const Produto = ({ produto, setCoordinates, setFatores }: ProdutoProps ) => {
           diffToHalfFloor: diffToHalfFloor,
           diffToNextFloor: diffToNextFloor
         }
-        
-        // console.table(a);
       
         if (diffToFloor <= diffToHalfFloor && diffToFloor <= diffToNextFloor) {
           return floorValue - 0.02;
@@ -369,12 +413,6 @@ const Produto = ({ produto, setCoordinates, setFatores }: ProdutoProps ) => {
           return nextFloorValue - 0.02;
         }
     }
-
-    // const getIndex = (id: number): number => {
-
-    //     return produtos.findIndex(produto => produto.id === id)
-    
-    // }
 
     const getTabelas = (): number[] => {
 
@@ -423,33 +461,7 @@ const Produto = ({ produto, setCoordinates, setFatores }: ProdutoProps ) => {
         setCoordinates({ x: right + scrollX, y: top + scrollY})
         setFatores(fatores)
 
-        // setCoordinates((prev: {x:number, y:number}) => {
-        //     if(JSON.stringify(prev) === JSON.stringify(newCoordinates)) {
-        //         setFatores(null)   
-        //         return { x:0, y: 0 }
-        //     }
-        //     setFatores(fatores)   
-        //     return newCoordinates
-        // })
-
     }
-
-    
-    // const handleWindowChange = () => {
-    //     setCoordinates(updateCoordinates())
-    // }
-    // useMemo(() => {
-    //     handleWindowChange()
-    // }, [])
-    
-    // useEffect(() => {
-
-    //     window.addEventListener('resize', handleWindowChange)
-    //     return () => {
-    //         window.removeEventListener('resize', handleWindowChange)
-
-    //     }
-    // }, [])
 
     return (
         <div  
@@ -472,7 +484,7 @@ const Produto = ({ produto, setCoordinates, setFatores }: ProdutoProps ) => {
             {getTabelas().map((valor: string | number, index: number) => 
                 <div 
                     className='td'
-                    style={{ maxHeight: '42px', padding: '9.4px' }}
+                    style={{ maxHeight: '42px', padding: '9.4px', userSelect: 'none' }}
                     key={index}
                 >{
                     (typeof valor === 'number')

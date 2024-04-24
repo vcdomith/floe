@@ -1,9 +1,44 @@
 @use '../../../globalStyle.module.scss' as *;
 
+@function calculate-color($value) {
+    $hue: $value * 1deg; // Convert class value to degrees for hue
+    $saturation: 100%;   // Full saturation
+    $lightness: 50%;     // Medium lightness, you can adjust this as needed
+    
+    @return hsl($hue, $saturation, $lightness);
+  }
+  
+
+// @for $i from 0 through 100 {
+
+//     $percent: 1% * $i;
+//     $t: 100-$i;
+//     $n: $t/100;
+
+//     .cor-#{$i}{
+//         stroke: transparentize(saturate(mix($cor-secundaria, $cor-primaria, $percent), $i), $n);
+//     }
+// }
+
+@for $i from 0 through 5 {
+
+    $percentage: 20% + (10% * $i);
+    $mixed-color: mix($cor-primaria, $cor-secundaria, $percentage);
+
+    $inverted: (5 - $i);
+    $transparency: $inverted/10;
+
+    .cor-#{$i}{
+        stroke: transparentize(darken(saturate($mixed-color, 15%), 5%), $transparency);
+    }
+
+}
+
 .wrapper {
 
     display: flex;
-    justify-content: space-between;
+    gap: 2rem;
+    // justify-content: space-between;
     align-items: center;
     box-sizing: border-box;
     padding: 0 1rem;
@@ -43,6 +78,8 @@
 
     display: inline-flex;
     align-items: center;
+
+    flex: 1;
 
     border-radius: 1rem;
     width: 30%;
@@ -93,7 +130,7 @@
     pattern {
         svg {
             path {
-                stroke: $cor-mix;
+                // stroke: $cor-mix;
 
                 transition: all 850ms ease-out;
 

@@ -100,7 +100,7 @@ const Logo = ({ route }: { route: string }): React.ReactNode => {
         
         configurar: {
             Svg: () => <SvgConfigurar />,
-            Titulo: 'Configurar Tabela',
+            Titulo: 'Configurar Fatores',
         },
         tabela: {
             Svg: () => <SvgTabela/>,

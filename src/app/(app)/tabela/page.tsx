@@ -342,40 +342,40 @@ export default function Home() {
 
   const [iconPat, setIconPat] = useState("M0 161C78.5 161 123.995 339 246.5 339C359.5 339 130.5 339 261.5 339C384.577 339 402.5 161.5 500 161.5")
 
-  useEffect(() => {
+  // useEffect(() => {
 
-    // const paths = [
-    //   "M0 161C78.5 161 123.995 339 246.5 339C359.5 339 130.5 339 261.5 339C384.577 339 402.5 161.5 500 161.5",
-    //   "M0 339C78.5 339 123.995 161 246.5 161C359.5 161 130.5 161 261.5 161C384.577 161 402.5 338.5 500 338.5"
-    // ]
-    const paths = [
-      "M178.5 250C65 250 62.5 275.5 0 275.5V500H500V275.5C437.5 275.5 292 250 178.5 250Z",
-      "M340 147C226.5 147 62.5 202.015 0 202.015V500H500V202.015C476.5 202.015 453.5 147 340 147Z"
-    ]
+  //   // const paths = [
+  //   //   "M0 161C78.5 161 123.995 339 246.5 339C359.5 339 130.5 339 261.5 339C384.577 339 402.5 161.5 500 161.5",
+  //   //   "M0 339C78.5 339 123.995 161 246.5 161C359.5 161 130.5 161 261.5 161C384.577 161 402.5 338.5 500 338.5"
+  //   // ]
+  //   const paths = [
+  //     "M178.5 250C65 250 62.5 275.5 0 275.5V500H500V275.5C437.5 275.5 292 250 178.5 250Z",
+  //     "M340 147C226.5 147 62.5 202.015 0 202.015V500H500V202.015C476.5 202.015 453.5 147 340 147Z"
+  //   ]
 
-    const intervalId = setInterval(() => {
+  //   const intervalId = setInterval(() => {
 
-      setPattern(prev => {
-        if (paths[0] === prev) {
+  //     setPattern(prev => {
+  //       if (paths[0] === prev) {
 
-          return paths[1]
-        } 
+  //         return paths[1]
+  //       } 
 
-        return paths[0]
-      })
+  //       return paths[0]
+  //     })
       
 
-      // const randomIndex = Math.floor(Math.random() * svgArray.length);
-      // setSvg(svgArray[randomIndex])
-      // const getRandomSvg = () => {
-      //     return svgArray[randomIndex];
-      //   };
+  //     // const randomIndex = Math.floor(Math.random() * svgArray.length);
+  //     // setSvg(svgArray[randomIndex])
+  //     // const getRandomSvg = () => {
+  //     //     return svgArray[randomIndex];
+  //     //   };
 
-    }, 2000)
+  //   }, 2000)
 
-    return () => clearInterval(intervalId)
+  //   return () => clearInterval(intervalId)
 
-  }, [])
+  // }, [])
 
   const { SvgTabela } = Logos
 

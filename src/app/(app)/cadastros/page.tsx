@@ -27,9 +27,19 @@ export default async function Cadastros() {
             width: '100%'
         }}>
             <div>
-                <span>
+                <span
+                    style={{
+                        display: 'flex',
+                        padding: '1rem',
+                        gap: '2rem',
+                        // borderRadius: '1rem',
+                        // border: '2px solid'
+                    }}
+                >
                     <div>Id</div>
                     <div>Criado em:</div>
+                    <div>Fornecedor</div>
+                    <div>Produtos</div>
                 </span>
             </div>
             <div

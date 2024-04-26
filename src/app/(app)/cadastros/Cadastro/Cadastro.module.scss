@@ -74,6 +74,29 @@
 
 }
 
+
+.notFound {
+
+    animation: appear 600ms ease;
+
+    svg {
+
+        path {
+    
+            stroke: mix($cor-primaria, $cor-secundaria, 50%);
+    
+        }
+    
+        circle:last-of-type {
+    
+            stroke: mix($cor-primaria, $cor-secundaria, 50%);
+    
+        }
+    }
+
+
+}
+
 .scroll {
 
     display: inline-flex;

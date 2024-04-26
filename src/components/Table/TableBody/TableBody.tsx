@@ -117,9 +117,10 @@ const TableBody = ({ controleProdutos, setControleProdutos, setFatores, setValor
 
     }
 
-    const getTabelas = (index: number): number[] => {
+    const getTabelas = (produto: IProduto): number[] => {
 
-        const {fatores, unitario} = controleProdutos[index]
+        // const {fatores, unitario} = controleProdutos[index]
+        const { fatores, unitario } = produto
         const listaFatores = Object.values((fatores)).map(fator => stringToFloat(fator))
 
         const valorNumerico = parseFloat(unitario.replace(/,/g, '.'))
@@ -198,7 +199,7 @@ const TableBody = ({ controleProdutos, setControleProdutos, setFatores, setValor
         {(aplicarFiltros(controleProdutos).length > 0) 
 
         ?
-        aplicarFiltros(controleProdutos).map(({ id }, index) => 
+        aplicarFiltros(controleProdutos).map((produto, index) => 
         
             <div  
                 className={`tr`}
@@ -207,7 +208,7 @@ const TableBody = ({ controleProdutos, setControleProdutos, setFatores, setValor
                 onClick={() => console.log(produtosFiltrados)}
                 key={(index*3.1415)}
             >
-                {getTabelas(getIndex(id)).map((valor: string | number, index: number) => 
+                {getTabelas(produto).map((valor: string | number, index: number) => 
                     <div 
                         className='td'
                         key={index}
@@ -236,7 +237,7 @@ const TableBody = ({ controleProdutos, setControleProdutos, setFatores, setValor
             
             <button>
                 <svg 
-                    onClick={() => excluirLinha(getIndex(id))}
+                    onClick={() => excluirLinha(getIndex(produto.id))}
                     width="25px" 
                     height="25px" 
                     viewBox="0 0 32 32" 
@@ -256,10 +257,10 @@ const TableBody = ({ controleProdutos, setControleProdutos, setFatores, setValor
             </section>
             <FatoresTable
                 display={fatoresDisplay[index]}
-                fatores={controleProdutos[getIndex(id)].fatores}
-                setFatores={setFatores(getIndex(id))}
-                valor={controleProdutos[getIndex(id)].unitario}
-                setValor={setValor(getIndex(id))}
+                fatores={controleProdutos[getIndex(produto.id)].fatores}
+                setFatores={setFatores(getIndex(produto.id))}
+                valor={controleProdutos[getIndex(produto.id)].unitario}
+                setValor={setValor(getIndex(produto.id))}
                 handleSubmit={e => {
                     e.preventDefault()
                     mostrarFatores(index)

@@ -27,6 +27,7 @@ const Cadastro = ({ cadastro }: CadastroProps) => {
     const [pattern, setPattern] = useState("M0 377C78.5 377 123.995 199 246.5 199C359.5 199 130.5 199 261.5 199C384.577 199 402.5 376.5 500 376.5")
 
     const controleProdutos = cadastro.produtos
+    const { id } = cadastro
     const dateTime = new Date(cadastro.created_at).toLocaleString().split(',')
 
     const [ref, setRef] = useState<HTMLDivElement | null>(null)
@@ -61,8 +62,6 @@ const Cadastro = ({ cadastro }: CadastroProps) => {
         setFatores(null)
         setCoordinates({ x: 0, y: 0 })
     }, [display])
-
-    const { id, created_at } = cadastro
 
     // useEffect(() => {
 

@@ -229,8 +229,6 @@ const Cadastro = ({ cadastro }: CadastroProps) => {
 
             className={style.scroll}
             style={{ transition: `d ${1000/produtos.length}ms`}}
-            // onMouseEnter={() => setPattern("M0 199C78.5 199 238.5 269 238.5 377C238.5 485 259 487 259 377C259 267 402.5 199.5 500 199.5")}
-            // onMouseLeave={() => setPattern("M0 276C78.5 276 123.995 454 246.5 454C359.5 454 130.5 454 261.5 454C384.577 454 402.5 276.5 500 276.5")}
             >
                 <defs>
                 <pattern id={`pattern${id}`} patternUnits="userSpaceOnUse" x={0} y={0} width='50' height="50">
@@ -347,41 +345,6 @@ const Cadastro = ({ cadastro }: CadastroProps) => {
         </div>
         </>
     )
-
-    // return(
-    
-    //     <div 
-    //         className='tbody' 
-    //         style={{
-    //             height: `${55.2}px`,
-    //             transition: `height ${400}ms ease-out`
-    //         }}
-    //     >  
-    //         {produtos.map(({ id }, index) => 
-            
-    //             <div  
-    //                 className={`tr`}
-    //                 key={(index*3.1415)}
-    //             >
-    //                 {getTabelas(index).map((valor: string | number, index: number) => 
-    //                     <div 
-    //                         className='td'
-    //                         key={index}
-    //                     >{
-    //                         (typeof valor === 'number')
-    //                         ? valor.toLocaleString('pt-br', {minimumFractionDigits: 2, maximumFractionDigits: 4})
-    //                         : valor
-    //                     }
-    //                     </div>
-    //                 )}
-            
-    
-                    
-    //             </div>
-    //         )
-    //     }
-    //     </div>
-    //   )
 
 }
 

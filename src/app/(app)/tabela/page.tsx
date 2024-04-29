@@ -25,9 +25,9 @@ import Logos from '../(svg)/Logos'
 
 export default function Home() {
   
-  useReportWebVitals((metric) => {
-    console.log(metric)
-  })
+  // useReportWebVitals((metric) => {
+  //   console.log(metric)
+  // })
 
   // Utils
   const { stringToFloat, floatToString } = Converter

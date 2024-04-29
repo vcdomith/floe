@@ -5,7 +5,7 @@ import TableHeader from "./TableHeader/TableHeader"
 import { IFatores } from "@/interfaces/IFatores"
 import TableBody from "./TableBody/TableBody"
 import { IProduto } from "@/interfaces/IProduto"
-import { Dispatch, SetStateAction } from "react"
+import { Dispatch, MutableRefObject, SetStateAction, useEffect, useRef, useState } from "react"
 import { AnimatePresence, motion } from "framer-motion"
 
 interface TableProps{
@@ -27,12 +27,14 @@ interface TableProps{
 }
 
 
-const Table = ({ valores, size, controleProdutos, setControleProdutos, setFatores, setValor, fatoresDisplay, setFatoresDisplay, getIndex, filtros }: TableProps) => {
+const Table = ({ valores, size, controleProdutos, setControleProdutos, setFatores, setValor, setFatoresDisplay, getIndex, filtros, fatoresDisplay }: TableProps) => {
+
+    const [modalDisplay, setModalDisplay] = useState(false)
 
     interface Headers<T = string>{
         valores: [T, T, T, T],
         fatores: [T, T]
-      }
+    }
     
     const tableHeaders: Headers = {
         
@@ -52,7 +54,7 @@ const Table = ({ valores, size, controleProdutos, setControleProdutos, setFatore
     let headers = (valores[0] && 'unitario' in valores[0])
         ? tableHeaders.valores 
         : tableHeaders.fatores 
-            
+    
 
   return (
     // <AnimatePresence>
@@ -90,7 +92,7 @@ const Table = ({ valores, size, controleProdutos, setControleProdutos, setFatore
     {controleProdutos.length > 0 ?
     <motion.div 
       className={styles.table}
-      style={{ overflow: `${fatoresDisplay.includes(true) ? 'visible' : 'hidden' }` }}
+      style={{ overflow: `${modalDisplay ? 'visible' : 'hidden' }` }}
 
       initial={{ opacity: 0, height: 0 }}
       animate={{ opacity: 1, height: 'auto' }}
@@ -105,6 +107,7 @@ const Table = ({ valores, size, controleProdutos, setControleProdutos, setFatore
           filtros={filtros}
           setFatores={setFatores}
           setValor={setValor}
+          setModalDisplay={setModalDisplay}
           fatoresDisplay={fatoresDisplay}
           setFatoresDisplay={setFatoresDisplay}
           getIndex={getIndex}

@@ -3,7 +3,7 @@ import './TableBody.scss'
 import { IValores } from '@/interfaces/IValores'
 import FatoresTable from '@/components/FatoresTable/FatoresTable'
 import { IProduto } from '@/interfaces/IProduto'
-import { Dispatch, MouseEvent, MutableRefObject, SetStateAction, TransitionEvent, forwardRef, use, useEffect, useRef, useState } from 'react'
+import { Dispatch, MouseEvent, MutableRefObject, SetStateAction, TransitionEvent, forwardRef, use, useEffect, useMemo, useRef, useState } from 'react'
 import Converter from '@/utils/typeConversion'
 import { get } from 'http'
 import LogoSvg from '@/components/SvgArray/LogoSvg'
@@ -76,73 +76,78 @@ const TableBody = ({ controleProdutos, setControleProdutos, setFatores, setValor
 
     }
 
-    const aplicarFiltros = (produtos: IProduto[]) => {
-
-        
-        let displayProdutos = [...produtos]
-        if(produtoAtivo && produtosFiltrados.current !== null) return produtosFiltrados.current
-
-        if(sorted) {
-
-        const sortFn = (a: IProduto, b: IProduto) => {
-
-            const valorA = stringToFloat(a.unitario)
-            const valorB = stringToFloat(b.unitario)
-            
-            if (sorted === "ascending") {
-            return valorA - valorB
-            } else {
-            return valorB - valorA
-            }
-    
-        }
-
-            displayProdutos = displayProdutos.toSorted(sortFn)
-
-        }
-
-        if(searchParam) {
-
-        const filtrarProdutos = () => {
-
-            displayProdutos = displayProdutos.filter(produto => produto.unitario.includes(searchParam))
-
-        }
-
-        filtrarProdutos()
-
-        }
-
-        // setProdutosFiltrados(displayProdutos)
-
-        produtosFiltrados.current = displayProdutos
-        return displayProdutos
-
-    }
-
     const produtoAtivo = fatoresDisplay.includes(true)
 
     useEffect(() => {
 
         if (controleProdutos.length !== fatoresDisplay.length)
             setFatoresDisplay(Array(controleProdutos.length).fill(false))
-
+        console.log(controleProdutos);
             
     }, [controleProdutos, fatoresDisplay.length, setFatoresDisplay])
+
+    const produtosDisplay = useMemo(() => {
+
+        const aplicarFiltros = (produtos: IProduto[]) => {
+        
+            let displayProdutos = [...produtos]
+            if(produtoAtivo && produtosFiltrados.current !== null) return produtosFiltrados.current
+    
+            if(sorted) {
+    
+            const sortFn = (a: IProduto, b: IProduto) => {
+    
+                const valorA = stringToFloat(a.unitario)
+                const valorB = stringToFloat(b.unitario)
+                
+                if (sorted === "ascending") {
+                return valorA - valorB
+                } else {
+                return valorB - valorA
+                }
+        
+            }
+    
+                displayProdutos = displayProdutos.toSorted(sortFn)
+    
+            }
+    
+            if(searchParam) {
+    
+            const filtrarProdutos = () => {
+    
+                displayProdutos = displayProdutos.filter(produto => produto.unitario.includes(searchParam))
+    
+            }
+    
+            filtrarProdutos()
+    
+            }
+    
+            // setProdutosFiltrados(displayProdutos)
+    
+            produtosFiltrados.current = displayProdutos
+            return displayProdutos
+    
+        }
+        return aplicarFiltros(controleProdutos)
+
+    }, [controleProdutos, searchParam, produtoAtivo, sorted, stringToFloat])
 
   return(
     
     <div 
         className='tbody' 
         style={{
-            height: `${aplicarFiltros(controleProdutos).length > 0 ? aplicarFiltros(controleProdutos).length*55.2 : 150}px`,
-            transition: `height ${400+(50*(aplicarFiltros(controleProdutos).length))}ms ease-out`
+            height: `${produtosDisplay.length > 0 ? produtosDisplay.length*55.2 : 150}px`,
+            // transition: `height ${400+(50*(produtosDisplay.length))}ms ease-out`
+            transition: `height 600ms ease-out`
         }}
     >  
-        {(aplicarFiltros(controleProdutos).length > 0) 
+        {(produtosDisplay.length > 0) 
 
         ?
-        aplicarFiltros(controleProdutos).map((produto, index) => 
+        produtosDisplay.map((produto, index) => 
             <Produto
                 key={produto.id} 
                 mostrarFatores={mostrarFatores} 

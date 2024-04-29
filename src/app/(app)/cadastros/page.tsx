@@ -18,8 +18,6 @@ export default async function Cadastros() {
     const supabase = dbConnect()
     const {data: cadastros} = await supabase.from('cadastros').select()
 
-    // const 
-
     return (
     <>
         <div style={{

@@ -200,7 +200,8 @@ const TableBody = ({ controleProdutos, setControleProdutos, setFatores, setValor
 
         ?
         aplicarFiltros(controleProdutos).map((produto, index) => 
-        
+            
+            // componente Produto começa aqui
             <div  
                 className={`tr`}
                 // onClick={() => console.log(aplicarFiltros(controleProdutos))}
@@ -248,7 +249,7 @@ const TableBody = ({ controleProdutos, setControleProdutos, setFatores, setValor
                         />
                 </svg>
             </button>
-            <>
+            <div>
             <section 
                 className='backdrop'
                 hidden={!fatoresDisplay[index]}
@@ -266,7 +267,7 @@ const TableBody = ({ controleProdutos, setControleProdutos, setFatores, setValor
                     mostrarFatores(index)
                 }}
             />
-            </>
+            </div>
 
             </>
                 
@@ -291,3 +292,23 @@ const TableBody = ({ controleProdutos, setControleProdutos, setFatores, setValor
 }
 
 export default TableBody
+
+interface FatoresModalProps {
+
+    displayOutter: boolean
+    mostrarFatores: (index: number) => void
+    index: number
+    controleProdutos: IProduto[]
+    getIndex: (id: number) => number
+    produto: IProduto
+    setFatores: (index: number) => (id: string, valor: string) => void
+    setValor: (index: number) => ((valor: string) => void)
+
+}
+
+// Esse deve ser o componente que controla os fatores
+function Produto() {
+
+
+
+}

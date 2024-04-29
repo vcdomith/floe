@@ -9,6 +9,8 @@ import { ICadastro } from '@/interfaces/ICadastro'
 import { dbConnect } from '@/utils/db/supabase'
 import Converter from '@/utils/typeConversion'
 
+import { useReportWebVitals } from 'next/web-vitals'
+
 import Table from '@/components/Table/Table'
 import NumberInput from '@/components/FatoresTable/FatoresTableBody/NumberInput/NumberInput'
 import FatoresTable from '@/components/FatoresTable/FatoresTable'
@@ -23,6 +25,10 @@ import Logos from '../(svg)/Logos'
 
 export default function Home() {
   
+  useReportWebVitals((metric) => {
+    console.log(metric)
+  })
+
   // Utils
   const { stringToFloat, floatToString } = Converter
 

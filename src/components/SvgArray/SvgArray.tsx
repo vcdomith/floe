@@ -1,6 +1,6 @@
 'use client'
 
-import React, { ReactNode, useEffect, useState } from "react"
+import React, { ReactNode, useEffect, useMemo, useState } from "react"
 
 interface SvgArrayProps {
     className: string
@@ -40,8 +40,7 @@ const SvgArray = ({ className, interval }: SvgArrayProps) => {
     const [prevIndex, setPrevIndex] = useState(-1)
     const [firstCall, setFirstCall] = useState(true)
 
-
-    let svgArray = [svg0, svg1, svg2, svg3, svg4]
+    let svgArray = useMemo(() => [svg0, svg1, svg2, svg3, svg4], [])
 
     useEffect(() => {
 
@@ -51,7 +50,7 @@ const SvgArray = ({ className, interval }: SvgArrayProps) => {
             while (randomIndex === prevIndex) {
                 randomIndex = Math.floor(Math.random() * svgArray.length);
             }
-            setPrevIndex(prevIndex => randomIndex);
+            setPrevIndex(randomIndex);
             setSvg(svgArray[randomIndex]);
 
             if (firstCall) {
@@ -68,16 +67,11 @@ const SvgArray = ({ className, interval }: SvgArrayProps) => {
       
           return () => clearInterval(intervalId)
 
-    }, [firstCall, prevIndex])
+    }, [firstCall, prevIndex, interval, svgArray])
 
 
-  return (
-    <div className={className} >
-    {
-    svg 
-    }
-    </div>
-  )
+  return <div className={className}>{ svg }</div>
+  
 }
 
 export default SvgArray

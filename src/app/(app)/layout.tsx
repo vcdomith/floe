@@ -7,18 +7,22 @@ import { usePathname } from "next/navigation.js";
 
 import style from './style.module.scss'
 import Link from "next/link";
+import { NotificationContext, NotificationProvider, useNotification } from "./(contexts)/NotificationContext";
+import Notifications from "./(Notifications)/Notifications";
+import LogoSvg from "@/components/SvgArray/LogoSvg";
 
-export default function AppLayout({ children }: { children: React.ReactNode}) {
+export default function AppLayout({ children }: { children: React.ReactNode }) {
 
     const path = usePathname()
 
     const MainLogo = Logos.SvgTabela
 
     return (
-        <>
+        <NotificationProvider>
         <header className={style.header}>
             <div>
-                <MainLogo />
+                {/* <MainLogo /> */}
+                <LogoSvg />
                 <h2>floe</h2>
             </div>
             <span>
@@ -71,8 +75,9 @@ export default function AppLayout({ children }: { children: React.ReactNode}) {
         <Container>
             <Logo route={path}/>
             {children}
+            <Notifications />
         </Container>
-        </>
+        </NotificationProvider>
     )
 
 }

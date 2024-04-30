@@ -22,6 +22,7 @@ import page from './page.module.scss'
 import input from '@/app/Inputs.module.scss'
 
 import Logos from '../(svg)/Logos'
+import { useNotification } from '../(contexts)/NotificationContext'
 
 export default function Home() {
   
@@ -72,6 +73,8 @@ export default function Home() {
   const scrollRef = useRef<SVGSVGElement | null>(null)
 
   const [pattern, setPattern] = useState("M250 344.5C129.581 344.5 0 159.5 0 159.5V500H500V159.5C500 159.5 370.419 344.5 250 344.5Z")
+
+  const { notifications, addNotification } = useNotification()
 
   const formatValor = (valor: string): string => {
 
@@ -621,6 +624,11 @@ export default function Home() {
           Salvar Dados
         </button>
         }
+        <button
+          onClick={() => addNotification({ tipo: 'sucesso', mensagem: `${Object.entries(fatores)} Fatores Atuais` })}
+        >
+          Adicionar notificação
+        </button>
         {/* <Suspense fallback={<Loading/>}>
           <Link href='/cadastros' prefetch>
             <button className={page.botao}>Ver cadastros</button>

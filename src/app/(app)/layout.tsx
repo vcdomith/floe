@@ -10,6 +10,7 @@ import Link from "next/link";
 import { NotificationContext, NotificationProvider, useNotification } from "./(contexts)/NotificationContext";
 import Notifications from "./(Notifications)/Notifications";
 import LogoSvg from "@/components/SvgArray/LogoSvg";
+import Nav from "./(nav)/Nav";
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
 
@@ -19,10 +20,11 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
 
     return (
         <NotificationProvider>
-        <header className={style.header}>
+            <Nav />
+        {/* <header className={style.header}>
             <div>
-                {/* <MainLogo /> */}
-                <LogoSvg />
+                <MainLogo /> 
+                <LogoSvg /> 
                 <h2>floe</h2>
             </div>
             <span>
@@ -49,7 +51,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
                     </Link>
                     <Link href='/cadastros' prefetch>
                         <button>
-                        {/* <svg width="500" height="500" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+                         <svg width="500" height="500" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M0 480C137.5 480 124 359 249.5 359" stroke="#591C4A" strokeWidth="40"/>
                             <path d="M0 301C137.5 301 124 180 249.5 180" stroke="#591C4A" strokeWidth="40"/>
                             <path d="M250 480C387.5 480 374 359 499.5 359" stroke="#591C4A" strokeWidth="40"/>
@@ -57,7 +59,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
                             <path d="M250 141.5C387.5 141.5 374 20 499.5 20" stroke="#591C4A" strokeWidth="40"/>
                             <path d="M0 141.5C137.5 141.5 124 20 249.5 20" stroke="#591C4A" strokeWidth="40"/>
                             <circle cx="250" cy="250" r="69" stroke="#591C4A" strokeWidth="40"/>
-                        </svg> */}
+                        </svg> 
                         <svg width="500" height="500" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M0 480.001C249.5 480.001 0 359 249.5 359" stroke="#591C4A" strokeWidth="40"/>
                             <path d="M250 480.001C499.5 480.001 250 359 499.5 359" stroke="#591C4A" strokeWidth="40"/>
@@ -71,7 +73,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
                         </button>
                     </Link>
             </span>
-        </header>
+        </header> */}
         <Container>
             <Logo route={path}/>
             {children}

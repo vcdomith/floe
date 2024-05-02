@@ -74,7 +74,6 @@ const Circle = () => {
 
 const LogoSvg = ({ loop }: SvgProps) => {
 
-    
   return (
     <svg
     // style={{ backgroundColor: '#591C4A' }}
@@ -102,10 +101,10 @@ const LogoSvg = ({ loop }: SvgProps) => {
                 />
             </linearGradient>
             <radialGradient id="paint0_radial_3_31" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(249.799 250.5) rotate(126.557) scale(157.482)">
-            <stop stopColor="#E8D4B0" stopOpacity="0"/>
-            <stop offset="0.4359" stopColor="#E8D4B0" stopOpacity="0"/>
-            <stop offset="0.436" stopColor="#E8D4B0"/>
-            <stop offset="1" stopColor="#E8D4B0" stopOpacity="0"/>
+            <stop stopColor="#062b37" stopOpacity="0"/>
+            <stop offset="0.4359" stopColor="#062b37" stopOpacity="0"/>
+            <stop offset="0.436" stopColor="#062b37"/>
+            <stop offset="1" stopColor="#062b37" stopOpacity="0"/>
             </radialGradient>
         </defs>
     </svg>

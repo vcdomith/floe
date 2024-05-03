@@ -20,7 +20,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
 
     return (
         <NotificationProvider>
-            <Nav />
+            <Nav pathname={path} />
         {/* <header className={style.header}>
             <div>
                 <MainLogo /> 

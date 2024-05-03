@@ -11,24 +11,27 @@ const Nav = () => {
     const [display, setDisplay] = useState(false)
 
   return (
+    <>
+    <AnimatePresence>
+            { display&&
+            <motion.div
+                initial={{opacity: 0, width: '4rem'}}
+                animate={{opacity: 1, width: '10rem'}}
+                exit={{opacity: 0, width: '4rem'}}
+                // transition={{ duration: 0.3 }}
+
+                className={style.background}
+                // style={{ width: `${display ? '10rem' : '4rem'}`}}
+            >
+                <SvgArray className={'a'} interval={2000} />
+            </motion.div>
+            } 
+        </AnimatePresence>
     <nav className={style.nav}
         onMouseEnter={() => setDisplay(true)}
         onMouseLeave={() => setDisplay(false)}
     >       
-        <AnimatePresence>
-            {display&&
-            <motion.div
-                initial={{opacity: 0}}
-                animate={{opacity: 1}}
-                exit={{opacity: 0}}
-                // transition={{ duration: 400 }}
-
-                className={style.background}
-            >
-                <SvgArray className={'a'} interval={2000} />
-            </motion.div>
-            }
-        </AnimatePresence>
+        
             <span>
                 <LogoSvg />
                 <h2>floe</h2>
@@ -72,6 +75,7 @@ const Nav = () => {
                     </Link>
             </div>
         </nav>
+        </>
   )
 }
 

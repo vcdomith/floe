@@ -150,7 +150,7 @@ const Cadastro = ({ cadastro }: CadastroProps) => {
                     alignContent: 'center',
                     top: 0,
                     left: 0,
-                    transform: `translate(${coordinates.x - 32}px, ${coordinates.y - 122}px)`,
+                    transform: `translate(${coordinates.x - 32}px, ${coordinates.y - 61}px)`,
                     position: 'absolute',
                     zIndex: 3,
                     backgroundColor: '#e8d4b0',

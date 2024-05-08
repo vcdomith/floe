@@ -15,7 +15,7 @@ export default function Configurar() {
     return (
         <div
             style={{
-                width: '100vw',
+                width: '100%',
                 display: 'flex',
                 flexDirection: 'column'
             }}
@@ -48,6 +48,16 @@ export default function Configurar() {
                         <option value="denlex">Denlex</option>
                     </select> */}
                     <SelectFornecedor />
+                </span>
+                <span
+                    style={{
+                        display: 'inline-flex',
+                        alignItems: "center",
+                        gap: '1rem',
+                    }}
+                >
+                    <p>ST?</p>
+                    <input type="text"  required/>
                 </span>
                 <span
                     style={{

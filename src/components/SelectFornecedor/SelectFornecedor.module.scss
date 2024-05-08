@@ -10,17 +10,19 @@
     // overflow: hidden;
     border-radius: 1rem;
     
-    transition: height 600ms ease, border-radius 600ms ease-in;
+    transition: height 600ms ease, border-radius 500ms ease-in;
     
     &[data-display="true"] {
       
         border-bottom-left-radius: 0;
         border-bottom-right-radius: 0;  
+        transition: border-radius 200ms ease;
         
         > .select {
             
             border-bottom-left-radius: 0;
             border-bottom-right-radius: 0;    
+            transition: border-radius 200ms ease;
             
         }
     }
@@ -41,7 +43,7 @@
         border-radius: 1rem;
         color: $cor-primaria;
 
-        transition: background-color 200ms ease;
+        transition: background-color 200ms ease, border-radius 500ms ease-in;
 
         cursor: pointer;
 
@@ -69,6 +71,24 @@
             }
 
         }
+
+    }
+
+    .backdrop {
+
+        position: fixed;
+        top: 0;
+        left: 0;
+        // background-color: #19121741;
+        // background-color: transparentize(darken($cor-primaria, 20%), 0.8);
+        // bottom: 50%;
+        // bottom: 100px;
+        width: 100vmax;
+        height: 100vmax;
+
+        // z-index: 9;
+
+        transition: background-color 600ms ease-out;
 
     }
 
@@ -200,6 +220,41 @@
                 }
             
             }
+        }
+
+
+        .noMatch {
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+
+            width: 100%;
+            height: 4rem;
+
+            padding: 0.5rem 1rem 1rem 1rem;
+
+            box-sizing: border-box;
+
+            svg {
+
+                width: 35px;
+
+                path, circle {
+
+                    stroke: $cor-primaria;
+
+                }
+
+            }
+
+            p {
+                display: flex;
+                margin: 0;
+                width: min-content;
+            }
+
         }
 
     }

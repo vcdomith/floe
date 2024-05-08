@@ -26,7 +26,8 @@ export default function Configurar() {
 
                 }}
             >Em breve...</p>
-            <form 
+            <form
+                name="fornecedor"
                 // onSubmit={(e) => handleSubmit(e)}
                 style={{
                     display: 'flex',

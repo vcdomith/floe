@@ -1,5 +1,5 @@
 'use client'
-import { useState } from "react"
+import { KeyboardEvent, useState } from "react"
 import { motion } from 'framer-motion'
 
 import style from './CheckBox.module.scss'
@@ -12,7 +12,16 @@ export default function CheckBox() {
         type: "spring",
         stiffness: 700,
         damping: 30
-      };
+    };
+
+    const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+
+        if(e.key === 'Enter') {
+            e.preventDefault()
+            setChecked(prev => !prev)
+        } 
+
+    }
 
     return (
         <label
@@ -23,6 +32,7 @@ export default function CheckBox() {
                 onChange={() => setChecked(prev => !prev)}
                 checked={checked}
                 type='checkbox'
+                onKeyDown={(e) => handleKeyDown(e)}
                 className={style.input}
             >   
             </input>

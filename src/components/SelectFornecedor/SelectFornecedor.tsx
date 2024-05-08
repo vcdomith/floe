@@ -66,23 +66,20 @@ const SelectFornecedor = () => {
                 break;
 
             case 'Enter':
-        
-                e.preventDefault()
-
-                setFornecedor((fornecedoresRef.current?.childNodes[selectIndex] as HTMLLIElement).innerText)
-                // searchElementRef.current?.blur()
-                setDisplay(false)
-                break;
-
             case 'Space':
-                    
+            case 'Tab': {
                 e.preventDefault()
+        
+                if(fornecedores.length === 0) {
+                    setDisplay(false)
+                    break
+                }
 
                 setFornecedor((fornecedoresRef.current?.childNodes[selectIndex] as HTMLLIElement).innerText)
                 // searchElementRef.current?.blur()
                 setDisplay(false)
-                
                 break;
+            }
 
             case 'Escape':
                 
@@ -102,11 +99,12 @@ const SelectFornecedor = () => {
     }
 
     useEffect(() => {
-        // console.log(selectIndex);
-        console.log(fornecedoresRef.current?.childNodes[selectIndex]);
+        
         if(fornecedoresRef.current)
-        (fornecedoresRef.current?.childNodes[selectIndex] as HTMLLIElement)
-            .scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'nearest'})
+            if(!search)
+            (fornecedoresRef.current?.childNodes[selectIndex] as HTMLLIElement)
+                .scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'nearest'})
+
     }, [selectIndex])
 
     useEffect(() => {
@@ -136,6 +134,7 @@ const SelectFornecedor = () => {
             data-display={display}
         >
             <button
+                type={`${fornecedor ? 'button' : 'submit'}`}
                 className={style.select}
                 onClick={(e) => {    
                     e.preventDefault()
@@ -144,8 +143,9 @@ const SelectFornecedor = () => {
             >
                 <input
                     className={style.selectInput}
-                    // readOnly 
+                    readOnly 
                     required
+                    formTarget="fornecedor"
                     // disabled={fornecedor ? true : false}
                     placeholder="Selecione um fornecedor"
                     type="text" 
@@ -171,6 +171,8 @@ const SelectFornecedor = () => {
             </button>
             <AnimatePresence>
             {display&&
+            <>
+            <section className={style.backdrop} onClick={() => setDisplay(false)}></section>
             <motion.div
                 initial={{opacity: 1, height: 0}}
                 animate={{opacity: 1, height: 'auto'}}
@@ -259,12 +261,31 @@ const SelectFornecedor = () => {
                     initial={{ opacity: 0 , x: -20}}
                     animate={{opacity: 1, x: 0}}
                     exit={{opacity: 0, x: 20}}
-                    >Nenhuma correspondência encontrada</motion.li>
+
+                    className={style.noMatch}
+                    >   
+                        <svg width="50" height="50" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M29.7784 404.32C38.2784 410.82 153.778 495.32 198.278 459.32C242.778 423.32 5.27837 290.82 29.7784 204.32C49.3784 135.12 150.278 180.487 198.278 211.82" stroke="#591C4A" strokeWidth="40" stroke-dasharray="40 20"/>
+                            <path d="M474.07 98.893C465.57 92.393 350.07 7.89299 305.57 43.893C261.07 79.893 498.57 212.393 474.07 298.893C454.47 368.093 353.57 322.726 305.57 291.393" stroke="#591C4A" strokeWidth="40" stroke-dasharray="40 20"/>
+                            <circle style={{ zIndex: 1 }} cx="250" cy="250" r="200" fill="url(#paint0_radial_3_31)"/>
+                            <circle cx="250" cy="250" r="69" stroke="#591C4A" strokeWidth="40"/>
+                            <defs>
+                                <radialGradient id="paint0_radial_3_31" cx="0" cy="0" r="1.2" gradientUnits="userSpaceOnUse" gradientTransform="translate(249.799 250.5) rotate(126.557) scale(157.482)">
+                                    <stop stopColor="#E8D4B0" stopOpacity="0"/>
+                                    <stop offset="0.4359" stopColor="#E8D4B0" stopOpacity="0"/>
+                                    <stop offset="0.436" stopColor="#E8D4B0"/>
+                                    <stop offset="1" stopColor="#E8D4B0" stopOpacity="0"/>
+                                </radialGradient>
+                            </defs>
+                        </svg>
+                        <p>Nenhuma correspondência encontrada</p>
+                    </motion.li>
             )
             }
             </AnimatePresence>
             </ul>          
             </motion.div>
+            </>
             }
             </AnimatePresence>
 

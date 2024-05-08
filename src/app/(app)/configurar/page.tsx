@@ -34,7 +34,13 @@ export default function Configurar() {
                     border: '2px solid',
                 }}
             >
-                <span>
+                <span
+                    style={{
+                        display: 'inline-flex',
+                        alignItems: "center",
+                        gap: '1rem',
+                    }}
+                >
                     <p>Fornecedor</p>
                     {/* <input type="text" required/> */}
                     {/* <select name="" id="" defaultValue='Selecione um fornecedor' required>

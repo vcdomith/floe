@@ -12,6 +12,12 @@
     
     transition: height 600ms ease, border-radius 500ms ease-in;
     
+    &:focus-within {
+
+        box-shadow: 2px 2px 15px 2px $cor-primaria-transparent;
+
+    }
+
     &[data-display="true"] {
       
         border-bottom-left-radius: 0;

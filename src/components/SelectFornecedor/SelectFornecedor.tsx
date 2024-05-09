@@ -18,6 +18,7 @@ const SelectFornecedor = () => {
 
     const searchElementRef = useRef<HTMLInputElement>(null)
     const fornecedoresRef = useRef<HTMLUListElement>(null)
+    const selectRef = useRef<HTMLButtonElement>(null)
 
 
     const handleClick = (e: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>) => {
@@ -39,7 +40,46 @@ const SelectFornecedor = () => {
 
     } 
 
-    const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+    const handleArrowSelect = (e: KeyboardEvent<HTMLButtonElement>) => {
+
+        console.log(e.key);
+
+        switch (e.code) {
+            case 'ArrowUp':
+            
+                e.preventDefault()
+                
+                setSelectIndex(prev => {
+                    if(prev === 0) return 0
+                    return prev-1
+                })
+                setFornecedor(selectIndex.toString())
+
+                // // setFornecedor((fornecedoresRef.current?.childNodes[selectIndex] as HTMLLIElement).innerText) 
+                
+                break;
+                
+            case 'ArrowDown':
+                    
+                e.preventDefault()
+                
+                setSelectIndex(prev => {
+                    if(prev === (fornecedoresControle.length-1)) return prev
+                    return prev+1
+                })
+                setFornecedor(selectIndex.toString())
+                    
+                // setFornecedor((fornecedoresRef.current?.childNodes[selectIndex] as HTMLLIElement).innerText)
+
+                break;
+        
+            default:
+                break;
+        }
+
+    }
+
+    const handleKeyDownOnSearch = (e: KeyboardEvent<HTMLInputElement>) => {
 
         switch (e.code) {
 
@@ -48,6 +88,8 @@ const SelectFornecedor = () => {
                 e.preventDefault()
                 
                 setSelectIndex(prev => {
+                    console.log(prev);
+
                         if(prev === 0) return 0
                         return prev-1
                 })  
@@ -59,6 +101,7 @@ const SelectFornecedor = () => {
                 e.preventDefault()
 
                 setSelectIndex(prev => {
+                    console.log(prev);
                     if(prev === (fornecedores.length-1)) return prev
                     return prev+1
                 })
@@ -72,12 +115,14 @@ const SelectFornecedor = () => {
         
                 if(fornecedores.length === 0) {
                     setDisplay(false)
+                    selectRef.current?.focus()
                     break
                 }
 
                 setFornecedor((fornecedoresRef.current?.childNodes[selectIndex] as HTMLLIElement).innerText)
                 // searchElementRef.current?.blur()
                 setDisplay(false)
+                selectRef.current?.focus()
                 break;
             }
 
@@ -90,6 +135,7 @@ const SelectFornecedor = () => {
                 
                 // searchElementRef.current?.blur()
                 setDisplay(false)
+                selectRef.current?.focus()
                 break;
         
             default:
@@ -133,9 +179,12 @@ const SelectFornecedor = () => {
             className={style.wrapper}
             data-display={display}
         >
+            {selectIndex}
             <button
                 type={`${fornecedor ? 'button' : 'submit'}`}
                 className={style.select}
+                ref={selectRef}
+                onKeyDown={(e) => handleArrowSelect(e)}
                 onClick={(e) => {    
                     e.preventDefault()
                     setDisplay(prev => !prev)
@@ -209,7 +258,7 @@ const SelectFornecedor = () => {
                         ref={searchElementRef}
                         autoFocus
                         spellCheck={false}
-                        onKeyDown={(e) => handleKeyDown(e)}
+                        onKeyDown={(e) => handleKeyDownOnSearch(e)}
                     />
                     {search&&
                     <button>

@@ -35,6 +35,13 @@ export default function Configurar() {
                     border: '2px solid',
                 }}
             >
+                <select name="" id="">
+                    <option value="a">a</option>
+                    <option value="b">b</option>
+                    <option value="c">c</option>
+                    <option value="d">d</option>
+                    <option value="e">e</option>
+                </select>
                 <span
                     style={{
                         display: 'inline-flex',

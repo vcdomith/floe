@@ -41,9 +41,7 @@ const SelectFornecedor = () => {
     } 
 
     const handleArrowSelect = (e: KeyboardEvent<HTMLButtonElement>) => {
-
-        console.log(e.key);
-
+        
         switch (e.code) {
             case 'ArrowUp':
             
@@ -51,9 +49,10 @@ const SelectFornecedor = () => {
                 
                 setSelectIndex(prev => {
                     if(prev === 0) return 0
-                    return prev-1
+                    setFornecedor(fornecedores[prev - 1])
+                    return prev - 1
                 })
-                setFornecedor(selectIndex.toString())
+                // setFornecedor(selectIndex.toString())
 
                 // // setFornecedor((fornecedoresRef.current?.childNodes[selectIndex] as HTMLLIElement).innerText) 
                 
@@ -65,9 +64,10 @@ const SelectFornecedor = () => {
                 
                 setSelectIndex(prev => {
                     if(prev === (fornecedoresControle.length-1)) return prev
-                    return prev+1
+                    setFornecedor(fornecedores[prev + 1])
+                    return prev + 1
                 })
-                setFornecedor(selectIndex.toString())
+                // setFornecedor(selectIndex.toString())
                     
                 // setFornecedor((fornecedoresRef.current?.childNodes[selectIndex] as HTMLLIElement).innerText)
 
@@ -146,6 +146,8 @@ const SelectFornecedor = () => {
 
     useEffect(() => {
         
+        // if(!display) setFornecedor(fornecedoresControle[selectIndex])
+
         if(fornecedoresRef.current)
             if(!search)
             (fornecedoresRef.current?.childNodes[selectIndex] as HTMLLIElement)
@@ -177,9 +179,9 @@ const SelectFornecedor = () => {
 	return (
 		<div
             className={style.wrapper}
+            tabIndex={-1}
             data-display={display}
         >
-            {selectIndex}
             <button
                 type={`${fornecedor ? 'button' : 'submit'}`}
                 className={style.select}

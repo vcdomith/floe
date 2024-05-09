@@ -15,6 +15,12 @@
 
     cursor: pointer;
 
+    &:not([data-checked]){
+        
+        justify-content: center;
+        border-color: transparentize($cor-primaria, 0.5);
+        
+    }
     &[data-checked="false"]{
         
         justify-content: flex-start;
@@ -58,6 +64,13 @@
         border-radius: 15px;
         transition: background-color 200ms ease,
                     border-color 200ms ease;
+
+        &:not([data-checked]) {
+
+            // background-color: transparentize($cor-primaria, 0.5);   
+            border-color: transparentize($cor-primaria, 0.5);
+
+        }
 
         &[data-checked="false"] {
             background-color: $cor-secundaria;

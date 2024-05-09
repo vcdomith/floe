@@ -1,16 +1,96 @@
-import { FormEvent } from "react"
+'use client'
+import { FormEvent, useMemo, useState } from "react"
 import CheckBox from "./(CheckBox)/CheckBox"
 import NumberInput from "@/components/FatoresTable/FatoresTableBody/NumberInput/NumberInput"
 import SelectFornecedor from "@/components/SelectFornecedor/SelectFornecedor"
+import { IFornecedor } from "@/interfaces/IFornecedor"
+import { dbConnect } from "@/utils/db/supabase"
+import { useNotification } from "../(contexts)/NotificationContext"
 
 export default function Configurar() {
 
-    const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    const supabase = useMemo(() => dbConnect(), [])
+
+    const { notifications, addNotification } = useNotification()
+
+    // State cadastro
+    const [cadastroFornecedor, setCadastroFornecedor] = useState<IFornecedor>()
+    
+    // State Controle Inputs
+    const [nomeFornecedor, setNomeFornecedor] = useState('')
+    const [fatorBase, setFatorBase] = useState('')
+    const [fatorNormal, setFatorNormal] = useState('')
+    const [fatorSt, setFatorSt] = useState('')
+    const [desconto, setDesconto] = useState(false)
+    const [ipi, setIpi] = useState(false)
+    const [unitarioNota, setUnitarioNota] = useState(false)
+
+    const [fornecedoresDB, setFornecedoresDB] = useState<IFornecedor[]>()
+
+    function capitalize(string: string):string {
+
+        const captalizedFirstLetter = string[0].toUpperCase()
+        const lowercasePart = string.slice(1,)
+        return `${captalizedFirstLetter + lowercasePart}`
+
+    }
+
+    const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
 
         e.preventDefault()
 
+        const novoCadastro = {
+            nome: nomeFornecedor.trim().toLowerCase(),
+            fatorBase: fatorBase,
+            fatorNormal: fatorNormal,
+            fatorST: fatorSt,
+            desconto: desconto,
+            ipi: ipi,
+            unitarioNota: unitarioNota,
+        }
+
+        setCadastroFornecedor(novoCadastro as IFornecedor)       
+
+        try {
+            
+            let { data: fornecedor, error } = await supabase
+                .from('fornecedores')
+                .insert({...novoCadastro})
+
+            if(error) {
+                addNotification({ tipo: 'erro', mensagem: `${error.details}`})
+                return
+            }
+            addNotification({ tipo: 'sucesso', mensagem: `Cadastro do fornecedor ${capitalize(novoCadastro.nome)} feito com sucesso!`})
+            
+
+        } catch (error) {
+            
+            console.error(error)
+            addNotification({ tipo: 'erro', mensagem: `${error}`})
+
+        }
+      
 
     }
+
+    const getFornecedores = async () => {
+        
+        try {
+            
+            let { data: fornecedores, error } = await supabase
+                .from('fornecedores')
+                .select()
+
+            setFornecedoresDB(fornecedores as IFornecedor[])
+
+        } catch (error) {
+
+            addNotification({ tipo: 'erro', mensagem: `${error}`})
+
+        }
+
+    } 
 
     return (
         <div
@@ -25,23 +105,31 @@ export default function Configurar() {
                     fontSize: '1.5rem',
 
                 }}
-            >Em breve...</p>
+            >{JSON.stringify(cadastroFornecedor)}</p>
             <form
                 name="fornecedor"
-                // onSubmit={(e) => handleSubmit(e)}
+                onSubmit={(e) => handleSubmit(e)}
                 style={{
                     display: 'flex',
                     flexDirection: 'column',
                     border: '2px solid',
                 }}
             >
-                <select name="" id="">
-                    <option value="a">a</option>
-                    <option value="b">b</option>
-                    <option value="c">c</option>
-                    <option value="d">d</option>
-                    <option value="e">e</option>
-                </select>
+                {/* <span 
+                    style={{
+                        display: 'inline-flex',
+                        alignItems: "center",
+                        gap: '1rem',
+                    }}
+                >
+                    <p>Fornecedor</p>
+                     <input type="text" required/> 
+                     <select name="" id="" defaultValue='Selecione um fornecedor' required>
+                        <option value="mileno">Mileno</option>
+                        <option value="denlex">Denlex</option>
+                    </select>
+                    <SelectFornecedor />
+                </span> */}
                 <span
                     style={{
                         display: 'inline-flex',
@@ -50,12 +138,36 @@ export default function Configurar() {
                     }}
                 >
                     <p>Fornecedor</p>
-                    {/* <input type="text" required/> */}
-                    {/* <select name="" id="" defaultValue='Selecione um fornecedor' required>
-                        <option value="mileno">Mileno</option>
-                        <option value="denlex">Denlex</option>
-                    </select> */}
-                    <SelectFornecedor />
+                    <input 
+                        type="text" 
+                        required
+                        value={nomeFornecedor}
+                        onChange={(e) => setNomeFornecedor(e.target.value)}
+                    />
+                </span>
+                <span>
+                    <p>Fator Base</p>
+                    <NumberInput 
+                        placeholder={"Fator Base"} 
+                        valor={fatorBase} 
+                        setValor={setFatorBase}                        
+                     />
+                </span>
+                <span>
+                    <p>Fator Normal</p>
+                    <NumberInput 
+                        placeholder={"Fator Normal"} 
+                        valor={fatorNormal} 
+                        setValor={setFatorNormal}                        
+                     />
+                </span>
+                <span>
+                    <p>Fator ST</p>
+                    <NumberInput 
+                        placeholder={"Fator ST"} 
+                        valor={fatorSt} 
+                        setValor={setFatorSt}                        
+                     />
                 </span>
                 <span
                     style={{
@@ -64,8 +176,11 @@ export default function Configurar() {
                         gap: '1rem',
                     }}
                 >
-                    <p>ST?</p>
-                    <input type="text"  required/>
+                    <p>Desconto?</p>
+                    <CheckBox
+                        checked={desconto}
+                        setChecked={setDesconto}
+                    />
                 </span>
                 <span
                     style={{
@@ -74,8 +189,11 @@ export default function Configurar() {
                         gap: '1rem',
                     }}
                 >
-                    <p>ST?</p>
-                    <CheckBox />
+                    <p>Usa IPI?</p>
+                    <CheckBox
+                        checked={ipi}
+                        setChecked={setIpi}
+                    />
                 </span>
                 <span
                     style={{
@@ -84,12 +202,31 @@ export default function Configurar() {
                         gap: '1rem',
                     }}
                 >
-                    <p>IPI?</p>
-                    <CheckBox />
+                    <p>Usa unitário nota?</p>
+                    <CheckBox
+                        checked={unitarioNota}
+                        setChecked={setUnitarioNota}
+                    />
                 </span>
                 <button type="submit">Enviar</button>
                 {/* <input type="submit" hidden/> */}
             </form>
+            <div>
+                <button
+                    onClick={() => getFornecedores()}
+                >Carregar fornecedores</button>
+                {fornecedoresDB?.map(({nome, fatorBase, fatorNormal, fatorST, desconto, ipi, unitarioNota}) => 
+                    <div key={nome} style={{ border: '2px solid' }}>
+                        <span style={{ display: 'flex'}}><p style={{ margin: 0 }}>nome:</p><p style={{ margin: 0 }}>{nome}</p></span>
+                        <span style={{ display: 'flex'}}><p style={{ margin: 0 }}>fatorBase:</p><p style={{ margin: 0 }}>{fatorBase}</p></span>
+                        <span style={{ display: 'flex'}}><p style={{ margin: 0 }}>fatorNormal:</p><p style={{ margin: 0 }}>{fatorNormal}</p></span>
+                        <span style={{ display: 'flex'}}><p style={{ margin: 0 }}>fatorST:</p><p style={{ margin: 0 }}>{fatorST}</p></span>
+                        <span style={{ display: 'flex'}}><p style={{ margin: 0 }}>desconto:</p><p style={{ margin: 0 }}>{desconto ? 'Sim' : 'Não'}</p></span>
+                        <span style={{ display: 'flex'}}><p style={{ margin: 0 }}>ipi:</p><p style={{ margin: 0 }}>{ipi ? 'Sim' : 'Não'}</p></span>
+                        <span style={{ display: 'flex'}}><p style={{ margin: 0 }}>unitarioNota:</p><p style={{ margin: 0 }}>{unitarioNota ? 'Sim' : 'Não'}</p></span>
+                    </div>
+                )}
+            </div>
         </div>
     )
 

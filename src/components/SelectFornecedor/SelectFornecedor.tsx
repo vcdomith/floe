@@ -194,6 +194,7 @@ const SelectFornecedor = () => {
             >
                 <input
                     className={style.selectInput}
+                    tabIndex={-1}
                     readOnly 
                     required
                     formTarget="fornecedor"
@@ -304,14 +305,15 @@ const SelectFornecedor = () => {
                         onClick={() => {
                             setFornecedor(fornecedor)
                             setDisplay(false)
+                            selectRef.current?.focus()
                         }}
                     >{fornecedor}</motion.li>
                     )
                 :
                     <motion.li
-                    initial={{ opacity: 0 , x: -20}}
-                    animate={{opacity: 1, x: 0}}
-                    exit={{opacity: 0, x: 20}}
+                    initial={{ opacity: 0 , x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: 20 }}
 
                     className={style.noMatch}
                     >   

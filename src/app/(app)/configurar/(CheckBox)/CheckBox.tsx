@@ -1,12 +1,17 @@
 'use client'
-import { KeyboardEvent, useState } from "react"
+import { KeyboardEvent, SetStateAction, useState } from "react"
 import { motion } from 'framer-motion'
 
 import style from './CheckBox.module.scss'
 
-export default function CheckBox() {
+interface CheckBoxProps {
 
-    const [checked, setChecked] = useState(false)
+    checked: boolean | undefined
+    setChecked: (checked: SetStateAction<boolean>) => void
+
+}
+
+export default function CheckBox({ checked, setChecked }: CheckBoxProps) {
 
     const spring = {
         type: "spring",
@@ -16,9 +21,34 @@ export default function CheckBox() {
 
     const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
 
+        switch (e.key) {
+            // case 'Enter':
+            //     e.preventDefault()
+            //     setChecked(prev => !prev)
+            //     break;
+
+            case 'ArrowRight':
+
+                e.preventDefault()
+                setChecked(true)
+                
+                break;
+                
+            case 'ArrowLeft':
+
+                e.preventDefault()
+                setChecked(false)
+                    
+                break;
+        
+            
+
+            default:
+                break;
+        }
+
         if(e.key === 'Enter') {
-            e.preventDefault()
-            setChecked(prev => !prev)
+            
         } 
 
     }

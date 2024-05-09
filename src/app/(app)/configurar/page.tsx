@@ -21,6 +21,7 @@ export default function Configurar() {
     const [fatorBase, setFatorBase] = useState('')
     const [fatorNormal, setFatorNormal] = useState('')
     const [fatorSt, setFatorSt] = useState('')
+    const [transporte, setTransporte] = useState(true)
     const [desconto, setDesconto] = useState(false)
     const [ipi, setIpi] = useState(false)
     const [unitarioNota, setUnitarioNota] = useState(false)
@@ -39,11 +40,12 @@ export default function Configurar() {
 
         e.preventDefault()
 
-        const novoCadastro = {
+        const novoCadastro: IFornecedor = {
             nome: nomeFornecedor.trim().toLowerCase(),
             fatorBase: fatorBase,
             fatorNormal: fatorNormal,
             fatorST: fatorSt,
+            transporte: transporte,
             desconto: desconto,
             ipi: ipi,
             unitarioNota: unitarioNota,
@@ -55,7 +57,7 @@ export default function Configurar() {
             
             let { data: fornecedor, error } = await supabase
                 .from('fornecedores')
-                .insert({...novoCadastro})
+                .insert([{...novoCadastro}])
 
             if(error) {
                 addNotification({ tipo: 'erro', mensagem: `${error.details}`})
@@ -176,7 +178,20 @@ export default function Configurar() {
                         gap: '1rem',
                     }}
                 >
-                    <p>Desconto?</p>
+                    <p>Usa Transporte?</p>
+                    <CheckBox
+                        checked={transporte}
+                        setChecked={setTransporte}
+                    />
+                </span>
+                <span
+                    style={{
+                        display: 'inline-flex',
+                        alignItems: "center",
+                        gap: '1rem',
+                    }}
+                >
+                    <p>Usa Desconto?</p>
                     <CheckBox
                         checked={desconto}
                         setChecked={setDesconto}
@@ -215,12 +230,13 @@ export default function Configurar() {
                 <button
                     onClick={() => getFornecedores()}
                 >Carregar fornecedores</button>
-                {fornecedoresDB?.map(({nome, fatorBase, fatorNormal, fatorST, desconto, ipi, unitarioNota}) => 
+                {fornecedoresDB?.map(({nome, fatorBase, fatorNormal, fatorST, transporte, desconto, ipi, unitarioNota}) => 
                     <div key={nome} style={{ border: '2px solid' }}>
                         <span style={{ display: 'flex'}}><p style={{ margin: 0 }}>nome:</p><p style={{ margin: 0 }}>{nome}</p></span>
                         <span style={{ display: 'flex'}}><p style={{ margin: 0 }}>fatorBase:</p><p style={{ margin: 0 }}>{fatorBase}</p></span>
                         <span style={{ display: 'flex'}}><p style={{ margin: 0 }}>fatorNormal:</p><p style={{ margin: 0 }}>{fatorNormal}</p></span>
                         <span style={{ display: 'flex'}}><p style={{ margin: 0 }}>fatorST:</p><p style={{ margin: 0 }}>{fatorST}</p></span>
+                        <span style={{ display: 'flex'}}><p style={{ margin: 0 }}>transporte:</p><p style={{ margin: 0 }}>{transporte ? 'Sim' : 'Não'}</p></span>
                         <span style={{ display: 'flex'}}><p style={{ margin: 0 }}>desconto:</p><p style={{ margin: 0 }}>{desconto ? 'Sim' : 'Não'}</p></span>
                         <span style={{ display: 'flex'}}><p style={{ margin: 0 }}>ipi:</p><p style={{ margin: 0 }}>{ipi ? 'Sim' : 'Não'}</p></span>
                         <span style={{ display: 'flex'}}><p style={{ margin: 0 }}>unitarioNota:</p><p style={{ margin: 0 }}>{unitarioNota ? 'Sim' : 'Não'}</p></span>

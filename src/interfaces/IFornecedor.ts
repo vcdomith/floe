@@ -8,6 +8,7 @@ export interface IFornecedor {
     fatorST: string 
 
     //Configs
+    transporte: boolean
     desconto: boolean
     ipi: boolean
     unitarioNota: boolean

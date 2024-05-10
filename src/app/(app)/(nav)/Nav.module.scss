@@ -32,6 +32,7 @@ $step-size: 100% /($steps + 1);
     left: 0;
     width: 10rem;
     height: 100vh;
+    // padding: 1rem 0;
 
     overflow: hidden;
     z-index: 1;
@@ -75,8 +76,9 @@ $step-size: 100% /($steps + 1);
     flex-direction: column;
     gap: 2rem;
 
-    height: 100vh;
+    height: calc(100vh - 2rem);
     width: 4rem;
+    padding: 1rem 0;
 
     background-color: transparent;
 

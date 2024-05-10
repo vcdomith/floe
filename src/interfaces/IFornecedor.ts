@@ -9,6 +9,7 @@ export interface IFornecedor {
 
     //Configs
     transporte: boolean
+    st: boolean
     desconto: boolean
     ipi: boolean
     unitarioNota: boolean

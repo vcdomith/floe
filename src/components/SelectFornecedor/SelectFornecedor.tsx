@@ -1,5 +1,4 @@
 'use client'
-import { relative } from "path"
 import { ChangeEvent, KeyboardEvent, MouseEvent, MutableRefObject, RefObject, useEffect, useRef, useState } from "react"
 
 import style from './SelectFornecedor.module.scss'
@@ -88,10 +87,8 @@ const SelectFornecedor = () => {
                 e.preventDefault()
                 
                 setSelectIndex(prev => {
-                    console.log(prev);
-
-                        if(prev === 0) return 0
-                        return prev-1
+                    if(prev === 0) return 0
+                    return prev-1
                 })  
                 
                 break;
@@ -101,7 +98,6 @@ const SelectFornecedor = () => {
                 e.preventDefault()
 
                 setSelectIndex(prev => {
-                    console.log(prev);
                     if(prev === (fornecedores.length-1)) return prev
                     return prev+1
                 })
@@ -301,7 +297,6 @@ const SelectFornecedor = () => {
                         className={style.fornecedor}
                         data-selected={selectIndex === index}
                         tabIndex={-1}
-                        onMouseEnter={() => console.log(fornecedor)}
                         onClick={() => {
                             setFornecedor(fornecedor)
                             setDisplay(false)

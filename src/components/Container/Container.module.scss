@@ -11,17 +11,21 @@
     /* width: minmax(400px, 800px); */
     /* height: minmax(100vh, auto); */
     box-sizing: border-box;
-    width: calc(100vw - 8rem);
-    max-width: calc(100vw - 8rem);
+    width: calc(100vw - 5rem);
+    max-width: calc(100vw - 5rem);
     // max-width: 100% ;
     // max-width: 100%;
-    height: max-content;
+    // height: max-content;
+    height: calc(100vh - 2rem);
     /* min-height: 100vh; */
     // overflow-x: hidden;
 
+    overflow-y: scroll;
+
     gap: 4rem;
     
-    margin: 4rem;
+    margin: 1rem;
+    margin-left: 4rem;
     padding: 4rem 2rem;
     border-radius: 2rem;
 

@@ -21,13 +21,14 @@
     // overflow-x: hidden;
 
     overflow-y: scroll;
+    overflow-x: hidden;
 
     gap: 4rem;
     
     margin: 1rem;
     margin-left: 4rem;
     padding: 4rem 2rem;
-    border-radius: 2rem;
+    border-radius: 1rem;
 
     // background-color: transparentize($cor-secundaria, 0.1);
     background-color: $cor-secundaria;
@@ -48,6 +49,31 @@
     
         // transition: all 500ms;
     }
+
+    /* width */
+    &::-webkit-scrollbar {
+        width: 4px;
+        padding-left: 4px;
+    }
+    
+    /* Track */
+    &::-webkit-scrollbar-track {
+    // background: #141414;
+    // background: linear-gradient(180deg, $cor-primaria, $cor-secundaria);
+    background: $cor-secundaria;
+    }
+    
+    /* Handle */
+    &::-webkit-scrollbar-thumb {
+    background: $cor-primaria;
+    }
+
+    /* Handle on hover */
+    &::-webkit-scrollbar-thumb:hover {
+    background: lighten($cor-primaria, 5%);
+    // background: linear-gradient(90deg, #521843, #421236);
+    }
+
 }
 
 

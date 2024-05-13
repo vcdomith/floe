@@ -2,14 +2,111 @@
 
 
 .form {
+    
+    display: flex;
+    flex-direction: column;
+    border: 2px solid;
+    border-radius: 1rem;
+    padding: 2rem 4rem;
+
+    transition: flex 500ms ease-out;
+
+    h3 {
+
+        width: 100%;
+
+        margin-bottom: 0.5rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 2px solid $cor-mix;
+
+    }
+
+    .logo {
+
+        padding-left: 0;
+        padding-bottom: 1rem;
+
+        display: flex;
+        flex-direction: row;
+        gap: 1rem;
+        align-items: center;
+
+        svg {
+            path, circle {
+                // stroke: $cor-primaria;
+                stroke: cor-mix(50%);
+            }
+        }
+
+        h1 {
+
+            margin: 0;
+            color: cor-mix(50%);
+            
+        }
+
+    }
+
+    .inputs {
+        
+        // h3 {
+
+        //     width: 100%;
+
+        //     margin-bottom: 0.5rem;
+        //     padding-bottom: 0.5rem;
+        //     border-bottom: 2px solid $cor-mix;
+
+        // }
+
+        .fatores {
+
+            width: 100%;
+
+            span {
+
+                div {
+
+                    width: 100%;
+
+                    input {
+
+                        box-sizing: border-box;
+                        width: 100%;
+
+                        // padding-left: 2rem;
+
+                    }
+
+                }
+
+            }
+
+        }
+
+        .config {
+
+            display: flex;
+            flex-direction: column;
+
+            .inputs { 
+
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+
+            }
+
+        }
+
+    }
 
     span {
 
         display: flex;
         flex-direction: column;
-        align-items: start;
+        align-items: flex-start;
 
-        padding-left: 4rem;
+        // padding-left: 2rem;
         
         p {
 
@@ -23,6 +120,8 @@
         input {
 
             border: 2px solid $cor-primaria;
+            // border: none;
+            border-bottom: 2px solid $cor-primaria;
             border-radius: 1rem;
             padding: 0.5rem 1rem;
             background-color: $cor-secundaria;
@@ -35,7 +134,7 @@
             outline: 2px solid transparent;
 
             color: $cor-primaria;
-            
+
             &::placeholder {
                 
                 color: cor-mix(30%);
@@ -44,7 +143,8 @@
             
             &:focus-within {
                 
-                outline-color: $cor-primaria-transparent;
+                // outline-color: $cor-primaria-transparent;
+                background-color: cor-mix(5%);
 
             }   
 
@@ -52,33 +152,59 @@
 
     }
 
-    .logo {
+    .buttons {
 
-        padding-left: 0;
         display: flex;
         flex-direction: row;
         gap: 1rem;
-        align-items: center;
 
-        svg {
-            path, circle {
-                stroke: $cor-primaria;
-            }
+        margin-top: 4rem;
+
+        button {
+
+            font-family: $fonte-body;
+
+            padding: 0.5rem 1rem;
+            border-radius: 0.75rem;
+            border: none;
+            
+            cursor: pointer;
+
+            transition: background-color 400ms ease;
+
         }
+        
+        button:first-child {
+            
+            background-color: cor-mix(80%);
+            color: $cor-secundaria;
+            font-size: 1.2rem;
+            width: 200px;
+         
+            &:hover {
 
-    }
+                background-color: $cor-primaria;
 
-    .vertical {
+            }
 
-        display: flex;
-        flex-direction: column;
+        }
+        
+        button:last-child {
+            
+            border: 2px solid cor-mix(50%);
+            background-color: transparent;
+            color: cor-mix(50%);
+            font-size: 1rem;
+            // flex: 1;
 
-    }
+            &:hover {
 
-    .horizontal {
+                background-color: cor-mix(50%);
+                color: $cor-secundaria;
 
-        display: flex;
-        flex-direction: row;
+            }
+
+        }
 
     }
     

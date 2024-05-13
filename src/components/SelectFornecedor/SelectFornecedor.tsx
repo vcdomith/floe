@@ -183,8 +183,9 @@ const SelectFornecedor = () => {
                 className={style.select}
                 ref={selectRef}
                 onKeyDown={(e) => handleArrowSelect(e)}
-                onClick={(e) => {    
+                onClick={(e) => {  
                     e.preventDefault()
+                    // db fetch fornecedores  
                     setDisplay(prev => !prev)
                 }}
             >

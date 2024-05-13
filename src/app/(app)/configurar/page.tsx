@@ -7,6 +7,8 @@ import { IFornecedor } from "@/interfaces/IFornecedor"
 import { dbConnect } from "@/utils/db/supabase"
 import { useNotification } from "../(contexts)/NotificationContext"
 
+import style from './configurar.module.scss'
+
 export default function Configurar() {
 
     const supabase = useMemo(() => dbConnect(), [])
@@ -28,6 +30,8 @@ export default function Configurar() {
     const [unitarioNota, setUnitarioNota] = useState(false)
 
     const [fornecedoresDB, setFornecedoresDB] = useState<IFornecedor[]>()
+
+    const [focus, setFocus] = useState(false)
 
     function capitalize(string: string):string {
 
@@ -101,7 +105,8 @@ export default function Configurar() {
             style={{
                 width: '100%',
                 display: 'flex',
-                flexDirection: 'column'
+                flexDirection: 'column',
+                transition: 'width 600ms ease',
             }}
         >
             <p
@@ -110,15 +115,41 @@ export default function Configurar() {
 
                 }}
             >{JSON.stringify(cadastroFornecedor)}</p>
+            <span style={{
+                display: 'flex',
+                gap: '1rem',
+            }}>
             <form
+                className={style.form}
+                onClick={() => setFocus(false)}
                 name="fornecedor"
                 onSubmit={(e) => handleSubmit(e)}
                 style={{
                     display: 'flex',
                     flexDirection: 'column',
                     border: '2px solid',
+                    flex: `${focus ? 2 : 8}`,
+                    transition: 'flex 1s ease-out',
+                    borderRadius: '1rem',
+                    padding: '2rem 4rem'
                 }}
             >
+                <span className={style.logo}>
+                <svg width="50" height="50" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="355" cy="256.614" r="68" stroke="#E8D4B0" stroke-width="40"/>
+                    <path d="M271 258H0" stroke="#E8D4B0" stroke-width="40" stroke-linejoin="round"/>
+                    <path d="M500 258H441" stroke="#E8D4B0" stroke-width="40" stroke-linejoin="round"/>
+                    <path d="M69.9496 0.571302C69.9497 26.7286 115.604 30.0417 115.4 68.9252C115.197 107.809 21 126.666 21 164.663C21 200.009 69.9497 216.388 69.9496 237.391" stroke="#E8D4B0" stroke-width="40" stroke-linejoin="round"/>
+                    <path d="M241.452 262.571C241.451 288.729 195.797 292.042 196.001 330.925C196.205 369.809 290.401 388.666 290.401 426.663C290.401 462.009 241.451 478.388 241.452 499.391" stroke="#E8D4B0" stroke-width="40" stroke-linejoin="round"/>
+                    <path d="M183.95 0.571302C183.95 26.7286 229.604 30.0417 229.4 68.9252C229.197 107.809 135 126.666 135 164.663C135 200.009 183.95 216.388 183.95 237.391" stroke="#E8D4B0" stroke-width="40" stroke-linejoin="round"/>
+                    <path d="M131.452 262.571C131.451 288.729 85.7968 292.042 86.0007 330.925C86.2046 369.809 180.401 388.666 180.401 426.663C180.401 462.009 131.451 478.388 131.452 499.391" stroke="#E8D4B0" stroke-width="40" stroke-linejoin="round"/>
+                </svg>
+                    <h1
+                        style={{
+                            width: 'min-content'
+                        }}
+                    >Novo fornecedor:</h1>
+                </span>
                 {/* <span 
                     style={{
                         display: 'inline-flex',
@@ -129,25 +160,23 @@ export default function Configurar() {
                     <p>Fornecedor</p>
                     <SelectFornecedor />
                 </span> */}
-                <span
-                    style={{
-                        display: 'inline-flex',
-                        alignItems: "center",
-                        gap: '1rem',
-                    }}
-                >
-                    <p>Fornecedor</p>
+                <span>
+                    <h3>Nome Fornecedor</h3>
                     <input 
-                        type="text" 
+                        type="text"
+                        placeholder="Nome Fornecedor" 
                         required
                         value={nomeFornecedor}
                         onChange={(e) => setNomeFornecedor(e.target.value)}
                     />
                 </span>
                 <span>
+                    <h3>Fatores:</h3>
+                </span>
+                <span>
                     <p>Fator Base</p>
                     <NumberInput 
-                        placeholder={"Fator Base"} 
+                        placeholder={"ex: 1,00"} 
                         valor={fatorBase} 
                         setValor={setFatorBase}                        
                      />
@@ -168,65 +197,38 @@ export default function Configurar() {
                         setValor={setFatorSt}                        
                      />
                 </span>
-                <span
-                    style={{
-                        display: 'inline-flex',
-                        alignItems: "center",
-                        gap: '1rem',
-                    }}
-                >
+                <span>
+                    <h3>Configurações:</h3>
+                </span>
+                <span>
                     <p>Usa Transporte?</p>
                     <CheckBox
                         checked={transporte}
                         setChecked={setTransporte}
                     />
                 </span>
-                <span
-                    style={{
-                        display: 'inline-flex',
-                        alignItems: "center",
-                        gap: '1rem',
-                    }}
-                >
+                <span>
                     <p>Usa ST?</p>
                     <CheckBox
                         checked={st}
                         setChecked={setSt}
                     />
                 </span>
-                <span
-                    style={{
-                        display: 'inline-flex',
-                        alignItems: "center",
-                        gap: '1rem',
-                    }}
-                >
+                <span>
                     <p>Usa Desconto?</p>
                     <CheckBox
                         checked={desconto}
                         setChecked={setDesconto}
                     />
                 </span>
-                <span
-                    style={{
-                        display: 'inline-flex',
-                        alignItems: "center",
-                        gap: '1rem',
-                    }}
-                >
+                <span>
                     <p>Usa IPI?</p>
                     <CheckBox
                         checked={ipi}
                         setChecked={setIpi}
                     />
                 </span>
-                <span
-                    style={{
-                        display: 'inline-flex',
-                        alignItems: "center",
-                        gap: '1rem',
-                    }}
-                >
+                <span>
                     <p>Usa unitário nota?</p>
                     <CheckBox
                         checked={unitarioNota}
@@ -236,6 +238,17 @@ export default function Configurar() {
                 <button type="submit">Enviar</button>
                 {/* <input type="submit" hidden/> */}
             </form>
+            <div
+                onClick={() => setFocus(true)}
+                style={{
+                    border: '2px solid',
+                    flex: `${focus ? 8 : 2 }`,
+                    transition: 'flex 1s ease-out',
+                    borderRadius: '1rem',
+                    padding: '1rem'
+                }}
+            ></div>
+            </span>
             <div>
                 <button
                     onClick={() => getFornecedores()}

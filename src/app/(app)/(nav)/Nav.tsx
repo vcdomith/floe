@@ -40,10 +40,13 @@ const Nav = ({ pathname }: { pathname: string}) => {
             <Link href='/configurar' prefetch>
                         <button className={`${(pathname === '/configurar' ? style.active : '')}`}>
                             <svg width="500" height="500" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <circle cx="250" cy="247" r="125" stroke="#591C4A" strokeWidth="40"/>
-                            <path d="M0.5 271C97.5 271 61.8621 20.9999 205 21C258.5 21 250 70 250 129" stroke="#591C4A" strokeWidth="40"/>
-                            <path d="M499.994 230C402.994 230 438.632 480 295.494 480C241.994 480 250.494 431 250.494 372" stroke="#591C4A" strokeWidth="40"/>
-                            <path d="M249.969 140C249.969 177 214 187.5 214 225.5C214 269.434 296.165 223.104 298 267C299.317 298.507 249.969 315 249.969 355.448" stroke="white" strokeWidth="40"/>
+                                <circle cx="355" cy="256.614" r="68" stroke="#E8D4B0" stroke-width="40"/>
+                                <path d="M271 258H0" stroke="#E8D4B0" stroke-width="40" stroke-linejoin="round"/>
+                                <path d="M500 258H441" stroke="#E8D4B0" stroke-width="40" stroke-linejoin="round"/>
+                                <path d="M69.9496 0.571302C69.9497 26.7286 115.604 30.0417 115.4 68.9252C115.197 107.809 21 126.666 21 164.663C21 200.009 69.9497 216.388 69.9496 237.391" stroke="#E8D4B0" stroke-width="40" stroke-linejoin="round"/>
+                                <path d="M241.452 262.571C241.451 288.729 195.797 292.042 196.001 330.925C196.205 369.809 290.401 388.666 290.401 426.663C290.401 462.009 241.451 478.388 241.452 499.391" stroke="#E8D4B0" stroke-width="40" stroke-linejoin="round"/>
+                                <path d="M183.95 0.571302C183.95 26.7286 229.604 30.0417 229.4 68.9252C229.197 107.809 135 126.666 135 164.663C135 200.009 183.95 216.388 183.95 237.391" stroke="#E8D4B0" stroke-width="40" stroke-linejoin="round"/>
+                                <path d="M131.452 262.571C131.451 288.729 85.7968 292.042 86.0007 330.925C86.2046 369.809 180.401 388.666 180.401 426.663C180.401 462.009 131.451 478.388 131.452 499.391" stroke="#E8D4B0" stroke-width="40" stroke-linejoin="round"/>
                             </svg>
                             <p>Configurar Fatores</p>
                         </button>
@@ -76,6 +79,35 @@ const Nav = ({ pathname }: { pathname: string}) => {
                             <p>Conferir Cadastros</p>
                         </button>
                     </Link>
+
+                    
+            </div>
+            <div
+                className={style.links}
+            >
+                <Link href='/usuario' prefetch>
+                    <button className={`${(pathname === '/cadastros' ? style.active : '')}`}>
+                        <svg width="500" height="500" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M319 250.138C319 287.77 288.108 318.276 250 318.276C211.892 318.276 181 287.77 181 250.138C181 212.506 211.892 182 250 182C288.108 182 319 212.506 319 250.138Z" stroke="#E8D4B0" stroke-width="40"/>
+                            <path d="M480 250C480 377.025 377.025 480 250 480C122.975 480 20 377.025 20 250C20 122.975 122.975 20 250 20C377.025 20 480 122.975 480 250Z" stroke="#E8D4B0" stroke-width="40"/>
+                            <path d="M66 389.5C101.5 285.069 72.0802 294.379 169.5 268" stroke="#E8D4B0" stroke-width="40"/>
+                            <path d="M434.5 389.5C399 285.069 428.42 294.379 331 268" stroke="#E8D4B0" stroke-width="40"/>
+                        </svg>
+                        <p>Usuário Email</p>
+                    </button>
+                </Link>
+                <Link href='/usuario' prefetch>
+                    <button className={`${(pathname === '/cadastros' ? style.active : '')}`}>
+                        <svg width="500" height="500" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M319 250.138C319 287.77 288.108 318.276 250 318.276C211.892 318.276 181 287.77 181 250.138C181 212.506 211.892 182 250 182C288.108 182 319 212.506 319 250.138Z" stroke="#E8D4B0" stroke-width="40"/>
+                            <path d="M33 476C68.37 303.607 71.937 311.546 169 268" stroke="#E8D4B0" stroke-width="40"/>
+                            <path d="M468 476C432.37 303.607 428.777 311.546 331 268" stroke="#E8D4B0" stroke-width="40"/>
+                            <path d="M459 52.0002C422.388 51.8816 408.769 114.701 338.5 114.5C268.231 114.299 262.172 52.0002 193.5 52.0002C129.619 52.0002 64.0749 101.74 33 102.223" stroke="#E8D4B0" stroke-width="40" stroke-linejoin="round"/>
+                            <path d="M459 151C422.388 150.882 408.769 213.701 338.5 213.5C268.231 213.299 262.172 151 193.5 151C129.619 151 64.0749 200.74 33 201.223" stroke="#E8D4B0" stroke-width="40" stroke-linejoin="round"/>
+                        </svg>
+                        <p>Usuário Email</p>
+                    </button>
+                </Link>
             </div>
         </nav>
         </>

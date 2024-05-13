@@ -10,10 +10,10 @@
 //Opção layout
 // $cor-primaria: #16045d;
 // $cor-primaria: #191649;
-$cor-primaria: #210f30;
+// $cor-primaria: #210f30;
 // $cor-primaria: #16491e;
 // $cor-primaria: #212f23;
-// $cor-primaria: #062b37;
+$cor-primaria: #062b37;
 // $cor-primaria: #71110a;
 
 $cor-secundaria: #e8d4b0;
@@ -26,6 +26,13 @@ $cor-secundaria: #e8d4b0;
 // $cor-secundaria: #0e0e2b;
 
 $cor-primaria-transparent: transparentize($cor-primaria, 0.8);
+
+@function cor-mix($percentage) {
+
+    @return mix($cor-primaria, $cor-secundaria, $percentage);
+
+}
+
 $cor-mix: mix($cor-primaria, $cor-secundaria, 10%);
 
 //Animations

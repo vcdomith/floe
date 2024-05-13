@@ -38,10 +38,17 @@ function SvgConfigurar() {
             className={style.logo}
             width="75" height="75" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg"
         >
-            <circle cx="250" cy="247" r="125" stroke="#591C4A" strokeWidth="40"/>
+            {/* <circle cx="250" cy="247" r="125" stroke="#591C4A" strokeWidth="40"/>
             <path d="M0.5 271C97.5 271 61.8621 20.9999 205 21C258.5 21 250 70 250 129" stroke="#591C4A" strokeWidth="40"/>
             <path d="M499.994 230C402.994 230 438.632 480 295.494 480C241.994 480 250.494 431 250.494 372" stroke="#591C4A" strokeWidth="40"/>
-            <path d="M249.969 140C249.969 177 214 187.5 214 225.5C214 269.434 296.165 223.104 298 267C299.317 298.507 249.969 315 249.969 355.448" stroke="white" strokeWidth="40"/>
+            <path d="M249.969 140C249.969 177 214 187.5 214 225.5C214 269.434 296.165 223.104 298 267C299.317 298.507 249.969 315 249.969 355.448" stroke="white" strokeWidth="40"/> */}
+            <circle cx="355" cy="256.614" r="68" stroke="#E8D4B0" stroke-width="40"/>
+            <path d="M271 258H0" stroke="#E8D4B0" stroke-width="40" stroke-linejoin="round"/>
+            <path d="M500 258H441" stroke="#E8D4B0" stroke-width="40" stroke-linejoin="round"/>
+            <path d="M69.9496 0.571302C69.9497 26.7286 115.604 30.0417 115.4 68.9252C115.197 107.809 21 126.666 21 164.663C21 200.009 69.9497 216.388 69.9496 237.391" stroke="#E8D4B0" stroke-width="40" stroke-linejoin="round"/>
+            <path d="M241.452 262.571C241.451 288.729 195.797 292.042 196.001 330.925C196.205 369.809 290.401 388.666 290.401 426.663C290.401 462.009 241.451 478.388 241.452 499.391" stroke="#E8D4B0" stroke-width="40" stroke-linejoin="round"/>
+            <path d="M183.95 0.571302C183.95 26.7286 229.604 30.0417 229.4 68.9252C229.197 107.809 135 126.666 135 164.663C135 200.009 183.95 216.388 183.95 237.391" stroke="#E8D4B0" stroke-width="40" stroke-linejoin="round"/>
+            <path d="M131.452 262.571C131.451 288.729 85.7968 292.042 86.0007 330.925C86.2046 369.809 180.401 388.666 180.401 426.663C180.401 462.009 131.451 478.388 131.452 499.391" stroke="#E8D4B0" stroke-width="40" stroke-linejoin="round"/>
         </svg>
     )
 

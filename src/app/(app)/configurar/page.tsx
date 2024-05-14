@@ -1,5 +1,5 @@
 'use client'
-import { FormEvent, useMemo, useState } from "react"
+import { FormEvent, Suspense, useMemo, useState } from "react"
 import CheckBox from "./(CheckBox)/CheckBox"
 import NumberInput from "@/components/FatoresTable/FatoresTableBody/NumberInput/NumberInput"
 import SelectFornecedor from "@/components/SelectFornecedor/SelectFornecedor"
@@ -8,6 +8,8 @@ import { dbConnect } from "@/utils/db/supabase"
 import { useNotification } from "../(contexts)/NotificationContext"
 
 import style from './configurar.module.scss'
+import LogoSvg from "@/components/SvgArray/LogoSvg"
+import Loading from "./loading"
 
 export default function Configurar() {
 
@@ -160,7 +162,8 @@ export default function Configurar() {
                         <h3>Nome Fornecedor</h3>
                         <input 
                             type="text"
-                            placeholder="Nome Fornecedor" 
+                            placeholder="Nome Fornecedor"
+                            spellCheck={false} 
                             required
                             value={nomeFornecedor}
                             onChange={(e) => setNomeFornecedor(e.target.value)}
@@ -270,19 +273,22 @@ export default function Configurar() {
             <button
                 onClick={() => getFornecedores()}
             >Carregar fornecedores</button>
-            {fornecedoresDB?.map(({nome, fatorBase, fatorNormal, fatorST, transporte, st, desconto, ipi, unitarioNota}) => 
-                <div key={nome} style={{ border: '2px solid' }}>
-                    <span style={{ display: 'flex'}}><p style={{ margin: 0 }}>nome:</p><p style={{ margin: 0 }}>{nome}</p></span>
-                    <span style={{ display: 'flex'}}><p style={{ margin: 0 }}>fatorBase:</p><p style={{ margin: 0 }}>{fatorBase}</p></span>
-                    <span style={{ display: 'flex'}}><p style={{ margin: 0 }}>fatorNormal:</p><p style={{ margin: 0 }}>{fatorNormal}</p></span>
-                    <span style={{ display: 'flex'}}><p style={{ margin: 0 }}>fatorST:</p><p style={{ margin: 0 }}>{fatorST}</p></span>
-                    <span style={{ display: 'flex'}}><p style={{ margin: 0 }}>transporte:</p><p style={{ margin: 0 }}>{transporte ? 'Sim' : 'Não'}</p></span>
-                    <span style={{ display: 'flex'}}><p style={{ margin: 0 }}>st:</p><p style={{ margin: 0 }}>{st ? 'Sim' : 'Não'}</p></span>
-                    <span style={{ display: 'flex'}}><p style={{ margin: 0 }}>desconto:</p><p style={{ margin: 0 }}>{desconto ? 'Sim' : 'Não'}</p></span>
-                    <span style={{ display: 'flex'}}><p style={{ margin: 0 }}>ipi:</p><p style={{ margin: 0 }}>{ipi ? 'Sim' : 'Não'}</p></span>
-                    <span style={{ display: 'flex'}}><p style={{ margin: 0 }}>unitarioNota:</p><p style={{ margin: 0 }}>{unitarioNota ? 'Sim' : 'Não'}</p></span>
-                </div>
-            )}
+            
+                {fornecedoresDB?.map(({nome, fatorBase, fatorNormal, fatorST, transporte, st, desconto, ipi, unitarioNota}) =>
+                    <Suspense key={nome} fallback={<Loading />}> 
+                        <div key={nome} style={{ border: '2px solid', padding: '1rem', borderRadius: '1rem' }}>
+                            <span style={{ display: 'flex'}}><p style={{ margin: 0 }}>nome:</p><p style={{ margin: 0 }}>{nome}</p></span>
+                            <span style={{ display: 'flex'}}><p style={{ margin: 0 }}>fatorBase:</p><p style={{ margin: 0 }}>{fatorBase}</p></span>
+                            <span style={{ display: 'flex'}}><p style={{ margin: 0 }}>fatorNormal:</p><p style={{ margin: 0 }}>{fatorNormal}</p></span>
+                            <span style={{ display: 'flex'}}><p style={{ margin: 0 }}>fatorST:</p><p style={{ margin: 0 }}>{fatorST}</p></span>
+                            <span style={{ display: 'flex'}}><p style={{ margin: 0 }}>transporte:</p><p style={{ margin: 0 }}>{transporte ? 'Sim' : 'Não'}</p></span>
+                            <span style={{ display: 'flex'}}><p style={{ margin: 0 }}>st:</p><p style={{ margin: 0 }}>{st ? 'Sim' : 'Não'}</p></span>
+                            <span style={{ display: 'flex'}}><p style={{ margin: 0 }}>desconto:</p><p style={{ margin: 0 }}>{desconto ? 'Sim' : 'Não'}</p></span>
+                            <span style={{ display: 'flex'}}><p style={{ margin: 0 }}>ipi:</p><p style={{ margin: 0 }}>{ipi ? 'Sim' : 'Não'}</p></span>
+                            <span style={{ display: 'flex'}}><p style={{ margin: 0 }}>unitarioNota:</p><p style={{ margin: 0 }}>{unitarioNota ? 'Sim' : 'Não'}</p></span>
+                        </div>
+                    </Suspense>
+                )}
             </div>
             </span>
             {/* <div>

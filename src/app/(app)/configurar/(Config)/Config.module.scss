@@ -1,0 +1,66 @@
+@use '../../../globalStyle.module.scss' as *;
+
+.config {
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+
+    box-sizing: border-box;
+    width: 100%;
+    // border: 2px solid cor-mix(30%);
+    // border-radius: 0.5rem;
+    
+    padding: 0.5rem 0.5rem;
+
+    &:not(:last-child) {
+
+        border-bottom: 2px solid cor-mix(30%);
+
+    }
+    
+    .info {
+        
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+
+        svg {
+    
+            width: 30px;
+            height: 30px;
+    
+            path, circle {
+
+                stroke: cor-mix(70%);
+
+            }
+
+        }
+
+        .texts {
+    
+            display: flex;
+            flex-direction: column;
+    
+            gap: 0.2rem;
+    
+            h3 {
+                margin: 0;
+                padding: 0;
+                border-bottom: none;
+    
+                font-size: 1rem;
+            }
+            p {
+                margin: 0;
+                padding: 0;
+                font-size: 0.9rem;
+            }
+    
+        }
+    }
+
+
+}

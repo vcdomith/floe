@@ -1,5 +1,5 @@
 'use client'
-import { FormEvent, Suspense, useMemo, useState } from "react"
+import { FormEvent, RefObject, SetStateAction, Suspense, useEffect, useMemo, useRef, useState } from "react"
 import CheckBox from "./(CheckBox)/CheckBox"
 import NumberInput from "@/components/FatoresTable/FatoresTableBody/NumberInput/NumberInput"
 import SelectFornecedor from "@/components/SelectFornecedor/SelectFornecedor"
@@ -10,6 +10,7 @@ import { useNotification } from "../(contexts)/NotificationContext"
 import style from './configurar.module.scss'
 import LogoSvg from "@/components/SvgArray/LogoSvg"
 import Loading from "./loading"
+import Config from "./(Config)/Config"
 
 export default function Configurar() {
 
@@ -36,7 +37,7 @@ export default function Configurar() {
     const [focus, setFocus] = useState(false)
 
     const [valid, setValid] = useState(false)
-    const [validation, setValidation] = useState(false)
+    const [validation, setValidation] = useState(true)
 
     function capitalize(string: string):string {
 
@@ -119,6 +120,36 @@ export default function Configurar() {
 
     } 
 
+    const [cadastrados, setCadastrados] = useState<string[]>([])
+
+    useEffect(() => {
+
+        async function fetchCadastros(){
+
+            try {
+                
+                let { data: fornecedores, error } = await supabase
+                    .from('fornecedores')
+                    .select('nome')
+
+                const cadastradosDB: string[] | undefined = fornecedores?.map(item => item.nome)
+                console.log(cadastrados);
+
+                if(cadastradosDB)
+                setCadastrados(cadastradosDB)
+                // localStorage.setItem('fornecedores', JSON.stringify(cadastrados))
+    
+            } catch (error) {
+    
+                addNotification({ tipo: 'erro', mensagem: `${error}`})
+    
+            }
+        }
+
+        fetchCadastros()
+
+    }, [])
+
     return (
         <div
             style={{
@@ -158,21 +189,36 @@ export default function Configurar() {
               
                 <div>
 
-                    <span>
-                        <h3>Nome Fornecedor</h3>
+                    <div className={style.input}>
+                        <h3>Nome Fornecedor:</h3>
                         <input 
                             type="text"
                             placeholder="Nome Fornecedor"
                             spellCheck={false} 
                             required
                             value={nomeFornecedor}
-                            onChange={(e) => setNomeFornecedor(e.target.value)}
+                            data-valid={validation}
+                            onChange={(e) => {
+
+                                setNomeFornecedor(() => {
+
+                                    const newValue = e.target.value
+                                    const valueCheck = newValue.trim().toLowerCase()
+
+                                    cadastrados.includes(valueCheck)
+                                    ? setValidation(false)
+                                    : setValidation(true)
+
+                                    return newValue
+                                })                                
+
+                            }} 
                         />
-                    </span>
-                    <span>
+                    </div>
+                    <div>
                         {/* svg validação */}
-                        <p>{validation}</p>
-                    </span>
+                        <p style={{ margin: 0 }}>{validation ? '' : 'Já existe!'}</p>
+                    </div> 
                     
                 </div>
 
@@ -181,30 +227,30 @@ export default function Configurar() {
                     <div className={style.fatores}>
 
                         <h3>Fatores:</h3>
-                        <span className={style.fator}>
+                        <div className={style.input}>
                             <p>Fator Base</p>
                             <NumberInput 
                                 placeholder={"ex: 1,00"} 
                                 valor={fatorBase} 
                                 setValor={setFatorBase}                        
                             />
-                        </span>
-                        <span className={style.fator}>
+                        </div>
+                        <div className={style.input}>
                             <p>Fator Normal</p>
                             <NumberInput 
                                 placeholder={"Fator Normal"} 
                                 valor={fatorNormal} 
                                 setValor={setFatorNormal}                        
                             />
-                        </span>
-                        <span className={style.fator}>
+                        </div>
+                        <div className={style.input}>
                             <p>Fator ST</p>
                             <NumberInput 
                                 placeholder={"Fator ST"} 
                                 valor={fatorSt} 
                                 setValor={setFatorSt}                        
                             />
-                        </span>
+                        </div>
 
                     </div>
                     
@@ -213,14 +259,49 @@ export default function Configurar() {
                         <h3>Configurações:</h3>
 
                         <div className={style.inputs}>
-                            <span>
+                            {/* <span>
                                 <p>Usa Transporte?</p>
                                 <CheckBox
                                     checked={transporte}
                                     setChecked={setTransporte}
                                 />
-                            </span>
-                            <span>
+                            </span> */}
+                            <Config 
+                                svg={<SvgFornecedor/>} 
+                                title={'Transporte'} 
+                                description={'Usa transporte no calculo?'} 
+                                checked={transporte} 
+                                setChecked={setTransporte}                                
+                            />
+                            <Config 
+                                svg={<SvgTransporte/>} 
+                                title={'ST'} 
+                                description={'Usa ST no calculo?'} 
+                                checked={st} 
+                                setChecked={setSt}                                
+                            />
+                            <Config 
+                                svg={<SvgTransporte/>} 
+                                title={'Desconto'} 
+                                description={'Usa desconto no calculo?'} 
+                                checked={desconto} 
+                                setChecked={setDesconto}                                
+                            />
+                            <Config 
+                                svg={<SvgTransporte/>} 
+                                title={'IPI'} 
+                                description={'Usa IPI no calculo?'} 
+                                checked={ipi} 
+                                setChecked={setIpi}                                
+                            />
+                            <Config 
+                                svg={<SvgTransporte/>} 
+                                title={'Unitário Nota'} 
+                                description={'Usa unitário da nota no calculo?'} 
+                                checked={unitarioNota} 
+                                setChecked={setUnitarioNota}                                
+                            />
+                            {/* <span>
                                 <p>Usa ST?</p>
                                 <CheckBox
                                     checked={st}
@@ -247,7 +328,7 @@ export default function Configurar() {
                                     checked={unitarioNota}
                                     setChecked={setUnitarioNota}
                                 />
-                            </span>
+                            </span> */}
                         </div>
 
                     </div>
@@ -312,4 +393,24 @@ export default function Configurar() {
         </div>
     )
 
+}
+
+const SvgTransporte = () => {
+    return (
+        <svg width="50" height="50" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M319 250.138C319 287.77 288.108 318.276 250 318.276C211.892 318.276 181 287.77 181 250.138C181 212.506 211.892 182 250 182C288.108 182 319 212.506 319 250.138Z" stroke="#E8D4B0" stroke-width="40"/>
+<path d="M66.0002 37C65.8815 73.6116 128.701 87.2314 128.5 157.5C128.299 227.769 66.0002 233.828 66.0002 302.5C66.0002 366.381 115.74 431.925 116.223 463" stroke="#E8D4B0" stroke-width="40" stroke-linejoin="round"/>
+<path d="M433.5 463C433.619 426.388 370.8 412.769 371 342.5C371.201 272.231 433.5 266.172 433.5 197.5C433.5 133.619 383.76 68.0749 383.277 37" stroke="#E8D4B0" stroke-width="40" stroke-linejoin="round"/>
+        </svg>
+    )
+}
+const SvgFornecedor = () => {
+    return (
+        <svg width="50" height="50" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M463 437.5C426.388 437.619 412.769 374.8 342.5 375C272.231 375.201 266.172 437.5 197.5 437.5C133.619 437.5 68.0749 387.76 37 387.277" stroke="#E8D4B0" stroke-width="40" stroke-linejoin="round"/>
+<path d="M463 342.5C426.388 342.619 412.769 279.8 342.5 280C272.231 280.201 266.172 342.5 197.5 342.5C133.619 342.5 68.0749 292.76 37 292.277" stroke="#E8D4B0" stroke-width="40" stroke-linejoin="round"/>
+<path d="M169 144L50.5 181.5C101.414 241.835 195.827 310.885 236.5 322.284L328.5 279C395 264.5 411.5 183.5 444 134.5L169 144Z" fill="none" stroke="#E8D4B0" stroke-width="40" stroke-linejoin="bevel"/>
+<path d="M271 142V99.4808M271 99.4808V43L202 70.9231L271 99.4808Z" stroke="#E8D4B0" stroke-width="40"/>
+        </svg>
+    )
 }

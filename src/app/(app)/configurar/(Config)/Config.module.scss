@@ -16,7 +16,7 @@
 
     &:not(:last-child) {
 
-        border-bottom: 2px solid cor-mix(30%);
+        border-bottom: 2px solid cor-mix(20%);
 
     }
     
@@ -28,10 +28,12 @@
 
         svg {
     
+            min-width: 30px;
             width: 30px;
+            // width: clamp(30px, 30px, 30px);
             height: 30px;
     
-            path, circle {
+            path, circle, line, rect {
 
                 stroke: cor-mix(70%);
 
@@ -52,11 +54,16 @@
                 border-bottom: none;
     
                 font-size: 1rem;
+
+                // color: cor-mix(90%);
+
             }
             p {
                 margin: 0;
                 padding: 0;
                 font-size: 0.9rem;
+                
+                // color: cor-mix(90%);
             }
     
         }

@@ -31,6 +31,7 @@ export default function Configurar() {
     const [desconto, setDesconto] = useState(false)
     const [ipi, setIpi] = useState(false)
     const [unitarioNota, setUnitarioNota] = useState(false)
+    const [composto, setComposto] = useState(false)
 
     const [fornecedoresDB, setFornecedoresDB] = useState<IFornecedor[]>()
 
@@ -61,6 +62,7 @@ export default function Configurar() {
             desconto: desconto,
             ipi: ipi,
             unitarioNota: unitarioNota,
+            composto: composto,
         }
 
         setCadastroFornecedor(novoCadastro as IFornecedor)       
@@ -76,6 +78,7 @@ export default function Configurar() {
                 return
             }
             addNotification({ tipo: 'sucesso', mensagem: `Cadastro do fornecedor ${capitalize(novoCadastro.nome)} feito com sucesso!`})
+            resetForm()
             
 
         } catch (error) {
@@ -99,6 +102,7 @@ export default function Configurar() {
         setDesconto(false)
         setIpi(false)
         setUnitarioNota(false)
+        setComposto(false)
 
     }
 
@@ -238,7 +242,7 @@ export default function Configurar() {
                         <div className={style.input}>
                             <p>Fator Normal</p>
                             <NumberInput 
-                                placeholder={"Fator Normal"} 
+                                placeholder={"x 1,00"} 
                                 valor={fatorNormal} 
                                 setValor={setFatorNormal}                        
                             />
@@ -246,7 +250,7 @@ export default function Configurar() {
                         <div className={style.input}>
                             <p>Fator ST</p>
                             <NumberInput 
-                                placeholder={"Fator ST"} 
+                                placeholder={"x 1,00"} 
                                 valor={fatorSt} 
                                 setValor={setFatorSt}                        
                             />
@@ -300,6 +304,13 @@ export default function Configurar() {
                                 description={'Usa unitário da nota no calculo?'} 
                                 checked={unitarioNota} 
                                 setChecked={setUnitarioNota}                                
+                            />
+                            <Config 
+                                svg={<SvgTransporte/>} 
+                                title={'Composto'} 
+                                description={'Usa unitário composto no pedido?'} 
+                                checked={composto} 
+                                setChecked={setComposto}                                
                             />
                             {/* <span>
                                 <p>Usa ST?</p>
@@ -355,7 +366,7 @@ export default function Configurar() {
                 onClick={() => getFornecedores()}
             >Carregar fornecedores</button>
             
-                {fornecedoresDB?.map(({nome, fatorBase, fatorNormal, fatorST, transporte, st, desconto, ipi, unitarioNota}) =>
+                {fornecedoresDB?.map(({nome, fatorBase, fatorNormal, fatorST, transporte, st, desconto, ipi, unitarioNota, composto }) =>
                     <Suspense key={nome} fallback={<Loading />}> 
                         <div key={nome} style={{ border: '2px solid', padding: '1rem', borderRadius: '1rem' }}>
                             <span style={{ display: 'flex'}}><p style={{ margin: 0 }}>nome:</p><p style={{ margin: 0 }}>{nome}</p></span>
@@ -367,6 +378,7 @@ export default function Configurar() {
                             <span style={{ display: 'flex'}}><p style={{ margin: 0 }}>desconto:</p><p style={{ margin: 0 }}>{desconto ? 'Sim' : 'Não'}</p></span>
                             <span style={{ display: 'flex'}}><p style={{ margin: 0 }}>ipi:</p><p style={{ margin: 0 }}>{ipi ? 'Sim' : 'Não'}</p></span>
                             <span style={{ display: 'flex'}}><p style={{ margin: 0 }}>unitarioNota:</p><p style={{ margin: 0 }}>{unitarioNota ? 'Sim' : 'Não'}</p></span>
+                            <span style={{ display: 'flex'}}><p style={{ margin: 0 }}>composto:</p><p style={{ margin: 0 }}>{composto ? 'Sim' : 'Não'}</p></span>
                         </div>
                     </Suspense>
                 )}

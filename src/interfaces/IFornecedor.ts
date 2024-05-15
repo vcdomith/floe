@@ -13,5 +13,6 @@ export interface IFornecedor {
     desconto: boolean
     ipi: boolean
     unitarioNota: boolean
+    composto: boolean
 
 }

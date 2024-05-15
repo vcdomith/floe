@@ -274,7 +274,7 @@ export default function Configurar() {
                                 setChecked={setTransporte}                                
                             />
                             <Config 
-                                svg={<SvgTransporte/>} 
+                                svg={<SvgST/>} 
                                 title={'ST'} 
                                 description={'Usa ST no calculo?'} 
                                 checked={st} 
@@ -407,10 +407,20 @@ const SvgTransporte = () => {
 const SvgFornecedor = () => {
     return (
         <svg width="50" height="50" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M463 437.5C426.388 437.619 412.769 374.8 342.5 375C272.231 375.201 266.172 437.5 197.5 437.5C133.619 437.5 68.0749 387.76 37 387.277" stroke="#E8D4B0" stroke-width="40" stroke-linejoin="round"/>
-<path d="M463 342.5C426.388 342.619 412.769 279.8 342.5 280C272.231 280.201 266.172 342.5 197.5 342.5C133.619 342.5 68.0749 292.76 37 292.277" stroke="#E8D4B0" stroke-width="40" stroke-linejoin="round"/>
-<path d="M169 144L50.5 181.5C101.414 241.835 195.827 310.885 236.5 322.284L328.5 279C395 264.5 411.5 183.5 444 134.5L169 144Z" fill="none" stroke="#E8D4B0" stroke-width="40" stroke-linejoin="bevel"/>
-<path d="M271 142V99.4808M271 99.4808V43L202 70.9231L271 99.4808Z" stroke="#E8D4B0" stroke-width="40"/>
+            <path d="M463 437.5C426.388 437.619 412.769 374.8 342.5 375C272.231 375.201 266.172 437.5 197.5 437.5C133.619 437.5 68.0749 387.76 37 387.277" stroke="#E8D4B0" stroke-width="40" stroke-linejoin="round"/>
+            <path d="M463 342.5C426.388 342.619 412.769 279.8 342.5 280C272.231 280.201 266.172 342.5 197.5 342.5C133.619 342.5 68.0749 292.76 37 292.277" stroke="#E8D4B0" stroke-width="40" stroke-linejoin="round"/>
+            <path d="M169 144L50.5 181.5C101.414 241.835 195.827 310.885 236.5 322.284L328.5 279C395 264.5 411.5 183.5 444 134.5L169 144Z" fill="none" stroke="#E8D4B0" stroke-width="40" stroke-linejoin="bevel"/>
+            <path d="M271 142V99.4808M271 99.4808V43L202 70.9231L271 99.4808Z" stroke="#E8D4B0" stroke-width="40"/>
+        </svg>
+    )
+}
+const SvgST = () => {
+    return (
+        <svg width="50" height="50" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M234 331L298 395L234 459" stroke="black" strokeWidth="40"/>
+            <path d="M76 105C76 215 76 236.294 76 315.294C76 325.8 78.0693 336.203 82.0896 345.909C86.11 355.615 92.0028 364.434 99.4315 371.862C106.86 379.291 115.679 385.184 125.385 389.204C135.091 393.225 145.494 395.294 156 395.294H270.11" stroke="black" strokeWidth="40" strokeLinejoin="round"/>
+            <path d="M266 169L202 105L266 41" stroke="black" strokeWidth="40"/>
+            <path d="M424 395C424 285 424 263.706 424 184.706C424 174.2 421.931 163.797 417.91 154.091C413.89 144.385 407.997 135.566 400.569 128.138C393.14 120.709 384.321 114.816 374.615 110.796C364.909 106.775 354.506 104.706 344 104.706L229.89 104.706" stroke="black" strokeWidth="40" strokeLinejoin="round"/>
         </svg>
     )
 }

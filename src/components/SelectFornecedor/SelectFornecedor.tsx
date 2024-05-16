@@ -1,20 +1,24 @@
 'use client'
-import { ChangeEvent, KeyboardEvent, MouseEvent, MutableRefObject, RefObject, Suspense, useEffect, useRef, useState } from "react"
+import { ChangeEvent, KeyboardEvent, MouseEvent, MutableRefObject, RefObject, Suspense, cache, useEffect, useRef, useState } from "react"
 
 import style from './SelectFornecedor.module.scss'
 import { AnimatePresence, motion } from "framer-motion"
 import ListaFornecedores from "./ListaFornecedores/ListaFornecedores"
 import LogoSvg from "../SvgArray/LogoSvg"
+import { dbConnect } from "@/utils/db/supabase"
 
 const SelectFornecedor = () => {
 
-    const fornecedoresControle = ['Mileno','Denlex','Imporiente','GoldenRio', 'FWB', 'Yins', 'Molduleo', 'Bla', 'AC', "Fafafa"]
-
+    // const fornecedoresControle = ['Mileno','Denlex','Imporiente','GoldenRio', 'FWB', 'Yins', 'Molduleo', 'Bla', 'AC', "Fafafa"]
+    //Quando refatorar, esses vão ser recebidos por props
+    const [fornecedoresControle, setFornecedoresControle] = useState<string[]>([])
     const [fornecedor, setFornecedor] = useState('')
-
+    
+    // Esse vai mudar para fornecedoresDisplay
+    const [fornecedores, setFornecedores] = useState<string[]>([])
+    
 	const [display, setDisplay] = useState(false)
     const [search, setSearch] = useState('')
-    const [fornecedores, setFornecedores] = useState<string[]>(fornecedoresControle)
     const [selectIndex, setSelectIndex] = useState(0)
 
     const searchElementRef = useRef<HTMLInputElement>(null)
@@ -174,6 +178,32 @@ const SelectFornecedor = () => {
         setSearch('')
     }, [display])
 
+    useEffect(() => {
+
+        const getFornecedoresDB = cache(async () => {
+
+            const supabase = dbConnect()
+            try {
+                
+                const { data: fornecedores, error } = await supabase.from('fornecedores').select('nome')
+                const dbFornecedores = fornecedores?.map( item => item.nome )
+                if(dbFornecedores) {
+
+                    console.log(dbFornecedores);
+                    setFornecedoresControle(dbFornecedores)
+                    setFornecedores(dbFornecedores)
+                } 
+
+            } catch (error) {
+                console.error(error)
+            }
+
+        })
+
+        getFornecedoresDB()
+
+    }, [])
+
 	return (
 		<div
             className={style.wrapper}
@@ -281,23 +311,26 @@ const SelectFornecedor = () => {
                 </span>
 
             <Suspense fallback={<Loading/>}>
-            <ListaFornecedores 
+            {/* <ListaFornecedores 
+                fornecedores={fornecedores}
                 fornecedoresRef={fornecedoresRef} 
                 selectRef={selectRef} 
                 display={display} 
                 setDisplay={setDisplay} 
                 setFornecedor={setFornecedor} 
-                selectIndex={selectIndex}                
-                />
-            </Suspense>
-            {/* <ul
+                selectIndex={selectIndex}
+                style={style}                
+                /> */}
+         
+            <ul
                 ref={fornecedoresRef}
                 className={style.list}
                 tabIndex={-1}
                 data-display={display}
             >
             <AnimatePresence initial={false} mode="popLayout">    
-            {(
+            {(         
+                fornecedores&&       
                 (fornecedores.length > 0)
                 ?
                     fornecedores.map((fornecedor, index) => 
@@ -344,7 +377,8 @@ const SelectFornecedor = () => {
             )
             }
             </AnimatePresence>
-            </ul>           */}
+            </ul>        
+            </Suspense>  
             </motion.div>
             </>
             }

@@ -13,7 +13,7 @@ const SelectFornecedor = () => {
     //Quando refatorar, esses vão ser recebidos por props
     const [fornecedoresControle, setFornecedoresControle] = useState<string[]>([])
     const [fornecedor, setFornecedor] = useState('')
-    
+
     // Esse vai mudar para fornecedoresDisplay
     const [fornecedores, setFornecedores] = useState<string[]>([])
     

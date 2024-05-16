@@ -334,8 +334,8 @@ export default function Configurar() {
                 onClick={() => getFornecedores()}
             >Carregar fornecedores</button>
             
+            <Suspense fallback={<Loading />}> 
                 {fornecedoresDB?.map(({nome, fatorBase, fatorNormal, fatorST, transporte, st, desconto, ipi, unitarioNota, composto }) =>
-                    // <Suspense key={nome} fallback={<Loading />}> 
                         <div key={nome} style={{ border: '2px solid', padding: '1rem', borderRadius: '1rem' }}>
                             <span style={{ display: 'flex'}}><p style={{ margin: 0 }}>nome:</p><p style={{ margin: 0 }}>{nome}</p></span>
                             <span style={{ display: 'flex'}}><p style={{ margin: 0 }}>fatorBase:</p><p style={{ margin: 0 }}>{fatorBase}</p></span>
@@ -348,28 +348,10 @@ export default function Configurar() {
                             <span style={{ display: 'flex'}}><p style={{ margin: 0 }}>unitarioNota:</p><p style={{ margin: 0 }}>{unitarioNota ? 'Sim' : 'Não'}</p></span>
                             <span style={{ display: 'flex'}}><p style={{ margin: 0 }}>composto:</p><p style={{ margin: 0 }}>{composto ? 'Sim' : 'Não'}</p></span>
                         </div>
-                    // </Suspense>
                 )}
+                </Suspense>
             </div>
             </span>
-            {/* <div>
-                <button
-                    onClick={() => getFornecedores()}
-                >Carregar fornecedores</button>
-                {fornecedoresDB?.map(({nome, fatorBase, fatorNormal, fatorST, transporte, st, desconto, ipi, unitarioNota}) => 
-                    <div key={nome} style={{ border: '2px solid' }}>
-                        <span style={{ display: 'flex'}}><p style={{ margin: 0 }}>nome:</p><p style={{ margin: 0 }}>{nome}</p></span>
-                        <span style={{ display: 'flex'}}><p style={{ margin: 0 }}>fatorBase:</p><p style={{ margin: 0 }}>{fatorBase}</p></span>
-                        <span style={{ display: 'flex'}}><p style={{ margin: 0 }}>fatorNormal:</p><p style={{ margin: 0 }}>{fatorNormal}</p></span>
-                        <span style={{ display: 'flex'}}><p style={{ margin: 0 }}>fatorST:</p><p style={{ margin: 0 }}>{fatorST}</p></span>
-                        <span style={{ display: 'flex'}}><p style={{ margin: 0 }}>transporte:</p><p style={{ margin: 0 }}>{transporte ? 'Sim' : 'Não'}</p></span>
-                        <span style={{ display: 'flex'}}><p style={{ margin: 0 }}>st:</p><p style={{ margin: 0 }}>{st ? 'Sim' : 'Não'}</p></span>
-                        <span style={{ display: 'flex'}}><p style={{ margin: 0 }}>desconto:</p><p style={{ margin: 0 }}>{desconto ? 'Sim' : 'Não'}</p></span>
-                        <span style={{ display: 'flex'}}><p style={{ margin: 0 }}>ipi:</p><p style={{ margin: 0 }}>{ipi ? 'Sim' : 'Não'}</p></span>
-                        <span style={{ display: 'flex'}}><p style={{ margin: 0 }}>unitarioNota:</p><p style={{ margin: 0 }}>{unitarioNota ? 'Sim' : 'Não'}</p></span>
-                    </div>
-                )}
-            </div> */}
         </div>
     )
 
@@ -378,12 +360,13 @@ export default function Configurar() {
 const SvgTransporte = () => {
     return (
         <svg width="50" height="50" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M319 250.138C319 287.77 288.108 318.276 250 318.276C211.892 318.276 181 287.77 181 250.138C181 212.506 211.892 182 250 182C288.108 182 319 212.506 319 250.138Z" stroke="#E8D4B0" strokeWidth="40"/>
-<path d="M66.0002 37C65.8815 73.6116 128.701 87.2314 128.5 157.5C128.299 227.769 66.0002 233.828 66.0002 302.5C66.0002 366.381 115.74 431.925 116.223 463" stroke="#E8D4B0" strokeWidth="40" strokeLinejoin="round"/>
-<path d="M433.5 463C433.619 426.388 370.8 412.769 371 342.5C371.201 272.231 433.5 266.172 433.5 197.5C433.5 133.619 383.76 68.0749 383.277 37" stroke="#E8D4B0" strokeWidth="40" strokeLinejoin="round"/>
+            <path d="M319 250.138C319 287.77 288.108 318.276 250 318.276C211.892 318.276 181 287.77 181 250.138C181 212.506 211.892 182 250 182C288.108 182 319 212.506 319 250.138Z" stroke="#E8D4B0" strokeWidth="40"/>
+            <path d="M66.0002 37C65.8815 73.6116 128.701 87.2314 128.5 157.5C128.299 227.769 66.0002 233.828 66.0002 302.5C66.0002 366.381 115.74 431.925 116.223 463" stroke="#E8D4B0" strokeWidth="40" strokeLinejoin="round"/>
+            <path d="M433.5 463C433.619 426.388 370.8 412.769 371 342.5C371.201 272.231 433.5 266.172 433.5 197.5C433.5 133.619 383.76 68.0749 383.277 37" stroke="#E8D4B0" strokeWidth="40" strokeLinejoin="round"/>
         </svg>
     )
 }
+
 const SvgFornecedor = () => {
     return (
         <svg width="50" height="50" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">

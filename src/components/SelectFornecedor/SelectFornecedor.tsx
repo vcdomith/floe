@@ -1,8 +1,10 @@
 'use client'
-import { ChangeEvent, KeyboardEvent, MouseEvent, MutableRefObject, RefObject, useEffect, useRef, useState } from "react"
+import { ChangeEvent, KeyboardEvent, MouseEvent, MutableRefObject, RefObject, Suspense, useEffect, useRef, useState } from "react"
 
 import style from './SelectFornecedor.module.scss'
 import { AnimatePresence, motion } from "framer-motion"
+import ListaFornecedores from "./ListaFornecedores/ListaFornecedores"
+import LogoSvg from "../SvgArray/LogoSvg"
 
 const SelectFornecedor = () => {
 
@@ -278,7 +280,17 @@ const SelectFornecedor = () => {
                     }
                 </span>
 
-            <ul
+            <Suspense fallback={<Loading/>}>
+            <ListaFornecedores 
+                fornecedoresRef={fornecedoresRef} 
+                selectRef={selectRef} 
+                display={display} 
+                setDisplay={setDisplay} 
+                setFornecedor={setFornecedor} 
+                selectIndex={selectIndex}                
+                />
+            </Suspense>
+            {/* <ul
                 ref={fornecedoresRef}
                 className={style.list}
                 tabIndex={-1}
@@ -332,7 +344,7 @@ const SelectFornecedor = () => {
             )
             }
             </AnimatePresence>
-            </ul>          
+            </ul>           */}
             </motion.div>
             </>
             }
@@ -344,3 +356,14 @@ const SelectFornecedor = () => {
 }
 
 export default SelectFornecedor
+
+function Loading(){
+
+    return(
+        <span>
+            <LogoSvg loop/>
+            <p>Caregando...</p>
+        </span>
+    )
+
+}

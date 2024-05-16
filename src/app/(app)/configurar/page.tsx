@@ -9,8 +9,9 @@ import { useNotification } from "../(contexts)/NotificationContext"
 
 import style from './configurar.module.scss'
 import LogoSvg from "@/components/SvgArray/LogoSvg"
-import Loading from "./loading"
+// import Loading from "./loading"
 import Config from "./(Config)/Config"
+import Loading from "../cadastros/loading"
 
 export default function Configurar() {
 
@@ -327,12 +328,14 @@ export default function Configurar() {
                     padding: '1rem'
                 }}
             >
+
+            <SelectFornecedor />
             <button
                 onClick={() => getFornecedores()}
             >Carregar fornecedores</button>
             
                 {fornecedoresDB?.map(({nome, fatorBase, fatorNormal, fatorST, transporte, st, desconto, ipi, unitarioNota, composto }) =>
-                    <Suspense key={nome} fallback={<Loading />}> 
+                    // <Suspense key={nome} fallback={<Loading />}> 
                         <div key={nome} style={{ border: '2px solid', padding: '1rem', borderRadius: '1rem' }}>
                             <span style={{ display: 'flex'}}><p style={{ margin: 0 }}>nome:</p><p style={{ margin: 0 }}>{nome}</p></span>
                             <span style={{ display: 'flex'}}><p style={{ margin: 0 }}>fatorBase:</p><p style={{ margin: 0 }}>{fatorBase}</p></span>
@@ -345,7 +348,7 @@ export default function Configurar() {
                             <span style={{ display: 'flex'}}><p style={{ margin: 0 }}>unitarioNota:</p><p style={{ margin: 0 }}>{unitarioNota ? 'Sim' : 'Não'}</p></span>
                             <span style={{ display: 'flex'}}><p style={{ margin: 0 }}>composto:</p><p style={{ margin: 0 }}>{composto ? 'Sim' : 'Não'}</p></span>
                         </div>
-                    </Suspense>
+                    // </Suspense>
                 )}
             </div>
             </span>

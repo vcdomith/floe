@@ -9,6 +9,7 @@ export default function Loading() {
             }}
         >
             <LogoSvg loop />
+            <h3>Loading in Config route</h3>
             <p>Loading...</p>
         </div>
     )

@@ -6,6 +6,7 @@ import { dbConnect } from "@/utils/db/supabase"
 import { createClient } from "@supabase/supabase-js"
 import { useState } from "react"
 import Cadastro from "./Cadastro/Cadastro"
+import { motion } from 'framer-motion'
 
 import style from './Cadastros.module.scss'
 import Link from "next/link"
@@ -20,7 +21,8 @@ export default async function Cadastros() {
 
     return (
     <>
-        <div style={{
+        <div 
+        style={{
             backgroundColor: '#e8d4b0',
             width: '100%'
         }}>

@@ -13,6 +13,7 @@ import LogoSvg from "@/components/SvgArray/LogoSvg"
 import Config from "./(Config)/Config"
 import Loading from "../cadastros/loading"
 import capitalize from "@/utils/capitalize"
+import { motion, AnimatePresence } from "framer-motion"
 
 export default function Configurar() {
 
@@ -36,6 +37,7 @@ export default function Configurar() {
     const [composto, setComposto] = useState(false)
 
     const [fornecedoresDB, setFornecedoresDB] = useState<IFornecedor[]>()
+    const [cadastrados, setCadastrados] = useState<string[]>([])
 
     const [focus, setFocus] = useState(false)
 
@@ -118,8 +120,7 @@ export default function Configurar() {
 
     } 
 
-    const [cadastrados, setCadastrados] = useState<string[]>([])
-
+    const [loadingFornecedores, setLoadingFornecedores] = useState(true)
     const [selectedFornecedor, setSelectedFornecedor] = useState('')
     const setCapitalizedFornecedor = (value: string) => {
         setSelectedFornecedor(capitalize(value))
@@ -141,11 +142,15 @@ export default function Configurar() {
                 if(cadastradosDB)
                 setCadastrados(cadastradosDB)
                 // localStorage.setItem('fornecedores', JSON.stringify(cadastrados))
-    
+            
             } catch (error) {
-    
+                
                 addNotification({ tipo: 'erro', mensagem: `${error}`})
-    
+                
+            } finally {
+                
+                setLoadingFornecedores(false)
+
             }
         }
 
@@ -218,9 +223,29 @@ export default function Configurar() {
                             }} 
                         />
                     </div>
-                    <div>
-                        {/* svg validação */}
-                        <p style={{ margin: 0 }}>{validation ? '' : 'Já existe!'}</p>
+                    <div style={{
+                        height: '17.6px'
+                    }}>
+                        <AnimatePresence>
+                        {validation||
+                            <motion.span
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}   
+                                exit={{ opacity: 0 }}
+
+                                style={{
+                                    display: 'flex',
+                                    gap: '0.5rem',
+                                }}
+                            >
+                                <svg width="20" height="20" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M462 433L250.5 67L144.75 250L39 433H462Z" stroke="black" stroke-width="40" stroke-linejoin="bevel"/>
+                                <path d="M250 198V380" stroke="black" stroke-width="40"/>
+                                </svg>
+                                <p style={{ margin: 0, display: "flex", alignContent: 'center', gap: '0.3rem' }}>O fornecedor <strong>{capitalize(nomeFornecedor)}</strong> já está cadastrado</p>
+                            </motion.span>
+                        }
+                        </AnimatePresence>
                     </div> 
                     
                 </div>
@@ -315,7 +340,7 @@ export default function Configurar() {
                 </span>
 
             </form>
-            <div
+            {/* <div
                 onClick={() => setFocus(true)}
                 style={{
                     border: '2px solid',
@@ -327,11 +352,12 @@ export default function Configurar() {
                 }}
             >
 
-            <SelectFornecedor 
-                fornecedores={cadastrados} 
-                fornecedor={selectedFornecedor} 
-                setFornecedor={setCapitalizedFornecedor}                
-            />
+               <SelectFornecedor
+                    loading={loadingFornecedores} 
+                    fornecedoresControle={cadastrados} 
+                    fornecedor={selectedFornecedor} 
+                    setFornecedor={setCapitalizedFornecedor}                
+                />
             <button
                 onClick={() => getFornecedores()}
             >Carregar fornecedores</button>
@@ -352,7 +378,7 @@ export default function Configurar() {
                         </div>
                 )}
                 </Suspense>
-            </div>
+            </div> */}
             </span>
         </div>
     )

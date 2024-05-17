@@ -9,18 +9,20 @@ import capitalize from "@/utils/capitalize"
 
 interface SelectFornecedorProps {
 
-    fornecedores: string[]
+    loading: boolean
+
+    fornecedoresControle: string[]
 
     fornecedor: string
     setFornecedor: (value: string) => void
 
 }
 
-const SelectFornecedor = ({ fornecedores, fornecedor, setFornecedor }: SelectFornecedorProps) => {
+const SelectFornecedor = ({ loading, fornecedoresControle, fornecedor, setFornecedor }: SelectFornecedorProps) => {
 
-    const [fornecedoresControle, setFornecedoresControle] = useState<string[]>(fornecedores)
+    // const [fornecedoresControle, setFornecedoresControle] = useState<string[]>(fornecedores)
 
-    const [fornecedoresDisplay, setFornecedoresDisplay] = useState<string[]>([])
+    const [fornecedoresDisplay, setFornecedoresDisplay] = useState<string[]>(fornecedoresControle)
     
 	const [display, setDisplay] = useState(false)
     const [search, setSearch] = useState('')
@@ -29,7 +31,6 @@ const SelectFornecedor = ({ fornecedores, fornecedor, setFornecedor }: SelectFor
     const searchElementRef = useRef<HTMLInputElement>(null)
     const fornecedoresRef = useRef<HTMLUListElement>(null)
     const selectRef = useRef<HTMLButtonElement>(null)
-
 
     const handleClick = (e: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>) => {
 
@@ -168,48 +169,27 @@ const SelectFornecedor = ({ fornecedores, fornecedor, setFornecedor }: SelectFor
 
         const searchValue = search.toLowerCase()
 
-        if(search.length > 0) {
+        // if(search.length > 0) {
             
-            if (!display) setDisplay(true)
+        //     if (!display) setDisplay(true)
 
-            setFornecedoresDisplay(fornecedoresControle.filter(fornecedor => fornecedor.includes(searchValue)))
-            return
+        //     setFornecedoresDisplay(fornecedoresControle.filter(fornecedor => fornecedor.includes(searchValue)))
+        //     return
 
-        } else {
-            setFornecedoresDisplay(fornecedoresControle)
-        }
+        // } else    {
+        //     setFornecedoresDisplay(fornecedoresControle)
+        // }
+        setFornecedoresDisplay(
+            search
+                ? fornecedoresControle.filter(f => f.includes(searchValue))
+                : fornecedoresControle
+        )
 
-    }, [search])
+    }, [search, display, fornecedoresControle])
 
     useEffect(() => {
         setSearch('')
     }, [display])
-
-    useEffect(() => {
-
-        const getFornecedoresDB = cache(async () => {
-
-            const supabase = dbConnect()
-            try {
-                
-                const { data: dbFornecedores, error } = await supabase.from('fornecedores').select('nome')
-                const fornecedores = dbFornecedores?.map( item => item.nome )
-                if(fornecedores) {
-
-                    console.log(dbFornecedores);
-                    setFornecedoresControle(fornecedores)
-                    setFornecedoresDisplay(fornecedores)
-                } 
-
-            } catch (error) {
-                console.error(error)
-            }
-
-        })
-
-        getFornecedoresDB()
-
-    }, [])
 
 	return (
 		<div
@@ -315,29 +295,20 @@ const SelectFornecedor = ({ fornecedores, fornecedor, setFornecedor }: SelectFor
                         </svg>
                     </button>
                     }
-                </span>
-
-            <Suspense fallback={<Loading/>}>
-            {/* <ListaFornecedores 
-                fornecedores={fornecedores}
-                fornecedoresRef={fornecedoresRef} 
-                selectRef={selectRef} 
-                display={display} 
-                setDisplay={setDisplay} 
-                setFornecedor={setFornecedor} 
-                selectIndex={selectIndex}
-                style={style}                
-                /> */}
+                </span>  
          
             <ul
                 ref={fornecedoresRef}
                 className={style.list}
                 tabIndex={-1}
                 data-display={display}
-            >
+                >
             <AnimatePresence initial={false} mode="popLayout">    
-            {(         
-                fornecedoresDisplay&&       
+            {loading && (fornecedoresDisplay)
+            ?
+                <p>Loading...</p>
+            :
+            (                
                 (fornecedoresDisplay.length > 0)
                 ?
                     fornecedoresDisplay.map((fornecedor, index) => 
@@ -358,6 +329,7 @@ const SelectFornecedor = ({ fornecedores, fornecedor, setFornecedor }: SelectFor
                     >{capitalize(fornecedor)}</motion.li>
                     )
                 :
+                (search !== '')&&
                     <motion.li
                     initial={{ opacity: 0 , x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
@@ -384,8 +356,8 @@ const SelectFornecedor = ({ fornecedores, fornecedor, setFornecedor }: SelectFor
             )
             }
             </AnimatePresence>
-            </ul>        
-            </Suspense>  
+            </ul>
+                    
             </motion.div>
             </>
             }

@@ -3,19 +3,24 @@ import { ChangeEvent, KeyboardEvent, MouseEvent, MutableRefObject, RefObject, Su
 
 import style from './SelectFornecedor.module.scss'
 import { AnimatePresence, motion } from "framer-motion"
-import ListaFornecedores from "./ListaFornecedores/ListaFornecedores"
 import LogoSvg from "../SvgArray/LogoSvg"
 import { dbConnect } from "@/utils/db/supabase"
+import capitalize from "@/utils/capitalize"
 
-const SelectFornecedor = () => {
+interface SelectFornecedorProps {
 
-    // const fornecedoresControle = ['Mileno','Denlex','Imporiente','GoldenRio', 'FWB', 'Yins', 'Molduleo', 'Bla', 'AC', "Fafafa"]
-    //Quando refatorar, esses vão ser recebidos por props
-    const [fornecedoresControle, setFornecedoresControle] = useState<string[]>([])
-    const [fornecedor, setFornecedor] = useState('')
+    fornecedores: string[]
 
-    // Esse vai mudar para fornecedoresDisplay
-    const [fornecedores, setFornecedores] = useState<string[]>([])
+    fornecedor: string
+    setFornecedor: (value: string) => void
+
+}
+
+const SelectFornecedor = ({ fornecedores, fornecedor, setFornecedor }: SelectFornecedorProps) => {
+
+    const [fornecedoresControle, setFornecedoresControle] = useState<string[]>(fornecedores)
+
+    const [fornecedoresDisplay, setFornecedoresDisplay] = useState<string[]>([])
     
 	const [display, setDisplay] = useState(false)
     const [search, setSearch] = useState('')
@@ -54,7 +59,7 @@ const SelectFornecedor = () => {
                 
                 setSelectIndex(prev => {
                     if(prev === 0) return 0
-                    setFornecedor(fornecedores[prev - 1])
+                    setFornecedor(fornecedoresDisplay[prev - 1])
                     return prev - 1
                 })
                 // setFornecedor(selectIndex.toString())
@@ -69,7 +74,7 @@ const SelectFornecedor = () => {
                 
                 setSelectIndex(prev => {
                     if(prev === (fornecedoresControle.length-1)) return prev
-                    setFornecedor(fornecedores[prev + 1])
+                    setFornecedor(fornecedoresDisplay[prev + 1])
                     return prev + 1
                 })
                 // setFornecedor(selectIndex.toString())
@@ -104,7 +109,7 @@ const SelectFornecedor = () => {
                 e.preventDefault()
 
                 setSelectIndex(prev => {
-                    if(prev === (fornecedores.length-1)) return prev
+                    if(prev === (fornecedoresDisplay.length-1)) return prev
                     return prev+1
                 })
 
@@ -115,7 +120,7 @@ const SelectFornecedor = () => {
             case 'Tab': {
                 e.preventDefault()
         
-                if(fornecedores.length === 0) {
+                if(fornecedoresDisplay.length === 0) {
                     setDisplay(false)
                     selectRef.current?.focus()
                     break
@@ -161,15 +166,17 @@ const SelectFornecedor = () => {
 
         setSelectIndex(0)
 
+        const searchValue = search.toLowerCase()
+
         if(search.length > 0) {
             
             if (!display) setDisplay(true)
 
-            setFornecedores(fornecedoresControle.filter(fornecedor => fornecedor.includes(search)))
+            setFornecedoresDisplay(fornecedoresControle.filter(fornecedor => fornecedor.includes(searchValue)))
             return
 
         } else {
-            setFornecedores(fornecedoresControle)
+            setFornecedoresDisplay(fornecedoresControle)
         }
 
     }, [search])
@@ -185,13 +192,13 @@ const SelectFornecedor = () => {
             const supabase = dbConnect()
             try {
                 
-                const { data: fornecedores, error } = await supabase.from('fornecedores').select('nome')
-                const dbFornecedores = fornecedores?.map( item => item.nome )
-                if(dbFornecedores) {
+                const { data: dbFornecedores, error } = await supabase.from('fornecedores').select('nome')
+                const fornecedores = dbFornecedores?.map( item => item.nome )
+                if(fornecedores) {
 
                     console.log(dbFornecedores);
-                    setFornecedoresControle(dbFornecedores)
-                    setFornecedores(dbFornecedores)
+                    setFornecedoresControle(fornecedores)
+                    setFornecedoresDisplay(fornecedores)
                 } 
 
             } catch (error) {
@@ -330,10 +337,10 @@ const SelectFornecedor = () => {
             >
             <AnimatePresence initial={false} mode="popLayout">    
             {(         
-                fornecedores&&       
-                (fornecedores.length > 0)
+                fornecedoresDisplay&&       
+                (fornecedoresDisplay.length > 0)
                 ?
-                    fornecedores.map((fornecedor, index) => 
+                    fornecedoresDisplay.map((fornecedor, index) => 
                     <motion.li 
                     initial={{ opacity: 0 , x: -20}}
                     animate={{opacity: 1, x: 0}}
@@ -348,7 +355,7 @@ const SelectFornecedor = () => {
                             setDisplay(false)
                             selectRef.current?.focus()
                         }}
-                    >{fornecedor}</motion.li>
+                    >{capitalize(fornecedor)}</motion.li>
                     )
                 :
                     <motion.li

@@ -12,6 +12,7 @@ import LogoSvg from "@/components/SvgArray/LogoSvg"
 // import Loading from "./loading"
 import Config from "./(Config)/Config"
 import Loading from "../cadastros/loading"
+import capitalize from "@/utils/capitalize"
 
 export default function Configurar() {
 
@@ -40,14 +41,6 @@ export default function Configurar() {
 
     const [valid, setValid] = useState(false)
     const [validation, setValidation] = useState(true)
-
-    function capitalize(string: string):string {
-
-        const captalizedFirstLetter = string[0].toUpperCase()
-        const lowercasePart = string.slice(1,)
-        return `${captalizedFirstLetter + lowercasePart}`
-
-    }
 
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
 
@@ -126,6 +119,11 @@ export default function Configurar() {
     } 
 
     const [cadastrados, setCadastrados] = useState<string[]>([])
+
+    const [selectedFornecedor, setSelectedFornecedor] = useState('')
+    const setCapitalizedFornecedor = (value: string) => {
+        setSelectedFornecedor(capitalize(value))
+    }
 
     useEffect(() => {
 
@@ -329,7 +327,11 @@ export default function Configurar() {
                 }}
             >
 
-            <SelectFornecedor />
+            <SelectFornecedor 
+                fornecedores={cadastrados} 
+                fornecedor={selectedFornecedor} 
+                setFornecedor={setCapitalizedFornecedor}                
+            />
             <button
                 onClick={() => getFornecedores()}
             >Carregar fornecedores</button>

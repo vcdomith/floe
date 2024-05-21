@@ -48,6 +48,11 @@ export default function Configurar() {
 
         e.preventDefault()
 
+        if(!validation) {
+            addNotification({ tipo: 'erro', mensagem: `Não foi possível realizar o cadastro, fornecedor ${nomeFornecedor} já está cadastrado!`})
+            return
+        }
+
         const novoCadastro: IFornecedor = {
             nome: nomeFornecedor.trim().toLowerCase(),
             fatorBase: fatorBase,
@@ -195,64 +200,101 @@ export default function Configurar() {
                     >Novo Fornecedor:</h1>
                 </span>
               
-                <div>
-
-                    <div className={style.input}>
-                        <h3>Fornecedor:</h3>
-                        <input 
-                            type="text"
-                            placeholder="Nome Fornecedor"
-                            spellCheck={false} 
-                            required
-                            value={nomeFornecedor}
-                            data-valid={validation}
-                            onChange={(e) => {
-
-                                setNomeFornecedor(() => {
-
-                                    const newValue = e.target.value
-                                    const valueCheck = newValue.trim().toLowerCase()
-
-                                    cadastrados.includes(valueCheck)
-                                    ? setValidation(false)
-                                    : setValidation(true)
-
-                                    return newValue
-                                })                                
-
-                            }} 
-                        />
-                    </div>
-                    <div style={{
-                        height: '17.6px'
-                    }}>
-                        <AnimatePresence>
-                        {validation||
-                            <motion.span
-                                initial={{ opacity: 0 }}
-                                animate={{ opacity: 1 }}   
-                                exit={{ opacity: 0 }}
-
-                                style={{
-                                    display: 'flex',
-                                    gap: '0.5rem',
-                                }}
-                            >
-                                <svg width="20" height="20" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M462 433L250.5 67L144.75 250L39 433H462Z" stroke="black" stroke-width="40" stroke-linejoin="bevel"/>
-                                <path d="M250 198V380" stroke="black" stroke-width="40"/>
-                                </svg>
-                                <p style={{ margin: 0, display: "flex", alignContent: 'center', gap: '0.3rem' }}>O fornecedor <strong>{capitalize(nomeFornecedor)}</strong> já está cadastrado</p>
-                            </motion.span>
-                        }
-                        </AnimatePresence>
-                    </div> 
-                    
-                </div>
-
                 <div className={style.inputs}>
+
+                    <div className={style.fornecedor}>
+
+                        <div className={style.input}>
+                            <h3>Fornecedor:</h3>
+                            <input 
+                                type="text"
+                                placeholder="Nome Fornecedor"
+                                spellCheck={false} 
+                                required
+                                value={nomeFornecedor}
+                                data-valid={validation}
+                                onChange={(e) => {
+
+                                    setNomeFornecedor(() => {
+
+                                        const newValue = e.target.value
+                                        const valueCheck = newValue.trim().toLowerCase()
+
+                                        cadastrados.includes(valueCheck)
+                                        ? setValidation(false)
+                                        : setValidation(true)
+
+                                        return newValue
+                                    })                                
+
+                                }} 
+                            />
+                        </div>
+                        <div
+                            className={style.warning} 
+                            // style={{
+                            //     height: '17.6px'
+                            // }}
+                        >
+                            <AnimatePresence>
+                            {validation||
+                                <motion.span
+                                    initial={{ opacity: 0 }}
+                                    animate={{ opacity: 1 }}   
+                                    exit={{ opacity: 0 }}
+
+                                    // style={{
+                                    //     display: 'flex',
+                                    //     gap: '0.5rem',
+                                    // }}
+                                >
+                                    <svg width="20" height="20" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M462 433L250.5 67L144.75 250L39 433H462Z" stroke="black" stroke-width="40" stroke-linejoin="bevel"/>
+                                        <path d="M250 198V380" stroke="black" stroke-width="40"/>
+                                    </svg>
+                                    <p 
+                                        // style={{ margin: 0, display: "flex", alignContent: 'center', gap: '0.3rem' }}
+                                    >O fornecedor <strong>{capitalize(nomeFornecedor)}</strong> já está cadastrado</p>
+                                </motion.span>
+                            }
+                            </AnimatePresence>
+                        </div> 
+                        
+                        <div className={style.fatores}>
+
+                            <h3>Fatores:</h3>
+                            <div className={style.input}>
+                                <p>Fator Base</p>
+                                <NumberInput 
+                                    placeholder={"x 1,00"} 
+                                    valor={fatorBase} 
+                                    setValor={setFatorBase}                        
+                                />
+                            </div>
+                            <div className={style.input}>
+                                <p>Fator Normal</p>
+                                <NumberInput 
+                                    placeholder={"x 1,00"} 
+                                    valor={fatorNormal} 
+                                    setValor={setFatorNormal}                        
+                                />
+                            </div>
+                            <div className={style.input}>
+                                <p>Fator ST</p>
+                                <NumberInput 
+                                    placeholder={"x 1,00"} 
+                                    valor={fatorSt} 
+                                    setValor={setFatorSt}                        
+                                />
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                {/* <div className={style.inputs}> */}
                     
-                    <div className={style.fatores}>
+                    {/* <div className={style.fatores}>
 
                         <h3>Fatores:</h3>
                         <div className={style.input}>
@@ -280,13 +322,13 @@ export default function Configurar() {
                             />
                         </div>
 
-                    </div>
+                    </div> */}
                     
                     <div className={style.config}>
 
                         <h3>Configurações:</h3>
 
-                        <div className={style.inputs}>  
+                        <div className={style.configInputs}>  
                             <Config 
                                 svg={<SvgFornecedor/>} 
                                 title={'Transporte'} 

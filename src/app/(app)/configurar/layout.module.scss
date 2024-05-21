@@ -1,0 +1,16 @@
+@use '../../globalStyle.module.scss' as *;
+
+
+.layout {
+
+    position: fixed;
+    z-index: 0;
+    top: 50vh;
+    left: 6rem;
+
+    border-radius: 1rem;
+
+    width: calc(100vw - 10rem);
+    height: calc(50vh - 3rem);
+    background: linear-gradient(180deg, darken(saturate(cor-mix(50%), 15%), 5%), darken(saturate(cor-mix(10%), 15%), 5%));
+}

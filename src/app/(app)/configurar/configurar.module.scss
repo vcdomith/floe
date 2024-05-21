@@ -3,11 +3,18 @@
 
 .form {
 
+    position: relative;
+
     display: flex;
     flex-direction: column;
     border: 2px solid;
     border-radius: 1rem;
-    padding: 2rem 4rem;
+    // padding: 2rem 4rem;
+    padding: 2rem;
+
+    // flex: 5;
+
+    overflow: hidden;
 
     background-color: $cor-secundaria;
 
@@ -19,9 +26,14 @@
 
         width: 100%;
 
-        margin: 2rem 0 1rem 0;
+        margin: 1.5rem 0 1rem 0;
         padding-bottom: 0.5rem;
         border-bottom: 2px solid $cor-mix;
+        border-image: linear-gradient(to right , cor-mix(50%) 50%, $cor-secundaria) 27;
+
+
+        // border-image: linear-gradient(to right , cor-mix(50%) , transparent) 27;
+
 
         color: $cor-primaria;
 
@@ -29,21 +41,38 @@
 
     .logo {
 
-        padding-left: 0;
-        padding-bottom: 1rem;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 70px;
+        padding: 0.5rem 2rem;
+
+        // padding-left: 0;
+        // padding-bottom: 1rem;
+        box-sizing: border-box;
+        // background: linear-gradient(to right , $cor-secundaria, cor-mix(50%) 50%, $cor-secundaria);
+        // background-color: saturate(cor-mix(50%), 15%);
 
         display: flex;
         flex-direction: row;
-        gap: 1rem;
+        gap: 0.5rem;
         align-items: center;
 
         // background-color: cor-mix(80%);
         // background-color: $cor-primaria;
-        border-bottom: 2px solid cor-mix(20%);
+        border-bottom: 2px solid;
+        border-image: linear-gradient(to right , $cor-secundaria, cor-mix(50%) 50%, $cor-secundaria) 27;
 
         svg {
 
             width: 35px;
+            min-width: 35px;
+
+            border-right: 2px solid cor-mix(20%);
+            padding-right: 0.5rem;
+            border-image: linear-gradient(0deg , $cor-secundaria, cor-mix(40%) 50%, $cor-secundaria) 5;
+
 
             path, circle {
                 stroke: $cor-primaria;
@@ -54,21 +83,48 @@
 
         h1 {
 
-            // font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            height: 50px;
+
+            font-size: 1.2rem;
+
+            border-right: 2px solid cor-mix(20%);
+            padding-right: 0.5rem;
+            border-image: linear-gradient(0deg , $cor-secundaria, cor-mix(40%) 50%, $cor-secundaria) 5;
 
             margin: 0;
             color: cor-mix(50%);
             // color: $cor-secundaria;
             color: $cor-primaria;
-
+            
         }
+
+        span {
+
+            display: flex;
+            align-items: center;
+            overflow-y: hidden;
+            height: 50px;
+
+            p {
+    
+                margin: 0;
+                overflow: hidden;
+                color: cor-mix(70%);
+    
+            }
+        }
+
 
     }
 
     .inputs {
 
         display: flex;
-        gap: 2rem;
+        gap: 1.5rem;
+
+        margin-top: 2.5rem;
 
         // h3 {
 
@@ -89,11 +145,11 @@
             width: clamp(320px, 320px, 320px);
 
             .input {
-
+                
                 display: flex;
                 flex-direction: column;
                 align-items: flex-start;
-
+                
                 margin-bottom: 1rem;
                 // padding-left: 2rem;
 
@@ -133,6 +189,13 @@
                                 color 400ms ease
                     ;
 
+                    &::selection {
+
+                        // background-color: $cor-primaria;
+                        background-color: cor-mix(70%);
+                        color: $cor-secundaria;
+
+                    }
 
                     &::placeholder {
 
@@ -173,6 +236,10 @@
 
                 }
 
+            }
+       
+            .nomeInput {
+                margin-bottom: 0.5rem;
             }
 
             .warning {
@@ -282,19 +349,32 @@
         flex-direction: row-reverse;
         gap: 1rem;
 
-        margin-top: 2rem;
+        margin-top: 1.5rem;
 
         button {
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
 
             font-family: $fonte-body;
 
             padding: 0.5rem 1rem;
-            border-radius: 0.75rem;
+            border-radius: 0.5rem;
             border: none;
+
+            height: 2rem;
 
             cursor: pointer;
 
             transition: background-color 400ms ease;
+
+            &:focus-within {
+
+                outline: none;
+                box-shadow: 2px 2px 15px transparentize($cor-primaria, 0.7);
+
+            }
 
         }
 
@@ -302,8 +382,10 @@
 
             background-color: cor-mix(80%);
             color: $cor-secundaria;
-            font-size: 1.2rem;
-            width: 200px;
+            font-size: 1rem;
+            // width: 200px;
+            width: fit-content;
+            font-weight: 500;
 
             &:hover {
 

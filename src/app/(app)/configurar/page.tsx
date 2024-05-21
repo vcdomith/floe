@@ -104,6 +104,7 @@ export default function Configurar() {
         setIpi(false)
         setUnitarioNota(false)
         setComposto(false)
+        setValidation(true)
 
     }
 
@@ -175,6 +176,8 @@ export default function Configurar() {
             <span style={{
                 display: 'flex',
                 gap: '1rem',
+                justifyContent: 'center',
+
             }}>
             <form
                 className={style.form}
@@ -197,16 +200,19 @@ export default function Configurar() {
                         style={{
                             width: 'min-content'
                         }}
-                    >Novo Fornecedor:</h1>
+                    >Cadastro Fornecedor</h1>
+                    <span>
+                        <p>Cadastre primeiro os fornecedores para acessar suas configurações e fatores no cálculo de tabelas do produtos</p>
+                    </span>
                 </span>
               
                 <div className={style.inputs}>
 
                     <div className={style.fornecedor}>
 
-                        <div className={style.input}>
+                        <div className={`${style.input} ${style.nomeInput}`}>
                             <h3>Fornecedor:</h3>
-                            <input 
+                            <input
                                 type="text"
                                 placeholder="Nome Fornecedor"
                                 spellCheck={false} 
@@ -387,6 +393,7 @@ export default function Configurar() {
                 style={{
                     border: '2px solid',
                     width: '100%',
+                    flex: 2,
                     // flex: `${focus ? 8 : 2 }`,
                     transition: 'flex 1s ease-out',
                     borderRadius: '1rem',

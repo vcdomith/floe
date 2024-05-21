@@ -185,7 +185,7 @@ const SelectFornecedor = ({ loading, fornecedoresControle, fornecedor, setFornec
                 : fornecedoresControle
         )
 
-    }, [search, display, fornecedoresControle])
+    }, [search, fornecedoresControle])
 
     useEffect(() => {
         setSearch('')

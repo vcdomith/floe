@@ -3,6 +3,9 @@
 
 .form {
 
+    // flex-shrink: 0;
+    // transform: translateX(25%);
+
     position: relative;
 
     display: flex;
@@ -192,7 +195,7 @@
                     &::selection {
 
                         // background-color: $cor-primaria;
-                        background-color: cor-mix(70%);
+                        background-color: cor-mix(90%);
                         color: $cor-secundaria;
 
                     }
@@ -316,6 +319,8 @@
 
             display: flex;
             flex-direction: column;
+
+            transition: height 400ms ease;
 
             .configInputs {
 

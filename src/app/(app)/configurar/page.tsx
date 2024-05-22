@@ -177,6 +177,9 @@ export default function Configurar() {
                 display: 'flex',
                 gap: '1rem',
                 justifyContent: 'center',
+                transform: `${focus ? 'translateX(-40%)' : 'translateX(0%)'}`,
+                transition: 'transform 800ms ease',
+                height: 'calc(100vh - 6rem)',
 
             }}>
             <form
@@ -363,6 +366,15 @@ export default function Configurar() {
                                 checked={ipi} 
                                 setChecked={setIpi}                                
                             />
+                            {ipi&&
+                            <Config 
+                                svg={<SvgIPI/>} 
+                                title={'IPI Proporcional'} 
+                                description={'Usa IPI proporcional ao fator base?'} 
+                                checked={ipi} 
+                                setChecked={setIpi}                                
+                            />
+                            }
                             <Config 
                                 svg={<SvgUnitarioNota/>} 
                                 title={'Unitário Nota'} 
@@ -388,7 +400,7 @@ export default function Configurar() {
                 </span>
 
             </form>
-            {/* <div
+            <div
                 onClick={() => setFocus(true)}
                 style={{
                     border: '2px solid',
@@ -397,7 +409,8 @@ export default function Configurar() {
                     // flex: `${focus ? 8 : 2 }`,
                     transition: 'flex 1s ease-out',
                     borderRadius: '1rem',
-                    padding: '1rem'
+                    padding: '1rem',
+                    overflowY: 'scroll',
                 }}
             >
 
@@ -427,7 +440,7 @@ export default function Configurar() {
                         </div>
                 )}
                 </Suspense>
-            </div> */}
+            </div>
             </span>
         </div>
     )

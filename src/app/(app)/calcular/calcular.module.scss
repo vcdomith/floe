@@ -1,0 +1,42 @@
+@use '../../globalStyle.module.scss' as *;
+
+.main {
+
+    display: flex;
+    width: 100%;
+    height: calc(100vh - 6rem);
+    gap: 1rem;
+
+    .fatores {
+
+        flex: 2;
+        flex-shrink: 0;
+        border: 2px solid cor-mix(50%);
+        border-radius: 1rem;
+        margin-top: 4rem;
+
+        .content {
+            width: 100%;
+            height: 100%;
+            box-sizing: border-box;
+
+            margin: 1rem;
+        }
+
+    }
+
+    .tabela {
+
+        flex: 5;
+        flex-shrink: 0;
+        border: 2px solid cor-mix(50%);
+        border-radius: 1rem;
+
+        div {
+            width: 100%;
+            height: 100%;
+        }
+
+    }
+
+}

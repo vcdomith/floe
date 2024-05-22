@@ -120,7 +120,11 @@ const Logo = ({ route }: { route: string }): React.ReactNode => {
         
     }
 
-    const { Svg, Titulo } = SvgLogos[route.slice(1,) as keyof SvgLogos]!
+    // const { Svg, Titulo } = SvgLogos[route.slice(1,) as keyof SvgLogos]!
+    const { Svg, Titulo } = Object.values(SvgLogos).includes(route.slice(1)) 
+        ? SvgLogos[route.slice(1,) as keyof SvgLogos]!
+        : SvgLogos['tabela']
+    // SvgLogos[route.slice(1,) as keyof SvgLogos]!
 
     return (
         <span 

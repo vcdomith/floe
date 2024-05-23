@@ -26,10 +26,10 @@ const SelectFornecedor = ({ loading, fornecedoresControle, fornecedor, setFornec
     
 	const [display, setDisplay] = useState(false)
     const [search, setSearch] = useState('')
-    const [selectIndex, setSelectIndex] = useState(0)
+    const [selectIndex, setSelectIndex] = useState<number | null>(null)
 
     const searchElementRef = useRef<HTMLInputElement>(null)
-    const fornecedoresRef = useRef<HTMLUListElement>(null)
+    const fornecedoresRef = useRef<HTMLUListElement>(null)  
     const selectRef = useRef<HTMLButtonElement>(null)
 
     const handleClick = (e: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>) => {
@@ -51,16 +51,23 @@ const SelectFornecedor = ({ loading, fornecedoresControle, fornecedor, setFornec
 
     } 
 
+    useEffect(() => {
+        console.log(selectIndex);
+    }, [selectIndex])
+    
+
     const handleArrowSelect = (e: KeyboardEvent<HTMLButtonElement>) => {
         
         switch (e.code) {
+
             case 'ArrowUp':
+            case 'ArrowLeft': {
             
                 e.preventDefault()
                 
                 setSelectIndex(prev => {
-                    if(prev === 0) return 0
-                    setFornecedor(fornecedoresDisplay[prev - 1])
+                    if(prev === 0 || prev === null) return 0
+                    // setFornecedor(fornecedoresDisplay[prev - 1])
                     return prev - 1
                 })
                 // setFornecedor(selectIndex.toString())
@@ -68,22 +75,25 @@ const SelectFornecedor = ({ loading, fornecedoresControle, fornecedor, setFornec
                 // // setFornecedor((fornecedoresRef.current?.childNodes[selectIndex] as HTMLLIElement).innerText) 
                 
                 break;
+            }
                 
             case 'ArrowDown':
+            case 'ArrowRight': {
                     
                 e.preventDefault()
                 
                 setSelectIndex(prev => {
                     if(prev === (fornecedoresControle.length-1)) return prev
-                    setFornecedor(fornecedoresDisplay[prev + 1])
-                    return prev + 1
+                    // setFornecedor(fornecedoresDisplay[prev + 1])
+                    return (prev === null) ? 0 : prev + 1
                 })
                 // setFornecedor(selectIndex.toString())
                     
                 // setFornecedor((fornecedoresRef.current?.childNodes[selectIndex] as HTMLLIElement).innerText)
 
                 break;
-        
+            }
+
             default:
                 break;
         }
@@ -99,7 +109,7 @@ const SelectFornecedor = ({ loading, fornecedoresControle, fornecedor, setFornec
                 e.preventDefault()
                 
                 setSelectIndex(prev => {
-                    if(prev === 0) return 0
+                    if(prev === 0 || prev === null) return 0
                     return prev-1
                 })  
                 
@@ -111,7 +121,7 @@ const SelectFornecedor = ({ loading, fornecedoresControle, fornecedor, setFornec
 
                 setSelectIndex(prev => {
                     if(prev === (fornecedoresDisplay.length-1)) return prev
-                    return prev+1
+                    return (prev === null) ? 0 : prev + 1
                 })
 
                 break;
@@ -121,6 +131,8 @@ const SelectFornecedor = ({ loading, fornecedoresControle, fornecedor, setFornec
             case 'Tab': {
                 e.preventDefault()
         
+                if(selectIndex === null) return
+
                 if(fornecedoresDisplay.length === 0) {
                     setDisplay(false)
                     selectRef.current?.focus()
@@ -156,6 +168,10 @@ const SelectFornecedor = ({ loading, fornecedoresControle, fornecedor, setFornec
         
         // if(!display) setFornecedor(fornecedoresControle[selectIndex])
 
+        if (selectIndex == null) return
+
+        setFornecedor(fornecedoresDisplay[selectIndex])
+
         if(fornecedoresRef.current)
             if(!search)
             (fornecedoresRef.current?.childNodes[selectIndex] as HTMLLIElement)
@@ -165,7 +181,12 @@ const SelectFornecedor = ({ loading, fornecedoresControle, fornecedor, setFornec
 
     useEffect(() => {
 
-        setSelectIndex(0)
+        // if(selectIndex !== null)
+        // setSelectIndex(0)
+
+        console.log(selectIndex, fornecedoresDisplay);
+        // if (selectIndex !== null)
+        //     if (selectIndex > fornecedoresDisplay.length) setSelectIndex(0)
 
         const searchValue = search.toLowerCase()
 
@@ -179,13 +200,24 @@ const SelectFornecedor = ({ loading, fornecedoresControle, fornecedor, setFornec
         // } else    {
         //     setFornecedoresDisplay(fornecedoresControle)
         // }
+        setSelectIndex(prev => 
+            search
+                ? 0
+                : prev
+        )
+
         setFornecedoresDisplay(
             search
                 ? fornecedoresControle.filter(f => f.includes(searchValue))
                 : fornecedoresControle
         )
 
-    }, [search, fornecedoresControle])
+    }, [search, fornecedoresControle, selectIndex])
+
+    // useEffect(() => {
+    //     if(selectIndex !== null && fornecedoresDisplay.length > 0)
+    //         setSelectIndex(0)
+    // }, [search])
 
     useEffect(() => {
         setSearch('')
@@ -323,6 +355,7 @@ const SelectFornecedor = ({ loading, fornecedoresControle, fornecedor, setFornec
                         tabIndex={-1}
                         onClick={() => {
                             setFornecedor(fornecedor)
+                            setSelectIndex(fornecedoresControle.indexOf(fornecedor))
                             setDisplay(false)
                             selectRef.current?.focus()
                         }}

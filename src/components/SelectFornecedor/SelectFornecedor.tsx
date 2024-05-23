@@ -168,7 +168,7 @@ const SelectFornecedor = ({ loading, fornecedoresControle, fornecedor, setFornec
         
         // if(!display) setFornecedor(fornecedoresControle[selectIndex])
 
-        if (selectIndex == null) return
+        if (selectIndex == null || fornecedoresDisplay.length === 0) return
 
         setFornecedor(fornecedoresDisplay[selectIndex])
 

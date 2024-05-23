@@ -39,11 +39,22 @@ export default async function Calcular() {
         >
             <section className={style.fatores}>
                 <div className={style.content}>
-                {JSON.stringify(fornecedores)}
+                    {/* <h3 className={style.title}>Fatores:</h3> */}
+                    <p>Selecione o fornecedor para acessar os fatores e configurações para calcular as tabelas:</p>
+
+                {/* {JSON.stringify(fornecedores)} */}
                 {fornecedores&&
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem'}}>
                 <FornecedorTab
                 fornecedores={fornecedores}
                 />
+                {/* <FornecedorTab
+                fornecedores={fornecedores}
+                />
+                <FornecedorTab
+                fornecedores={fornecedores}
+                /> */}
+                </div>
                 }
                 </div>
             </section>

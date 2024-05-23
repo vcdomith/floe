@@ -98,6 +98,7 @@ $step-size: 100% /($steps + 1);
     &:hover {
 
         border-bottom: 2px solid $cor-secundaria;
+
         width: 10rem;
         // background-color: transparentize($cor-primaria, 0.3);
         background-color: transparent;
@@ -170,6 +171,7 @@ $step-size: 100% /($steps + 1);
         margin: 0 0.3rem;
         // padding-left: 0.3rem;
         border-bottom: 2px solid transparentize($cor-secundaria, 0.8);
+        border-image: linear-gradient(to right , transparent, cor-mix(40%) 50%, transparent) 5;
 
         transition: border 1s ease;
 

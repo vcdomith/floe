@@ -5,10 +5,11 @@
     position: relative;
 
     border: 2px solid;
-    width: 250px;
-    height: 35px;
+    // width: 250px;
+    width: 150px;
+    height: 30px;
     // overflow: hidden;
-    border-radius: 1rem;
+    border-radius: 0.5rem;
     
     transition: height 600ms ease, border-radius 500ms ease-in;
     
@@ -18,10 +19,22 @@
 
     }
 
+    &[data-valid="false"] {
+
+        border-color: cor-mix(20%);
+        
+    }
+    &[data-valid="true"] {
+        
+        border-color: darken(saturate(cor-mix(70%), 40%), 5%);
+
+    }
+
     &[data-display="true"] {
       
         border-bottom-left-radius: 0;
         border-bottom-right-radius: 0;  
+        border-color: $cor-primaria;
         transition: border-radius 200ms ease;
         
         > .select {
@@ -37,25 +50,30 @@
 
         outline: none;
         border: none;
-        padding: 0;
+        padding: 0 0.5rem 0 1rem;
         
         display: flex;
         align-items: center;
         position: relative;
         
         width: 100%;
+        height: 30px;
         background-color: $cor-secundaria;
         // border-bottom: 2px solid $cor-primaria;
-        border-radius: 1rem;
+        border-radius: 0.5rem;
         color: $cor-primaria;
 
         transition: background-color 200ms ease, border-radius 500ms ease-in;
 
         cursor: pointer;
 
+        &:focus-within {
+            outline: none;
+        }
+
         &:hover {
 
-            background-color: $cor-mix;
+            background-color: cor-mix(10%);
 
         }
 
@@ -66,9 +84,11 @@
             outline: none;
             
             background: none;
+            min-width: 0;
+            max-width: fit-content;
             height: 35px;
             padding: 0;
-            padding-left: 1rem;
+            // padding-left: 1rem;
             color: $cor-primaria;
             font-size: 1rem;
 
@@ -80,7 +100,9 @@
 
         svg {
 
-            fill: $cor-primaria;
+            min-width: 25px;
+            // fill: $cor-primaria;
+            fill: cor-mix(60%);
 
         }
 
@@ -95,12 +117,20 @@
         // background-color: transparentize(darken($cor-primaria, 20%), 0.8);
         // bottom: 50%;
         // bottom: 100px;
+        background-color: transparentize($cor-primaria, 0.9);
         width: 100vmax;
         height: 100vmax;
 
         // z-index: 9;
+        cursor: alias;
 
-        transition: background-color 600ms ease-out;
+        transition: background-color 400ms ease-out;
+
+        &:hover {
+
+            background-color: transparentize($cor-primaria, 0.98);
+
+        }
 
     }
 
@@ -108,15 +138,15 @@
 
         position: absolute;
         // top: 0;
-        width: 249px;
+        width: 149px;
         right: -1px;
 
         border: 2px solid;
         background-color: $cor-secundaria;
         // box-shadow: 2px 2px 15px 2px $cor-primaria-transparent;
 
-        border-bottom-left-radius: 1rem;
-        border-bottom-right-radius: 1rem;
+        border-bottom-left-radius: 0.5rem;
+        border-bottom-right-radius: 0.5rem;
         overflow: hidden;
 
         z-index: 3;
@@ -145,7 +175,7 @@
                 position: relative;
                 
                 width: 100%;
-                height: 35px;
+                height: 30px;
                 
                 background-color: $cor-secundaria;
                 // margin: 0 1rem;
@@ -229,9 +259,10 @@
                 font-size: 1rem;
                 padding: 0.5rem 1rem;
                 background-color: $cor-secundaria;
+                max-height: 25px;
                 
                 cursor: pointer;
-        
+                
                 &:hover {
         
                     background-color: $cor-mix;

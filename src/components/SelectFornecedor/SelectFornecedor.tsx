@@ -228,6 +228,7 @@ const SelectFornecedor = ({ loading, fornecedoresControle, fornecedor, setFornec
             className={style.wrapper}
             tabIndex={-1}
             data-display={display}
+            data-valid={(fornecedor !== '')}
         >
             <button
                 type={`${fornecedor ? 'button' : 'submit'}`}
@@ -247,7 +248,7 @@ const SelectFornecedor = ({ loading, fornecedoresControle, fornecedor, setFornec
                     required
                     formTarget="fornecedor"
                     // disabled={fornecedor ? true : false}
-                    placeholder="Selecione um fornecedor"
+                    placeholder="Selecione"
                     type="text" 
                     contentEditable={false}
                     value={fornecedor}
@@ -272,7 +273,14 @@ const SelectFornecedor = ({ loading, fornecedoresControle, fornecedor, setFornec
             <AnimatePresence>
             {display&&
             <>
-            <section className={style.backdrop} onClick={() => setDisplay(false)}></section>
+            <motion.section 
+                initial={{opacity: 0}}
+                animate={{opacity: 1}}
+                exit={{opacity: 0}}
+
+                className={style.backdrop} 
+                onClick={() => setDisplay(false)}>
+            </motion.section>
             <motion.div
                 initial={{opacity: 1, height: 0}}
                 animate={{opacity: 1, height: 'auto'}}

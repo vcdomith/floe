@@ -26,7 +26,16 @@
     }
     &[data-valid="true"] {
         
-        border-color: darken(saturate(cor-mix(70%), 40%), 5%);
+        // border-color: darken(saturate(cor-mix(70%), 40%), 5%);
+        // border-color: darken(saturate(cor-mix(70%), 20%), 5%);
+        border-color: cor-mix(50%);
+        
+        > .select {
+            
+            background-color: cor-mix(5%);
+            
+        }
+    
 
     }
 
@@ -138,8 +147,8 @@
 
         position: absolute;
         // top: 0;
-        width: 149px;
-        right: -1px;
+        width: 150px;
+        right: -1.5px;
 
         border: 2px solid;
         background-color: $cor-secundaria;

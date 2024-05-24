@@ -51,9 +51,9 @@ const SelectFornecedor = ({ loading, fornecedoresControle, fornecedor, setFornec
 
     } 
 
-    useEffect(() => {
-        console.log(selectIndex);
-    }, [selectIndex])
+    // useEffect(() => {
+    //     console.log(selectIndex);
+    // }, [selectIndex])
     
 
     const handleArrowSelect = (e: KeyboardEvent<HTMLButtonElement>) => {
@@ -184,7 +184,7 @@ const SelectFornecedor = ({ loading, fornecedoresControle, fornecedor, setFornec
         // if(selectIndex !== null)
         // setSelectIndex(0)
 
-        console.log(selectIndex, fornecedoresDisplay);
+        // console.log(selectIndex, fornecedoresDisplay);
         // if (selectIndex !== null)
         //     if (selectIndex > fornecedoresDisplay.length) setSelectIndex(0)
 

@@ -1,5 +1,51 @@
 @use '../../../../globalStyle.module.scss' as *;
 
+.wrap {
+
+    display: flex;
+    flex-direction: column;
+
+    // gap: 0.5rem;
+    
+    border: 2px solid cor-mix(20%);
+    background-color: cor-mix(5%);
+    // background-color: cor-mix(5%);
+    border-radius: 0.5rem;
+
+    // padding: 0.5rem;
+
+    .list {
+
+        box-sizing: border-box;
+        margin: 0;
+
+        width: 100%;
+
+        list-style: none;
+        background-color: $cor-secundaria;
+        // border: 2px solid cor-mix(20%);
+        
+        border-top: 2px solid cor-mix(20%);
+        // border-image: linear-gradient(to left , $cor-secundaria, cor-mix(40%) 50%, $cor-secundaria) 27;
+        // border: 2px solid cor-mix(10%);
+        border-bottom-right-radius: 0.5rem;
+        border-bottom-left-radius: 0.5rem;
+        
+        overflow: hidden;
+        
+        ul {
+            
+            padding: 0.5rem;
+            // padding: 0;
+            margin: 0;
+
+
+        }
+
+    }
+
+}
+
 .fornecedorTab {
 
     display: flex;
@@ -7,9 +53,10 @@
     align-items: center;
     gap: 0.5rem;
 
-    border: 2px solid cor-mix(60%);
-    // background-color: cor-mix(5%);
-    border-radius: 0.5rem;
+    // border: 2px solid cor-mix(20%);
+    // background-color: cor-mix(10%);
+    // // background-color: cor-mix(5%);
+    // border-radius: 0.5rem;
 
     padding: 0.5rem;
 
@@ -19,7 +66,7 @@
         align-items: center;
         gap: 0.5rem;
 
-        .svgFornecedor {
+        svg {
     
             width: 30px;
             height: 30px;
@@ -45,15 +92,34 @@
         display: flex;
         padding: 0;
 
-        width: 25px;
-        height: 25px;
+        justify-content: center;
+        align-items: center;
+
+        // width: 30px;
+        height: 30px;
 
         outline: none;
         border: none;
         // border: 2px solid;
-        background-color: $cor-secundaria;
+        // background-color: $cor-secundaria;
+        // background-color: cor-mix(50%);
+        background: none;
+        // border: 2px solid cor-mix(50%);
+        padding: 0.2rem;
         border-radius: 0.5rem;
 
+        svg {
+
+            path {
+
+                // stroke: $cor-primaria;
+                // stroke: cor-mix(50%);
+                fill: cor-mix(100%);
+
+            }
+
+        }
+        
         cursor: pointer;
 
     }

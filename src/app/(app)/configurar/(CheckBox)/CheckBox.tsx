@@ -68,8 +68,8 @@ export default function CheckBox({ checked, setChecked }: CheckBoxProps) {
             </input>
             <motion.div 
                 //framer-motion
-                // layout 
-                // transition={spring}
+                layout 
+                transition={spring}
 
                 className={style.slider}
                 aria-hidden='true'

@@ -41,7 +41,7 @@ export default function FornecedorTab({ fornecedores, svg, titulo }: FornecedorT
     const [fator, setFator] = useState('')
 
     return (
-        <div className={style.wrap} data-display={display}>
+        <div className={style.wrap}>
         <span className={style.fornecedorTab} data-display={display}>
             <span className={style.title}>
                 {svg
@@ -52,36 +52,41 @@ export default function FornecedorTab({ fornecedores, svg, titulo }: FornecedorT
                 }
                 <h3>{ titulo ? titulo : 'Fornecedor'}</h3>
             </span>
-            <SelectFornecedor 
-                loading={loading}
-                fornecedoresControle={fornecedores}
-                fornecedor={fornecedor}
-                setFornecedor={setCapitalizedFornecedor}
-            />
-            {/* {(fornecedor !== '')&&} */}
-            <button className={style.button} onClick={() => setDisplay(prev => !prev)}>
-                <svg fill="#000000" width="25px"viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
-                        <path 
-                            d={`${display 
-                                ? "M15.997 13.374l-7.081 7.081L7 18.54l8.997-8.998 9.003 9-1.916 1.916z"
-                                : "M16.003 18.626l7.081-7.081L25 13.46l-8.997 8.998-9.003-9 1.917-1.916z"
-                            }`}
-                        />
-                </svg>
-                {/* <svg width="25" height="25" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M357 136L471 249.5L357 363" stroke="black" stroke-width="40"/>
-                <path d="M0 248.697C113.5 248.697 38.5 88.5 134.5 88.5C230.5 88.5 109.5 404 204.5 404C299.5 404 203.5 248.697 372 248.697H450.5" stroke="black" stroke-width="40"/>
-                </svg>
-                <svg fill="#000000" width="25" height="25" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><path d="M18.629 15.997l-7.083-7.081L13.462 7l8.997 8.997L13.457 25l-1.916-1.916z"/></svg> */}
-            </button>
+            <span className={style.selectWrap}>
+                <SelectFornecedor 
+                    loading={loading}
+                    fornecedoresControle={fornecedores}
+                    fornecedor={fornecedor}
+                    setFornecedor={setCapitalizedFornecedor}
+                />
+                <button className={style.button} onClick={() => setDisplay(prev => !prev)} disabled={fornecedor === '' ? true : false}>
+                    {/* <svg fill="#000000" width="25px"viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+                            <path 
+                                d={`${display 
+                                    ? "M15.997 13.374l-7.081 7.081L7 18.54l8.997-8.998 9.003 9-1.916 1.916z"
+                                    : "M16.003 18.626l7.081-7.081L25 13.46l-8.997 8.998-9.003-9 1.917-1.916z"
+                                }`}
+                            />
+                    </svg> */}
+                    <svg width="25" height="25" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M356.665 155.74C356.665 62 263 155.74 263 62L83 62C83 155.74 176.665 62 176.665 155.74C176.665 249.481 275 155.74 275 250C275 344.26 176.665 250.519 176.665 344.26C176.665 438 83 344.26 83 438L263 438C263 344.26 356.665 438 356.665 344.26C356.665 250.519 455 344.26 455 250C455 155.74 356.665 249.481 356.665 155.74Z" stroke="black" stroke-width="40"/>
+                    </svg>
+
+                    {/* <svg width="25" height="25" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M357 136L471 249.5L357 363" stroke="black" stroke-width="40"/>
+                    <path d="M0 248.697C113.5 248.697 38.5 88.5 134.5 88.5C230.5 88.5 109.5 404 204.5 404C299.5 404 203.5 248.697 372 248.697H450.5" stroke="black" stroke-width="40"/>
+                    </svg>
+                    <svg fill="#000000" width="25" height="25" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><path d="M18.629 15.997l-7.083-7.081L13.462 7l8.997 8.997L13.457 25l-1.916-1.916z"/></svg> */}
+                </button> 
+            </span>
         </span>
-        <AnimatePresence mode="wait">
+        <AnimatePresence>
             {display&&
             <motion.div className={style.list}
                 initial={{ height: 0 }}
                 animate={{ height: 'auto' }}
                 exit={{ height: 0 }}
-                transition={{ duration: .6}}
+                transition={{ type: 'spring', bounce: 0, restDelta: 0.5 }}
             >
             <div className={style.fornecedorConfigs}>
                 {/* {fornecedores.map( fornecedor => 

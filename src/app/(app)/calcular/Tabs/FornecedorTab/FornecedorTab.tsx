@@ -2,13 +2,16 @@
 
 import SelectFornecedor from "@/components/SelectFornecedor/SelectFornecedor";
 import capitalize from "@/utils/capitalize";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import style from './FornecedorTab.module.scss'
 import { motion, AnimatePresence } from "framer-motion";
 import Config from "@/app/(app)/configurar/(Config)/Config";
 import CheckBox from "@/app/(app)/configurar/(CheckBox)/CheckBox";
 import NumberInput from "@/components/FatoresTable/FatoresTableBody/NumberInput/NumberInput";
+import { dbConnect } from "@/utils/db/supabase";
+import { IFornecedor } from "@/interfaces/IFornecedor";
+import LogoSvg from "@/components/SvgArray/LogoSvg";
 
 interface FornecedorTabProps {
 
@@ -18,6 +21,33 @@ interface FornecedorTabProps {
 
 }
 
+// const useFornecedor = (initialValues: IFornecedor) => {
+//     const [nomeFornecedor, setNomeFornecedor] = useState(initialValues.nome || '');
+//     const [fatorBase, setFatorBase] = useState(initialValues.fatorBase || '');
+//     const [fatorNormal, setFatorNormal] = useState(initialValues.fatorNormal || '');
+//     const [fatorSt, setFatorSt] = useState(initialValues.fatorST || '');
+//     const [transporte, setTransporte] = useState(initialValues.transporte ?? true);
+//     const [st, setSt] = useState(initialValues.st ?? true);
+//     const [desconto, setDesconto] = useState(initialValues.desconto ?? false);
+//     const [ipi, setIpi] = useState(initialValues.ipi ?? false);
+//     const [unitarioNota, setUnitarioNota] = useState(initialValues.unitarioNota ?? false);
+//     const [composto, setComposto] = useState(initialValues.composto ?? false);
+  
+//     return {
+//       nomeFornecedor, setNomeFornecedor,
+//       fatorBase, setFatorBase,
+//       fatorNormal, setFatorNormal,
+//       fatorSt, setFatorSt,
+//       transporte, setTransporte,
+//       st, setSt,
+//       desconto, setDesconto,
+//       ipi, setIpi,
+//       unitarioNota, setUnitarioNota,
+//       composto, setComposto,
+//     };
+// };
+  
+
 export default function FornecedorTab({ fornecedores, svg, titulo }: FornecedorTabProps) {
 
     const [fornecedor, setFornecedor] = useState('')
@@ -26,6 +56,9 @@ export default function FornecedorTab({ fornecedores, svg, titulo }: FornecedorT
     }
     const [loading, setLoading] = useState(false)
     const [display, setDisplay] = useState(false)
+
+    const [fornecedorDb, setFornecedorDb] = useState<IFornecedor>()
+    const [loadingFornecedor, setLoadingFornecedor] = useState(false)
 
     const [nomeFornecedor, setNomeFornecedor] = useState('')
     const [fatorBase, setFatorBase] = useState('')
@@ -38,7 +71,56 @@ export default function FornecedorTab({ fornecedores, svg, titulo }: FornecedorT
     const [unitarioNota, setUnitarioNota] = useState(false)
     const [composto, setComposto] = useState(false)
 
-    const [fator, setFator] = useState('')
+    //Refactor all these states into an object state -> customHook
+    const [formData, setFormData] = useState({
+        nome: '',
+        fatorBase: '',
+        fatorNormal: '',
+        fatorSt: '',
+        transporte: true,
+        st: true,
+        desconto: false,
+        ipi: false,
+        unitarioNota: false,
+        composto: false,
+    })
+
+    const setDadosFornecedorDb = (fornecedor: IFornecedor) => {
+
+        setNomeFornecedor(fornecedor.nome)
+        setFatorBase(fornecedor.fatorBase)
+        setFatorNormal(fornecedor.fatorNormal)
+        setFatorSt(fornecedor.fatorST)
+        setTransporte(fornecedor.transporte)
+        setSt(fornecedor.st)
+        setDesconto(fornecedor.desconto)
+        setIpi(fornecedor.ipi)
+        setUnitarioNota(fornecedor.unitarioNota)
+        setComposto(fornecedor.composto)
+
+    }
+
+    useEffect(() => {
+        if(fornecedorDb !== undefined) setDadosFornecedorDb(fornecedorDb)
+    }, [fornecedorDb])
+
+    const getFornecedorDataDB = async () => {
+
+        setLoadingFornecedor(true)
+        const supabase = dbConnect()
+        const { data: fornecedorDB, error } = await supabase
+            .from('fornecedores')
+            .select('*')
+            .eq('nome', fornecedor.toLowerCase())
+        setFornecedorDb(fornecedorDB![0] as IFornecedor)
+        setLoadingFornecedor(false)
+        console.log(fornecedorDB);
+
+    }
+
+    useEffect(() => {
+        console.log(fornecedorDb);
+    }, [fornecedorDb])
 
     return (
         <div className={style.wrap}>
@@ -59,25 +141,39 @@ export default function FornecedorTab({ fornecedores, svg, titulo }: FornecedorT
                     fornecedor={fornecedor}
                     setFornecedor={setCapitalizedFornecedor}
                 />
-                <button className={style.button} onClick={() => setDisplay(prev => !prev)} disabled={fornecedor === '' ? true : false}>
-                    {/* <svg fill="#000000" width="25px"viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
-                            <path 
-                                d={`${display 
-                                    ? "M15.997 13.374l-7.081 7.081L7 18.54l8.997-8.998 9.003 9-1.916 1.916z"
-                                    : "M16.003 18.626l7.081-7.081L25 13.46l-8.997 8.998-9.003-9 1.917-1.916z"
-                                }`}
-                            />
-                    </svg> */}
+                {(fornecedorDb === undefined)
+                ?
+                <button 
+                    className={style.button} 
+                    // onClick={() => setDisplay(prev => !prev)} 
+                    onClick={() => getFornecedorDataDB()}
+                    disabled={fornecedor === '' ? true : false}>
+                    {loadingFornecedor
+                    ?
+                    <LogoSvg loop />
+                    :
                     <svg width="25" height="25" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M356.665 155.74C356.665 62 263 155.74 263 62L83 62C83 155.74 176.665 62 176.665 155.74C176.665 249.481 275 155.74 275 250C275 344.26 176.665 250.519 176.665 344.26C176.665 438 83 344.26 83 438L263 438C263 344.26 356.665 438 356.665 344.26C356.665 250.519 455 344.26 455 250C455 155.74 356.665 249.481 356.665 155.74Z" stroke="black" stroke-width="40"/>
+                        <path d="M463 316L354.5 425L246 316" stroke="black" stroke-width="40"/>
+                        <path d="M112 162C153.421 162 187 195.579 187 237C187 278.421 153.421 312 112 312C70.5786 312 37 278.421 37 237C37 195.579 70.5786 162 112 162Z" stroke="black" stroke-width="40"/>
+                        <path d="M354 400L354 74L162.5 202.5" stroke="black" stroke-width="40" stroke-linejoin="round"/>
                     </svg>
-
-                    {/* <svg width="25" height="25" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M357 136L471 249.5L357 363" stroke="black" stroke-width="40"/>
-                    <path d="M0 248.697C113.5 248.697 38.5 88.5 134.5 88.5C230.5 88.5 109.5 404 204.5 404C299.5 404 203.5 248.697 372 248.697H450.5" stroke="black" stroke-width="40"/>
-                    </svg>
-                    <svg fill="#000000" width="25" height="25" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><path d="M18.629 15.997l-7.083-7.081L13.462 7l8.997 8.997L13.457 25l-1.916-1.916z"/></svg> */}
+                    }
                 </button> 
+                :
+                <button 
+                    className={style.button} 
+                    onClick={() => setDisplay(prev => !prev)} 
+                >
+                    <svg fill="#000000" width="25px"viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+                        <path 
+                            d={`${display 
+                                ? "M15.997 13.374l-7.081 7.081L7 18.54l8.997-8.998 9.003 9-1.916 1.916z"
+                                : "M16.003 18.626l7.081-7.081L25 13.46l-8.997 8.998-9.003-9 1.917-1.916z"
+                            }`}
+                        />
+                    </svg>              
+                </button>
+                }
             </span>
         </span>
         <AnimatePresence>
@@ -94,6 +190,24 @@ export default function FornecedorTab({ fornecedores, svg, titulo }: FornecedorT
                         {fornecedor}
                     </li>
                 )} */}
+                <Config 
+                    svg={<SvgComposto/>} 
+                    title={'Fator Base'} 
+                    description={'Fator Base que todos produtos do fornecedor usam'} 
+                    input={<NumberInput placeholder={"x1,0"} valor={fatorBase} setValor={setFatorBase} />}                               
+                />
+                <Config 
+                    svg={<SvgComposto/>} 
+                    title={'Fator Normal'} 
+                    description={'Fator que os produtos sem ST usam'} 
+                    input={<NumberInput placeholder={"x1,0"} valor={fatorNormal} setValor={setFatorNormal} />}                              
+                />
+                <Config 
+                    svg={<SvgComposto/>} 
+                    title={'Fator ST'} 
+                    description={'Fator que os produtos com ST usam'} 
+                    input={<NumberInput placeholder={"x1,0"} valor={fatorSt} setValor={setFatorSt} />}                             
+                />
                 <Config 
                     svg={<SvgFornecedor/>} 
                     title={'Transporte'} 
@@ -149,14 +263,6 @@ export default function FornecedorTab({ fornecedores, svg, titulo }: FornecedorT
                     title={'Composto'} 
                     description={'Usa unitário composto no pedido?'} 
                     input={<CheckBox checked={composto} setChecked={setComposto} />}
-                    // checked={composto} 
-                    // setChecked={setComposto}                                
-                />
-                <Config 
-                    svg={<SvgComposto/>} 
-                    title={'Composto'} 
-                    description={'Usa unitário composto no pedido?'} 
-                    input={<NumberInput placeholder={"x1,0"} valor={fator} setValor={setFator} />}
                     // checked={composto} 
                     // setChecked={setComposto}                                
                 />

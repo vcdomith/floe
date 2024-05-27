@@ -33,6 +33,28 @@
         
         overflow: hidden;
         
+        .configInputs {
+
+            display: flex;
+            flex-direction: column;
+
+            height: 100%;
+
+            border: 2px solid cor-mix(30%);
+            border-radius: 0.5rem;
+
+            span {
+
+                flex: 1;
+
+            }
+
+            // gap: 0.5rem;
+            // display: grid;
+            // grid-template-columns: 1fr 1fr;
+
+        }
+
         ul {
             
             padding: 0.5rem;

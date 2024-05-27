@@ -11,7 +11,7 @@
     // overflow: hidden;
     border-radius: 0.5rem;
     
-    transition: height 600ms ease, border-radius 500ms ease-in;
+    transition: height 600ms ease, border-radius 500ms ease-in, border-color 500ms ease-in;
     
     &:focus-within {
 
@@ -44,7 +44,7 @@
         border-bottom-left-radius: 0;
         border-bottom-right-radius: 0;  
         border-color: $cor-primaria;
-        transition: border-radius 200ms ease;
+        transition: border-radius 200ms ease, ;
         
         > .select {
             
@@ -147,8 +147,9 @@
 
         position: absolute;
         // top: 0;
-        width: 150px;
-        right: -1.5px;
+        width: 154px;
+        right: -2px;
+        box-sizing: border-box;
 
         border: 2px solid;
         background-color: $cor-secundaria;

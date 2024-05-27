@@ -342,52 +342,59 @@ export default function Configurar() {
                                 svg={<SvgFornecedor/>} 
                                 title={'Transporte'} 
                                 description={'Usa transporte no calculo?'} 
-                                checked={transporte} 
-                                setChecked={setTransporte}                                
+                                input={<CheckBox checked={transporte} setChecked={setTransporte} />}
+                                // checked={transporte} 
+                                // setChecked={setTransporte}                                
                             />
                             <Config 
                                 svg={<SvgST/>} 
                                 title={'ST'} 
                                 description={'Usa ST no calculo?'} 
-                                checked={st} 
-                                setChecked={setSt}                                
+                                input={<CheckBox checked={st} setChecked={setSt} />}
+                                // checked={st} 
+                                // setChecked={setSt}                                
                             />
                             <Config 
                                 svg={<SvgPercent/>} 
                                 title={'Desconto'} 
                                 description={'Usa desconto no calculo?'} 
-                                checked={desconto} 
-                                setChecked={setDesconto}                                
+                                input={<CheckBox checked={desconto} setChecked={setDesconto} />}
+                                // checked={desconto} 
+                                // setChecked={setDesconto}                                
                             />
                             <Config 
                                 svg={<SvgIPI/>} 
                                 title={'IPI'} 
                                 description={'Usa IPI no calculo?'} 
-                                checked={ipi} 
-                                setChecked={setIpi}                                
+                                input={<CheckBox checked={ipi} setChecked={setIpi} />}
+                                // checked={ipi} 
+                                // setChecked={setIpi}                                
                             />
                             {ipi&&
                             <Config 
                                 svg={<SvgIPI/>} 
                                 title={'IPI Proporcional'} 
-                                description={'Usa IPI proporcional ao fator base?'} 
-                                checked={ipi} 
-                                setChecked={setIpi}                                
+                                description={'Usa IPI proporcional ao fator base?'}
+                                input={<CheckBox checked={ipi} setChecked={setIpi} />}
+                                // checked={ipi} 
+                                // setChecked={setIpi}                                
                             />
                             }
                             <Config 
                                 svg={<SvgUnitarioNota/>} 
                                 title={'Unitário Nota'} 
                                 description={'Usa unitário da nota no calculo?'} 
-                                checked={unitarioNota} 
-                                setChecked={setUnitarioNota}                                
+                                input={<CheckBox checked={unitarioNota} setChecked={setUnitarioNota} />}
+                                // checked={unitarioNota} 
+                                // setChecked={setUnitarioNota}                                
                             />
                             <Config 
                                 svg={<SvgComposto/>} 
                                 title={'Composto'} 
                                 description={'Usa unitário composto no pedido?'} 
-                                checked={composto} 
-                                setChecked={setComposto}                                
+                                input={<CheckBox checked={composto} setChecked={setComposto} />}
+                                // checked={composto} 
+                                // setChecked={setComposto}                                
                             />
                         </div>
 

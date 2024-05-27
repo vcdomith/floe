@@ -9,12 +9,14 @@ interface ConfigProps {
     title: string
     description: string
 
-    checked: boolean
-    setChecked: (checked: SetStateAction<boolean>) => void
+    // checked: boolean
+    // setChecked: (checked: SetStateAction<boolean>) => void
+
+    input: React.ReactNode
 
 }
 
-const Config = ({svg, title, description, checked, setChecked}: ConfigProps) => {
+const Config = ({svg, title, description, input}: ConfigProps) => {
 
   return (
     <span className={style.config}>
@@ -25,7 +27,8 @@ const Config = ({svg, title, description, checked, setChecked}: ConfigProps) => 
                 <p>{description}</p>
             </div>
         </span>
-        <CheckBox checked={checked} setChecked={setChecked} />
+        {/* <CheckBox checked={checked} setChecked={setChecked} /> */}
+        {input}
     </span>
   )
 

@@ -6,12 +6,13 @@ import style from './CheckBox.module.scss'
 
 interface CheckBoxProps {
 
+    name?: string
     checked: boolean | undefined
     setChecked: (checked: SetStateAction<boolean>) => void
 
 }
 
-export default function CheckBox({ checked, setChecked }: CheckBoxProps) {
+export default function CheckBox({ checked, setChecked, name }: CheckBoxProps) {
 
     const spring = {
         type: "spring",
@@ -59,8 +60,10 @@ export default function CheckBox({ checked, setChecked }: CheckBoxProps) {
             data-checked={checked}
         >
             <input
+                name={name}
                 onChange={() => setChecked(prev => !prev)}
                 checked={checked}
+                value={checked ? 'on' : 'off'}
                 type='checkbox'
                 onKeyDown={(e) => handleKeyDown(e)}
                 className={style.input}

@@ -12,6 +12,7 @@ import NumberInput from "@/components/FatoresTable/FatoresTableBody/NumberInput/
 import { dbConnect } from "@/utils/db/supabase";
 import { IFornecedor } from "@/interfaces/IFornecedor";
 import LogoSvg from "@/components/SvgArray/LogoSvg";
+import useFornecedor from "@/hooks/useFornecedor";
 
 interface FornecedorTabProps {
 
@@ -20,33 +21,6 @@ interface FornecedorTabProps {
     titulo?: string
 
 }
-
-// const useFornecedor = (initialValues: IFornecedor) => {
-//     const [nomeFornecedor, setNomeFornecedor] = useState(initialValues.nome || '');
-//     const [fatorBase, setFatorBase] = useState(initialValues.fatorBase || '');
-//     const [fatorNormal, setFatorNormal] = useState(initialValues.fatorNormal || '');
-//     const [fatorSt, setFatorSt] = useState(initialValues.fatorST || '');
-//     const [transporte, setTransporte] = useState(initialValues.transporte ?? true);
-//     const [st, setSt] = useState(initialValues.st ?? true);
-//     const [desconto, setDesconto] = useState(initialValues.desconto ?? false);
-//     const [ipi, setIpi] = useState(initialValues.ipi ?? false);
-//     const [unitarioNota, setUnitarioNota] = useState(initialValues.unitarioNota ?? false);
-//     const [composto, setComposto] = useState(initialValues.composto ?? false);
-  
-//     return {
-//       nomeFornecedor, setNomeFornecedor,
-//       fatorBase, setFatorBase,
-//       fatorNormal, setFatorNormal,
-//       fatorSt, setFatorSt,
-//       transporte, setTransporte,
-//       st, setSt,
-//       desconto, setDesconto,
-//       ipi, setIpi,
-//       unitarioNota, setUnitarioNota,
-//       composto, setComposto,
-//     };
-// };
-  
 
 export default function FornecedorTab({ fornecedores, svg, titulo }: FornecedorTabProps) {
 
@@ -60,48 +34,22 @@ export default function FornecedorTab({ fornecedores, svg, titulo }: FornecedorT
     const [fornecedorDb, setFornecedorDb] = useState<IFornecedor>()
     const [loadingFornecedor, setLoadingFornecedor] = useState(false)
 
-    const [nomeFornecedor, setNomeFornecedor] = useState('')
-    const [fatorBase, setFatorBase] = useState('')
-    const [fatorNormal, setFatorNormal] = useState('')
-    const [fatorSt, setFatorSt] = useState('')
-    const [transporte, setTransporte] = useState(true)
-    const [st, setSt] = useState(true)
-    const [desconto, setDesconto] = useState(false)
-    const [ipi, setIpi] = useState(false)
-    const [unitarioNota, setUnitarioNota] = useState(false)
-    const [composto, setComposto] = useState(false)
-
-    //Refactor all these states into an object state -> customHook
-    const [formData, setFormData] = useState({
-        nome: '',
-        fatorBase: '',
-        fatorNormal: '',
-        fatorSt: '',
-        transporte: true,
-        st: true,
-        desconto: false,
-        ipi: false,
-        unitarioNota: false,
-        composto: false,
-    })
-
-    const setDadosFornecedorDb = (fornecedor: IFornecedor) => {
-
-        setNomeFornecedor(fornecedor.nome)
-        setFatorBase(fornecedor.fatorBase)
-        setFatorNormal(fornecedor.fatorNormal)
-        setFatorSt(fornecedor.fatorST)
-        setTransporte(fornecedor.transporte)
-        setSt(fornecedor.st)
-        setDesconto(fornecedor.desconto)
-        setIpi(fornecedor.ipi)
-        setUnitarioNota(fornecedor.unitarioNota)
-        setComposto(fornecedor.composto)
-
-    }
+    const [{
+        fatorBase,
+        fatorNormal,
+        fatorST,
+        transporte,
+        st,
+        desconto,
+        ipi,
+        unitarioNota,
+        composto
+    }, setFornecedorData, handleFornecedorChange] = useFornecedor()
 
     useEffect(() => {
-        if(fornecedorDb !== undefined) setDadosFornecedorDb(fornecedorDb)
+        if(fornecedorDb !== undefined) 
+            // setDadosFornecedorDb(fornecedorDb)
+            setFornecedorData({...fornecedorDb})
     }, [fornecedorDb])
 
     const getFornecedorDataDB = async () => {
@@ -194,77 +142,116 @@ export default function FornecedorTab({ fornecedores, svg, titulo }: FornecedorT
                     svg={<SvgComposto/>} 
                     title={'Fator Base'} 
                     description={'Fator Base que todos produtos do fornecedor usam'} 
-                    input={<NumberInput placeholder={"x1,0"} valor={fatorBase} setValor={setFatorBase} />}                               
+                    input={
+                        <NumberInput 
+                            placeholder={"x1,0"} 
+                            valor={fatorBase} 
+                            setValor={handleFornecedorChange('fatorBase')} 
+                        />
+                    }                               
                 />
                 <Config 
                     svg={<SvgComposto/>} 
                     title={'Fator Normal'} 
                     description={'Fator que os produtos sem ST usam'} 
-                    input={<NumberInput placeholder={"x1,0"} valor={fatorNormal} setValor={setFatorNormal} />}                              
+                    input={
+                        <NumberInput 
+                            placeholder={"x1,0"} 
+                            valor={fatorNormal} 
+                            setValor={handleFornecedorChange('fatorNormal')} 
+                        />
+                    }                              
                 />
                 <Config 
                     svg={<SvgComposto/>} 
                     title={'Fator ST'} 
                     description={'Fator que os produtos com ST usam'} 
-                    input={<NumberInput placeholder={"x1,0"} valor={fatorSt} setValor={setFatorSt} />}                             
+                    input={
+                        <NumberInput 
+                            placeholder={"x1,0"} 
+                            valor={fatorST} 
+                            setValor={handleFornecedorChange('fatorST')} 
+                        />
+                    }                             
                 />
                 <Config 
                     svg={<SvgFornecedor/>} 
                     title={'Transporte'} 
                     description={'Usa transporte no calculo?'} 
-                    input={<CheckBox checked={transporte} setChecked={setTransporte} />}
-                    // checked={transporte} 
-                    // setChecked={setTransporte}                                
+                    input={
+                        <CheckBox
+                            checked={transporte} 
+                            setChecked={handleFornecedorChange('transporte')} 
+                        />
+                    }                           
                 />
                 <Config 
                     svg={<SvgST/>} 
                     title={'ST'} 
                     description={'Usa ST no calculo?'} 
-                    input={<CheckBox checked={st} setChecked={setSt} />}
-                    // checked={st} 
-                    // setChecked={setSt}                                
+                    input={
+                        <CheckBox 
+                            checked={st} 
+                            setChecked={handleFornecedorChange('st')} 
+                        />
+                    }                              
                 />
                 <Config 
                     svg={<SvgPercent/>} 
                     title={'Desconto'} 
                     description={'Usa desconto no calculo?'} 
-                    input={<CheckBox checked={desconto} setChecked={setDesconto} />}
-                    // checked={desconto} 
-                    // setChecked={setDesconto}                                
+                    input={
+                        <CheckBox 
+                            checked={desconto} 
+                            setChecked={handleFornecedorChange('desconto')} 
+                        />
+                    }                               
                 />
                 <Config 
                     svg={<SvgIPI/>} 
                     title={'IPI'} 
                     description={'Usa IPI no calculo?'} 
-                    input={<CheckBox checked={ipi} setChecked={setIpi} />}
-                    // checked={ipi} 
-                    // setChecked={setIpi}                                
+                    input={
+                        <CheckBox 
+                            checked={ipi} 
+                            setChecked={handleFornecedorChange('ipi')} 
+                        />
+                    }                             
                 />
                 {ipi&&
                 <Config 
                     svg={<SvgIPI/>} 
                     title={'IPI Proporcional'} 
                     description={'Usa IPI proporcional ao fator base?'}
-                    input={<CheckBox checked={ipi} setChecked={setIpi} />}
-                    // checked={ipi} 
-                    // setChecked={setIpi}                                
+                    input={
+                        <CheckBox 
+                            checked={ipi} 
+                            setChecked={handleFornecedorChange('ipi')}
+                        />
+                    }                              
                 />
                 }
                 <Config 
                     svg={<SvgUnitarioNota/>} 
                     title={'Unitário Nota'} 
                     description={'Usa unitário da nota no calculo?'} 
-                    input={<CheckBox checked={unitarioNota} setChecked={setUnitarioNota} />}
-                    // checked={unitarioNota} 
-                    // setChecked={setUnitarioNota}                                
+                    input={
+                        <CheckBox 
+                            checked={unitarioNota} 
+                            setChecked={handleFornecedorChange('unitarioNota')} 
+                        />
+                    }                                
                 />
                 <Config 
                     svg={<SvgComposto/>} 
                     title={'Composto'} 
                     description={'Usa unitário composto no pedido?'} 
-                    input={<CheckBox checked={composto} setChecked={setComposto} />}
-                    // checked={composto} 
-                    // setChecked={setComposto}                                
+                    input={
+                        <CheckBox 
+                            checked={composto} 
+                            setChecked={handleFornecedorChange('composto')} 
+                        />
+                    }                              
                 />
             </div>
             </motion.div>

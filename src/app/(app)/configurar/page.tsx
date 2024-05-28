@@ -14,6 +14,11 @@ import Config from "./(Config)/Config"
 import Loading from "../cadastros/loading"
 import capitalize from "@/utils/capitalize"
 import { motion, AnimatePresence } from "framer-motion"
+import useFornecedor from "@/hooks/useFornecedor"
+import { revalidatePath } from "next/cache"
+import { submitForm } from "./formAction"
+
+import { revalidateTag as revalidate } from "next/cache";
 
 export default function Configurar() {
 
@@ -25,16 +30,30 @@ export default function Configurar() {
     const [cadastroFornecedor, setCadastroFornecedor] = useState<IFornecedor>()
     
     // State Controle Inputs
-    const [nomeFornecedor, setNomeFornecedor] = useState('')
-    const [fatorBase, setFatorBase] = useState('')
-    const [fatorNormal, setFatorNormal] = useState('')
-    const [fatorSt, setFatorSt] = useState('')
-    const [transporte, setTransporte] = useState(true)
-    const [st, setSt] = useState(true)
-    const [desconto, setDesconto] = useState(false)
-    const [ipi, setIpi] = useState(false)
-    const [unitarioNota, setUnitarioNota] = useState(false)
-    const [composto, setComposto] = useState(false)
+    // const [nomeFornecedor, setNomeFornecedor] = useState('')
+    // const [fatorBase, setFatorBase] = useState('')
+    // const [fatorNormal, setFatorNormal] = useState('')
+    // const [fatorSt, setFatorSt] = useState('')
+    // const [transporte, setTransporte] = useState(true)
+    // const [st, setSt] = useState(true)
+    // const [desconto, setDesconto] = useState(false)
+    // const [ipi, setIpi] = useState(false)
+    // const [unitarioNota, setUnitarioNota] = useState(false)
+    // const [composto, setComposto] = useState(false)
+     
+    const [fornecedorData, setFornecedorData, handleFornecedorChange, resetForm] = useFornecedor()
+    const {
+        nome,
+        fatorBase,
+        fatorNormal,
+        fatorST,
+        transporte,
+        st,
+        desconto,
+        ipi,
+        unitarioNota,
+        composto
+    } = fornecedorData
 
     const [fornecedoresDB, setFornecedoresDB] = useState<IFornecedor[]>()
     const [cadastrados, setCadastrados] = useState<string[]>([])
@@ -49,24 +68,12 @@ export default function Configurar() {
         e.preventDefault()
 
         if(!validation) {
-            addNotification({ tipo: 'erro', mensagem: `Não foi possível realizar o cadastro, fornecedor ${nomeFornecedor} já está cadastrado!`})
+            addNotification({ tipo: 'erro', mensagem: `Não foi possível realizar o cadastro, fornecedor ${nome} já está cadastrado!`})
             return
         }
 
-        const novoCadastro: IFornecedor = {
-            nome: nomeFornecedor.trim().toLowerCase(),
-            fatorBase: fatorBase,
-            fatorNormal: fatorNormal,
-            fatorST: fatorSt,
-            transporte: transporte,
-            st: st,
-            desconto: desconto,
-            ipi: ipi,
-            unitarioNota: unitarioNota,
-            composto: composto,
-        }
-
-        setCadastroFornecedor(novoCadastro as IFornecedor)       
+        const novoCadastro: IFornecedor = {...fornecedorData, nome: nome.trim().toLowerCase()}
+        setCadastroFornecedor(novoCadastro)       
 
         try {
             
@@ -80,6 +87,7 @@ export default function Configurar() {
             }
             addNotification({ tipo: 'sucesso', mensagem: `Cadastro do fornecedor ${capitalize(novoCadastro.nome)} feito com sucesso!`})
             resetForm()
+            // revalidateTag()
             
 
         } catch (error) {
@@ -92,21 +100,21 @@ export default function Configurar() {
 
     }
 
-    const resetForm = () => {
+    // const resetForm = () => {
 
-        setNomeFornecedor('')
-        setFatorBase('')
-        setFatorNormal('')
-        setFatorSt('')
-        setTransporte(true)
-        setSt(true)
-        setDesconto(false)
-        setIpi(false)
-        setUnitarioNota(false)
-        setComposto(false)
-        setValidation(true)
+    //     setNomeFornecedor('')
+    //     setFatorBase('')
+    //     setFatorNormal('')
+    //     setFatorSt('')
+    //     setTransporte(true)
+    //     setSt(true)
+    //     setDesconto(false)
+    //     setIpi(false)
+    //     setUnitarioNota(false)
+    //     setComposto(false)
+    //     setValidation(true)
 
-    }
+    // }
 
     const getFornecedores = async () => {
         
@@ -187,6 +195,7 @@ export default function Configurar() {
                 onClick={() => setFocus(false)}
                 name="fornecedor"
                 onSubmit={(e) => handleSubmit(e)}
+                // action={submitForm}
                 onInvalid={() => setValid(false)}
             >
                 <span className={style.logo}>
@@ -216,16 +225,17 @@ export default function Configurar() {
                         <div className={`${style.input} ${style.nomeInput}`}>
                             <h3>Fornecedor:</h3>
                             <input
+                                name='nome'
                                 type="text"
                                 placeholder="Nome Fornecedor"
                                 spellCheck={false} 
                                 required
-                                value={nomeFornecedor}
+                                value={nome}
                                 data-valid={validation}
                                 onChange={(e) => {
 
-                                    setNomeFornecedor(() => {
-
+                                    setFornecedorData(prev => {
+                                        
                                         const newValue = e.target.value
                                         const valueCheck = newValue.trim().toLowerCase()
 
@@ -233,8 +243,21 @@ export default function Configurar() {
                                         ? setValidation(false)
                                         : setValidation(true)
 
-                                        return newValue
-                                    })                                
+                                        return {...prev, ['nome']: newValue}
+                                        
+                                    })
+
+                                    // setNomeFornecedor(() => {
+
+                                    //     const newValue = e.target.value
+                                    //     const valueCheck = newValue.trim().toLowerCase()
+
+                                    //     cadastrados.includes(valueCheck)
+                                    //     ? setValidation(false)
+                                    //     : setValidation(true)
+
+                                    //     return newValue
+                                    // })                                
 
                                 }} 
                             />
@@ -263,7 +286,7 @@ export default function Configurar() {
                                     </svg>
                                     <p 
                                         // style={{ margin: 0, display: "flex", alignContent: 'center', gap: '0.3rem' }}
-                                    >O fornecedor <strong>{capitalize(nomeFornecedor)}</strong> já está cadastrado</p>
+                                    >O fornecedor <strong>{capitalize(nome)}</strong> já está cadastrado</p>
                                 </motion.span>
                             }
                             </AnimatePresence>
@@ -275,25 +298,28 @@ export default function Configurar() {
                             <div className={style.input}>
                                 <p>Fator Base</p>
                                 <NumberInput 
+                                    name='fatorBase'
                                     placeholder={"x 1,00"} 
                                     valor={fatorBase} 
-                                    setValor={setFatorBase}                        
+                                    setValor={handleFornecedorChange('fatorBase')}                        
                                 />
                             </div>
                             <div className={style.input}>
                                 <p>Fator Normal</p>
                                 <NumberInput 
+                                    name='fatorNormal'
                                     placeholder={"x 1,00"} 
                                     valor={fatorNormal} 
-                                    setValor={setFatorNormal}                        
+                                    setValor={handleFornecedorChange('fatorNormal')}                        
                                 />
                             </div>
                             <div className={style.input}>
                                 <p>Fator ST</p>
                                 <NumberInput 
+                                    name='fatorST'
                                     placeholder={"x 1,00"} 
-                                    valor={fatorSt} 
-                                    setValor={setFatorSt}                        
+                                    valor={fatorST} 
+                                    setValor={handleFornecedorChange('fatorST')}                        
                                 />
                             </div>
 
@@ -338,71 +364,99 @@ export default function Configurar() {
                         <h3>Configurações:</h3>
 
                         <div className={style.configInputs}>  
-                            <Config 
-                                svg={<SvgFornecedor/>} 
-                                title={'Transporte'} 
-                                description={'Usa transporte no calculo?'} 
-                                input={<CheckBox checked={transporte} setChecked={setTransporte} />}
-                                // checked={transporte} 
-                                // setChecked={setTransporte}                                
-                            />
-                            <Config 
-                                svg={<SvgST/>} 
-                                title={'ST'} 
-                                description={'Usa ST no calculo?'} 
-                                input={<CheckBox checked={st} setChecked={setSt} />}
-                                // checked={st} 
-                                // setChecked={setSt}                                
-                            />
-                            <Config 
-                                svg={<SvgPercent/>} 
-                                title={'Desconto'} 
-                                description={'Usa desconto no calculo?'} 
-                                input={<CheckBox checked={desconto} setChecked={setDesconto} />}
-                                // checked={desconto} 
-                                // setChecked={setDesconto}                                
-                            />
-                            <Config 
-                                svg={<SvgIPI/>} 
-                                title={'IPI'} 
-                                description={'Usa IPI no calculo?'} 
-                                input={<CheckBox checked={ipi} setChecked={setIpi} />}
-                                // checked={ipi} 
-                                // setChecked={setIpi}                                
-                            />
-                            {ipi&&
-                            <Config 
-                                svg={<SvgIPI/>} 
-                                title={'IPI Proporcional'} 
-                                description={'Usa IPI proporcional ao fator base?'}
-                                input={<CheckBox checked={ipi} setChecked={setIpi} />}
-                                // checked={ipi} 
-                                // setChecked={setIpi}                                
-                            />
-                            }
-                            <Config 
-                                svg={<SvgUnitarioNota/>} 
-                                title={'Unitário Nota'} 
-                                description={'Usa unitário da nota no calculo?'} 
-                                input={<CheckBox checked={unitarioNota} setChecked={setUnitarioNota} />}
-                                // checked={unitarioNota} 
-                                // setChecked={setUnitarioNota}                                
-                            />
-                            <Config 
-                                svg={<SvgComposto/>} 
-                                title={'Composto'} 
-                                description={'Usa unitário composto no pedido?'} 
-                                input={<CheckBox checked={composto} setChecked={setComposto} />}
-                                // checked={composto} 
-                                // setChecked={setComposto}                                
-                            />
+                        <Config 
+                            svg={<SvgFornecedor/>} 
+                            title={'Transporte'} 
+                            description={'Usa transporte no calculo?'} 
+                            input={
+                                <CheckBox
+                                    name='transporte'
+                                    checked={transporte} 
+                                    setChecked={handleFornecedorChange('transporte')} 
+                                />
+                            }                           
+                        />
+                        <Config 
+                            svg={<SvgST/>} 
+                            title={'ST'} 
+                            description={'Usa ST no calculo?'} 
+                            input={
+                                <CheckBox
+                                    name='st' 
+                                    checked={st} 
+                                    setChecked={handleFornecedorChange('st')} 
+                                />
+                            }                              
+                        />
+                        <Config 
+                            svg={<SvgPercent/>} 
+                            title={'Desconto'} 
+                            description={'Usa desconto no calculo?'} 
+                            input={
+                                <CheckBox
+                                    name="desconto" 
+                                    checked={desconto} 
+                                    setChecked={handleFornecedorChange('desconto')} 
+                                />
+                            }                               
+                        />
+                        <Config 
+                            svg={<SvgIPI/>} 
+                            title={'IPI'} 
+                            description={'Usa IPI no calculo?'} 
+                            input={
+                                <CheckBox 
+                                    name="ipi"
+                                    checked={ipi} 
+                                    setChecked={handleFornecedorChange('ipi')} 
+                                />
+                            }                             
+                        />
+                        {ipi&&
+                        <Config 
+                            svg={<SvgIPI/>} 
+                            title={'IPI Proporcional'} 
+                            description={'Usa IPI proporcional ao fator base?'}
+                            input={
+                                <CheckBox 
+                                    name="ipiProporcional"
+                                    checked={ipi} 
+                                    setChecked={handleFornecedorChange('ipi')}
+                                />
+                            }                              
+                        />
+                        }
+                        <Config 
+                            svg={<SvgUnitarioNota/>} 
+                            title={'Unitário Nota'} 
+                            description={'Usa unitário da nota no calculo?'} 
+                            input={
+                                <CheckBox 
+                                    name="unitarioNota"
+                                    checked={unitarioNota} 
+                                    setChecked={handleFornecedorChange('unitarioNota')} 
+                                />
+                            }                                
+                        />
+                        <Config 
+                            svg={<SvgComposto/>} 
+                            title={'Composto'} 
+                            description={'Usa unitário composto no pedido?'} 
+                            input={
+                                <CheckBox 
+                                    name="composto"
+                                    checked={composto} 
+                                    setChecked={handleFornecedorChange('composto')} 
+                                />
+                            }                              
+                        />
                         </div>
 
                     </div>
                 </div>
 
                 <span className={style.buttons}>
-                    <button type='submit'>Salvar Fornecedor</button>
+                    <button type='submit' >Salvar Fornecedor</button>
                     <button type='reset' onClick={() => resetForm()}>Limpar</button>
                 </span>
 

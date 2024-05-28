@@ -4,6 +4,7 @@ import { IFatores } from '@/interfaces/IFatores'
 
 interface NumberInputProps {
 
+    name?: string
     label?: string
     placeholder: string
     valor: string
@@ -13,7 +14,7 @@ interface NumberInputProps {
 
 }
 
-const NumberInput = ({ label, placeholder, valor, setValor, onBlur, ...props }: NumberInputProps) => {
+const NumberInput = ({ label, placeholder, valor, setValor, onBlur, name, ...props }: NumberInputProps) => {
 
   // const [disabled, setDisabled] = useState(true)
 
@@ -51,6 +52,7 @@ const NumberInput = ({ label, placeholder, valor, setValor, onBlur, ...props }: 
         <input 
             // className={styles.input}
             // disabled={disabled}
+            name={name}
             className={styles.inputFont}
             required
             type="text" 

@@ -3,28 +3,7 @@ import { dbConnect } from '@/utils/db/supabase'
 import style from './calcular.module.scss'
 import FornecedorTab from './Tabs/FornecedorTab/FornecedorTab'
 import { LegacyRef, cache, useRef } from 'react'
-
-// const getFornecedores = cache(async () => {
-
-//     const supabase = dbConnect()
-
-//     try {
-        
-//         const { data: fornecedoresDB, error } = await supabase
-//             .from('fornecedores')
-//             .select('nome')
-
-//         const fornecedores: string[] | undefined = fornecedoresDB?.map( fornecedor => fornecedor.nome )
-
-//         console.log(fornecedores);
-
-//         return fornecedores
-
-//     } catch (error) {
-//         console.error(error)
-//     }
-
-// })
+import PedidoTab from './Tabs/PedidoTab/PedidoTab'
 
 export default async function Calcular() {
 
@@ -72,11 +51,12 @@ export default async function Calcular() {
                 {/* <FornecedorTab
                 fornecedores={fornecedores}
                 /> */}
-                <FornecedorTab
+                {/* <FornecedorTab
                 fornecedores={fornecedores}
                 svg={<SvgUnitarioNota/>}
                 titulo='Pedido'
-                />
+                /> */}
+                <PedidoTab />
                 <FornecedorTab
                 fornecedores={fornecedores}
                 svg={<SvgProduto/>}

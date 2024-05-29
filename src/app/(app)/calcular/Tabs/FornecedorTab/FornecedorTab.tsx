@@ -72,14 +72,9 @@ export default function FornecedorTab({ fornecedores, svg, titulo }: FornecedorT
 
     return (
         <div className={style.wrap}>
-        <span className={style.fornecedorTab} data-display={display}>
+        <span className={style.tab} data-display={display}>
             <span className={style.title}>
-                {svg
-                ?
-                svg
-                :
-                <SvgFornecedor />
-                }
+                {svg || <SvgFornecedor />}
                 <h3>{ titulo ? titulo : 'Fornecedor'}</h3>
             </span>
             <span className={style.selectWrap}>
@@ -101,10 +96,13 @@ export default function FornecedorTab({ fornecedores, svg, titulo }: FornecedorT
                     <LogoSvg loop />
                     :
                     <svg width="25" height="25" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M463 316L354.5 425L246 316" stroke="black" stroke-width="40"/>
-                        <path d="M112 162C153.421 162 187 195.579 187 237C187 278.421 153.421 312 112 312C70.5786 312 37 278.421 37 237C37 195.579 70.5786 162 112 162Z" stroke="black" stroke-width="40"/>
-                        <path d="M354 400L354 74L162.5 202.5" stroke="black" stroke-width="40" stroke-linejoin="round"/>
-                    </svg>
+<path d="M129 437L129 201L212 201" stroke="black" stroke-width="40" stroke-linejoin="round"/>
+<path d="M211 355L129.5 437L48 355" stroke="black" stroke-width="40"/>
+<ellipse cx="352" cy="87" rx="93" ry="40" stroke="black" stroke-width="40"/>
+<path d="M445 306C445 323.673 403.362 338 352 338C300.638 338 259 323.673 259 306" stroke="black" stroke-width="40"/>
+<path d="M445 200C445 217.121 403.362 231 352 231C300.638 231 259 217.121 259 200" stroke="black" stroke-width="40"/>
+<path d="M259 310V84M445 306.904V84" stroke="black" stroke-width="40"/>
+</svg>
                     }
                 </button> 
                 :
@@ -228,7 +226,7 @@ export default function FornecedorTab({ fornecedores, svg, titulo }: FornecedorT
                             checked={ipi} 
                             setChecked={handleFornecedorChange('ipi')}
                         />
-                    }                              
+                    }
                 />
                 }
                 <Config 

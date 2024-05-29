@@ -16,7 +16,7 @@ import capitalize from "@/utils/capitalize"
 import { motion, AnimatePresence } from "framer-motion"
 import useFornecedor from "@/hooks/useFornecedor"
 import { revalidatePath } from "next/cache"
-import { submitForm } from "./formAction"
+// import { submitForm } from "./formAction"
 
 import { revalidateTag as revalidate } from "next/cache";
 
@@ -155,7 +155,7 @@ export default function Configurar() {
 
                 if(cadastradosDB)
                 setCadastrados(cadastradosDB)
-                // localStorage.setItem('fornecedores', JSON.stringify(cadastrados))
+                // localStorage.setItem('fornecedores', JSON.stringify(cadastradosDB))
             
             } catch (error) {
                 

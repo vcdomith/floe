@@ -6,12 +6,23 @@ import { motion, AnimatePresence } from 'framer-motion'
 import Config from '@/app/(app)/configurar/(Config)/Config'
 import NumberInput from '@/components/FatoresTable/FatoresTableBody/NumberInput/NumberInput'
 
+const NUMBER_INPUT_PLACEHOLDER = '__________________________________________________________________________________________'
+
 export default function PedidoTab() {
 
     const [displayPedido, setDisplayPedido] = useState(false)
 
+    const [fatorBase, setFatorBase] = useState('2')
+
     const [fatorTransporte, setFatorTransporte] = useState('')
+    const [valorFrete, setValorFrete] = useState('')
+    const [fatorFrete, setFatorFrete] = useState('3,4')
+    const [valorTotalProdutos, setValorTotalProdutos] = useState('')
+
     const [fatorST, setFatorST] = useState('')
+    const [valorSt, setValorSt] = useState('')
+    const [multiploSt, setMultiploSt] = useState('1')
+    const [valorTotalProdutosSt, setValorTotalProdutosSt] = useState('')
 
     return (
         <div className={style.wrap}>
@@ -60,23 +71,32 @@ export default function PedidoTab() {
                             }
                         />
                         <span className={style.extra}>
-                            <span>         
-                                <label htmlFor="">Valor Frete</label>
-                                <input type="text" placeholder='_____' />
+                            <span> 
+                                <div>
+                                    <label htmlFor="">Valor Frete</label>
+                                    <NumberInput placeholder={NUMBER_INPUT_PLACEHOLDER} valor={valorFrete} setValor={setValorFrete} />
+                                </div>        
                                 <p>x</p>
-                                <label htmlFor="">Fator Frete</label>
-                                <input type="text" placeholder='_____' />
+                                <div>
+                                    <label htmlFor="">Fator Frete</label>
+                                    <NumberInput placeholder={NUMBER_INPUT_PLACEHOLDER} valor={fatorFrete} setValor={setFatorFrete} />
+                                </div>
                             </span>
                         /
                             <span>
-                                <label htmlFor="">Total Prod</label>
-                                <input type="text" placeholder='_____' />
+                                <div>
+                                    <label htmlFor="">Total Prod</label>
+                                    <NumberInput placeholder={NUMBER_INPUT_PLACEHOLDER} valor={valorTotalProdutos} setValor={setValorTotalProdutos} />
+                                </div>
                                 <p>x</p>
-                                <label htmlFor="">Fator Base</label>
-                                <input type="text" placeholder='_____' />
+                                <div>
+                                    <label htmlFor="">Fator Base</label>
+                                    <NumberInput placeholder={NUMBER_INPUT_PLACEHOLDER} valor={fatorBase} setValor={setFatorBase} />
+                                </div>
                             </span>                        
                         </span>
                     </div>
+
                     <div className={style.configWrapper}>
                         <Config 
                             svg={<SvgFornecedor/>} 
@@ -91,19 +111,32 @@ export default function PedidoTab() {
                             }
                         />
                         <span className={style.extra}>
-                            <span>                                
-                                <input type="text" placeholder='_____' />
+                            <span> 
+                                <div>
+                                    <label htmlFor="">Valor Total ST</label>
+                                    <NumberInput placeholder={NUMBER_INPUT_PLACEHOLDER} valor={valorSt} setValor={setValorSt} />
+                                </div>        
                                 <p>x</p>
-                                <input type="text" placeholder='_____' />
+                                <div>
+                                    <label htmlFor="">Fator ST</label>
+                                    <NumberInput placeholder={NUMBER_INPUT_PLACEHOLDER} valor={multiploSt} setValor={setMultiploSt} />
+                                </div>
                             </span>
                         /
                             <span>
-                                <input type="text" placeholder='_____' />
+                                <div>
+                                    <label htmlFor="">Total Prod c/ ST</label>
+                                    <NumberInput placeholder={NUMBER_INPUT_PLACEHOLDER} valor={valorTotalProdutosSt} setValor={setValorTotalProdutosSt} />
+                                </div>
                                 <p>x</p>
-                                <input type="text" placeholder='_____' />
+                                <div>
+                                    <label htmlFor="">Fator Base</label>
+                                    <NumberInput placeholder={NUMBER_INPUT_PLACEHOLDER} valor={fatorBase} setValor={setFatorBase} />
+                                </div>
                             </span>                        
                         </span>
-                        </div>
+                    </div>
+                    
                     </div>
                 </motion.div>
                 }             

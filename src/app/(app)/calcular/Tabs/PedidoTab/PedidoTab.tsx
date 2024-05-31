@@ -1,12 +1,13 @@
 'use client'
 
-import { useState } from 'react'
+import { FormEvent, useState } from 'react'
 import style from '../FornecedorTab/FornecedorTab.module.scss'
 import { motion, AnimatePresence } from 'framer-motion'
 import Config from '@/app/(app)/configurar/(Config)/Config'
 import NumberInput from '@/components/FatoresTable/FatoresTableBody/NumberInput/NumberInput'
+import Converter from '@/utils/typeConversion'
 
-const NUMBER_INPUT_PLACEHOLDER = '__________________________________________________________________________________________'
+const NUMBER_INPUT_PLACEHOLDER = '_'.repeat(25)
 
 export default function PedidoTab() {
 
@@ -23,6 +24,39 @@ export default function PedidoTab() {
     const [valorSt, setValorSt] = useState('')
     const [multiploSt, setMultiploSt] = useState('1')
     const [valorTotalProdutosSt, setValorTotalProdutosSt] = useState('')
+
+    const {stringToFloat, floatToString} = Converter
+
+    const handleSubmit = (campo: ('transporte' | 'st'), e: FormEvent<HTMLFormElement>) => {
+
+        e.preventDefault()
+        
+        switch (campo) {
+            case 'transporte':
+
+                const resultadoTransporte = (1 + (
+                    (stringToFloat(valorFrete) * stringToFloat(fatorFrete)) / 
+                    (stringToFloat(valorTotalProdutos) * stringToFloat(fatorBase))
+                ))
+
+                setFatorTransporte(floatToString(resultadoTransporte, 3))
+
+                break;
+        
+            case 'st': 
+
+                const resultadoSt = (1 + (
+                    (stringToFloat(valorSt) * stringToFloat(multiploSt)) / 
+                    (stringToFloat(valorTotalProdutosSt) * stringToFloat(fatorBase))
+                ))
+
+                setFatorST(floatToString(resultadoSt, 3))
+
+                break;
+
+        }
+
+    }
 
     return (
         <div className={style.wrap}>
@@ -64,37 +98,38 @@ export default function PedidoTab() {
                             description={'Calcula o fator acrescentado devido ao frete'}
                             input={
                                 <NumberInput 
-                                    placeholder={'x ____'} 
+                                    placeholder={'______'} 
                                     valor={fatorTransporte} 
                                     setValor={setFatorTransporte}                                
                                 />
                             }
                         />
-                        <span className={style.extra}>
+                        <form className={style.extra} onSubmit={(e) => handleSubmit('transporte', e)}>
                             <span> 
                                 <div>
                                     <label htmlFor="">Valor Frete</label>
-                                    <NumberInput placeholder={NUMBER_INPUT_PLACEHOLDER} valor={valorFrete} setValor={setValorFrete} />
+                                    <NumberInput placeholder={NUMBER_INPUT_PLACEHOLDER} valor={valorFrete} setValor={setValorFrete} required/>
                                 </div>        
                                 <p>x</p>
                                 <div>
                                     <label htmlFor="">Fator Frete</label>
-                                    <NumberInput placeholder={NUMBER_INPUT_PLACEHOLDER} valor={fatorFrete} setValor={setFatorFrete} />
+                                    <NumberInput placeholder={NUMBER_INPUT_PLACEHOLDER} valor={fatorFrete} setValor={setFatorFrete} required/>
                                 </div>
                             </span>
                         /
                             <span>
                                 <div>
-                                    <label htmlFor="">Total Prod</label>
-                                    <NumberInput placeholder={NUMBER_INPUT_PLACEHOLDER} valor={valorTotalProdutos} setValor={setValorTotalProdutos} />
+                                    <label htmlFor="">Total Prod.</label>
+                                    <NumberInput placeholder={NUMBER_INPUT_PLACEHOLDER} valor={valorTotalProdutos} setValor={setValorTotalProdutos} required/>
                                 </div>
                                 <p>x</p>
                                 <div>
                                     <label htmlFor="">Fator Base</label>
-                                    <NumberInput placeholder={NUMBER_INPUT_PLACEHOLDER} valor={fatorBase} setValor={setFatorBase} />
+                                    <NumberInput placeholder={NUMBER_INPUT_PLACEHOLDER} valor={fatorBase} setValor={setFatorBase} required disabled/>
                                 </div>
-                            </span>                        
-                        </span>
+                            </span>
+                            <button type='submit' hidden></button>                        
+                        </form>
                     </div>
 
                     <div className={style.configWrapper}>
@@ -104,37 +139,38 @@ export default function PedidoTab() {
                             description={'Calcula o fator acrescentado aos produtos com ST'}
                             input={
                                 <NumberInput 
-                                    placeholder={'x ____'} 
+                                    placeholder={'______'} 
                                     valor={fatorST} 
                                     setValor={setFatorST}                                
                                 />
                             }
                         />
-                        <span className={style.extra}>
+                        <form className={style.extra} onSubmit={(e) => handleSubmit('st', e)}>
                             <span> 
                                 <div>
                                     <label htmlFor="">Valor Total ST</label>
-                                    <NumberInput placeholder={NUMBER_INPUT_PLACEHOLDER} valor={valorSt} setValor={setValorSt} />
+                                    <NumberInput placeholder={NUMBER_INPUT_PLACEHOLDER} valor={valorSt} setValor={setValorSt} required />
                                 </div>        
                                 <p>x</p>
                                 <div>
                                     <label htmlFor="">Fator ST</label>
-                                    <NumberInput placeholder={NUMBER_INPUT_PLACEHOLDER} valor={multiploSt} setValor={setMultiploSt} />
+                                    <NumberInput placeholder={NUMBER_INPUT_PLACEHOLDER} valor={multiploSt} setValor={setMultiploSt} required />
                                 </div>
                             </span>
                         /
                             <span>
                                 <div>
-                                    <label htmlFor="">Total Prod c/ ST</label>
-                                    <NumberInput placeholder={NUMBER_INPUT_PLACEHOLDER} valor={valorTotalProdutosSt} setValor={setValorTotalProdutosSt} />
+                                    <label htmlFor="">Total P. c/ ST</label>
+                                    <NumberInput placeholder={NUMBER_INPUT_PLACEHOLDER} valor={valorTotalProdutosSt} setValor={setValorTotalProdutosSt} required />
                                 </div>
                                 <p>x</p>
                                 <div>
                                     <label htmlFor="">Fator Base</label>
-                                    <NumberInput placeholder={NUMBER_INPUT_PLACEHOLDER} valor={fatorBase} setValor={setFatorBase} />
+                                    <NumberInput placeholder={NUMBER_INPUT_PLACEHOLDER} valor={fatorBase} setValor={setFatorBase} required disabled/>
                                 </div>
                             </span>                        
-                        </span>
+                            <button type='submit' hidden></button>
+                        </form>
                     </div>
                     
                     </div>

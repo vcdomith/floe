@@ -35,6 +35,7 @@ export default function FornecedorTab({ fornecedores, svg, titulo }: FornecedorT
     const [loadingFornecedor, setLoadingFornecedor] = useState(false)
 
     const [{
+        nome,
         fatorBase,
         fatorNormal,
         fatorST,
@@ -66,9 +67,9 @@ export default function FornecedorTab({ fornecedores, svg, titulo }: FornecedorT
 
     }
 
-    useEffect(() => {
-        console.log(fornecedorDb);
-    }, [fornecedorDb])
+    // useEffect(() => {
+    //     console.log(fornecedorDb);
+    // }, [fornecedorDb])
 
     return (
         <div className={style.wrap}>
@@ -84,7 +85,7 @@ export default function FornecedorTab({ fornecedores, svg, titulo }: FornecedorT
                     fornecedor={fornecedor}
                     setFornecedor={setCapitalizedFornecedor}
                 />
-                {(fornecedorDb === undefined)
+                {(fornecedorDb === undefined || nome !== fornecedor.toLowerCase())
                 ?
                 <button 
                     className={style.button} 
@@ -93,16 +94,16 @@ export default function FornecedorTab({ fornecedores, svg, titulo }: FornecedorT
                     disabled={fornecedor === '' ? true : false}>
                     {loadingFornecedor
                     ?
-                    <LogoSvg loop />
+                        <LogoSvg loop />
                     :
-                    <svg width="25" height="25" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M129 437L129 201L212 201" stroke="black" stroke-width="40" stroke-linejoin="round"/>
-<path d="M211 355L129.5 437L48 355" stroke="black" stroke-width="40"/>
-<ellipse cx="352" cy="87" rx="93" ry="40" stroke="black" stroke-width="40"/>
-<path d="M445 306C445 323.673 403.362 338 352 338C300.638 338 259 323.673 259 306" stroke="black" stroke-width="40"/>
-<path d="M445 200C445 217.121 403.362 231 352 231C300.638 231 259 217.121 259 200" stroke="black" stroke-width="40"/>
-<path d="M259 310V84M445 306.904V84" stroke="black" stroke-width="40"/>
-</svg>
+                        <svg width="25" height="25" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M129 437L129 201L212 201" stroke="black" stroke-width="40" stroke-linejoin="round"/>
+                        <path d="M211 355L129.5 437L48 355" stroke="black" stroke-width="40"/>
+                        <ellipse cx="352" cy="87" rx="93" ry="40" stroke="black" stroke-width="40"/>
+                        <path d="M445 306C445 323.673 403.362 338 352 338C300.638 338 259 323.673 259 306" stroke="black" stroke-width="40"/>
+                        <path d="M445 200C445 217.121 403.362 231 352 231C300.638 231 259 217.121 259 200" stroke="black" stroke-width="40"/>
+                        <path d="M259 310V84M445 306.904V84" stroke="black" stroke-width="40"/>
+                        </svg>
                     }
                 </button> 
                 :

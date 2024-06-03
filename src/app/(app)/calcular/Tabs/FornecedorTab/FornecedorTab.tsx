@@ -13,6 +13,7 @@ import { dbConnect } from "@/utils/db/supabase";
 import { IFornecedor } from "@/interfaces/IFornecedor";
 import LogoSvg from "@/components/SvgArray/LogoSvg";
 import useFornecedor from "@/hooks/useFornecedor";
+import { useCalcular } from "../../context/CalcularContext";
 
 interface FornecedorTabProps {
 
@@ -34,7 +35,8 @@ export default function FornecedorTab({ fornecedores, svg, titulo }: FornecedorT
     const [fornecedorDb, setFornecedorDb] = useState<IFornecedor>()
     const [loadingFornecedor, setLoadingFornecedor] = useState(false)
 
-    const [{
+    const { fornecedorContext } = useCalcular()
+    const {fornecedorData: {
         nome,
         fatorBase,
         fatorNormal,
@@ -45,7 +47,7 @@ export default function FornecedorTab({ fornecedores, svg, titulo }: FornecedorT
         ipi,
         unitarioNota,
         composto
-    }, setFornecedorData, handleFornecedorChange] = useFornecedor()
+    }, setFornecedorData, handleFornecedorChange} = fornecedorContext
 
     useEffect(() => {
         if(fornecedorDb !== undefined) 

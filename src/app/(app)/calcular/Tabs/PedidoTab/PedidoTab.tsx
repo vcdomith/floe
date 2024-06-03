@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import Config from '@/app/(app)/configurar/(Config)/Config'
 import NumberInput from '@/components/FatoresTable/FatoresTableBody/NumberInput/NumberInput'
 import Converter from '@/utils/typeConversion'
+import { useCalcular } from '../../context/CalcularContext'
 
 const NUMBER_INPUT_PLACEHOLDER = '_'.repeat(25)
 
@@ -13,7 +14,9 @@ export default function PedidoTab() {
 
     const [displayPedido, setDisplayPedido] = useState(false)
 
-    const [fatorBase, setFatorBase] = useState('2')
+    // const [fatorBase, setFatorBase] = useState('2')
+    const {fornecedorContext} = useCalcular()
+    const {fornecedorData: { fatorBase }, handleFornecedorChange} = fornecedorContext 
 
     const [fatorTransporte, setFatorTransporte] = useState('')
     const [valorFrete, setValorFrete] = useState('')
@@ -125,7 +128,7 @@ export default function PedidoTab() {
                                 <p>x</p>
                                 <div>
                                     <label htmlFor="">Fator Base</label>
-                                    <NumberInput placeholder={NUMBER_INPUT_PLACEHOLDER} valor={fatorBase} setValor={setFatorBase} required disabled/>
+                                    <NumberInput placeholder={NUMBER_INPUT_PLACEHOLDER} valor={fatorBase} setValor={handleFornecedorChange('fatorBase')} required disabled/>
                                 </div>
                             </span>
                             <button type='submit' hidden></button>                        
@@ -166,7 +169,7 @@ export default function PedidoTab() {
                                 <p>x</p>
                                 <div>
                                     <label htmlFor="">Fator Base</label>
-                                    <NumberInput placeholder={NUMBER_INPUT_PLACEHOLDER} valor={fatorBase} setValor={setFatorBase} required disabled/>
+                                    <NumberInput placeholder={NUMBER_INPUT_PLACEHOLDER} valor={fatorBase} setValor={handleFornecedorChange('fatorBase')} required disabled/>
                                 </div>
                             </span>                        
                             <button type='submit' hidden></button>

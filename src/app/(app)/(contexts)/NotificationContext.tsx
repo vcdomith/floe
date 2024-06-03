@@ -2,7 +2,7 @@ import { INotification, newNotification } from "@/interfaces/INotification";
 import { useContext, useState } from "react";
 import { createContext } from "react";
 
-interface INotificationContext {
+interface NotificationContextProps {
 
     notifications: INotification[]
     addNotification: ({ tipo, mensagem }: newNotification) => void
@@ -10,7 +10,7 @@ interface INotificationContext {
 
 }
 
-export const NotificationContext = createContext<INotificationContext | undefined>(undefined)
+export const NotificationContext = createContext<NotificationContextProps | undefined>(undefined)
 NotificationContext.displayName = 'Notifications'
 
 export const useNotification = () => {

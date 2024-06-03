@@ -2,8 +2,8 @@
 import { dbConnect } from '@/utils/db/supabase'
 import style from './calcular.module.scss'
 import FornecedorTab from './Tabs/FornecedorTab/FornecedorTab'
-import { LegacyRef, cache, useRef } from 'react'
 import PedidoTab from './Tabs/PedidoTab/PedidoTab'
+import { CalcularProvider } from './context/CalcularContext'
 
 export default async function Calcular() {
 
@@ -13,6 +13,7 @@ export default async function Calcular() {
     const fornecedores: string[] | undefined = fornecedoresDB?.map( fornecedor => fornecedor.nome )
 
     return (
+        <CalcularProvider>
         <main
             className={style.main}
         >
@@ -73,6 +74,8 @@ export default async function Calcular() {
           
             
         </main>
+        </CalcularProvider>
+
     )
 
 

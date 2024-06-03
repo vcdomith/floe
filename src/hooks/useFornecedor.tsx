@@ -1,5 +1,14 @@
 import { IFornecedor } from "@/interfaces/IFornecedor";
-import { ChangeEvent, SetStateAction, useState } from "react";
+import { ChangeEvent, Dispatch, SetStateAction, useState } from "react";
+
+export interface useFornecedorReturn {
+
+    fornecedorData: IFornecedor
+    setFornecedorData: Dispatch<SetStateAction<IFornecedor>>
+    handleFornecedorChange: <T>(field: keyof IFornecedor) => (valor: T) => void
+    resetForm: () => void
+
+}
 
 const STRING_INPUT_FIELDS: (keyof IFornecedor)[] = ['nome', 'fatorBase', 'fatorNormal', 'fatorST']
 const INITIAL_STATE: IFornecedor = {
@@ -17,14 +26,14 @@ const INITIAL_STATE: IFornecedor = {
 
 export default function useFornecedor() {
 
-    const [fornecedorData, setForncedorData] = useState<IFornecedor>(INITIAL_STATE)
+    const [fornecedorData, setFornecedorData] = useState<IFornecedor>(INITIAL_STATE)
 
     function handleFornecedorChange<T>(field: keyof IFornecedor) {
 
         const savedField = field
 
         // Logic to handle different types of input: strings and booleans
-        return (valor: T) => setForncedorData((prev) => ({
+        return (valor: T) => setFornecedorData((prev) => ({
             ...prev, 
             [field]: (STRING_INPUT_FIELDS.includes(savedField)) ? valor : !prev[field],
         }))
@@ -33,10 +42,10 @@ export default function useFornecedor() {
 
     function resetForm() {
 
-        setForncedorData({...INITIAL_STATE})
+        setFornecedorData({...INITIAL_STATE})
 
     }
 
-    return [fornecedorData, setForncedorData, handleFornecedorChange, resetForm] as const
+    return {fornecedorData, setFornecedorData, handleFornecedorChange, resetForm} as useFornecedorReturn
 
 }

@@ -41,7 +41,8 @@ export default function Configurar() {
     // const [unitarioNota, setUnitarioNota] = useState(false)
     // const [composto, setComposto] = useState(false)
      
-    const [fornecedorData, setFornecedorData, handleFornecedorChange, resetForm] = useFornecedor()
+    const {fornecedorData, setFornecedorData, handleFornecedorChange, resetForm} = useFornecedor()
+
     const {
         nome,
         fatorBase,
@@ -234,7 +235,7 @@ export default function Configurar() {
                                 data-valid={validation}
                                 onChange={(e) => {
 
-                                    setFornecedorData(prev => {
+                                    setFornecedorData((prev: IFornecedor) => {
                                         
                                         const newValue = e.target.value
                                         const valueCheck = newValue.trim().toLowerCase()

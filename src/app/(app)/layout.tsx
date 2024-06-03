@@ -11,6 +11,8 @@ import { NotificationContext, NotificationProvider, useNotification } from "./(c
 import Notifications from "./(Notifications)/Notifications";
 import LogoSvg from "@/components/SvgArray/LogoSvg";
 import Nav from "./(nav)/Nav";
+import CalcularContextWrapper from "./calcular/CalcularContextWrapper/CalcularContextWrapper";
+import { CalcularProvider } from "./calcular/context/CalcularContext";
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
 
@@ -20,6 +22,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
 
     return (
         <NotificationProvider>
+        <CalcularProvider>
             <Nav pathname={path} />
         {/* <header className={style.header}>
             <div>
@@ -79,6 +82,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
             {children}
             <Notifications />
         </Container>
+        </CalcularProvider>
         </NotificationProvider>
     )
 

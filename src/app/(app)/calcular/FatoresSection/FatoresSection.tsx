@@ -1,5 +1,7 @@
+'use client'
 import FornecedorTab from "../Tabs/FornecedorTab/FornecedorTab";
 import PedidoTab from "../Tabs/PedidoTab/PedidoTab";
+import ProdutoTab from "../Tabs/ProdutoTab/ProdutoTab";
 
 import style from './FatoresSection.module.scss'
 
@@ -34,11 +36,12 @@ export default function FatoresSection({ fornecedores }: FatoresSectionProps) {
                 {fornecedores&&
                 <div className={style.tabContainer}>
                     <PedidoTab />
-                    <FornecedorTab
+                    {/* <FornecedorTab
                     fornecedores={fornecedores}
                     svg={<SvgProduto/>}
                     titulo='Produto'
-                    />
+                    /> */}
+                    <ProdutoTab />
                 </div>
                 }
 

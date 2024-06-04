@@ -413,20 +413,6 @@ export default function Configurar() {
                                 />
                             }                             
                         />
-                        {ipi&&
-                        <Config 
-                            svg={<SvgIPI/>} 
-                            title={'IPI Proporcional'} 
-                            description={'Usa IPI proporcional ao fator base?'}
-                            input={
-                                <CheckBox 
-                                    name="ipiProporcional"
-                                    checked={ipi} 
-                                    setChecked={handleFornecedorChange('ipi')}
-                                />
-                            }                              
-                        />
-                        }
                         <Config 
                             svg={<SvgUnitarioNota/>} 
                             title={'Unitário Nota'} 

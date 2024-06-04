@@ -217,7 +217,7 @@ export default function FornecedorTab({ fornecedores, svg, titulo }: FornecedorT
                         />
                     }                             
                 />
-                {ipi&&
+                {/* {ipi&&
                 <Config 
                     svg={<SvgIPI/>} 
                     title={'IPI Proporcional'} 
@@ -229,7 +229,7 @@ export default function FornecedorTab({ fornecedores, svg, titulo }: FornecedorT
                         />
                     }
                 />
-                }
+                } */}
                 <Config 
                     svg={<SvgUnitarioNota/>} 
                     title={'Unitário Nota'} 

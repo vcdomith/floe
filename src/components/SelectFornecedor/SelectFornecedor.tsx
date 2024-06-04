@@ -9,7 +9,7 @@ import capitalize from "@/utils/capitalize"
 
 interface SelectFornecedorProps {
 
-    loading: boolean
+    loading?: boolean
 
     fornecedoresControle: string[]
 

@@ -29,8 +29,7 @@ export default function FornecedorTab({ fornecedores, svg, titulo }: FornecedorT
     const setCapitalizedFornecedor = (value: string) => {
         setFornecedor(capitalize(value))
     }
-    const [loading, setLoading] = useState(false)
-    const [display, setDisplay] = useState(false)
+    const [displayFornecedor, setDisplayFornecedor] = useState(false)
 
     const [fornecedorDb, setFornecedorDb] = useState<IFornecedor>()
     const [loadingFornecedor, setLoadingFornecedor] = useState(false)
@@ -75,14 +74,13 @@ export default function FornecedorTab({ fornecedores, svg, titulo }: FornecedorT
 
     return (
         <div className={style.wrap}>
-        <span className={style.tab} data-display={display}>
+        <span className={style.tab} data-display={displayFornecedor}>
             <span className={style.title}>
                 {svg || <SvgFornecedor />}
                 <h3>{ titulo ? titulo : 'Fornecedor'}</h3>
             </span>
             <span className={style.selectWrap}>
                 <SelectFornecedor 
-                    loading={loading}
                     fornecedoresControle={fornecedores}
                     fornecedor={fornecedor}
                     setFornecedor={setCapitalizedFornecedor}
@@ -111,11 +109,11 @@ export default function FornecedorTab({ fornecedores, svg, titulo }: FornecedorT
                 :
                 <button 
                     className={style.button} 
-                    onClick={() => setDisplay(prev => !prev)} 
+                    onClick={() => setDisplayFornecedor(prev => !prev)} 
                 >
                     <svg fill="#000000" width="25px"viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
                         <path 
-                            d={`${display 
+                            d={`${displayFornecedor 
                                 ? "M15.997 13.374l-7.081 7.081L7 18.54l8.997-8.998 9.003 9-1.916 1.916z"
                                 : "M16.003 18.626l7.081-7.081L25 13.46l-8.997 8.998-9.003-9 1.917-1.916z"
                             }`}
@@ -126,7 +124,7 @@ export default function FornecedorTab({ fornecedores, svg, titulo }: FornecedorT
             </span>
         </span>
         <AnimatePresence>
-            {display&&
+            {displayFornecedor&&
             <motion.div className={style.list}
                 initial={{ height: 0 }}
                 animate={{ height: 'auto' }}

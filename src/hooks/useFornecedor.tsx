@@ -1,5 +1,5 @@
 import { IFornecedor } from "@/interfaces/IFornecedor";
-import { ChangeEvent, Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 
 export interface useFornecedorReturn {
 

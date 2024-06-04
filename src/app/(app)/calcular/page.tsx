@@ -4,6 +4,8 @@ import style from './calcular.module.scss'
 import FornecedorTab from './Tabs/FornecedorTab/FornecedorTab'
 import PedidoTab from './Tabs/PedidoTab/PedidoTab'
 import { CalcularProvider } from './context/CalcularContext'
+import FatoresSection from './FatoresSection/FatoresSection'
+import TabelaSection from './TabelaSection/TabelaSection'
 
 export default async function Calcular() {
 
@@ -17,46 +19,32 @@ export default async function Calcular() {
         <main
             className={style.main}
         >
-            <section className={style.fatores}>
+            <FatoresSection fornecedores={fornecedores} />
+            <TabelaSection />
+
+            {/* <section className={style.fatores}>
                 <div className={style.content}>
-                    {/* <h3 className={style.title}>Fatores:</h3> */}
+        
                     <div className={style.title}>
                         <h3>Fornecedor</h3>
                         <p>Selecione o fornecedor para acessar os fatores e configurações para calcular as tabelas:</p>
                     </div>
 
-                {/* {JSON.stringify(fornecedores)} */}
                 {fornecedores&&
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem'}}>
                 <FornecedorTab
                 fornecedores={fornecedores}
                 />
-                {/* <FornecedorTab
-                fornecedores={fornecedores}
-                svg={<SvgUnitarioNota/>}
-                titulo='Pedido'
-                />
-                <FornecedorTab
-                fornecedores={fornecedores}
-                svg={<SvgProduto/>}
-                titulo='Produto'
-                /> */}
+
                 </div>
                 }
+
                 <div className={style.title}>
                         <h3>Fatores</h3>
                         <p>Selecione o fornecedor para acessar os fatores e configurações para calcular as tabelas:</p>
                     </div>
                 {fornecedores&&
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem'}}>
-                {/* <FornecedorTab
-                fornecedores={fornecedores}
-                /> */}
-                {/* <FornecedorTab
-                fornecedores={fornecedores}
-                svg={<SvgUnitarioNota/>}
-                titulo='Pedido'
-                /> */}
                 <PedidoTab />
                 <FornecedorTab
                 fornecedores={fornecedores}
@@ -66,11 +54,11 @@ export default async function Calcular() {
                 </div>
                 }
                 </div>
-            </section>
+            </section> */}
 
-            <section className={style.tabela}>
+            {/* <section className={style.tabela}>
                 <div className={style.content}>tabela</div>
-            </section>
+            </section> */}
           
             
         </main>

@@ -1,11 +1,13 @@
 'use client'
 import useFornecedor, { useFornecedorReturn } from "@/hooks/useFornecedor";
+import usePedido, { usePedidoReturn } from "@/hooks/usePedido";
 import { IFornecedor } from "@/interfaces/IFornecedor";
 import { Dispatch, SetStateAction, createContext, useContext } from "react";
 
 interface CalcularContextProps {
 
     fornecedorContext: useFornecedorReturn
+    pedidoContext: usePedidoReturn
 
 }
 
@@ -21,10 +23,12 @@ export const useCalcular = () => {
 export const CalcularProvider = ({ children }: { children: React.ReactNode}) => {
 
     const fornecedorContext = useFornecedor()
+    const pedidoContext = usePedido()
 
     return <CalcularContext.Provider
         value={{
-            fornecedorContext
+            fornecedorContext,
+            pedidoContext
         }}
     >
         {children}

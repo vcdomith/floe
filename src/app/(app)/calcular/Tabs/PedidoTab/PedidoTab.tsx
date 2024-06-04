@@ -15,51 +15,20 @@ export default function PedidoTab() {
     const [displayPedido, setDisplayPedido] = useState(false)
 
     // const [fatorBase, setFatorBase] = useState('2')
-    const {fornecedorContext} = useCalcular()
-    const {fornecedorData: { fatorBase }, handleFornecedorChange} = fornecedorContext 
-
-    const [fatorTransporte, setFatorTransporte] = useState('')
-    const [valorFrete, setValorFrete] = useState('')
-    const [fatorFrete, setFatorFrete] = useState('3,4')
-    const [valorTotalProdutos, setValorTotalProdutos] = useState('')
-
-    const [fatorST, setFatorST] = useState('')
-    const [valorSt, setValorSt] = useState('')
-    const [multiploSt, setMultiploSt] = useState('1')
-    const [valorTotalProdutosSt, setValorTotalProdutosSt] = useState('')
-
-    const {stringToFloat, floatToString} = Converter
-
-    const handleSubmit = (campo: ('transporte' | 'st'), e: FormEvent<HTMLFormElement>) => {
-
-        e.preventDefault()
-        
-        switch (campo) {
-            case 'transporte':
-
-                const resultadoTransporte = (1 + (
-                    (stringToFloat(valorFrete) * stringToFloat(fatorFrete)) / 
-                    (stringToFloat(valorTotalProdutos) * stringToFloat(fatorBase))
-                ))
-
-                setFatorTransporte(floatToString(resultadoTransporte, 3))
-
-                break;
-        
-            case 'st': 
-
-                const resultadoSt = (1 + (
-                    (stringToFloat(valorSt) * stringToFloat(multiploSt)) / 
-                    (stringToFloat(valorTotalProdutosSt) * stringToFloat(fatorBase))
-                ))
-
-                setFatorST(floatToString(resultadoSt, 3))
-
-                break;
-
-        }
-
-    }
+    const {fornecedorContext, pedidoContext} = useCalcular()
+    const {fornecedorData: { 
+        fatorBase 
+    }, handleFornecedorChange} = fornecedorContext 
+    const {pedidoData: {
+        fatorTransporte,
+        valorFrete,
+        fatorFrete,
+        valorTotalProdutos,
+        fatorST,
+        valorST,
+        multiploST,
+        valorTotalProdutosST,
+    }, handlePedidoSubmit, handlePedidoChange} = pedidoContext
 
     return (
         <div className={style.wrap}>
@@ -103,27 +72,27 @@ export default function PedidoTab() {
                                 <NumberInput 
                                     placeholder={'______'} 
                                     valor={fatorTransporte} 
-                                    setValor={setFatorTransporte}                                
+                                    setValor={handlePedidoChange('fatorTransporte')}                                
                                 />
                             }
                         />
-                        <form className={style.extra} onSubmit={(e) => handleSubmit('transporte', e)}>
+                        <form className={style.extra} onSubmit={(e) => handlePedidoSubmit('transporte', e, fatorBase)}>
                             <span> 
                                 <div>
                                     <label htmlFor="">Valor Frete</label>
-                                    <NumberInput placeholder={NUMBER_INPUT_PLACEHOLDER} valor={valorFrete} setValor={setValorFrete} required/>
+                                    <NumberInput placeholder={NUMBER_INPUT_PLACEHOLDER} valor={valorFrete} setValor={handlePedidoChange('valorFrete')} required/>
                                 </div>        
                                 <p>x</p>
                                 <div>
                                     <label htmlFor="">Fator Frete</label>
-                                    <NumberInput placeholder={NUMBER_INPUT_PLACEHOLDER} valor={fatorFrete} setValor={setFatorFrete} required/>
+                                    <NumberInput placeholder={NUMBER_INPUT_PLACEHOLDER} valor={fatorFrete} setValor={handlePedidoChange('fatorFrete')} required/>
                                 </div>
                             </span>
                         /
                             <span>
                                 <div>
                                     <label htmlFor="">Total Prod.</label>
-                                    <NumberInput placeholder={NUMBER_INPUT_PLACEHOLDER} valor={valorTotalProdutos} setValor={setValorTotalProdutos} required/>
+                                    <NumberInput placeholder={NUMBER_INPUT_PLACEHOLDER} valor={valorTotalProdutos} setValor={handlePedidoChange('valorTotalProdutos')} required/>
                                 </div>
                                 <p>x</p>
                                 <div>
@@ -137,34 +106,34 @@ export default function PedidoTab() {
 
                     <div className={style.configWrapper}>
                         <Config 
-                            svg={<SvgFornecedor/>} 
+                            svg={<SvgST/>} 
                             title={'Fator ST'} 
                             description={'Calcula o fator acrescentado aos produtos com ST'}
                             input={
                                 <NumberInput 
                                     placeholder={'______'} 
                                     valor={fatorST} 
-                                    setValor={setFatorST}                                
+                                    setValor={handlePedidoChange('fatorST')}                                
                                 />
                             }
                         />
-                        <form className={style.extra} onSubmit={(e) => handleSubmit('st', e)}>
+                        <form className={style.extra} onSubmit={(e) => handlePedidoSubmit('st', e, fatorBase)}>
                             <span> 
                                 <div>
                                     <label htmlFor="">Valor Total ST</label>
-                                    <NumberInput placeholder={NUMBER_INPUT_PLACEHOLDER} valor={valorSt} setValor={setValorSt} required />
+                                    <NumberInput placeholder={NUMBER_INPUT_PLACEHOLDER} valor={valorST} setValor={handlePedidoChange('valorST')} required />
                                 </div>        
                                 <p>x</p>
                                 <div>
                                     <label htmlFor="">Fator ST</label>
-                                    <NumberInput placeholder={NUMBER_INPUT_PLACEHOLDER} valor={multiploSt} setValor={setMultiploSt} required />
+                                    <NumberInput placeholder={NUMBER_INPUT_PLACEHOLDER} valor={multiploST} setValor={handlePedidoChange('multiploST')} required />
                                 </div>
                             </span>
                         /
                             <span>
                                 <div>
                                     <label htmlFor="">Total P. c/ ST</label>
-                                    <NumberInput placeholder={NUMBER_INPUT_PLACEHOLDER} valor={valorTotalProdutosSt} setValor={setValorTotalProdutosSt} required />
+                                    <NumberInput placeholder={NUMBER_INPUT_PLACEHOLDER} valor={valorTotalProdutosST} setValor={handlePedidoChange('valorTotalProdutosST')} required />
                                 </div>
                                 <p>x</p>
                                 <div>

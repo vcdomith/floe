@@ -1,0 +1,24 @@
+@use '../../../../globalStyle.module.scss' as *;
+
+.submit {
+
+    outline: none;
+    border: none;
+    padding: 0.25rem 0;
+
+    width: 100%;
+    font-size: 1.1rem;
+    background-color: cor-mix(75%);
+    color: cor-mix(0%);
+
+    cursor: pointer;
+
+    transition: background-color 400ms ease;
+
+    &:hover {
+
+        background-color: cor-mix(90%);
+
+    }
+
+}

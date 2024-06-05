@@ -1,7 +1,9 @@
 'use client'
+import { motion, AnimatePresence } from "framer-motion";
 import FornecedorTab from "../Tabs/FornecedorTab/FornecedorTab";
 import PedidoTab from "../Tabs/PedidoTab/PedidoTab";
 import ProdutoTab from "../Tabs/ProdutoTab/ProdutoTab";
+import { useCalcular } from "../context/CalcularContext";
 
 import style from './FatoresSection.module.scss'
 
@@ -12,6 +14,9 @@ interface FatoresSectionProps {
 }
 
 export default function FatoresSection({ fornecedores }: FatoresSectionProps) {
+
+    const {fornecedorContext} = useCalcular()
+    const {fornecedorData: {nome}} = fornecedorContext
 
     return (
         <section className={style.fatores}>
@@ -29,21 +34,29 @@ export default function FatoresSection({ fornecedores }: FatoresSectionProps) {
                 </div>
                 }
 
+                <AnimatePresence>
+                {(nome !== '')
+                ?
+                <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 1, delayChildren: 0.5 }}
+                >
                 <div className={style.title}>
                     <h3>Fatores</h3>
                     <p>Selecione o fornecedor para acessar os fatores e configurações para calcular as tabelas:</p>
                 </div>
-                {fornecedores&&
+            
                 <div className={style.tabContainer}>
                     <PedidoTab />
-                    {/* <FornecedorTab
-                    fornecedores={fornecedores}
-                    svg={<SvgProduto/>}
-                    titulo='Produto'
-                    /> */}
                     <ProdutoTab />
                 </div>
+                </motion.div>
+                :
+                ''
                 }
+                </AnimatePresence>
 
             </div>
         </section>

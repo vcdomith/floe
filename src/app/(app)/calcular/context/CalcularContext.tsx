@@ -2,7 +2,7 @@
 import useFornecedor, { useFornecedorReturn } from "@/hooks/useFornecedor";
 import usePedido, { usePedidoReturn } from "@/hooks/usePedido";
 import { IFornecedor } from "@/interfaces/IFornecedor";
-import { Dispatch, SetStateAction, createContext, useContext } from "react";
+import { Dispatch, SetStateAction, createContext, useContext, useEffect, useState } from "react";
 
 interface CalcularContextProps {
 
@@ -24,6 +24,14 @@ export const CalcularProvider = ({ children }: { children: React.ReactNode}) => 
 
     const fornecedorContext = useFornecedor()
     const pedidoContext = usePedido()
+
+    const {fornecedorData} = fornecedorContext
+
+    const [produto, setProduto] = useState()
+
+    useEffect(() => {
+        console.log(fornecedorData, (fornecedorData.nome !== '' ));
+    }, [fornecedorData])
 
     return <CalcularContext.Provider
         value={{

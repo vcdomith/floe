@@ -1,21 +1,36 @@
 'use client'
 
 import { motion, AnimatePresence } from "framer-motion"
-import { useRef, useState } from "react"
+import { MouseEvent, useRef, useState } from "react"
 
 import style from '../FornecedorTab/FornecedorTab.module.scss'
 import Config from "@/app/(app)/configurar/(Config)/Config"
 import NumberInput from "@/components/FatoresTable/FatoresTableBody/NumberInput/NumberInput"
 import CheckBox from "@/app/(app)/configurar/(CheckBox)/CheckBox"
 import styleProduto from './ProdutoTab.module.scss'
+import { useCalcular } from "../../context/CalcularContext"
+
+const NUMBER_INPUT_PLACEHOLDER = '_'.repeat(25)
 
 export default function ProdutoTab() {
 
+    const {produtoContext, submitForm} = useCalcular()
+    const {produtoData: {
+        st,
+        codigo,
+        desconto,
+        ipi,
+        unitarioNota,
+        unitario,
+        composto1,
+        composto2,
+    }, handleProdutoChange, resetForm} = produtoContext
+
     const [displayProdutoTab, setDisplayProdutoTab] = useState(false)
 
-    const [produtoComST, setProdutoComST] = useState(false)
-    const [codigoProduto, setCodigoProduto] = useState('')
-    const [desconto, setDesconto] = useState('')
+    // const [produtoComST, setProdutoComST] = useState(false)
+    // const [codigoProduto, setCodigoProduto] = useState('')
+    // const [desconto, setDesconto] = useState('')
 
     return (
         <div className={style.wrap}>
@@ -57,8 +72,8 @@ export default function ProdutoTab() {
                                     description={'Produto usa Subst. Trib.'}
                                     input={
                                         <CheckBox 
-                                            checked={produtoComST}
-                                            setChecked={setProdutoComST}
+                                            checked={st}
+                                            setChecked={handleProdutoChange('st')}
                                         />
                                     }
                             />
@@ -71,8 +86,8 @@ export default function ProdutoTab() {
                                         className={style.codigo} 
                                         type="text" 
                                         placeholder="_____________"
-                                        value={codigoProduto}
-                                        onChange={(e) => setCodigoProduto(e.target.value)}
+                                        value={codigo}
+                                        onChange={(e) => handleProdutoChange('codigo')(e.target.value.toUpperCase())}
                                         required
                                     />
                                 }
@@ -85,7 +100,7 @@ export default function ProdutoTab() {
                                     <NumberInput 
                                         placeholder={'______'} 
                                         valor={desconto} 
-                                        setValor={setDesconto}  
+                                        setValor={handleProdutoChange('desconto')}  
                                         required
                                     />
                                 }
@@ -97,8 +112,8 @@ export default function ProdutoTab() {
                                 input={
                                     <NumberInput 
                                         placeholder={'______'} 
-                                        valor={desconto} 
-                                        setValor={setDesconto}  
+                                        valor={ipi} 
+                                        setValor={handleProdutoChange('ipi')}  
                                         required
                                     />
                                 }
@@ -110,8 +125,8 @@ export default function ProdutoTab() {
                                 input={
                                     <NumberInput 
                                         placeholder={'______'} 
-                                        valor={desconto} 
-                                        setValor={setDesconto}  
+                                        valor={unitarioNota} 
+                                        setValor={handleProdutoChange('unitarioNota')}  
                                         required
                                     />
                                 }
@@ -123,13 +138,41 @@ export default function ProdutoTab() {
                                 input={
                                     <NumberInput 
                                         placeholder={'______'} 
-                                        valor={desconto} 
-                                        setValor={setDesconto}  
+                                        valor={unitario} 
+                                        setValor={handleProdutoChange('unitario')}  
                                         required
                                     />
                                 }
                             />
-                            <button className={styleProduto.submit} type="submit">Adicionar</button>
+                            <div className={style.configWrapper}>
+                                <Config 
+                                    svg={<SvgFornecedor/>} 
+                                    title={'Fator Transporte'} 
+                                    description={'Calcula o fator acrescentado devido ao frete'}
+                                    input={
+                                        <NumberInput 
+                                            placeholder={'______'} 
+                                            valor={unitario} 
+                                            setValor={handleProdutoChange('unitario')}                                
+                                        />
+                                    }
+                                />
+                                <form className={style.extra} onSubmit={(e) => e.preventDefault()}>
+                                    <span> 
+                                        <div>
+                                            <label htmlFor="">Valor Frete</label>
+                                            <NumberInput placeholder={NUMBER_INPUT_PLACEHOLDER} valor={composto1} setValor={handleProdutoChange('composto1')} required/>
+                                        </div>        
+                                        <p>x</p>
+                                        <div>
+                                            <label htmlFor="">Fator Frete</label>
+                                            <NumberInput placeholder={NUMBER_INPUT_PLACEHOLDER} valor={composto2} setValor={handleProdutoChange('composto2')} required/>
+                                        </div>
+                                    </span>
+                                    <button type='submit' hidden></button>                        
+                                </form>
+                            </div>
+                            <button className={styleProduto.submit} type="submit" onClick={() => submitForm()}>Adicionar</button>
                         </form>
                         {/* </div> */}
                     </div>

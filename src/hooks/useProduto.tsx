@@ -1,22 +1,25 @@
 import SelectFornecedor from "@/components/SelectFornecedor/SelectFornecedor";
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, FormEvent, SetStateAction, useState } from "react";
+import Converter from "@/utils/typeConversion";
 
 export interface useProdutoReturn {
 
-    produtoData: IPedidoContext
-    setProdutoData: Dispatch<SetStateAction<IPedidoContext>>
-    handleProdutoChange: <T>(field: keyof IPedidoContext) => (valor: T) => void
+    produtoData: IProdutoContext
+    setProdutoData: Dispatch<SetStateAction<IProdutoContext>>
+    handleProdutoChange: <T>(field: keyof IProdutoContext) => (valor: T) => void
+    handleProdutoSubmit: (campo: 'ipi' | 'composto', e: FormEvent<HTMLFormElement>, fatorBase: string) => void
     resetForm: () => void
 
 }
 
-interface IPedidoContext {
+interface IProdutoContext {
 
     st: boolean
     codigo: string
     
     desconto: string
     ipi: string
+    ipiProporcional: string
 
     unitarioNota: string
     unitario: string
@@ -25,7 +28,7 @@ interface IPedidoContext {
 
 }
 
-const INITIAL_STATE: IPedidoContext = {
+const INITIAL_STATE: IProdutoContext = {
 
     st: false,
 
@@ -33,6 +36,7 @@ const INITIAL_STATE: IPedidoContext = {
     
     desconto: '',
     ipi: '',
+    ipiProporcional: '',
 
     unitarioNota: '',
     unitario: '',
@@ -44,8 +48,9 @@ const INITIAL_STATE: IPedidoContext = {
 export default function useProduto() {
 
     const [produtoData, setProdutoData] = useState(INITIAL_STATE)
+    const {floatToString, stringToFloat} = Converter
 
-    function handleProdutoChange<T>(field: keyof IPedidoContext) {
+    function handleProdutoChange<T>(field: keyof IProdutoContext) {
 
         const savedField = field
 
@@ -53,6 +58,30 @@ export default function useProduto() {
                     ...prev,
                     [savedField]: (savedField !== 'st') ? valor : !prev[savedField],
                 }))
+
+    }
+
+    const handleProdutoSubmit = (campo: 'ipi' | 'composto', e: FormEvent<HTMLFormElement>, fatorBase: string ) => {
+
+        e.preventDefault()
+
+        switch (campo) {
+
+            case 'ipi':
+                
+                const resultadoIpiProporcional = 
+                    (parseInt((stringToFloat(produtoData.ipiProporcional) - 1).toFixed(4)) / stringToFloat(fatorBase))
+
+                setProdutoData((prev) => ({...prev, [campo as keyof IProdutoContext]: resultadoIpiProporcional}))
+
+                break;
+        
+            case 'composto':
+
+                break;
+
+         
+        }
 
     }
 
@@ -65,6 +94,6 @@ export default function useProduto() {
 
     }
 
-    return {produtoData, setProdutoData, handleProdutoChange, resetForm} as useProdutoReturn
+    return {produtoData, setProdutoData, handleProdutoChange, handleProdutoSubmit, resetForm} as useProdutoReturn
 
 }

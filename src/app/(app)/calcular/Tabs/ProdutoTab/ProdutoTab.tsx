@@ -10,27 +10,33 @@ import CheckBox from "@/app/(app)/configurar/(CheckBox)/CheckBox"
 import styleProduto from './ProdutoTab.module.scss'
 import { useCalcular } from "../../context/CalcularContext"
 
-const NUMBER_INPUT_PLACEHOLDER = '_'.repeat(25)
+const NUMBER_INPUT_PLACEHOLDER = '_'.repeat(50)
 
 export default function ProdutoTab() {
 
-    const {produtoContext, submitForm} = useCalcular()
+    const {produtoContext, fornecedorContext, submitForm} = useCalcular()
     const {produtoData: {
         st,
         codigo,
         desconto,
         ipi,
+        ipiProporcional,
         unitarioNota,
         unitario,
         composto1,
         composto2,
-    }, handleProdutoChange, resetForm} = produtoContext
+    }, handleProdutoChange, handleProdutoSubmit, resetForm} = produtoContext
+    const {fornecedorData: { fatorBase }, handleFornecedorChange} = fornecedorContext
 
     const [displayProdutoTab, setDisplayProdutoTab] = useState(false)
 
     // const [produtoComST, setProdutoComST] = useState(false)
     // const [codigoProduto, setCodigoProduto] = useState('')
     // const [desconto, setDesconto] = useState('')
+
+    const handleSubmit = (e) => {
+        e.preventDefault()
+    }
 
     return (
         <div className={style.wrap}>
@@ -65,7 +71,8 @@ export default function ProdutoTab() {
                 >
                     <div className={style.fornecedorConfigs}>
                         {/* <div className={style.configWrapper}> */}
-                        <form onSubmit={(e) => e.preventDefault()}>
+                        {/* Trocar onSubmit pela função a ser recebida do context */}
+                        <form onSubmit={(e) => handleSubmit(e)}>
                             <Config 
                                     svg={<SvgST/>} 
                                     title={'Produto com ST?'} 
@@ -105,7 +112,7 @@ export default function ProdutoTab() {
                                     />
                                 }
                             />
-                            <Config 
+                            {/* <Config 
                                 svg={<SvgIPI/>} 
                                 title={'IPI'} 
                                 description={'Aliquiota IPI aplicado ao produto:'}
@@ -117,10 +124,49 @@ export default function ProdutoTab() {
                                         required
                                     />
                                 }
-                            />
+                            /> */}
+                            <div className={`${style.configWrapper} ${styleProduto.configWrapper}`}>
+                                <Config 
+                                    svg={<SvgComposto/>} 
+                                    title={'IPI'} 
+                                    description={'Alíquiota IPI aplicado ao produto:'}
+                                    input={
+                                        <NumberInput 
+                                            placeholder={'______'} 
+                                            valor={ipi} 
+                                            setValor={handleProdutoChange('unitario')}                                
+                                        />
+                                    }
+                                />
+                                <form className={`${style.extra} ${styleProduto.ipi}`} onSubmit={(e) => handleProdutoSubmit('ipi', e, fatorBase)}>
+                                    <span> 
+                                        <div>
+                                            <label htmlFor="">Aliquota IPI</label>
+                                            <NumberInput 
+                                                placeholder={NUMBER_INPUT_PLACEHOLDER} 
+                                                valor={ipiProporcional} 
+                                                setValor={handleProdutoChange('ipiProporcional')} 
+                                                required
+                                            />
+                                        </div>        
+                                        <p>/</p>
+                                        <div>
+                                            <label htmlFor="">Fator Base</label>
+                                            <NumberInput 
+                                                placeholder={NUMBER_INPUT_PLACEHOLDER} 
+                                                valor={fatorBase} 
+                                                setValor={handleFornecedorChange('fatorBase')} 
+                                                required 
+                                                disabled
+                                            />
+                                        </div>
+                                    </span>
+                                    <button type='submit' hidden></button>                        
+                                </form>
+                            </div>
                             <Config 
                                 svg={<SvgUnitarioNota/>} 
-                                title={'Unitário Nota'} 
+                                title={'Unitário (Nota)'} 
                                 description={'Unitário Nota para calcular preço 2:'}
                                 input={
                                     <NumberInput 
@@ -133,7 +179,7 @@ export default function ProdutoTab() {
                             />
                             <Config 
                                 svg={<SvgUnitarioNota/>} 
-                                title={'Valor Unitário'} 
+                                title={'Unitário (Pedido)'} 
                                 description={'Valor para calcular preços:'}
                                 input={
                                     <NumberInput 
@@ -144,35 +190,46 @@ export default function ProdutoTab() {
                                     />
                                 }
                             />
-                            <div className={style.configWrapper}>
+                            <div className={`${style.configWrapper} ${styleProduto.configWrapper}`}>
                                 <Config 
-                                    svg={<SvgFornecedor/>} 
-                                    title={'Fator Transporte'} 
-                                    description={'Calcula o fator acrescentado devido ao frete'}
+                                    svg={<SvgComposto/>} 
+                                    title={'Unitário (Composto)'} 
+                                    description={'Unitário calculado pelo soma de dois valores:'}
                                     input={
                                         <NumberInput 
                                             placeholder={'______'} 
                                             valor={unitario} 
-                                            setValor={handleProdutoChange('unitario')}                                
+                                            setValor={handleProdutoChange('unitario')}
                                         />
                                     }
                                 />
-                                <form className={style.extra} onSubmit={(e) => e.preventDefault()}>
+                                <form className={`${style.extra} ${styleProduto.composto}`} onSubmit={(e) => handleProdutoSubmit('composto', e, fatorBase)}>
                                     <span> 
                                         <div>
                                             <label htmlFor="">Valor Frete</label>
-                                            <NumberInput placeholder={NUMBER_INPUT_PLACEHOLDER} valor={composto1} setValor={handleProdutoChange('composto1')} required/>
+                                            <NumberInput 
+                                                placeholder={NUMBER_INPUT_PLACEHOLDER} 
+                                                valor={composto1} 
+                                                setValor={handleProdutoChange('composto1')} 
+                                                required
+                                            />
                                         </div>        
-                                        <p>x</p>
+                                        <p>+</p>
                                         <div>
                                             <label htmlFor="">Fator Frete</label>
-                                            <NumberInput placeholder={NUMBER_INPUT_PLACEHOLDER} valor={composto2} setValor={handleProdutoChange('composto2')} required/>
+                                            <NumberInput 
+                                                placeholder={NUMBER_INPUT_PLACEHOLDER} 
+                                                valor={composto2} 
+                                                setValor={handleProdutoChange('composto2')} 
+                                                required
+                                            />
                                         </div>
                                     </span>
                                     <button type='submit' hidden></button>                        
                                 </form>
                             </div>
-                            <button className={styleProduto.submit} type="submit" onClick={() => submitForm()}>Adicionar</button>
+                            <button type="submit" hidden></button>
+                            {/* <button className={styleProduto.submit} type="submit" onClick={() => submitForm()}>Adicionar</button> */}
                         </form>
                         {/* </div> */}
                     </div>

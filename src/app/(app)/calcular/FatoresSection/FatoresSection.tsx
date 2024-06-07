@@ -59,6 +59,7 @@ export default function FatoresSection({ fornecedores }: FatoresSectionProps) {
                 </AnimatePresence>
 
             </div>
+            <button className={style.submit}>Adicionar produto</button>
         </section>
     )
 

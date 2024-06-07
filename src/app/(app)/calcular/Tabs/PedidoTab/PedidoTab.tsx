@@ -1,12 +1,13 @@
 'use client'
 
-import { FormEvent, useRef, useState } from 'react'
+import { FormEvent, useEffect, useRef, useState } from 'react'
 import style from '../FornecedorTab/FornecedorTab.module.scss'
 import { motion, AnimatePresence } from 'framer-motion'
 import Config from '@/app/(app)/configurar/(Config)/Config'
 import NumberInput from '@/components/FatoresTable/FatoresTableBody/NumberInput/NumberInput'
 import Converter from '@/utils/typeConversion'
 import { useCalcular } from '../../context/CalcularContext'
+import { debug } from 'console'
 
 const NUMBER_INPUT_PLACEHOLDER = '_'.repeat(25)
 
@@ -29,6 +30,18 @@ export default function PedidoTab() {
         multiploST,
         valorTotalProdutosST,
     }, handlePedidoSubmit, handlePedidoChange} = pedidoContext
+
+    // useEffect(() => {
+    //     handlePedidoSubmit('transporte', fatorBase)
+    // }, [valorFrete, fatorFrete, valorTotalProdutos, fatorBase])
+    const {stringToFloat, floatToString} = Converter
+    // const fatorTransporteRender = 
+    //     (valorFrete !== '' && fatorFrete !== '' && valorTotalProdutos !== '' && fatorBase !== '')
+    //     ? floatToString(1 + (
+    //         (stringToFloat(valorFrete) * stringToFloat(fatorFrete)) / 
+    //         (stringToFloat(valorTotalProdutos) * stringToFloat(fatorBase))
+    //     ), 3)
+    //     : ''
 
     return (
         <div className={style.wrap}>
@@ -61,6 +74,7 @@ export default function PedidoTab() {
                     exit={{ height: 0 }}
                     transition={{ type: 'spring', bounce: 0, restDelta: 0.5 }}
                 >
+                    {/* implementar talvez um onSubmit */}
                     <div className={style.fornecedorConfigs}>
 
                     <div className={style.configWrapper}>
@@ -72,11 +86,14 @@ export default function PedidoTab() {
                                 <NumberInput 
                                     placeholder={'______'} 
                                     valor={fatorTransporte} 
-                                    setValor={handlePedidoChange('fatorTransporte')}                                
+                                    setValor={handlePedidoChange('fatorTransporte')}
+                                    required
                                 />
                             }
                         />
-                        <form className={style.extra} onSubmit={(e) => handlePedidoSubmit('transporte', e, fatorBase)}>
+                        <form className={style.extra} 
+                        onSubmit={(e) => handlePedidoSubmit('transporte', e, fatorBase)}
+                        >
                             <span> 
                                 <div>
                                     <label htmlFor="">Valor Frete</label>
@@ -113,11 +130,14 @@ export default function PedidoTab() {
                                 <NumberInput 
                                     placeholder={'______'} 
                                     valor={fatorST} 
-                                    setValor={handlePedidoChange('fatorST')}                                
+                                    setValor={handlePedidoChange('fatorST')}
+                                    required
                                 />
                             }
                         />
-                        <form className={style.extra} onSubmit={(e) => handlePedidoSubmit('st', e, fatorBase)}>
+                        <form className={style.extra} 
+                        onSubmit={(e) => handlePedidoSubmit('st', e, fatorBase)}
+                        >
                             <span> 
                                 <div>
                                     <label htmlFor="">Valor Total ST</label>
@@ -145,6 +165,7 @@ export default function PedidoTab() {
                         </form>
                     </div>
                     
+                    <button type="submit" hidden></button>
                     </div>
                 </motion.div>
                 }             

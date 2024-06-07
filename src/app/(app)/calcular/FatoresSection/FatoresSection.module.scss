@@ -2,6 +2,10 @@
 
 .fatores {
 
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+
     flex: 2;
     flex-shrink: 0;
     // border: 2px solid cor-mix(50%);
@@ -71,6 +75,32 @@
             gap: 1rem;
 
         }
+    }
+
+    .submit {
+    
+        outline: none;
+        border: none;
+        padding: 0.25rem 0;
+        // margin: 0 1rem;
+    
+        width: 100%;
+        // width: calc(100% - 2rem);
+        font-size: 1.1rem;
+        background-color: cor-mix(75%);
+        color: cor-mix(0%);
+        border-radius: 0.5rem;
+
+        cursor: pointer;
+    
+        transition: background-color 400ms ease;
+    
+        &:hover {
+    
+            background-color: cor-mix(90%);
+    
+        }
+    
     }
 
 }

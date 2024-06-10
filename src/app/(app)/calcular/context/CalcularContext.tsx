@@ -3,7 +3,7 @@ import useFornecedor, { useFornecedorReturn } from "@/hooks/useFornecedor";
 import usePedido, { usePedidoReturn } from "@/hooks/usePedido";
 import useProduto, { useProdutoReturn } from "@/hooks/useProduto";
 import { IFornecedor } from "@/interfaces/IFornecedor";
-import { Dispatch, SetStateAction, createContext, useContext, useEffect, useState } from "react";
+import { Dispatch, SetStateAction, createContext, useContext, useEffect, useMemo, useState } from "react";
 import { useNotification } from "../../(contexts)/NotificationContext";
 
 interface CalcularContextProps {
@@ -11,8 +11,11 @@ interface CalcularContextProps {
     fornecedorContext: useFornecedorReturn
     pedidoContext: usePedidoReturn
     produtoContext: useProdutoReturn
-    produtoCadastros?: produtoCadastro
+    // produtoCadastros?: produtoCadastro
     submitForm: () => void
+    produtoCadastro: produtoCadastro
+    valid: boolean
+    tabela: produtoCadastro[]
 
 }
 
@@ -35,6 +38,7 @@ interface produtoCadastro {
     id: number
     codigo: string
     
+    st: boolean
     unitario: string
     unitarioNota: string
     composto: string[] | null
@@ -64,38 +68,103 @@ export const CalcularProvider = ({ children }: { children: React.ReactNode}) => 
     const {pedidoData} = pedidoContext
     const {produtoData, resetForm} = produtoContext
 
+    const [tabela, setTabela] = useState<produtoCadastro[]>([])
+
     // Quando implementar tabela esse estado será o estado tabelaContext: produtoCadastro[]
-    const [produtoCadastros, setProdutoCadastros] = useState<produtoCadastro>() 
+    // const [produtoCadastros, setProdutoCadastros] = useState<produtoCadastro>() 
 
-    const submitForm = () => {
+    // const novoProdutoFatores: fatoresContext = {
 
-        const novoProdutoFatores: fatoresContext = {
+    //     base: fornecedorData.fatorBase,
+    //     fatorNormal: fornecedorData.fatorNormal,
+    //     fatorST: fornecedorData.fatorST,
 
-            base: fornecedorData.fatorBase,
-            fatorNormal: fornecedorData.fatorNormal,
-            fatorST: fornecedorData.fatorST,
+    //     transporte: pedidoData.fatorTransporte,
+    //     st: pedidoData.fatorST,
 
-            transporte: pedidoData.fatorTransporte,
-            st: pedidoData.fatorST,
+    //     ipi: produtoData.ipi,
+    //     desconto: produtoData.desconto,
 
-            ipi: produtoData.ipi,
-            desconto: produtoData.desconto,
+    // }
 
-        }
-
-        const novoProdutoCadastro: produtoCadastro = {
+    const produtoCadastro: produtoCadastro = useMemo(() => {
+        return {
             id: new Date().getTime(),
             codigo: produtoData.codigo,
+            st: produtoData.st,
             unitario: produtoData.unitario,
             unitarioNota: produtoData.unitarioNota,
             composto: [produtoData.composto1, produtoData.composto2],
-            fatores: novoProdutoFatores
-        }
+            fatores: {
 
-        setProdutoCadastros(novoProdutoCadastro)
-        resetForm()
+                base: fornecedorData.fatorBase,
+                fatorNormal: fornecedorData.fatorNormal,
+                fatorST: fornecedorData.fatorST,
+        
+                transporte: pedidoData.fatorTransporte,
+                st: pedidoData.fatorST,
+        
+                ipi: produtoData.ipi,
+                desconto: produtoData.desconto,
+        
+            }
+        }
+    }, [produtoData, fornecedorData])
+
+    // const produtoCadastro: produtoCadastro = {
+    //     id: new Date().getTime(),
+    //     codigo: produtoData.codigo,
+    //     unitario: produtoData.unitario,
+    //     unitarioNota: produtoData.unitarioNota,
+    //     composto: [produtoData.composto1, produtoData.composto2],
+    //     fatores: novoProdutoFatores
+    // }
+
+    const valid: boolean = useMemo(() => {
+        return Object.values(produtoCadastro).some( (element) => element === '' )
+    }, [produtoCadastro])
+
+    console.log(produtoCadastro, valid);
+
+    const submitForm = () => {
+
+        if(!valid) addNotification({tipo: 'erro', mensagem: 'Não foi possível adicionar o produto na tabela, preencha todos os dados!'}) 
+
+        setTabela( prev => ([...prev, produtoCadastro]))
 
     }
+
+    // const submitForm = () => {
+
+    //     const novoProdutoFatores: fatoresContext = {
+
+    //         base: fornecedorData.fatorBase,
+    //         fatorNormal: fornecedorData.fatorNormal,
+    //         fatorST: fornecedorData.fatorST,
+
+    //         transporte: pedidoData.fatorTransporte,
+    //         st: pedidoData.fatorST,
+
+    //         ipi: produtoData.ipi,
+    //         desconto: produtoData.desconto,
+
+    //     }
+
+    //     const novoProdutoCadastro: produtoCadastro = {
+    //         id: new Date().getTime(),
+    //         codigo: produtoData.codigo,
+    //         unitario: produtoData.unitario,
+    //         unitarioNota: produtoData.unitarioNota,
+    //         composto: [produtoData.composto1, produtoData.composto2],
+    //         fatores: novoProdutoFatores
+    //     }
+
+    //     console.log(Object.values(novoProdutoCadastro));
+
+    //     setProdutoCadastros(novoProdutoCadastro)
+    //     resetForm()
+
+    // }
 
     // useEffect(() => {
     //     console.log(fornecedorData, (fornecedorData.nome !== '' ));
@@ -106,8 +175,11 @@ export const CalcularProvider = ({ children }: { children: React.ReactNode}) => 
             fornecedorContext,
             pedidoContext,
             produtoContext,
-            produtoCadastros,
+            produtoCadastro,
+            valid,
+            tabela,
             submitForm
+            // produtoCadastros,
         }}
     >
         {children}

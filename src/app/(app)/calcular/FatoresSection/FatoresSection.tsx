@@ -15,8 +15,14 @@ interface FatoresSectionProps {
 
 export default function FatoresSection({ fornecedores }: FatoresSectionProps) {
 
-    const {fornecedorContext} = useCalcular()
+    const {fornecedorContext, produtoCadastro, valid, submitForm} = useCalcular()
     const {fornecedorData: {nome}} = fornecedorContext
+
+    // const formIsValid: boolean = produtoCadastros
+    // ? Object.values(produtoCadastros!).some( (element) => element === '' )
+    // : false
+    // console.log(formIsValid);
+    // produtoCadastros&& console.log( Object.values(produtoCadastros) );
 
     return (
         <section className={style.fatores}>
@@ -59,7 +65,11 @@ export default function FatoresSection({ fornecedores }: FatoresSectionProps) {
                 </AnimatePresence>
 
             </div>
-            <button className={style.submit}>Adicionar produto</button>
+            <button 
+                className={style.submit} 
+                onClick={() => submitForm()} 
+                disabled={valid}
+            >Adicionar produto</button>
         </section>
     )
 

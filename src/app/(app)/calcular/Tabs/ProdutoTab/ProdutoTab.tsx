@@ -1,7 +1,7 @@
 'use client'
 
 import { motion, AnimatePresence } from "framer-motion"
-import { MouseEvent, useRef, useState } from "react"
+import { FormEvent, MouseEvent, useRef, useState } from "react"
 
 import style from '../FornecedorTab/FornecedorTab.module.scss'
 import Config from "@/app/(app)/configurar/(Config)/Config"
@@ -34,7 +34,7 @@ export default function ProdutoTab() {
     // const [codigoProduto, setCodigoProduto] = useState('')
     // const [desconto, setDesconto] = useState('')
 
-    const handleSubmit = (e) => {
+    const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
     }
 
@@ -134,7 +134,7 @@ export default function ProdutoTab() {
                                         <NumberInput 
                                             placeholder={'______'} 
                                             valor={ipi} 
-                                            setValor={handleProdutoChange('unitario')}                                
+                                            setValor={handleProdutoChange('ipi')}                                
                                         />
                                     }
                                 />

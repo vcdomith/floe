@@ -121,7 +121,7 @@ export const CalcularProvider = ({ children }: { children: React.ReactNode}) => 
     // }
 
     const valid: boolean = useMemo(() => {
-        return Object.values(produtoCadastro).some( (element) => element === '' )
+        return Object.values(produtoCadastro).every( (element) => element !== '' )
     }, [produtoCadastro])
 
     console.log(produtoCadastro, valid);

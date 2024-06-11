@@ -68,7 +68,7 @@ export default function FatoresSection({ fornecedores }: FatoresSectionProps) {
             <button 
                 className={style.submit} 
                 onClick={() => submitForm()} 
-                disabled={valid}
+                disabled={!valid}
             >Adicionar produto</button>
         </section>
     )

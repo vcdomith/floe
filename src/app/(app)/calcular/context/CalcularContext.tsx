@@ -11,6 +11,7 @@ interface CalcularContextProps {
     fornecedorContext: useFornecedorReturn
     pedidoContext: usePedidoReturn
     produtoContext: useProdutoReturn
+    displayControl: IDisplayControl 
     valid: boolean
     tabela: produtoCadastro[]
 
@@ -46,6 +47,20 @@ interface produtoCadastro {
 
 }
 
+interface IDisplayControl {
+
+    transporte: boolean
+    st: boolean
+    desconto: boolean
+    ipi: boolean
+    unitarioNota: boolean
+    composto: boolean
+
+    produtoSt: boolean
+
+
+}
+
 export const CalcularContext = createContext<CalcularContextProps | undefined>(undefined)
 CalcularContext.displayName = 'Calcular'
 
@@ -73,6 +88,19 @@ export const CalcularProvider = ({ children }: { children: React.ReactNode}) => 
 
     // Quando implementar tabela esse estado será o estado tabelaContext: produtoCadastro[]
     // const [produtoCadastros, setProdutoCadastros] = useState<produtoCadastro>() 
+
+    const displayControl: IDisplayControl = {
+
+        transporte: fornecedorData.transporte,
+        st: fornecedorData.st,
+        desconto: fornecedorData.desconto,
+        ipi: fornecedorData.ipi, 
+        unitarioNota: fornecedorData.unitarioNota,
+        composto: fornecedorData.composto,
+
+        produtoSt: produtoData.st,
+
+    }
 
     const valuesToCheck = useMemo(() => {
 
@@ -137,6 +165,7 @@ export const CalcularProvider = ({ children }: { children: React.ReactNode}) => 
             fornecedorContext,
             pedidoContext,
             produtoContext,
+            displayControl,
             valid,
             tabela,
             submitForm,

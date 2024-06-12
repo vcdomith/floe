@@ -16,7 +16,7 @@ const NUMBER_INPUT_PLACEHOLDER = '_'.repeat(50)
 
 export default function ProdutoTab() {
 
-    const {produtoContext, fornecedorContext, submitForm} = useCalcular()
+    const {produtoContext, fornecedorContext, submitForm, displayControl} = useCalcular()
     const {produtoData: {
         st,
         codigo,
@@ -114,6 +114,7 @@ export default function ProdutoTab() {
                                     />
                                 }
                             />
+                            {displayControl.desconto&&
                             <Config 
                                 svg={<SvgDesconto/>} 
                                 title={'Desconto'} 
@@ -127,6 +128,7 @@ export default function ProdutoTab() {
                                     />
                                 }
                             />
+                            }
                             {/* <Config 
                                 svg={<SvgIPI/>} 
                                 title={'IPI'} 
@@ -140,6 +142,7 @@ export default function ProdutoTab() {
                                     />
                                 }
                             /> */}
+                            {displayControl.ipi&&
                             <div className={`${style.configWrapper} ${styleProduto.configWrapper}`}>
                                 <Config 
                                     svg={<SvgIPI/>} 
@@ -179,6 +182,7 @@ export default function ProdutoTab() {
                                     <button type='submit' hidden></button>                        
                                 </form>
                             </div>
+                            }
                             <Config 
                                 svg={<SvgUnitarioNota/>} 
                                 title={'Unitário (Nota)'} 
@@ -192,6 +196,7 @@ export default function ProdutoTab() {
                                     />
                                 }
                             />
+                            {displayControl.unitarioNota&&
                             <Config 
                                 svg={<SvgUnitarioNota/>} 
                                 title={'Unitário (Pedido)'} 
@@ -205,6 +210,8 @@ export default function ProdutoTab() {
                                     />
                                 }
                             />
+                            }
+                            {displayControl.composto&&
                             <div className={`${style.configWrapper} ${styleProduto.configWrapper}`}>
                                 <Config 
                                     svg={<SvgComposto/>} 
@@ -248,6 +255,7 @@ export default function ProdutoTab() {
                                     <button type='submit' hidden></button>                        
                                 </div>
                             </div>
+                            }
                             <button type="submit" hidden></button>
                             {/* <button className={styleProduto.submit} type="submit" onClick={() => submitForm()}>Adicionar</button> */}
                         </form>

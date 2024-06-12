@@ -15,7 +15,7 @@ interface FatoresSectionProps {
 
 export default function FatoresSection({ fornecedores }: FatoresSectionProps) {
 
-    const {fornecedorContext, valid, submitForm} = useCalcular()
+    const {fornecedorContext, valid, submitForm, displayControl} = useCalcular()
     const {fornecedorData: {nome}} = fornecedorContext
 
     // const formIsValid: boolean = produtoCadastros
@@ -55,7 +55,7 @@ export default function FatoresSection({ fornecedores }: FatoresSectionProps) {
                 </div>
             
                 <div className={style.tabContainer}>
-                    <PedidoTab />
+                    {(displayControl.transporte || displayControl.st)&& <PedidoTab />}
                     <ProdutoTab />
                 </div>
                 </motion.div>

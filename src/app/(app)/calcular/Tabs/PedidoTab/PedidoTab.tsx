@@ -16,7 +16,7 @@ export default function PedidoTab() {
     const [displayPedido, setDisplayPedido] = useState(false)
 
     // const [fatorBase, setFatorBase] = useState('2')
-    const {fornecedorContext, pedidoContext} = useCalcular()
+    const {fornecedorContext, pedidoContext, displayControl} = useCalcular()
     const {fornecedorData: { 
         fatorBase 
     }, handleFornecedorChange} = fornecedorContext 
@@ -77,6 +77,7 @@ export default function PedidoTab() {
                     {/* implementar talvez um onSubmit */}
                     <div className={style.fornecedorConfigs}>
 
+                    {displayControl.transporte&&
                     <div className={style.configWrapper}>
                         <Config 
                             svg={<SvgFornecedor/>} 
@@ -120,7 +121,9 @@ export default function PedidoTab() {
                             <button type='submit' hidden></button>                        
                         </form>
                     </div>
+                    }
 
+                    {displayControl.st&&
                     <div className={style.configWrapper}>
                         <Config 
                             svg={<SvgST/>} 
@@ -164,6 +167,7 @@ export default function PedidoTab() {
                             <button type='submit' hidden></button>
                         </form>
                     </div>
+                    }
                     
                     <button type="submit" hidden></button>
                     </div>

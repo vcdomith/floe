@@ -12,7 +12,7 @@ export interface useProdutoReturn {
 
 }
 
-interface IProdutoContext {
+export interface IProdutoContext {
 
     st: boolean
     codigo: string

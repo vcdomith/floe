@@ -1,7 +1,7 @@
 'use client'
 
 import { motion, AnimatePresence } from "framer-motion"
-import { FormEvent, MouseEvent, useRef, useState } from "react"
+import { FormEvent, KeyboardEvent, MouseEvent, useRef, useState } from "react"
 
 import style from '../FornecedorTab/FornecedorTab.module.scss'
 import Config from "@/app/(app)/configurar/(Config)/Config"
@@ -9,6 +9,8 @@ import NumberInput from "@/components/FatoresTable/FatoresTableBody/NumberInput/
 import CheckBox from "@/app/(app)/configurar/(CheckBox)/CheckBox"
 import styleProduto from './ProdutoTab.module.scss'
 import { useCalcular } from "../../context/CalcularContext"
+import Converter from "@/utils/typeConversion"
+import { IProdutoContext } from "@/hooks/useProduto"
 
 const NUMBER_INPUT_PLACEHOLDER = '_'.repeat(50)
 
@@ -25,7 +27,7 @@ export default function ProdutoTab() {
         unitario,
         composto1,
         composto2,
-    }, handleProdutoChange, handleProdutoSubmit, resetForm} = produtoContext
+    }, setProdutoData, handleProdutoChange, handleProdutoSubmit, resetForm} = produtoContext
     const {fornecedorData: { fatorBase }, handleFornecedorChange} = fornecedorContext
 
     const [displayProdutoTab, setDisplayProdutoTab] = useState(false)
@@ -36,6 +38,19 @@ export default function ProdutoTab() {
 
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
+    }
+
+    const {stringToFloat, floatToString} = Converter
+    const handleKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
+
+        if(e.key === 'Enter') {
+            
+            const calculoUnitario = stringToFloat(composto1) + stringToFloat(composto2)
+
+            setProdutoData(prev => ({...prev, ['unitario' as keyof IProdutoContext]: calculoUnitario}))
+            e.preventDefault()
+        } 
+
     }
 
     return (
@@ -127,7 +142,7 @@ export default function ProdutoTab() {
                             /> */}
                             <div className={`${style.configWrapper} ${styleProduto.configWrapper}`}>
                                 <Config 
-                                    svg={<SvgComposto/>} 
+                                    svg={<SvgIPI/>} 
                                     title={'IPI'} 
                                     description={'Alíquiota IPI aplicado ao produto:'}
                                     input={
@@ -200,10 +215,15 @@ export default function ProdutoTab() {
                                             placeholder={'______'} 
                                             valor={unitario} 
                                             setValor={handleProdutoChange('unitario')}
+                                            disabled
+                                            required
                                         />
                                     }
                                 />
-                                <form className={`${style.extra} ${styleProduto.composto}`} onSubmit={(e) => handleProdutoSubmit('composto', e, fatorBase)}>
+                                <div className={`${style.extra} ${styleProduto.composto}`} 
+                                // onSubmit={(e) => handleProdutoSubmit('composto', e, fatorBase)}
+                                onKeyDown={(e) => handleKeyDown(e)}
+                                >
                                     <span> 
                                         <div>
                                             <label htmlFor="">Valor Frete</label>
@@ -226,7 +246,7 @@ export default function ProdutoTab() {
                                         </div>
                                     </span>
                                     <button type='submit' hidden></button>                        
-                                </form>
+                                </div>
                             </div>
                             <button type="submit" hidden></button>
                             {/* <button className={styleProduto.submit} type="submit" onClick={() => submitForm()}>Adicionar</button> */}

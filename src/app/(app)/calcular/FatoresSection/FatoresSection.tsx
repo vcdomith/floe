@@ -55,7 +55,8 @@ export default function FatoresSection({ fornecedores }: FatoresSectionProps) {
                 </div>
             
                 <div className={style.tabContainer}>
-                    {(displayControl.transporte || displayControl.st)&& <PedidoTab />}
+                    {/* {(displayControl.transporte || displayControl.st)&& <PedidoTab />} */}
+                    <PedidoTab />
                     <ProdutoTab />
                 </div>
                 </motion.div>

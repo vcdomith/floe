@@ -30,7 +30,7 @@ export interface IProdutoContext {
 
 const INITIAL_STATE: IProdutoContext = {
 
-    st: false,
+    st: true,
 
     codigo: '',
     

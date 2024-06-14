@@ -56,9 +56,6 @@ interface IDisplayControl {
     unitarioNota: boolean
     composto: boolean
 
-    produtoSt: boolean
-
-
 }
 
 export const CalcularContext = createContext<CalcularContextProps | undefined>(undefined)
@@ -89,18 +86,40 @@ export const CalcularProvider = ({ children }: { children: React.ReactNode}) => 
     // Quando implementar tabela esse estado será o estado tabelaContext: produtoCadastro[]
     // const [produtoCadastros, setProdutoCadastros] = useState<produtoCadastro>() 
 
-    const displayControl: IDisplayControl = {
+    const displayControl = (produtoData.st)
+        ? {
 
-        transporte: fornecedorData.transporte,
-        st: fornecedorData.st,
-        desconto: fornecedorData.desconto,
-        ipi: fornecedorData.ipi, 
-        unitarioNota: fornecedorData.unitarioNota,
-        composto: fornecedorData.composto,
+            transporte: fornecedorData.transporte,
+            st: fornecedorData.st,
+            desconto: fornecedorData.desconto,
+            ipi: fornecedorData.ipi, 
+            unitarioNota: fornecedorData.unitarioNota,
+            composto: fornecedorData.composto,
 
-        produtoSt: produtoData.st,
+        }
+        : {
 
-    }
+            transporte: false,
+            st: false,
+            desconto: fornecedorData.desconto,
+            ipi: false, 
+            unitarioNota: fornecedorData.unitarioNota,
+            composto: fornecedorData.composto,
+
+        }
+
+    // const displayControl: IDisplayControl = {
+
+    //     transporte: fornecedorData.transporte,
+    //     st: fornecedorData.st,
+    //     desconto: fornecedorData.desconto,
+    //     ipi: fornecedorData.ipi, 
+    //     unitarioNota: fornecedorData.unitarioNota,
+    //     composto: fornecedorData.composto,
+
+    //     produtoSt: produtoData.st,
+
+    // }
 
     const valuesToCheck = useMemo(() => {
 

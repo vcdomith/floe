@@ -74,6 +74,11 @@ export default function PedidoTab() {
                     exit={{ height: 0 }}
                     transition={{ type: 'spring', bounce: 0, restDelta: 0.5 }}
                 >
+                    {/* Implementar render condicional se ambos st e transporte não são usados mostrar mensagem:
+                    'O produto atual não utiliza nem transporte nem st'
+                     */}
+                    {/* {(displayControl.transporte === false && displayControl.st === false)} ? : */}
+
                     {/* implementar talvez um onSubmit */}
                     <div className={style.fornecedorConfigs}>
 

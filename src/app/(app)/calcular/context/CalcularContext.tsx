@@ -5,6 +5,7 @@ import useProduto, { useProdutoReturn } from "@/hooks/useProduto";
 import { IFornecedor } from "@/interfaces/IFornecedor";
 import { Dispatch, SetStateAction, createContext, useContext, useEffect, useMemo, useState } from "react";
 import { useNotification } from "../../(contexts)/NotificationContext";
+import { IFator } from "@/interfaces/IFator";
 
 interface CalcularContextProps {
 
@@ -86,6 +87,7 @@ export const CalcularProvider = ({ children }: { children: React.ReactNode}) => 
     // Quando implementar tabela esse estado será o estado tabelaContext: produtoCadastro[]
     // const [produtoCadastros, setProdutoCadastros] = useState<produtoCadastro>() 
 
+    type DisplayControlKeys = typeof displayControl;
     const displayControl = (produtoData.st)
         ? {
 
@@ -108,18 +110,29 @@ export const CalcularProvider = ({ children }: { children: React.ReactNode}) => 
 
         }
 
-    // const displayControl: IDisplayControl = {
+    // const validKeys = Object.fromEntries(Object.entries(displayControl).filter( item => item[1] )) 
+                                
+    const validKeys = Object.keys(displayControl)
+                            .filter( key => displayControl[key as keyof DisplayControlKeys] )
 
-    //     transporte: fornecedorData.transporte,
-    //     st: fornecedorData.st,
-    //     desconto: fornecedorData.desconto,
-    //     ipi: fornecedorData.ipi, 
-    //     unitarioNota: fornecedorData.unitarioNota,
-    //     composto: fornecedorData.composto,
+    const check = useMemo(() => {
 
-    //     produtoSt: produtoData.st,
+        const baseCheck = {
+            codigo: produtoData.codigo,
+            unitario: produtoData.unitario,
+    
+            base: fornecedorData.fatorBase,
+            fatorNormal: fornecedorData.fatorNormal,
+            fatorST: fornecedorData.fatorST,   
+        }
 
-    // }
+        // validKeys.map( key => {
+        //     baseCheck[key] = produtoData[key]
+        // })
+
+    }, [fornecedorData, produtoData, validKeys])
+
+    console.log(validKeys, check);
 
     const valuesToCheck = useMemo(() => {
 

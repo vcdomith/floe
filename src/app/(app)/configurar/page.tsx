@@ -46,8 +46,8 @@ export default function Configurar() {
     const {
         nome,
         fatorBase,
-        fatorNormal,
-        fatorST,
+        fatorBaseNormal,
+        fatorBaseST,
         transporte,
         st,
         desconto,
@@ -306,21 +306,21 @@ export default function Configurar() {
                                 />
                             </div>
                             <div className={style.input}>
-                                <p>Fator Normal</p>
+                                <p>Fator Base Normal</p>
                                 <NumberInput 
-                                    name='fatorNormal'
+                                    name='fatorBaseNormal'
                                     placeholder={"x 1,00"} 
-                                    valor={fatorNormal} 
-                                    setValor={handleFornecedorChange('fatorNormal')}                        
+                                    valor={fatorBaseNormal} 
+                                    setValor={handleFornecedorChange('fatorBaseNormal')}                        
                                 />
                             </div>
                             <div className={style.input}>
-                                <p>Fator ST</p>
+                                <p>Fator Base ST</p>
                                 <NumberInput 
-                                    name='fatorST'
+                                    name='fatorBaseST'
                                     placeholder={"x 1,00"} 
-                                    valor={fatorST} 
-                                    setValor={handleFornecedorChange('fatorST')}                        
+                                    valor={fatorBaseST} 
+                                    setValor={handleFornecedorChange('fatorBaseST')}                        
                                 />
                             </div>
 
@@ -473,12 +473,12 @@ export default function Configurar() {
             >Carregar fornecedores</button>
             
             <Suspense fallback={<Loading />}> 
-                {fornecedoresDB?.map(({nome, fatorBase, fatorNormal, fatorST, transporte, st, desconto, ipi, unitarioNota, composto }) =>
+                {fornecedoresDB?.map(({nome, fatorBase, fatorBaseNormal, fatorBaseST, transporte, st, desconto, ipi, unitarioNota, composto }) =>
                         <div key={nome} style={{ border: '2px solid', padding: '1rem', borderRadius: '1rem' }}>
                             <span style={{ display: 'flex'}}><p style={{ margin: 0 }}>nome:</p><p style={{ margin: 0 }}>{nome}</p></span>
                             <span style={{ display: 'flex'}}><p style={{ margin: 0 }}>fatorBase:</p><p style={{ margin: 0 }}>{fatorBase}</p></span>
-                            <span style={{ display: 'flex'}}><p style={{ margin: 0 }}>fatorNormal:</p><p style={{ margin: 0 }}>{fatorNormal}</p></span>
-                            <span style={{ display: 'flex'}}><p style={{ margin: 0 }}>fatorST:</p><p style={{ margin: 0 }}>{fatorST}</p></span>
+                            <span style={{ display: 'flex'}}><p style={{ margin: 0 }}>fatorNormal:</p><p style={{ margin: 0 }}>{fatorBaseNormal}</p></span>
+                            <span style={{ display: 'flex'}}><p style={{ margin: 0 }}>fatorST:</p><p style={{ margin: 0 }}>{fatorBaseST}</p></span>
                             <span style={{ display: 'flex'}}><p style={{ margin: 0 }}>transporte:</p><p style={{ margin: 0 }}>{transporte ? 'Sim' : 'Não'}</p></span>
                             <span style={{ display: 'flex'}}><p style={{ margin: 0 }}>st:</p><p style={{ margin: 0 }}>{st ? 'Sim' : 'Não'}</p></span>
                             <span style={{ display: 'flex'}}><p style={{ margin: 0 }}>desconto:</p><p style={{ margin: 0 }}>{desconto ? 'Sim' : 'Não'}</p></span>

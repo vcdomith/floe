@@ -4,8 +4,8 @@ export interface IFornecedor {
 
     //strings that will be used as numbers
     fatorBase: string
-    fatorNormal: string
-    fatorST: string 
+    fatorBaseNormal: string
+    fatorBaseST: string 
 
     //Configs
     transporte: boolean

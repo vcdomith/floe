@@ -24,7 +24,8 @@ export default function ProdutoTab() {
         ipi,
         ipiProporcional,
         unitarioNota,
-        unitario,
+        unitarioPedido,
+        unitarioComposto,
         composto1,
         composto2,
     }, setProdutoData, handleProdutoChange, handleProdutoSubmit, resetForm} = produtoContext
@@ -47,7 +48,7 @@ export default function ProdutoTab() {
             
             const calculoUnitario = stringToFloat(composto1) + stringToFloat(composto2)
 
-            setProdutoData(prev => ({...prev, ['unitario' as keyof IProdutoContext]: calculoUnitario}))
+            setProdutoData(prev => ({...prev, ['unitarioComposto' as keyof IProdutoContext]: calculoUnitario}))
             e.preventDefault()
         } 
 
@@ -183,6 +184,7 @@ export default function ProdutoTab() {
                                 </form>
                             </div>
                             }
+                            {displayControl.unitarioNota&&
                             <Config 
                                 svg={<SvgUnitarioNota/>} 
                                 title={'Unitário (Nota)'} 
@@ -196,7 +198,8 @@ export default function ProdutoTab() {
                                     />
                                 }
                             />
-                            {displayControl.unitarioNota&&
+                            }
+                            {displayControl.unitarioPedido&&
                             <Config 
                                 svg={<SvgUnitarioNota/>} 
                                 title={'Unitário (Pedido)'} 
@@ -204,14 +207,14 @@ export default function ProdutoTab() {
                                 input={
                                     <NumberInput 
                                         placeholder={'______'} 
-                                        valor={unitario} 
-                                        setValor={handleProdutoChange('unitario')}  
+                                        valor={unitarioPedido} 
+                                        setValor={handleProdutoChange('unitarioPedido')}  
                                         required
                                     />
                                 }
                             />
                             }
-                            {displayControl.composto&&
+                            {displayControl.unitarioComposto&&
                             <div className={`${style.configWrapper} ${styleProduto.configWrapper}`}>
                                 <Config 
                                     svg={<SvgComposto/>} 
@@ -220,8 +223,8 @@ export default function ProdutoTab() {
                                     input={
                                         <NumberInput 
                                             placeholder={'______'} 
-                                            valor={unitario} 
-                                            setValor={handleProdutoChange('unitario')}
+                                            valor={unitarioComposto} 
+                                            setValor={handleProdutoChange('unitarioComposto')}
                                             disabled
                                             required
                                         />

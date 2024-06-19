@@ -22,7 +22,8 @@ export interface IProdutoContext {
     ipiProporcional: string
 
     unitarioNota: string
-    unitario: string
+    unitarioPedido: string
+    unitarioComposto: string
     composto1: string
     composto2: string
 
@@ -39,7 +40,8 @@ const INITIAL_STATE: IProdutoContext = {
     ipiProporcional: '',
 
     unitarioNota: '',
-    unitario: '',
+    unitarioPedido: '',
+    unitarioComposto: '',
     composto1: '',
     composto2: '',
 

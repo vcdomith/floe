@@ -10,12 +10,12 @@ export interface useFornecedorReturn {
 
 }
 
-const STRING_INPUT_FIELDS: (keyof IFornecedor)[] = ['nome', 'fatorBase', 'fatorNormal', 'fatorST']
+const STRING_INPUT_FIELDS: (keyof IFornecedor)[] = ['nome', 'fatorBase', 'fatorBaseNormal', 'fatorBaseST']
 const INITIAL_STATE: IFornecedor = {
     nome: '',
     fatorBase: '',
-    fatorNormal: '',
-    fatorST: '',
+    fatorBaseNormal: '',
+    fatorBaseST: '',
     transporte: true,
     st: true,
     desconto: false,

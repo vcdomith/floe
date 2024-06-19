@@ -38,8 +38,8 @@ export default function FornecedorTab({ fornecedores, svg, titulo }: FornecedorT
     const {fornecedorData: {
         nome,
         fatorBase,
-        fatorNormal,
-        fatorST,
+        fatorBaseNormal,
+        fatorBaseST,
         transporte,
         st,
         desconto,
@@ -152,8 +152,8 @@ export default function FornecedorTab({ fornecedores, svg, titulo }: FornecedorT
                     input={
                         <NumberInput 
                             placeholder={"x1,0"} 
-                            valor={fatorNormal} 
-                            setValor={handleFornecedorChange('fatorNormal')} 
+                            valor={fatorBaseNormal} 
+                            setValor={handleFornecedorChange('fatorBaseNormal')} 
                         />
                     }                              
                 />
@@ -164,8 +164,8 @@ export default function FornecedorTab({ fornecedores, svg, titulo }: FornecedorT
                     input={
                         <NumberInput 
                             placeholder={"x1,0"} 
-                            valor={fatorST} 
-                            setValor={handleFornecedorChange('fatorST')} 
+                            valor={fatorBaseST} 
+                            setValor={handleFornecedorChange('fatorBaseST')} 
                         />
                     }                             
                 />

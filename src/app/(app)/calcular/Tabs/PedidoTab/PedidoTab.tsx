@@ -21,11 +21,11 @@ export default function PedidoTab() {
         fatorBase 
     }, handleFornecedorChange} = fornecedorContext 
     const {pedidoData: {
-        fatorTransporte,
+        fatorTransportePedido,
         valorFrete,
         fatorFrete,
         valorTotalProdutos,
-        fatorST,
+        fatorSTPedido,
         valorST,
         multiploST,
         valorTotalProdutosST,
@@ -82,7 +82,7 @@ export default function PedidoTab() {
                     {/* implementar talvez um onSubmit */}
                     <div className={style.fornecedorConfigs}>
 
-                    {displayControl.transporte&&
+                    {displayControl.fatorTransportePedido&&
                     <div className={style.configWrapper}>
                         <Config 
                             svg={<SvgFornecedor/>} 
@@ -91,8 +91,8 @@ export default function PedidoTab() {
                             input={
                                 <NumberInput 
                                     placeholder={'______'} 
-                                    valor={fatorTransporte} 
-                                    setValor={handlePedidoChange('fatorTransporte')}
+                                    valor={fatorTransportePedido} 
+                                    setValor={handlePedidoChange('fatorTransportePedido')}
                                     required
                                 />
                             }
@@ -128,7 +128,7 @@ export default function PedidoTab() {
                     </div>
                     }
 
-                    {displayControl.st&&
+                    {displayControl.fatorSTPedido&&
                     <div className={style.configWrapper}>
                         <Config 
                             svg={<SvgST/>} 
@@ -137,8 +137,8 @@ export default function PedidoTab() {
                             input={
                                 <NumberInput 
                                     placeholder={'______'} 
-                                    valor={fatorST} 
-                                    setValor={handlePedidoChange('fatorST')}
+                                    valor={fatorSTPedido} 
+                                    setValor={handlePedidoChange('fatorSTPedido')}
                                     required
                                 />
                             }

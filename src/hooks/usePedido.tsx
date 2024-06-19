@@ -3,12 +3,12 @@ import Converter from "@/utils/typeConversion";
 
 interface IFatoresPedido {
 
-    fatorTransporte: string
+    fatorTransportePedido: string
     valorFrete: string
     fatorFrete: string
     valorTotalProdutos: string
 
-    fatorST: string
+    fatorSTPedido: string
     valorST: string
     multiploST: string
     valorTotalProdutosST: string
@@ -26,12 +26,12 @@ export interface usePedidoReturn {
 
 const INITIAL_STATE: IFatoresPedido = {
 
-    fatorTransporte: '',
+    fatorTransportePedido: '',
     valorFrete: '',
     fatorFrete: '3,4',
     valorTotalProdutos: '',
 
-    fatorST: '',
+    fatorSTPedido: '',
     valorST: '',
     multiploST: '1',
     valorTotalProdutosST: '',
@@ -65,7 +65,7 @@ export default function usePedido() {
                     (stringToFloat(pedidoData.valorTotalProdutos) * stringToFloat(fatorBase))
                 ))
 
-                setPedidoData(prev => ({...prev, ['fatorTransporte' as keyof IFatoresPedido]: floatToString(resultadoTransporte, 3)}))
+                setPedidoData(prev => ({...prev, ['fatorTransportePedido' as keyof IFatoresPedido]: floatToString(resultadoTransporte, 3)}))
 
                 break;
         
@@ -76,7 +76,7 @@ export default function usePedido() {
                     (stringToFloat(pedidoData.valorTotalProdutosST) * stringToFloat(fatorBase))
                 ))
 
-                setPedidoData(prev => ({...prev, ['fatorST' as keyof IFatoresPedido]: floatToString(resultadoSt, 3)}))
+                setPedidoData(prev => ({...prev, ['fatorSTPedido' as keyof IFatoresPedido]: floatToString(resultadoSt, 3)}))
 
                 break;
 

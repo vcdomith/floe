@@ -8,11 +8,11 @@ export interface IFornecedor {
     fatorBaseST: string 
 
     //Configs
-    transporte: boolean
-    st: boolean
-    desconto: boolean
-    ipi: boolean
-    unitarioNota: boolean
-    composto: boolean
+    usaTransporte: boolean
+    usaSt: boolean
+    usaDesconto: boolean
+    usaIpi: boolean
+    usaUnitarioPedido: boolean
+    usaComposto: boolean
 
 }

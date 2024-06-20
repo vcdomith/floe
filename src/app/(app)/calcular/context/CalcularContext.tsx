@@ -97,27 +97,28 @@ export const CalcularProvider = ({ children }: { children: React.ReactNode}) => 
     const displayControl: IDisplayControl = (produtoData.st)
         ? {
 
-            fatorTransportePedido: fornecedorData.transporte,
-            fatorSTPedido: fornecedorData.st,
-            desconto: fornecedorData.desconto,
-            ipi: fornecedorData.ipi,
+            fatorTransportePedido: fornecedorData.usaTransporte,
+            fatorSTPedido: fornecedorData.usaSt,
+            desconto: fornecedorData.usaDesconto,
+            ipi: fornecedorData.usaIpi,
 
-            unitarioPedido: (!fornecedorData.composto && !fornecedorData.unitarioNota), 
             // unitarioNota: (fornecedorData.composto) ? true : fornecedorData.unitarioNota,
             unitarioNota: true,
-            unitarioComposto: fornecedorData.composto,
+            unitarioPedido: (fornecedorData.usaUnitarioPedido && !fornecedorData.usaComposto), 
+            unitarioComposto: (fornecedorData.usaUnitarioPedido && fornecedorData.usaComposto),
 
         }
         : {
 
             fatorTransportePedido: false,
             fatorSTPedido: false,
-            desconto: fornecedorData.desconto,
+            desconto: fornecedorData.usaDesconto,
             ipi: false,
 
-            unitarioPedido: (!fornecedorData.composto && !fornecedorData.unitarioNota), 
-            unitarioNota: (fornecedorData.composto) ? true : fornecedorData.unitarioNota,
-            unitarioComposto: fornecedorData.composto,
+            // unitarioNota: (fornecedorData.usaComposto) ? true : fornecedorData.usaUnitarioPedido,
+            unitarioNota: true,
+            unitarioPedido: (fornecedorData.usaUnitarioPedido && !fornecedorData.usaComposto), 
+            unitarioComposto: (fornecedorData.usaUnitarioPedido && fornecedorData.usaComposto),
 
         }
 
@@ -164,9 +165,9 @@ export const CalcularProvider = ({ children }: { children: React.ReactNode}) => 
 
     const unitario = useMemo(() => {
         
-        if (!fornecedorData.unitarioNota && !fornecedorData.composto)return controlledInputData.unitarioPedido
-        if (fornecedorData.unitarioNota) return controlledInputData.unitarioNota
-        if (fornecedorData.composto) return controlledInputData.unitarioComposto
+        if (!fornecedorData.usaUnitarioPedido && !fornecedorData.usaComposto)return controlledInputData.unitarioPedido
+        if (fornecedorData.usaUnitarioPedido) return controlledInputData.unitarioNota
+        if (fornecedorData.usaUnitarioPedido) return controlledInputData.unitarioComposto
 
     }, [fornecedorData, controlledInputData])
 

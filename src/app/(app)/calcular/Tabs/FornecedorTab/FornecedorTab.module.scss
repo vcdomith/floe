@@ -240,24 +240,6 @@
 
                     }
 
-                    // input {
-
-                    //     border: none;
-                    //     background-color: cor-mix(5%);
-                    //     border-radius: 0.25rem;
-
-                    //     text-align: center;
-
-                    //     transition: background-color 500ms ease;
-
-                    //     &:hover {
-
-                    //         background-color: cor-mix(10%);
-
-                    //     }
-
-                    // }
-
                 }
 
             }
@@ -285,6 +267,12 @@
                 }
 
                 &:valid {
+
+                    border-color: darken(saturate(cor-mix(70%), 40%), 5%);
+
+                }
+
+                &[data-valid="true"] {
 
                     border-color: darken(saturate(cor-mix(70%), 40%), 5%);
 

@@ -48,12 +48,12 @@ export default function Configurar() {
         fatorBase,
         fatorBaseNormal,
         fatorBaseST,
-        transporte,
-        st,
-        desconto,
-        ipi,
-        unitarioNota,
-        composto
+        usaTransporte,
+        usaSt,
+        usaDesconto,
+        usaIpi,
+        usaUnitarioPedido,
+        usaComposto
     } = fornecedorData
 
     const [fornecedoresDB, setFornecedoresDB] = useState<IFornecedor[]>()
@@ -372,8 +372,8 @@ export default function Configurar() {
                             input={
                                 <CheckBox
                                     name='transporte'
-                                    checked={transporte} 
-                                    setChecked={handleFornecedorChange('transporte')} 
+                                    checked={usaTransporte} 
+                                    setChecked={handleFornecedorChange('usaTransporte')} 
                                 />
                             }                           
                         />
@@ -384,8 +384,8 @@ export default function Configurar() {
                             input={
                                 <CheckBox
                                     name='st' 
-                                    checked={st} 
-                                    setChecked={handleFornecedorChange('st')} 
+                                    checked={usaSt} 
+                                    setChecked={handleFornecedorChange('usaSt')} 
                                 />
                             }                              
                         />
@@ -396,8 +396,8 @@ export default function Configurar() {
                             input={
                                 <CheckBox
                                     name="desconto" 
-                                    checked={desconto} 
-                                    setChecked={handleFornecedorChange('desconto')} 
+                                    checked={usaDesconto} 
+                                    setChecked={handleFornecedorChange('usaDesconto')} 
                                 />
                             }                               
                         />
@@ -408,20 +408,20 @@ export default function Configurar() {
                             input={
                                 <CheckBox 
                                     name="ipi"
-                                    checked={ipi} 
-                                    setChecked={handleFornecedorChange('ipi')} 
+                                    checked={usaIpi} 
+                                    setChecked={handleFornecedorChange('usaIpi')} 
                                 />
                             }                             
                         />
                         <Config 
                             svg={<SvgUnitarioNota/>} 
-                            title={'Unitário Nota'} 
-                            description={'Usa unitário da nota no calculo?'} 
+                            title={'Unitário Pedido'} 
+                            description={'Usa unitário do pedido no calculo?'} 
                             input={
                                 <CheckBox 
-                                    name="unitarioNota"
-                                    checked={unitarioNota} 
-                                    setChecked={handleFornecedorChange('unitarioNota')} 
+                                    name="unitarioPedido"
+                                    checked={usaUnitarioPedido} 
+                                    setChecked={handleFornecedorChange('usaUnitarioPedido')} 
                                 />
                             }                                
                         />
@@ -432,8 +432,9 @@ export default function Configurar() {
                             input={
                                 <CheckBox 
                                     name="composto"
-                                    checked={composto} 
-                                    setChecked={handleFornecedorChange('composto')} 
+                                    checked={usaComposto} 
+                                    setChecked={handleFornecedorChange('usaComposto')} 
+                                    disabled={!usaUnitarioPedido}
                                 />
                             }                              
                         />
@@ -473,18 +474,18 @@ export default function Configurar() {
             >Carregar fornecedores</button>
             
             <Suspense fallback={<Loading />}> 
-                {fornecedoresDB?.map(({nome, fatorBase, fatorBaseNormal, fatorBaseST, transporte, st, desconto, ipi, unitarioNota, composto }) =>
+                {fornecedoresDB?.map(({nome, fatorBase, fatorBaseNormal, fatorBaseST, usaTransporte, usaSt, usaDesconto, usaIpi, usaUnitarioPedido, usaComposto }) =>
                         <div key={nome} style={{ border: '2px solid', padding: '1rem', borderRadius: '1rem' }}>
                             <span style={{ display: 'flex'}}><p style={{ margin: 0 }}>nome:</p><p style={{ margin: 0 }}>{nome}</p></span>
                             <span style={{ display: 'flex'}}><p style={{ margin: 0 }}>fatorBase:</p><p style={{ margin: 0 }}>{fatorBase}</p></span>
                             <span style={{ display: 'flex'}}><p style={{ margin: 0 }}>fatorNormal:</p><p style={{ margin: 0 }}>{fatorBaseNormal}</p></span>
                             <span style={{ display: 'flex'}}><p style={{ margin: 0 }}>fatorST:</p><p style={{ margin: 0 }}>{fatorBaseST}</p></span>
-                            <span style={{ display: 'flex'}}><p style={{ margin: 0 }}>transporte:</p><p style={{ margin: 0 }}>{transporte ? 'Sim' : 'Não'}</p></span>
-                            <span style={{ display: 'flex'}}><p style={{ margin: 0 }}>st:</p><p style={{ margin: 0 }}>{st ? 'Sim' : 'Não'}</p></span>
-                            <span style={{ display: 'flex'}}><p style={{ margin: 0 }}>desconto:</p><p style={{ margin: 0 }}>{desconto ? 'Sim' : 'Não'}</p></span>
-                            <span style={{ display: 'flex'}}><p style={{ margin: 0 }}>ipi:</p><p style={{ margin: 0 }}>{ipi ? 'Sim' : 'Não'}</p></span>
-                            <span style={{ display: 'flex'}}><p style={{ margin: 0 }}>unitarioNota:</p><p style={{ margin: 0 }}>{unitarioNota ? 'Sim' : 'Não'}</p></span>
-                            <span style={{ display: 'flex'}}><p style={{ margin: 0 }}>composto:</p><p style={{ margin: 0 }}>{composto ? 'Sim' : 'Não'}</p></span>
+                            <span style={{ display: 'flex'}}><p style={{ margin: 0 }}>transporte:</p><p style={{ margin: 0 }}>{usaTransporte ? 'Sim' : 'Não'}</p></span>
+                            <span style={{ display: 'flex'}}><p style={{ margin: 0 }}>st:</p><p style={{ margin: 0 }}>{usaSt ? 'Sim' : 'Não'}</p></span>
+                            <span style={{ display: 'flex'}}><p style={{ margin: 0 }}>desconto:</p><p style={{ margin: 0 }}>{usaDesconto ? 'Sim' : 'Não'}</p></span>
+                            <span style={{ display: 'flex'}}><p style={{ margin: 0 }}>ipi:</p><p style={{ margin: 0 }}>{usaIpi ? 'Sim' : 'Não'}</p></span>
+                            <span style={{ display: 'flex'}}><p style={{ margin: 0 }}>unitarioPedido:</p><p style={{ margin: 0 }}>{usaUnitarioPedido ? 'Sim' : 'Não'}</p></span>
+                            <span style={{ display: 'flex'}}><p style={{ margin: 0 }}>composto:</p><p style={{ margin: 0 }}>{usaComposto ? 'Sim' : 'Não'}</p></span>
                         </div>
                 )}
                 </Suspense>

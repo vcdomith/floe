@@ -16,30 +16,44 @@ const INITIAL_STATE: IFornecedor = {
     fatorBase: '',
     fatorBaseNormal: '',
     fatorBaseST: '',
-    transporte: true,
-    st: true,
-    desconto: false,
-    ipi: false,
-    unitarioNota: false,
-    composto: false,
+    usaTransporte: true,
+    usaSt: true,
+    usaDesconto: false,
+    usaIpi: false,
+    usaUnitarioPedido: false,
+    usaComposto: false,
 }
 
 export default function useFornecedor() {
 
     const [fornecedorData, setFornecedorData] = useState<IFornecedor>(INITIAL_STATE)
 
-    function handleFornecedorChange<T>(field: keyof IFornecedor) {
+    function handleFornecedorChange(field: keyof IFornecedor) {
 
-        const savedField = field
+        return (valor: (string | boolean)) => setFornecedorData((prev) => {
 
-        // Logic to handle different types of input: strings and booleans
-        return (valor: T) => setFornecedorData((prev) => ({
-            ...prev, 
-            [field]: (STRING_INPUT_FIELDS.includes(savedField)) ? valor : !prev[field],
-        }))
+            const newValue = (STRING_INPUT_FIELDS.includes(field))
+                ? valor
+                : !prev[field]
 
+            let updatedData = {...prev, [field]: newValue}
+
+            if (field === 'usaUnitarioPedido' && !newValue) {
+
+                updatedData.usaComposto = false
+
+            } else if (field === 'usaComposto' && newValue && !prev.usaUnitarioPedido) {
+
+                return prev
+
+            }
+                
+            return updatedData;
+                
+        })
+        
     }
-
+    
     function resetForm() {
 
         setFornecedorData({...INITIAL_STATE})

@@ -38,6 +38,12 @@
         // background-color: darken(saturate($mixed-color, 15%), 5%);
 
     }
+    &[data-disabled="true"]{
+        border-color: cor-mix(30%);
+        .slider {
+            border-color: cor-mix(30%) !important;
+        }
+    }
     &:focus-within{
 
         box-shadow: 2px 2px 15px transparentize($cor-primaria, 0.7);

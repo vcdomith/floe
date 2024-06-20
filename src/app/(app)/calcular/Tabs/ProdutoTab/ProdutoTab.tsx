@@ -4,10 +4,11 @@ import { motion, AnimatePresence } from "framer-motion"
 import { FormEvent, KeyboardEvent, MouseEvent, useRef, useState } from "react"
 
 import style from '../FornecedorTab/FornecedorTab.module.scss'
+import styleProduto from './ProdutoTab.module.scss'
+
 import Config from "@/app/(app)/configurar/(Config)/Config"
 import NumberInput from "@/components/FatoresTable/FatoresTableBody/NumberInput/NumberInput"
 import CheckBox from "@/app/(app)/configurar/(CheckBox)/CheckBox"
-import styleProduto from './ProdutoTab.module.scss'
 import { useCalcular } from "../../context/CalcularContext"
 import Converter from "@/utils/typeConversion"
 import { IProdutoContext } from "@/hooks/useProduto"
@@ -29,7 +30,7 @@ export default function ProdutoTab() {
         composto1,
         composto2,
     }, setProdutoData, handleProdutoChange, handleProdutoSubmit, resetForm} = produtoContext
-    const {fornecedorData: { fatorBase }, handleFornecedorChange} = fornecedorContext
+    const {fornecedorData: { fatorBase, usaUnitarioPedido }, handleFornecedorChange} = fornecedorContext
 
     const [displayProdutoTab, setDisplayProdutoTab] = useState(false)
 
@@ -188,7 +189,12 @@ export default function ProdutoTab() {
                             <Config 
                                 svg={<SvgUnitarioNota/>} 
                                 title={'Unitário (Nota)'} 
-                                description={'Unitário Nota para calcular preço 2:'}
+                                description={
+                                    `${usaUnitarioPedido
+                                        ? 'Unitário Nota para calcular preço 2:'
+                                        : 'Unitário para calcular preços:'
+                                    }`
+                                }
                                 input={
                                     <NumberInput 
                                         placeholder={'______'} 
@@ -215,7 +221,7 @@ export default function ProdutoTab() {
                             />
                             }
                             {displayControl.unitarioComposto&&
-                            <div className={`${style.configWrapper} ${styleProduto.configWrapper}`}>
+                            <div className={`${style.configWrapper} ${styleProduto.configWrapper} ${styleProduto.compostoWrapper}`}>
                                 <Config 
                                     svg={<SvgComposto/>} 
                                     title={'Unitário (Composto)'} 
@@ -226,10 +232,15 @@ export default function ProdutoTab() {
                                             valor={unitarioComposto} 
                                             setValor={handleProdutoChange('unitarioComposto')}
                                             disabled
+                                            data-valid={(unitarioComposto) ? true : false}
                                             required
                                         />
                                     }
                                 />
+                                {/* Adicionar variante que depende se o produto tem ou não ST
+                                    -> Sem st (novo TODO): valor x 2
+                                    -> Com st (existente): valor1 + valor2 
+                                */}
                                 <div className={`${style.extra} ${styleProduto.composto}`} 
                                 // onSubmit={(e) => handleProdutoSubmit('composto', e, fatorBase)}
                                 onKeyDown={(e) => handleKeyDown(e)}

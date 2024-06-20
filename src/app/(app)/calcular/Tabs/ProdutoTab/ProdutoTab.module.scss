@@ -65,6 +65,12 @@
 
 }
 
+.compostoWrapper:disabled {
+
+    border-color: cor-mix(20%) !important;
+
+}
+
 .submit {
     
     outline: none;

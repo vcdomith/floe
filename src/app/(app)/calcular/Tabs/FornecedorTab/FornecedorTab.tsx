@@ -40,12 +40,12 @@ export default function FornecedorTab({ fornecedores, svg, titulo }: FornecedorT
         fatorBase,
         fatorBaseNormal,
         fatorBaseST,
-        transporte,
-        st,
-        desconto,
-        ipi,
-        unitarioNota,
-        composto
+        usaTransporte,
+        usaSt,
+        usaDesconto,
+        usaIpi,
+        usaUnitarioPedido,
+        usaComposto
     }, setFornecedorData, handleFornecedorChange} = fornecedorContext
 
     useEffect(() => {
@@ -175,8 +175,8 @@ export default function FornecedorTab({ fornecedores, svg, titulo }: FornecedorT
                     description={'Usa transporte no calculo?'} 
                     input={
                         <CheckBox
-                            checked={transporte} 
-                            setChecked={handleFornecedorChange('transporte')} 
+                            checked={usaTransporte} 
+                            setChecked={handleFornecedorChange('usaTransporte')} 
                         />
                     }                           
                 />
@@ -186,8 +186,8 @@ export default function FornecedorTab({ fornecedores, svg, titulo }: FornecedorT
                     description={'Usa ST no calculo?'} 
                     input={
                         <CheckBox 
-                            checked={st} 
-                            setChecked={handleFornecedorChange('st')} 
+                            checked={usaSt} 
+                            setChecked={handleFornecedorChange('usaSt')} 
                         />
                     }                              
                 />
@@ -197,8 +197,8 @@ export default function FornecedorTab({ fornecedores, svg, titulo }: FornecedorT
                     description={'Usa desconto no calculo?'} 
                     input={
                         <CheckBox 
-                            checked={desconto} 
-                            setChecked={handleFornecedorChange('desconto')} 
+                            checked={usaDesconto} 
+                            setChecked={handleFornecedorChange('usaDesconto')} 
                         />
                     }                               
                 />
@@ -208,8 +208,8 @@ export default function FornecedorTab({ fornecedores, svg, titulo }: FornecedorT
                     description={'Usa IPI no calculo?'} 
                     input={
                         <CheckBox 
-                            checked={ipi} 
-                            setChecked={handleFornecedorChange('ipi')} 
+                            checked={usaIpi} 
+                            setChecked={handleFornecedorChange('usaIpi')} 
                         />
                     }                             
                 />
@@ -228,12 +228,12 @@ export default function FornecedorTab({ fornecedores, svg, titulo }: FornecedorT
                 } */}
                 <Config 
                     svg={<SvgUnitarioNota/>} 
-                    title={'Unitário Nota'} 
-                    description={'Usa unitário da nota no calculo?'} 
+                    title={'Unitário Pedido'} 
+                    description={'Usa unitário do pedido no calculo?'} 
                     input={
                         <CheckBox 
-                            checked={unitarioNota} 
-                            setChecked={handleFornecedorChange('unitarioNota')} 
+                            checked={usaUnitarioPedido} 
+                            setChecked={handleFornecedorChange('usaUnitarioPedido')} 
                         />
                     }                                
                 />
@@ -243,8 +243,9 @@ export default function FornecedorTab({ fornecedores, svg, titulo }: FornecedorT
                     description={'Usa unitário composto no pedido?'} 
                     input={
                         <CheckBox 
-                            checked={composto} 
-                            setChecked={handleFornecedorChange('composto')} 
+                            checked={usaComposto} 
+                            setChecked={handleFornecedorChange('usaComposto')}
+                            disabled={!usaUnitarioPedido} 
                         />
                     }                              
                 />

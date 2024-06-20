@@ -11,11 +11,40 @@
     border-image: linear-gradient(0deg , $cor-secundaria, cor-mix(40%)) 5;
 
     .content {
+
         width: 100%;
         height: 100%;
+        box-sizing: border-box;
+        padding: 1rem;
 
         border-top: 2px solid;
-        border-image: linear-gradient(to left , $cor-secundaria, cor-mix(40%)) 27;
+        border-image: linear-gradient(to left , 
+        $cor-secundaria, cor-mix(40%)) 27;
+
+        overflow-y: scroll;
+
+        /* width */
+        &::-webkit-scrollbar {
+            width: 0.15rem;
+        }
+        
+        /* Track */
+        &::-webkit-scrollbar-track {
+        background: $cor-secundaria;
+        }
+        
+        /* Handle */
+        &::-webkit-scrollbar-thumb {
+        background: linear-gradient(0deg, $cor-secundaria, cor-mix(50%) 50%, $cor-secundaria);
+        }
+
+        /* Handle on hover */
+        &::-webkit-scrollbar-thumb:hover {
+        background: linear-gradient(0deg, $cor-secundaria, cor-mix(80%) 50%, $cor-secundaria);
+        cursor: pointer;
+        // background: linear-gradient(90deg, #521843, #421236);
+        }
+        
     }
 
 }

@@ -73,7 +73,7 @@ export default function ProdutoTab() {
                                     ? "M376 314L250 188L124 314" 
                                     : "M376 187L250 313L124 187"
                                 }`}  
-                                stroke-width="50"/>
+                                strokeWidth="50"/>
                         </svg>              
                     </button>
                 </span>

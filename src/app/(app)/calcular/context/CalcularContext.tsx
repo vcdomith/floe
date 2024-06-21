@@ -156,18 +156,30 @@ export const CalcularProvider = ({ children }: { children: React.ReactNode}) => 
 
     }, [fornecedorData, produtoData, validKeys, controlledInputData])
 
-    console.log(validKeys);
-    console.table(check)
+    // console.log(validKeys);
+    // console.table(check)
 
     const valid = useMemo(() => {
         return Object.values(check).every( value => value !== '' )
     }, [check])
 
     const unitario = useMemo(() => {
+
+        if (fornecedorData.usaComposto) 
+            return controlledInputData.unitarioComposto
+        else if (fornecedorData.usaUnitarioPedido) 
+            return controlledInputData.unitarioPedido
+        else 
+            return controlledInputData.unitarioNota
         
-        if (!fornecedorData.usaUnitarioPedido && !fornecedorData.usaComposto)return controlledInputData.unitarioPedido
-        if (fornecedorData.usaUnitarioPedido) return controlledInputData.unitarioNota
-        if (fornecedorData.usaUnitarioPedido) return controlledInputData.unitarioComposto
+        // if (fornecedorData.usaComposto) return controlledInputData.unitarioComposto
+
+        // if (!fornecedorData.usaUnitarioPedido && !fornecedorData.usaComposto) 
+        //     return controlledInputData.unitarioPedido
+        // if (fornecedorData.usaUnitarioPedido) 
+        //     return controlledInputData.unitarioNota
+        // if (fornecedorData.usaUnitarioPedido) 
+        //     return controlledInputData.unitarioComposto
 
     }, [fornecedorData, controlledInputData])
 

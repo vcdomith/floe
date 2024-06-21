@@ -282,8 +282,8 @@ export default function Configurar() {
                                     // }}
                                 >
                                     <svg width="20" height="20" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M462 433L250.5 67L144.75 250L39 433H462Z" stroke="black" stroke-width="40" stroke-linejoin="bevel"/>
-                                        <path d="M250 198V380" stroke="black" stroke-width="40"/>
+                                        <path d="M462 433L250.5 67L144.75 250L39 433H462Z" stroke="black" strokeWidth="40" strokeLinejoin="bevel"/>
+                                        <path d="M250 198V380" stroke="black" strokeWidth="40"/>
                                     </svg>
                                     <p 
                                         // style={{ margin: 0, display: "flex", alignContent: 'center', gap: '0.3rem' }}

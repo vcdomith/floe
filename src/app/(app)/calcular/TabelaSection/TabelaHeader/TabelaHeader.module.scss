@@ -1,0 +1,23 @@
+@use '../../../../globalStyle.module.scss' as *;
+
+.header {
+
+    display: flex;
+    gap: 0.5rem;
+    border-bottom: 2px solid cor-mix(10%);
+    padding-bottom: 0.5rem;
+    margin-bottom: 1rem;
+
+    & > div {
+
+        flex: 4;
+
+        &:first-child {
+
+            flex: 1;
+
+        }
+
+    }
+
+}

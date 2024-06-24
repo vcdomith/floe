@@ -1,0 +1,75 @@
+@use '../../../../globalStyle.module.scss' as *;
+
+
+.row {
+
+    border-bottom: 2px solid cor-mix(10%);
+    padding-bottom: 0.5rem;
+
+    div {
+
+        // font-size: 1.2rem;
+        font-weight: 600;
+
+    }
+
+    .st {
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        width: 15px;
+        height: 15px;
+        margin: 0;
+        padding: 0.25rem;
+        border-radius: 0.25rem;
+        
+        font-size: 0.8rem;
+        text-align: center;
+        // background-color: cor-mix(70%);
+        // border: 2px solid cor-mix(90%);
+        // color: cor-mix(0%);
+
+        &[data-st="true"] {
+
+            background-color: cor-mix(75%);
+            // border: 2px solid cor-mix(60%);
+            color: cor-mix(0%);
+
+        }
+
+
+        // border: 2px osli;
+
+    }
+
+    .composto {
+
+        display: flex;
+        flex-direction: column;
+        // align-items: center;
+
+        .main {
+
+            font-size: 1rem;
+            color: cor-mix(80%);
+
+        }
+        .second {
+
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: cor-mix(50%);
+
+        }
+        & > p {
+
+            margin: 0;
+
+
+        }
+
+    }
+
+}

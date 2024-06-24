@@ -47,7 +47,7 @@ export default function ProdutoTab() {
 
         if(e.key === 'Enter') {
             
-            const calculoUnitario = stringToFloat(composto1) + stringToFloat(composto2)
+            const calculoUnitario = floatToString(stringToFloat(composto1) + stringToFloat(composto2))
 
             setProdutoData(prev => ({...prev, ['unitarioComposto' as keyof IProdutoContext]: calculoUnitario}))
             e.preventDefault()

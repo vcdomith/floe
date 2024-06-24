@@ -15,6 +15,7 @@ interface CalcularContextProps {
     displayControl: IDisplayControl 
     valid: boolean
     tabela: produtoCadastro[]
+    setTabela: Dispatch<SetStateAction<produtoCadastro[]>>
 
     submitForm: () => void
 
@@ -34,7 +35,7 @@ interface fatoresContext {
 
 }
 
-interface produtoCadastro {
+export interface produtoCadastro {
 
     id: number
     codigo: string
@@ -204,9 +205,13 @@ export const CalcularProvider = ({ children }: { children: React.ReactNode}) => 
                 fatorBaseNormal: (!controlledInputData.st) ? controlledInputData.fatorBaseNormal : '1',
                 fatorBaseST: (controlledInputData.st) ? controlledInputData.fatorBaseST : '1',
         
-                transporte: controlledInputData.fatorTransportePedido || '1',
-                st: controlledInputData.fatorSTPedido || '1',
-        
+                // transporte: controlledInputData.fatorTransportePedido || '1',
+                transporte: (controlledInputData.st) 
+                    ? controlledInputData.fatorTransportePedido || '1'
+                    : '1',
+                st: (controlledInputData.st) 
+                    ? controlledInputData.fatorSTPedido || '1'
+                    : '1',
                 ipi: controlledInputData.ipi || '1',
                 desconto: controlledInputData.desconto || '1',
 
@@ -252,6 +257,7 @@ export const CalcularProvider = ({ children }: { children: React.ReactNode}) => 
             displayControl,
             valid,
             tabela,
+            setTabela,
             submitForm,
         }}
     >

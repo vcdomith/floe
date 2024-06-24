@@ -2,32 +2,35 @@
 import { getTabelas } from '@/utils/calculoTabelas'
 import { useCalcular } from '../context/CalcularContext'
 import style from './TabelaSection.module.scss'
+import TableHeader from './TabelaHeader/TableHeader'
+import TabelaRow from './TabelaRow/TabelaRow'
+import { AnimatePresence } from 'framer-motion'
 
 export default function TabelaSection() {
 
-    const {tabela} = useCalcular()
+    const {tabela, setTabela} = useCalcular()
 
     return (
-        <section className={style.tabela}>
+        <section className={style.tabelaSection}>
             <div className={style.content}>
-                <span style={{ display: 'flex', gap: '0.5rem', borderBottom: '2px solid #53015828', paddingBottom: '0.5rem', marginBottom: '1rem'}}>
-                    <div style={{ flex: 1 }}>Tipo</div>
-                    <div style={{ flex: 4 }}>Código</div>
-                    <div style={{ flex: 4 }}>Unitário</div>
-                    <div style={{ flex: 4 }}>Tabela 1</div>
-                    <div style={{ flex: 4 }}>Tabela 2</div>
-                    <div style={{ flex: 4 }}>Tabela 3</div>
+
+                <span>
+                    <input type="text" />
+                    <button>a</button>
                 </span>
-                {tabela.map(({id, st, codigo, unitario}) => 
-                    <span key={id} style={{ display: 'flex', gap: '0.5rem', marginBottom: '0.5rem', height: '2rem', alignItems: 'center'}}>
-                        <div style={{ flex: 1, backgroundColor: `${st ? '#53015828' : '' }`}}>{st ? 'ST' : ''}</div>
-                        <div style={{ flex: 4 }}>{codigo}</div>
-                        <div style={{ flex: 4 }}>{unitario}</div>
-                        <div style={{ flex: 4 }}>Tabela 1</div>
-                        <div style={{ flex: 4 }}>Tabela 2</div>
-                        <div style={{ flex: 4 }}>Tabela 3</div>
-                    </span>
-                )}
+
+                <div className={style.tabela}>
+
+                    <TableHeader />
+                    <div className={style.tabelaBody}>
+                    <AnimatePresence mode='popLayout'>
+                    {tabela.map((produto) => 
+                        <TabelaRow produto={produto} setTabela={setTabela} key={produto.id} />
+                    )}
+                    </AnimatePresence>
+                    </div>
+
+                </div>
                 {/* {tabela.map( produto =>
                 <div key={produto.id} style={{ display: 'flex', gap: '1rem' }}>
                     <div>
@@ -43,6 +46,7 @@ export default function TabelaSection() {
                 </div> 
                 )} */}
             </div>
+            <button className={style.submit}>Cadastrar Pedido</button>
         </section>
     )
 

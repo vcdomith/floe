@@ -10,7 +10,7 @@ export default function Notifications() {
     const { notifications, addNotification, removeNotification } = useNotification()
 
     return (
-        <div
+        <motion.div
             className={style.notifications}
             // style={{ height: `${notifications.length*(98+16)}px` }}
             // style={{
@@ -26,7 +26,7 @@ export default function Notifications() {
             />
         )}
         </AnimatePresence>
-        </div>
+        </motion.div>
     )
 
 }
@@ -36,8 +36,8 @@ interface NotificationProps {
     notification: INotification
 
 }
-
-function Notification({notification}: NotificationProps) {
+const Notification = forwardRef<HTMLSpanElement, NotificationProps>(
+function Notification({notification}: NotificationProps, ref) {
 
     const { id, tipo, mensagem } = notification
     const { removeNotification } = useNotification()
@@ -45,17 +45,19 @@ function Notification({notification}: NotificationProps) {
     return (
 
         <motion.span
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: 20 }}
+            transition={{ duration: 0.3 }}
+            ref={ref}
             layout
-            initial={{ opacity: 0, x: -20  }}
-            animate={{ opacity: 1, x: 0  }}
-            exit={{ opacity: 0, x: -20  }}
 
             className={style.notification}
         >
             <svg width="50" height="50" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M462 433L250.5 67L144.75 250L39 433H462Z" stroke="black" strokeWidth="40" strokeLinejoin="bevel"/>
-                                    <path d="M250 198V380" stroke="black" strokeWidth="40"/>
-                                </svg>
+                <path d="M462 433L250.5 67L144.75 250L39 433H462Z" stroke="black" strokeWidth="40" strokeLinejoin="bevel"/>
+                <path d="M250 198V380" stroke="black" strokeWidth="40"/>
+            </svg>
             <p>{mensagem}</p>
             <button 
                 onClick={() => removeNotification(id)}
@@ -65,3 +67,4 @@ function Notification({notification}: NotificationProps) {
     )
 
 }
+)

@@ -5,16 +5,31 @@
     display: flex;
     gap: 0.5rem;
     border-bottom: 2px solid cor-mix(10%);
-    padding-bottom: 0.5rem;
+    padding: 0.5rem;
     margin-bottom: 1rem;
 
     & > div {
 
         flex: 4;
+        color: cor-mix(50%);
+        // min-width: 50px;
+        width: clamp(50px, auto, 100px);
 
         &:first-child {
 
             flex: 1;
+
+        }
+
+        &:last-child {
+
+            flex: 2;
+
+        }
+
+        &:not(:last-child) {
+
+            border-right: 2px solid cor-mix(10%);
 
         }
 

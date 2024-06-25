@@ -55,7 +55,7 @@ const NumberInput = ({ label, placeholder, valor, setValor, onBlur, name, form, 
             // disabled={disabled}
             name={name}
             className={styles.inputFont}
-            required
+            required={props.required}
             type="text" 
             value={valor}
             inputMode='numeric'

@@ -12,8 +12,8 @@ interface TabelaRowProps {
 
 }
 
-const TabelaRow = forwardRef(
-function TabelaRow({produto, setTabela}: TabelaRowProps) {
+const TabelaRow = forwardRef<HTMLSpanElement, TabelaRowProps>(
+function TabelaRow({produto, setTabela}: TabelaRowProps, ref) {
 
     const {id, codigo, st, unitario, unitarioNota, composto, fatores } = produto
     const {tabela1, tabela2, tabela3} = useMemo(() => getTabelasObject(produto), [produto])
@@ -35,31 +35,34 @@ function TabelaRow({produto, setTabela}: TabelaRowProps) {
         <motion.span 
             className={style.row}
 
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
+            initial={{ opacity: 0, x: -10 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: 10 }}
+            transition={{ duration: .3 }}
+            ref={ref}
+            layout
         >
-            <div>
-                <p className={style.st} data-st={st}>{ st ? 'ST' : '' }</p>
-            </div>
-            <div>{ codigo }</div>
-            <div className={style.composto}>
-                <p className={style.main}>{ unitario }</p>
-                {(composto?.every(item => item !== ''))&&
-                <p className={style.second}>{ `(${composto[0]} + ${composto[1]})` }</p>
-                }
-            </div>
-            <div>{ tabela1 }</div>
-            {/* <div>{ tabela2 }</div> */}
-            <div className={style.composto}>
-                <p className={style.main}>{ tabela2.toFixed(2) }</p>      
-                <p className={style.second}>{ unitarioNota }</p>
-            </div>
-            <div>{ tabela3 }</div>
-            <div>
-                <button onClick={() => alert(JSON.stringify(fatores))}>|||</button>
-                <button onClick={() => handleClick(id)}>X</button>
-            </div>
+                <div>
+                    <p className={style.st} data-st={st}>{ st ? 'ST' : '' }</p>
+                </div>
+                <div>{ codigo }</div>
+                <div className={style.composto}>
+                    <p className={style.main}>{ unitario }</p>
+                    {(composto?.every(item => item !== ''))&&
+                    <p className={style.second}>{ `(${composto[0]} + ${composto[1]})` }</p>
+                    }
+                </div>
+                <div>{ tabela1.toFixed(2) }</div>
+                {/* <div>{ tabela2 }</div> */}
+                <div className={style.composto}>
+                    <p className={style.main}>{ tabela2.toFixed(2) }</p>      
+                    <p className={style.second}>{ unitarioNota }</p>
+                </div>
+                <div>{ tabela3.toFixed(2) }</div>
+                <div>
+                    <button onClick={() => alert(JSON.stringify(fatores))}>|||</button>
+                    <button onClick={() => handleClick(id)}>X</button>
+                </div>
         </motion.span>
 
     )

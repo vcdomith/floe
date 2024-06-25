@@ -74,7 +74,7 @@ export default function CheckBox({ checked, setChecked, name, disabled }: CheckB
             </input>
             <motion.div 
                 //framer-motion
-                layout 
+                layout
                 transition={spring}
 
                 className={style.slider}

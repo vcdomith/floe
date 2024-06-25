@@ -1,5 +1,6 @@
 import { SetStateAction } from "react"
 import CheckBox from "../(CheckBox)/CheckBox"
+import { motion } from 'framer-motion'
 
 import style from './Config.module.scss'
 
@@ -19,7 +20,7 @@ interface ConfigProps {
 const Config = ({svg, title, description, input}: ConfigProps) => {
 
   return (
-    <span className={style.config}>
+    <motion.span layout className={style.config}>
         <span className={style.info}>
             {svg}
             <div className={style.texts}>
@@ -29,7 +30,7 @@ const Config = ({svg, title, description, input}: ConfigProps) => {
         </span>
         {/* <CheckBox checked={checked} setChecked={setChecked} /> */}
         {input}
-    </span>
+    </motion.span>
   )
 
 }

@@ -17,7 +17,7 @@ const NUMBER_INPUT_PLACEHOLDER = '_'.repeat(50)
 
 export default function ProdutoTab() {
 
-    const {produtoContext, fornecedorContext, submitForm, displayControl} = useCalcular()
+    const {produtoContext, fornecedorContext, valid, submitForm, displayControl} = useCalcular()
     const {produtoData: {
         st,
         codigo,
@@ -40,16 +40,21 @@ export default function ProdutoTab() {
 
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
+        valid&& submitForm()
     }
 
     const {stringToFloat, floatToString} = Converter
-    const handleKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
+    const handleKeyDown = (e: KeyboardEvent<HTMLDivElement>, field: keyof IProdutoContext) => {
 
         if(e.key === 'Enter') {
             
             const calculoUnitario = floatToString(stringToFloat(composto1) + stringToFloat(composto2))
 
-            setProdutoData(prev => ({...prev, ['unitarioComposto' as keyof IProdutoContext]: calculoUnitario}))
+            const valorCalculado = (field === 'unitarioComposto')
+                ? floatToString(stringToFloat(composto1) + stringToFloat(composto2), 2)
+                : floatToString(stringToFloat(ipiProporcional) / stringToFloat(fatorBase))
+
+            setProdutoData(prev => ({...prev, [field]: valorCalculado}))
             e.preventDefault()
         } 
 
@@ -91,15 +96,15 @@ export default function ProdutoTab() {
                         {/* Trocar onSubmit pela função a ser recebida do context */}
                         <form onSubmit={(e) => handleSubmit(e)}>
                             <Config 
-                                    svg={<SvgST/>} 
-                                    title={'Produto com ST?'} 
-                                    description={'Produto usa Subst. Trib.'}
-                                    input={
-                                        <CheckBox 
-                                            checked={st}
-                                            setChecked={handleProdutoChange('st')}
-                                        />
-                                    }
+                                svg={<SvgST/>} 
+                                title={'Produto com ST?'} 
+                                description={'Produto usa Subst. Trib.'}
+                                input={
+                                    <CheckBox 
+                                        checked={st}
+                                        setChecked={handleProdutoChange('st')}
+                                    />
+                                }
                             />
                             <Config 
                                 svg={<SvgFornecedor/>} 
@@ -154,11 +159,16 @@ export default function ProdutoTab() {
                                         <NumberInput 
                                             placeholder={'______'} 
                                             valor={ipi} 
-                                            setValor={handleProdutoChange('ipi')}                                
+                                            setValor={handleProdutoChange('ipi')}
+                                            required                  
                                         />
                                     }
                                 />
-                                <form className={`${style.extra} ${styleProduto.ipi}`} onSubmit={(e) => handleProdutoSubmit('ipi', e, fatorBase)}>
+                                <div 
+                                    className={`${style.extra} ${styleProduto.ipi}`} 
+                                    // onSubmit={(e) => handleProdutoSubmit('ipi', e, fatorBase)}
+                                    onKeyDown={(e) => handleKeyDown(e, 'ipi')}
+                                >
                                     <span> 
                                         <div>
                                             <label htmlFor="">Aliquota IPI</label>
@@ -166,7 +176,6 @@ export default function ProdutoTab() {
                                                 placeholder={NUMBER_INPUT_PLACEHOLDER} 
                                                 valor={ipiProporcional} 
                                                 setValor={handleProdutoChange('ipiProporcional')} 
-                                                required
                                             />
                                         </div>        
                                         <p>/</p>
@@ -182,7 +191,7 @@ export default function ProdutoTab() {
                                         </div>
                                     </span>
                                     <button type='submit' hidden></button>                        
-                                </form>
+                                </div>
                             </div>
                             }
                             {displayControl.unitarioNota&&
@@ -243,11 +252,11 @@ export default function ProdutoTab() {
                                 */}
                                 <div className={`${style.extra} ${styleProduto.composto}`} 
                                 // onSubmit={(e) => handleProdutoSubmit('composto', e, fatorBase)}
-                                onKeyDown={(e) => handleKeyDown(e)}
+                                onKeyDown={(e) => handleKeyDown(e, 'unitarioComposto')}
                                 >
                                     <span> 
                                         <div>
-                                            <label htmlFor="">Valor Frete</label>
+                                            <label htmlFor="">Composto 1</label>
                                             <NumberInput 
                                                 placeholder={NUMBER_INPUT_PLACEHOLDER} 
                                                 valor={composto1} 
@@ -257,7 +266,7 @@ export default function ProdutoTab() {
                                         </div>        
                                         <p>+</p>
                                         <div>
-                                            <label htmlFor="">Fator Frete</label>
+                                            <label htmlFor="">Composto 2</label>
                                             <NumberInput 
                                                 placeholder={NUMBER_INPUT_PLACEHOLDER} 
                                                 valor={composto2} 

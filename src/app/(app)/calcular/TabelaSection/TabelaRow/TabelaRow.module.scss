@@ -1,15 +1,35 @@
 @use '../../../../globalStyle.module.scss' as *;
 
-
 .row {
 
-    border-bottom: 2px solid cor-mix(10%);
-    padding-bottom: 0.5rem;
+    width: 100%;
+    box-sizing: border-box;
+    border: 2px solid transparent;
+    // border-bottom-color: cor-mix(10%);
+    border-radius: 0;
+    background-color: transparent;
+    // padding: 0.5rem;
+
+    overflow: hidden;
+    min-height: 3rem;
+
+    transition: border-color 400ms ease, border-radius 400ms ease, background-color 400ms ease;
+
+    &:hover {
+
+        border: 2px solid cor-mix(15%);
+        border-radius: 0.5rem;
+        background-color: cor-mix(2%);
+
+    }
 
     div {
 
         // font-size: 1.2rem;
         font-weight: 600;
+        // min-width: 50px;
+        width: clamp(50px, 50px, 100px);
+        text-overflow: ellipsis;
 
     }
 

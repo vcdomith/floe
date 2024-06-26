@@ -16,6 +16,7 @@ interface CalcularContextProps {
     valid: boolean
     tabela: produtoCadastro[]
     setTabela: Dispatch<SetStateAction<produtoCadastro[]>>
+    searchContext: [string, Dispatch<SetStateAction<string>>]
 
     submitForm: () => void
 
@@ -90,6 +91,7 @@ export const CalcularProvider = ({ children }: { children: React.ReactNode}) => 
     }, [fornecedorData, pedidoData, produtoData])
 
     const [tabela, setTabela] = useState<produtoCadastro[]>([])
+    const searchContext = useState('')
 
     // Quando implementar tabela esse estado será o estado tabelaContext: produtoCadastro[]
     // const [produtoCadastros, setProdutoCadastros] = useState<produtoCadastro>() 
@@ -259,6 +261,7 @@ export const CalcularProvider = ({ children }: { children: React.ReactNode}) => 
             tabela,
             setTabela,
             submitForm,
+            searchContext
         }}
     >
         {children}

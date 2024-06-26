@@ -60,8 +60,10 @@ function TabelaRow({produto, setTabela}: TabelaRowProps, ref) {
                 </div>
                 <div>{ tabela3.toFixed(2) }</div>
                 <div>
-                    <button onClick={() => alert(JSON.stringify(fatores))}>|||</button>
-                    <button onClick={() => handleClick(id)}>X</button>
+                    <span className={style.tools}>
+                        <button onClick={() => alert(JSON.stringify(fatores))}>|||</button>
+                        <button onClick={() => handleClick(id)}>X</button>
+                    </span>
                 </div>
         </motion.span>
 

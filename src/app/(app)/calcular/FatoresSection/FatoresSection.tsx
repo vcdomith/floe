@@ -30,7 +30,16 @@ export default function FatoresSection({ fornecedores }: FatoresSectionProps) {
     
                 <div className={style.title}>
                     <h3>Fornecedor</h3>
-                    <p>Selecione o fornecedor para acessar os fatores e configurações para calcular as tabelas:</p>
+                    <AnimatePresence initial={false}>
+                    {(nome === '')&&
+                    <motion.p
+                        animate={{ opacity: 1, height: 'auto' }}
+                        exit={{ opacity: 0, height: 0 }}
+                    >
+                        Selecione um fornecedor para acessar os fatores e configurações para calcular as tabelas:
+                    </motion.p>
+                    }                        
+                    </AnimatePresence>
                 </div>
                 {fornecedores&&
                 <div className={style.tabContainer}>
@@ -51,7 +60,7 @@ export default function FatoresSection({ fornecedores }: FatoresSectionProps) {
                 >
                 <div className={style.title}>
                     <h3>Fatores</h3>
-                    <p>Selecione o fornecedor para acessar os fatores e configurações para calcular as tabelas:</p>
+                    {/* <p>Selecione o fornecedor para acessar os fatores e configurações para calcular as tabelas:</p> */}
                 </div>
             
                 <div className={style.tabContainer}>

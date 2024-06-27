@@ -21,6 +21,7 @@ export default function PedidoTab() {
         fatorBase 
     }, handleFornecedorChange} = fornecedorContext 
     const {pedidoData: {
+        quantidadeProdutos,
         fatorTransportePedido,
         valorFrete,
         fatorFrete,
@@ -81,7 +82,20 @@ export default function PedidoTab() {
 
                     {/* implementar talvez um onSubmit */}
                     <div className={style.fornecedorConfigs}>
-
+                    
+                    <Config 
+                        svg={<SvgFornecedor/>} 
+                        title={'Quantidade Produtos'} 
+                        description={'Quantidade de produtos na nota para conferir na tabela'}
+                        input={
+                            <NumberInput 
+                                placeholder={'______'} 
+                                valor={quantidadeProdutos} 
+                                setValor={handlePedidoChange('quantidadeProdutos')}
+                                required
+                            />
+                        }
+                    />
                     {displayControl.fatorTransportePedido&&
                     <div className={style.configWrapper}>
                         <Config 

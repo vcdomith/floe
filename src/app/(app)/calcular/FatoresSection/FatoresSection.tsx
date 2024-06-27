@@ -15,7 +15,7 @@ interface FatoresSectionProps {
 
 export default function FatoresSection({ fornecedores }: FatoresSectionProps) {
 
-    const {fornecedorContext, valid, submitForm, displayControl} = useCalcular()
+    const {fornecedorContext, produtoIsValid, submitForm, displayControl} = useCalcular()
     const {fornecedorData: {nome}} = fornecedorContext
 
     // const formIsValid: boolean = produtoCadastros
@@ -78,7 +78,7 @@ export default function FatoresSection({ fornecedores }: FatoresSectionProps) {
             <button 
                 className={style.submit} 
                 onClick={() => submitForm()} 
-                disabled={!valid}
+                disabled={!produtoIsValid}
             >Adicionar produto</button>
         </section>
     )

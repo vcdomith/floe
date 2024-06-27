@@ -302,7 +302,8 @@ export default function Configurar() {
                                     name='fatorBase'
                                     placeholder={"x 1,00"} 
                                     valor={fatorBase} 
-                                    setValor={handleFornecedorChange('fatorBase')}                        
+                                    setValor={handleFornecedorChange('fatorBase')}
+                                    required                        
                                 />
                             </div>
                             <div className={style.input}>
@@ -311,7 +312,8 @@ export default function Configurar() {
                                     name='fatorBaseNormal'
                                     placeholder={"x 1,00"} 
                                     valor={fatorBaseNormal} 
-                                    setValor={handleFornecedorChange('fatorBaseNormal')}                        
+                                    setValor={handleFornecedorChange('fatorBaseNormal')}  
+                                    required                      
                                 />
                             </div>
                             <div className={style.input}>
@@ -320,7 +322,8 @@ export default function Configurar() {
                                     name='fatorBaseST'
                                     placeholder={"x 1,00"} 
                                     valor={fatorBaseST} 
-                                    setValor={handleFornecedorChange('fatorBaseST')}                        
+                                    setValor={handleFornecedorChange('fatorBaseST')}
+                                    required
                                 />
                             </div>
 

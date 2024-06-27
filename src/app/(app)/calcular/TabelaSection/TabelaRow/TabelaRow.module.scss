@@ -102,6 +102,54 @@
         display: flex;
         gap: 0.25rem;
 
+        button {
+
+            outline: none;
+            background-color: $cor-secundaria;
+            transition: background-color 400ms ease, box-shadow 200ms ease;
+
+            display: flex;
+            padding: 0;
+    
+            justify-content: center;
+            align-items: center;
+    
+            width: 25px;
+            height: 25px;
+            padding: 0.2rem;
+    
+            background: none;
+            outline: none;
+
+            border: 2px solid cor-mix(30%);
+            border-radius: 0.25rem;
+            
+            color: cor-mix(60%);
+            font-weight: 600;
+
+            overflow: hidden;
+
+            cursor: pointer;
+            
+            &:hover {
+
+                background-color: cor-mix(10%);
+                box-shadow: inset 2px 2px 12px 2px transparentize(saturate(cor-mix(60%), 15%), 0.9);
+
+            }
+
+            &:active {
+
+                box-shadow: inset 2px 2px 12px 2px transparentize(saturate(cor-mix(60%), 15%), 0.8);
+
+            }
+
+            svg path, line, ellipse {
+                stroke: cor-mix(50%);
+            }
+
+        }
+
     }
 
 }

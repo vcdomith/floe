@@ -3,6 +3,8 @@ import Converter from "@/utils/typeConversion";
 
 interface IFatoresPedido {
 
+    quantidadeProdutos: string
+
     fatorTransportePedido: string
     valorFrete: string
     fatorFrete: string
@@ -25,6 +27,8 @@ export interface usePedidoReturn {
 }
 
 const INITIAL_STATE: IFatoresPedido = {
+
+    quantidadeProdutos: '',
 
     fatorTransportePedido: '',
     valorFrete: '',

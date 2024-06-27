@@ -35,6 +35,28 @@
 
             display: flex;
 
+            .search {
+
+                max-height: 20px;
+                padding: 0.25rem;
+                border-color: cor-mix(30%);
+                border-radius: 0.5rem;
+
+                & > div input {
+
+                    font-size: 1rem;
+                    color: cor-mix(80%);
+                    
+                    &::placeholder {
+                        
+                        font-size: 1rem;
+
+                    }
+
+                }
+
+            }
+
 
         }
 
@@ -116,38 +138,79 @@
 
     }
 
-    .submit {
-    
-        outline: none;
-        border: none;
-        padding: 0.25rem 0;
-        // margin: 0 1rem;
-    
+    .footer {
+
         place-self: end;
-        width: 20%;
-        // width: calc(100% - 2rem);
-        font-size: 1.1rem;
-        background-color: cor-mix(75%);
-        color: cor-mix(0%);
-        border-radius: 0.5rem;
+        display: flex;
+        justify-content: end;
+        align-items: center;
+        gap: 0.5rem;
 
-        cursor: pointer;
-    
-        transition: background-color 400ms ease;
-    
-        &:hover {
-    
-            background-color: cor-mix(90%);
-    
+        width: 100%;
+        height: 28.8px;
+
+        .message {
+
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+
+            svg {
+        
+                path {
+
+                    // stroke: $cor-primaria;
+                    stroke: darken(saturate(cor-mix(20%), 40%), 20%);
+
+                }
+
+            }
+
+            p {
+                display: flex;
+                align-items: center;
+                margin: 0;
+                font-size: 0.9rem;
+
+                color: darken(saturate(cor-mix(20%), 40%), 20%);
+            }
+
         }
 
-        &:disabled {
-
-            background-color: cor-mix(20%);
-            cursor: default;
-
-        }
+        .submit {
+        
+            outline: none;
+            border: none;
+            padding: 0.25rem 0;
+            // margin: 0 1rem;
+        
+            width: 20%;
+            // width: calc(100% - 2rem);
+            font-size: 1.1rem;
+            background-color: cor-mix(75%);
+            color: cor-mix(0%);
+            border-radius: 0.5rem;
     
+            cursor: pointer;
+        
+            transition: background-color 400ms ease;
+        
+            &:hover {
+        
+                background-color: cor-mix(90%);
+        
+            }
+    
+            &:disabled {
+    
+                background-color: cor-mix(20%);
+                cursor: default;
+    
+            }
+        
+        }
+
     }
+
 
 }

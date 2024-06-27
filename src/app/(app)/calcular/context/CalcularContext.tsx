@@ -6,6 +6,7 @@ import { IFornecedor } from "@/interfaces/IFornecedor";
 import { Dispatch, SetStateAction, createContext, useContext, useEffect, useMemo, useState } from "react";
 import { useNotification } from "../../(contexts)/NotificationContext";
 import { IFator } from "@/interfaces/IFator";
+import useFilter, { useFilterReturn } from "@/hooks/useFilter";
 
 interface CalcularContextProps {
 
@@ -13,10 +14,11 @@ interface CalcularContextProps {
     pedidoContext: usePedidoReturn
     produtoContext: useProdutoReturn
     displayControl: IDisplayControl 
-    valid: boolean
+    produtoIsValid: boolean
+    tabelaValid: boolean
     tabela: produtoCadastro[]
     setTabela: Dispatch<SetStateAction<produtoCadastro[]>>
-    searchContext: [string, Dispatch<SetStateAction<string>>]
+    filterContext: useFilterReturn
 
     submitForm: () => void
 
@@ -78,6 +80,7 @@ export const CalcularProvider = ({ children }: { children: React.ReactNode}) => 
     const fornecedorContext = useFornecedor()
     const pedidoContext = usePedido()
     const produtoContext = useProduto()
+    const filterContext = useFilter()
 
     // TABELA CONTEXT _ TODO
 
@@ -91,7 +94,6 @@ export const CalcularProvider = ({ children }: { children: React.ReactNode}) => 
     }, [fornecedorData, pedidoData, produtoData])
 
     const [tabela, setTabela] = useState<produtoCadastro[]>([])
-    const searchContext = useState('')
 
     // Quando implementar tabela esse estado será o estado tabelaContext: produtoCadastro[]
     // const [produtoCadastros, setProdutoCadastros] = useState<produtoCadastro>() 
@@ -131,6 +133,8 @@ export const CalcularProvider = ({ children }: { children: React.ReactNode}) => 
 
     interface BaseCheck {
         
+        quantidadeProdutos: string
+
         codigo: string
     
         fatorBase: string
@@ -141,9 +145,12 @@ export const CalcularProvider = ({ children }: { children: React.ReactNode}) => 
         
     }
 
-    const check = useMemo(() => {
+    const produtoValuesToCheck = useMemo(() => {
 
         const baseCheck: BaseCheck = {
+            
+            quantidadeProdutos: pedidoData.quantidadeProdutos,
+
             codigo: produtoData.codigo,
     
             fatorBase: fornecedorData.fatorBase,
@@ -157,14 +164,21 @@ export const CalcularProvider = ({ children }: { children: React.ReactNode}) => 
 
         return baseCheck
 
-    }, [fornecedorData, produtoData, validKeys, controlledInputData])
+    }, [fornecedorData, produtoData, pedidoData, validKeys, controlledInputData])
 
     // console.log(validKeys);
     // console.table(check)
 
-    const valid = useMemo(() => {
-        return Object.values(check).every( value => value !== '' )
-    }, [check])
+    const produtoIsValid = useMemo(() => {
+        return Object.values(produtoValuesToCheck).every( value => value !== '' )
+    }, [produtoValuesToCheck])
+
+    console.table(produtoValuesToCheck);
+    console.table(produtoIsValid);
+
+    const tabelaValid = useMemo(() => {
+        return tabela.length === parseInt(pedidoData.quantidadeProdutos)
+    }, [tabela, pedidoData])
 
     const unitario = useMemo(() => {
 
@@ -174,15 +188,6 @@ export const CalcularProvider = ({ children }: { children: React.ReactNode}) => 
             return controlledInputData.unitarioPedido
         else 
             return controlledInputData.unitarioNota
-        
-        // if (fornecedorData.usaComposto) return controlledInputData.unitarioComposto
-
-        // if (!fornecedorData.usaUnitarioPedido && !fornecedorData.usaComposto) 
-        //     return controlledInputData.unitarioPedido
-        // if (fornecedorData.usaUnitarioPedido) 
-        //     return controlledInputData.unitarioNota
-        // if (fornecedorData.usaUnitarioPedido) 
-        //     return controlledInputData.unitarioComposto
 
     }, [fornecedorData, controlledInputData])
 
@@ -244,7 +249,7 @@ export const CalcularProvider = ({ children }: { children: React.ReactNode}) => 
           
         }
 
-        if(!valid) addNotification({tipo: 'erro', mensagem: 'Não foi possível adicionar o produto na tabela, preencha todos os dados!'}) 
+        if(!produtoIsValid) addNotification({tipo: 'erro', mensagem: 'Não foi possível adicionar o produto na tabela, preencha todos os dados!'}) 
 
         setTabela( prev => ([...prev, produto]) )
         resetForm()
@@ -257,11 +262,12 @@ export const CalcularProvider = ({ children }: { children: React.ReactNode}) => 
             pedidoContext,
             produtoContext,
             displayControl,
-            valid,
+            produtoIsValid,
             tabela,
+            tabelaValid,
             setTabela,
             submitForm,
-            searchContext
+            filterContext
         }}
     >
         {children}

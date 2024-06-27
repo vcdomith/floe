@@ -17,7 +17,7 @@ const NUMBER_INPUT_PLACEHOLDER = '_'.repeat(50)
 
 export default function ProdutoTab() {
 
-    const {produtoContext, fornecedorContext, valid, submitForm, displayControl} = useCalcular()
+    const {produtoContext, fornecedorContext, produtoIsValid, submitForm, displayControl} = useCalcular()
     const {produtoData: {
         st,
         codigo,
@@ -40,7 +40,7 @@ export default function ProdutoTab() {
 
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-        valid&& submitForm()
+        produtoIsValid&& submitForm()
     }
 
     const {stringToFloat, floatToString} = Converter

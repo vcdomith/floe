@@ -7,6 +7,7 @@ import { Dispatch, SetStateAction, createContext, useContext, useEffect, useMemo
 import { useNotification } from "../../(contexts)/NotificationContext";
 import { IFator } from "@/interfaces/IFator";
 import useFilter, { useFilterReturn } from "@/hooks/useFilter";
+import { dbConnect } from "@/utils/db/supabase";
 
 interface CalcularContextProps {
 
@@ -18,6 +19,7 @@ interface CalcularContextProps {
     tabelaValid: boolean
     tabela: produtoCadastro[]
     setTabela: Dispatch<SetStateAction<produtoCadastro[]>>
+    cadastrarPedidoDB: () => Promise<void>
     filterContext: useFilterReturn
 
     submitForm: () => void
@@ -77,6 +79,8 @@ export const CalcularProvider = ({ children }: { children: React.ReactNode}) => 
 
     const {notifications, addNotification} = useNotification()
 
+    const supabase = dbConnect()
+
     const fornecedorContext = useFornecedor()
     const pedidoContext = usePedido()
     const produtoContext = useProduto()
@@ -86,7 +90,7 @@ export const CalcularProvider = ({ children }: { children: React.ReactNode}) => 
 
     const {fornecedorData} = fornecedorContext
     const {pedidoData} = pedidoContext
-    const {produtoData, resetForm} = produtoContext
+    const {produtoData, resetForm, codigoInputRef} = produtoContext
 
     type ControlledInputDataKeys = keyof typeof controlledInputData;
     const controlledInputData = useMemo(() => {
@@ -225,34 +229,52 @@ export const CalcularProvider = ({ children }: { children: React.ReactNode}) => 
             }
         }
 
-        const produtoCadastro: produtoCadastro = {
-
-            id: new Date().getTime(),
-            codigo: produtoData.codigo,
-            st: produtoData.st,
-            unitario: produtoData.unitarioPedido,
-            unitarioNota: produtoData.unitarioNota,
-            composto: [produtoData.composto1, produtoData.composto2],
-            fatores: {
-
-                base: fornecedorData.fatorBase,
-                fatorBaseNormal: fornecedorData.fatorBaseNormal,
-                fatorBaseST: fornecedorData.fatorBaseST,
-        
-                transporte: pedidoData.fatorTransportePedido,
-                st: pedidoData.fatorSTPedido,
-        
-                ipi: produtoData.ipi,
-                desconto: produtoData.desconto,
-
-            }
-          
-        }
-
         if(!produtoIsValid) addNotification({tipo: 'erro', mensagem: 'Não foi possível adicionar o produto na tabela, preencha todos os dados!'}) 
 
         setTabela( prev => ([...prev, produto]) )
         resetForm()
+        codigoInputRef.current.focus()
+
+    }
+
+    const cadastrarPedidoDB = async () => {
+
+        if (tabela.length === 0) {
+            addNotification({
+                tipo: 'erro',
+                mensagem: 'Não é possível cadastrar um pedido vazio!'
+            })
+        }
+
+        if (tabela.length !== parseInt(pedidoData.quantidadeProdutos)) {
+            addNotification({
+                tipo: 'erro',
+                mensagem: `Não é possível cadastrar o pedido, são necessários ${pedidoData.quantidadeProdutos} produtos!`
+            })
+        }
+
+        try {
+            
+            const { data , error } = await supabase
+                .from('cadastros')
+                .insert({
+                    fornecedor: fornecedorData.nome,
+                    produtos: tabela
+                })
+
+            addNotification({
+                tipo: 'sucesso',
+                mensagem: 'Cadastro realizado com sucesso!'
+            })
+
+        } catch (error) {
+            
+            addNotification({
+                tipo: 'erro',
+                mensagem: JSON.stringify(error)
+            })
+
+        }
 
     }
 
@@ -267,6 +289,7 @@ export const CalcularProvider = ({ children }: { children: React.ReactNode}) => 
             tabelaValid,
             setTabela,
             submitForm,
+            cadastrarPedidoDB,
             filterContext
         }}
     >

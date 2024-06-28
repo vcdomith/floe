@@ -29,7 +29,7 @@ export default function ProdutoTab() {
         unitarioComposto,
         composto1,
         composto2,
-    }, setProdutoData, handleProdutoChange, handleProdutoSubmit, resetForm} = produtoContext
+    }, setProdutoData, handleProdutoChange, handleProdutoSubmit, resetForm, codigoInputRef} = produtoContext
     const {fornecedorData: { fatorBase, usaUnitarioPedido }, handleFornecedorChange} = fornecedorContext
 
     const [displayProdutoTab, setDisplayProdutoTab] = useState(false)
@@ -112,7 +112,8 @@ export default function ProdutoTab() {
                                 description={'Código do produto'}
                                 input={
                                     <input
-                                        className={style.codigo} 
+                                        className={style.codigo}
+                                        ref={codigoInputRef}
                                         type="text" 
                                         placeholder="_____________"
                                         value={codigo}

@@ -15,7 +15,8 @@ export default function TabelaSection() {
     const {
         tabela, 
         setTabela, 
-        tabelaValid, 
+        tabelaValid,
+        cadastrarPedidoDB, 
         filterContext, 
         pedidoContext: {pedidoData: {quantidadeProdutos}}
     } = useCalcular()
@@ -77,6 +78,7 @@ export default function TabelaSection() {
                 <button 
                     className={style.submit}
                     disabled={!tabelaValid}
+                    onClick={() => cadastrarPedidoDB()}
                 >Cadastrar Pedido</button>
             </span>
 

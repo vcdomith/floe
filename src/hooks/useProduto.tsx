@@ -1,5 +1,5 @@
 import SelectFornecedor from "@/components/SelectFornecedor/SelectFornecedor";
-import { Dispatch, FormEvent, SetStateAction, useState } from "react";
+import { Dispatch, FormEvent, MutableRefObject, SetStateAction, useRef, useState } from "react";
 import Converter from "@/utils/typeConversion";
 
 export interface useProdutoReturn {
@@ -9,6 +9,7 @@ export interface useProdutoReturn {
     handleProdutoChange: <T>(field: keyof IProdutoContext) => (valor: T) => void
     handleProdutoSubmit: (campo: 'ipi' | 'composto', e: FormEvent<HTMLFormElement>, fatorBase: string) => void
     resetForm: () => void
+    codigoInputRef: MutableRefObject<HTMLInputElement>
 
 }
 
@@ -50,6 +51,8 @@ const INITIAL_STATE: IProdutoContext = {
 export default function useProduto() {
 
     const [produtoData, setProdutoData] = useState(INITIAL_STATE)
+    const codigoInputRef = useRef<HTMLInputElement>(null)
+
     const {floatToString, stringToFloat} = Converter
 
     function handleProdutoChange<T>(field: keyof IProdutoContext) {
@@ -96,6 +99,13 @@ export default function useProduto() {
 
     }
 
-    return {produtoData, setProdutoData, handleProdutoChange, handleProdutoSubmit, resetForm} as useProdutoReturn
+    return {
+        produtoData, 
+        setProdutoData, 
+        handleProdutoChange, 
+        handleProdutoSubmit, 
+        resetForm,
+        codigoInputRef
+    } as useProdutoReturn
 
 }

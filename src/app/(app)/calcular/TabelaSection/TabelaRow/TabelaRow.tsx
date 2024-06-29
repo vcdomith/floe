@@ -2,7 +2,7 @@ import { getTabelasObject } from '@/utils/calculoTabelas'
 import { produtoCadastro } from '../../context/CalcularContext'
 import style from './TabelaRow.module.scss'
 import { Dispatch, SetStateAction, forwardRef, useMemo } from 'react'
-import {motion} from 'framer-motion'
+import {AnimatePresence, motion} from 'framer-motion'
 import { update } from '@react-spring/web'
 
 interface TabelaRowProps {
@@ -61,7 +61,21 @@ function TabelaRow({produto, setTabela}: TabelaRowProps, ref) {
                 <div>{ tabela3.toFixed(2) }</div>
                 <div>
                     <span className={style.tools}>
-                        <button onClick={() => alert(JSON.stringify(fatores))}>|||</button>
+                        <button popoverTarget="fatores">|||</button>
+                        {/* <button popOverTarget="popover">Toggle popover</button> */}
+                        <div
+                            id="fatores" popover='auto' 
+                            style={{ width: 'fit-content'}}
+                        >
+                            <div>
+                                {Object.entries(produto.fatores).map(([key, value]) => 
+                                    <span key={key}>
+                                        <h3>{key}</h3>
+                                        <h3>{value}</h3>
+                                    </span>
+                                )}
+                            </div>
+                        </div>
                         <button onClick={() => handleClick(id)}>X</button>
                     </span>
                 </div>

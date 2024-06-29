@@ -130,7 +130,7 @@
             overflow: hidden;
 
             cursor: pointer;
-            
+
             &:hover {
 
                 background-color: cor-mix(10%);
@@ -149,6 +149,99 @@
             }
 
         }
+
+        [popover]:popover-open {
+
+            opacity: 1;
+
+        }
+
+        [popover] {
+
+            opacity: 0;
+
+            padding: 1rem;
+
+            overflow: hidden;
+            background-color: $cor-secundaria;
+            color: cor-mix(80%);
+            border: cor-mix(30%);
+            border-radius: 0.5rem;
+
+            box-shadow: 2px 2px 12px 2px $cor-primaria-transparent;
+
+            transition: 
+                opacity 500ms ease,
+                background-color 400ms ease,
+                display 400ms ease allow-discrete,
+                overlay 400ms ease allow-discrete,
+                ;
+            // animation: appear 500ms;
+
+            &::backdrop {
+
+                background-color: transparent;
+
+                backdrop-filter: blur(1px);
+
+                transition:
+                display 0.7s allow-discrete,
+                overlay 0.7s allow-discrete,
+                background-color 0.7s;
+
+                &:hover {
+                    cursor: pointer;
+                }
+
+            }
+
+            &:popover-open {
+
+                @starting-style{
+
+                    opacity: 0;
+
+                    &::backdrop {
+
+                        background-color: transparent;
+
+                    }
+                }
+
+                opacity: 1;
+
+                &::backdrop {
+
+                    background-color: transparentize(cor-mix(80%), 0.8);
+
+                }
+            }
+
+            div {
+
+                display: flex;
+                flex-direction: column;
+                // width: max-content;
+                min-width: 400px;
+
+                span {
+
+                    display: flex;
+                    justify-content: space-between;
+                    gap: 1rem;
+
+
+                }
+
+            }
+
+        }
+
+        // @starting-style {
+        //     [popover]:popover-open {
+        //         opacity: 0;
+        //     }
+        // }
 
     }
 

@@ -107,9 +107,25 @@ export default function ProdutoTab() {
                                 }
                             />
                             <Config 
-                                svg={<SvgFornecedor/>} 
+                                svg={<SvgCodigo/>} 
                                 title={'Código'} 
                                 description={'Código do produto'}
+                                input={
+                                    <input
+                                        className={style.codigo}
+                                        ref={codigoInputRef}
+                                        type="text" 
+                                        placeholder="_____________"
+                                        value={codigo}
+                                        onChange={(e) => handleProdutoChange('codigo')(e.target.value.toUpperCase())}
+                                        required
+                                    />
+                                }
+                            />
+                            <Config 
+                                svg={<SvgNCM/>} 
+                                title={'NCM'} 
+                                description={'Código do NCM'}
                                 input={
                                     <input
                                         className={style.codigo}
@@ -293,12 +309,44 @@ export default function ProdutoTab() {
 
 }
 
+// const SvgProduto = () => {
+//     return(
+//         <svg width="30" height="30" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+//         <path d="M29.7784 404.32C38.2784 410.82 153.778 495.32 198.278 459.32C242.778 423.32 5.27837 290.82 29.7784 204.32C49.3784 135.12 150.278 180.487 198.278 211.82" stroke="#591C4A" strokeWidth="40"/>
+//         <path d="M474.07 98.893C465.57 92.393 350.07 7.89299 305.57 43.893C261.07 79.893 498.57 212.393 474.07 298.893C454.47 368.093 353.57 322.726 305.57 291.393" stroke="#591C4A" strokeWidth="40"/>
+//         <circle cx="250" cy="250" r="69" stroke="#591C4A" strokeWidth="40"/>
+//         </svg>
+//     )
+// }
 const SvgProduto = () => {
     return(
-        <svg width="30" height="30" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M29.7784 404.32C38.2784 410.82 153.778 495.32 198.278 459.32C242.778 423.32 5.27837 290.82 29.7784 204.32C49.3784 135.12 150.278 180.487 198.278 211.82" stroke="#591C4A" strokeWidth="40"/>
-        <path d="M474.07 98.893C465.57 92.393 350.07 7.89299 305.57 43.893C261.07 79.893 498.57 212.393 474.07 298.893C454.47 368.093 353.57 322.726 305.57 291.393" stroke="#591C4A" strokeWidth="40"/>
-        <circle cx="250" cy="250" r="69" stroke="#591C4A" strokeWidth="40"/>
+        <svg width="500" height="500" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M449 135L250 20L51 135V365L250 480L449 365V135Z" stroke="black" stroke-width="40" stroke-linejoin="round"/>
+        <path d="M250 250.649C327.714 205.876 371.286 180.773 449 136M250 250.649C172.286 205.876 128.714 180.773 51 136M250 250.649V473" stroke="black" stroke-width="40"/>
+        <path d="M149 69C227.105 113.841 270.895 138.981 349 183.822C349 183.822 349 268.648 349 323" stroke="black" stroke-width="40"/>
+        </svg>
+    )
+}
+const SvgCodigo = () => {
+    return(
+        <svg width="500" height="500" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M407 365.704C329.979 303.655 330.739 417.926 253.718 355.876C176.698 293.826 169.448 418.269 92 355.876" stroke="black" stroke-width="40"/>
+<path d="M33 413V87C33 64.9086 50.9086 47 73 47H419.26C446.178 47 468 68.8345 468 95.7688V404.231C468 431.165 446.169 453 419.251 453H355.285H73C50.9086 453 33 435.091 33 413Z" stroke="black" stroke-width="40"/>
+<line x1="117" y1="102" x2="117" y2="289" stroke="black" stroke-width="40"/>
+<line x1="202" y1="102" x2="202" y2="238" stroke="black" stroke-width="40"/>
+<line x1="287" y1="102" x2="287" y2="238" stroke="black" stroke-width="40"/>
+<line x1="375" y1="102" x2="375" y2="289" stroke="black" stroke-width="40"/>
+</svg>
+
+    )
+}
+const SvgNCM = () => {
+    return(
+        <svg width="500" height="500" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M481 414.43C367.303 350.586 368.425 478.274 254.727 414.43C141.03 350.586 130.327 478.628 16 414.43" stroke="black" stroke-width="40"/>
+        <rect x="34" y="87" width="160" height="226" rx="33.5" stroke="black" stroke-width="40"/>
+        <rect x="250" y="87" width="80" height="226" rx="33.5" stroke="black" stroke-width="40"/>
+        <rect x="386" y="87" width="80" height="226" rx="33.5" stroke="black" stroke-width="40"/>
         </svg>
     )
 }

@@ -1,0 +1,95 @@
+@use '../../../../globalStyle.module.scss' as *;
+
+.configWrapper {
+
+    gap: 1rem !important;
+
+    & > :nth-child(1) {
+
+        border-bottom: none !important;
+
+    }
+    
+    .ipi {
+        
+        span {
+    
+            gap: 0.5rem;
+    
+            & > :nth-child(1) {
+    
+                flex: 3 !important;
+                
+            }
+                
+            & > :nth-child(3) {
+                    
+                flex: 1 !important;
+    
+                input {
+    
+                    max-width: 100% !important;
+                    width: 100% !important;
+    
+                }
+    
+    
+            }
+    
+        }
+    
+    }
+    
+    .composto {
+    
+        span {
+    
+            gap: 0.5rem;
+    
+            div {
+    
+                flex: 1 !important;
+        
+                &:nth-child(3) input {
+        
+                        max-width: 100%!important;
+                        width: 100%!important;
+        
+                }
+    
+            }
+    
+        }
+    
+    }
+
+}
+
+.compostoWrapper:disabled {
+
+    border-color: cor-mix(20%) !important;
+
+}
+
+.submit {
+    
+    outline: none;
+    border: none;
+    padding: 0.25rem 0;
+
+    width: 100%;
+    font-size: 1.1rem;
+    background-color: cor-mix(75%);
+    color: cor-mix(0%);
+
+    cursor: pointer;
+
+    transition: background-color 400ms ease;
+
+    &:hover {
+
+        background-color: cor-mix(90%);
+
+    }
+
+}

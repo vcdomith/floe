@@ -11,6 +11,7 @@ import { NotificationContext, NotificationProvider, useNotification } from "./(c
 import Notifications from "./(Notifications)/Notifications";
 import LogoSvg from "@/components/SvgArray/LogoSvg";
 import Nav from "./(nav)/Nav";
+import { CalcularProvider } from "./calcular/context/CalcularContext";
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
 
@@ -20,6 +21,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
 
     return (
         <NotificationProvider>
+        <CalcularProvider>
             <Nav pathname={path} />
         {/* <header className={style.header}>
             <div>
@@ -79,6 +81,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
             {children}
             <Notifications />
         </Container>
+        </CalcularProvider>
         </NotificationProvider>
     )
 
@@ -120,7 +123,11 @@ const Logo = ({ route }: { route: string }): React.ReactNode => {
         
     }
 
-    const { Svg, Titulo } = SvgLogos[route.slice(1,) as keyof SvgLogos]!
+    // const { Svg, Titulo } = SvgLogos[route.slice(1,) as keyof SvgLogos]!
+    const { Svg, Titulo } = Object.values(SvgLogos).includes(route.slice(1)) 
+        ? SvgLogos[route.slice(1,) as keyof SvgLogos]!
+        : SvgLogos['tabela']
+    // SvgLogos[route.slice(1,) as keyof SvgLogos]!
 
     return (
         <span 

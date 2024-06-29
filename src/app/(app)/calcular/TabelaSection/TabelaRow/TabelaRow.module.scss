@@ -1,0 +1,248 @@
+@use '../../../../globalStyle.module.scss' as *;
+
+.row {
+
+    width: 100%;
+    box-sizing: border-box;
+    border-bottom: 2px solid cor-mix(10%);
+    // border-bottom-color: cor-mix(10%);
+    border-radius: 0;
+    background-color: transparent;
+    // padding: 0.5rem;
+    color: cor-mix(75%);
+
+    overflow: hidden;
+    min-height: 3.5rem;
+    max-height: 3.5rem;
+
+    transition: border-color 400ms ease, border-radius 400ms ease, background-color 400ms ease;
+
+    &:hover {
+
+        // border: 2px solid cor-mix(15%);
+        // border-radius: 0.5rem;
+        background-color: cor-mix(2%);
+
+    }
+
+    div {
+
+        // font-size: 1.2rem;
+        font-weight: 600;
+        // min-width: 50px;
+        width: clamp(50px, 50px, 100px);
+        text-overflow: ellipsis;
+        // overflow: hidden;
+
+    }
+
+    .st {
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        width: 15px;
+        height: 15px;
+        margin: 0;
+        padding: 0.25rem;
+        border-radius: 0.25rem;
+        
+        font-size: 0.8rem;
+        text-align: center;
+        // background-color: cor-mix(70%);
+        // border: 2px solid cor-mix(90%);
+        // color: cor-mix(0%);
+
+        &[data-st="true"] {
+
+            // background-color: cor-mix(75%);
+            // background-color: darken(saturate(cor-mix(70%), 40%), 5%);
+            background: linear-gradient(45deg, 
+                darken(saturate(cor-mix(70%), 40%), 10%), 
+                darken(saturate(cor-mix(50%), 40%), 10%) 
+            );
+            // border: 2px solid cor-mix(60%);
+            color: cor-mix(0%);
+
+        }
+
+    }
+
+    .composto {
+
+        display: flex;
+        flex-direction: column;
+        // align-items: center;
+
+        .main {
+
+            font-size: 1rem;
+            color: cor-mix(80%);
+
+        }
+        .second {
+
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: cor-mix(50%);
+
+        }
+        & > p {
+
+            margin: 0;
+
+
+        }
+
+    }
+
+    .tools {
+
+        display: flex;
+        gap: 0.25rem;
+
+        button {
+
+            outline: none;
+            background-color: $cor-secundaria;
+            transition: background-color 400ms ease, box-shadow 200ms ease;
+
+            display: flex;
+            padding: 0;
+    
+            justify-content: center;
+            align-items: center;
+    
+            width: 25px;
+            height: 25px;
+            padding: 0.2rem;
+    
+            background: none;
+            outline: none;
+
+            border: 2px solid cor-mix(30%);
+            border-radius: 0.25rem;
+            
+            color: cor-mix(60%);
+            font-weight: 600;
+
+            overflow: hidden;
+
+            cursor: pointer;
+
+            &:hover {
+
+                background-color: cor-mix(10%);
+                box-shadow: inset 2px 2px 12px 2px transparentize(saturate(cor-mix(60%), 15%), 0.9);
+
+            }
+
+            &:active {
+
+                box-shadow: inset 2px 2px 12px 2px transparentize(saturate(cor-mix(60%), 15%), 0.8);
+
+            }
+
+            svg path, line, ellipse {
+                stroke: cor-mix(50%);
+            }
+
+        }
+
+        [popover]:popover-open {
+
+            opacity: 1;
+
+        }
+
+        [popover] {
+
+            opacity: 0;
+
+            padding: 1rem;
+
+            overflow: hidden;
+            background-color: $cor-secundaria;
+            color: cor-mix(80%);
+            border: cor-mix(30%);
+            border-radius: 0.5rem;
+
+            box-shadow: 2px 2px 12px 2px $cor-primaria-transparent;
+
+            transition: 
+                opacity 500ms ease,
+                background-color 400ms ease,
+                display 400ms ease allow-discrete,
+                overlay 400ms ease allow-discrete,
+                ;
+            // animation: appear 500ms;
+
+            &::backdrop {
+
+                background-color: transparent;
+
+                backdrop-filter: blur(1px);
+
+                transition:
+                display 0.7s allow-discrete,
+                overlay 0.7s allow-discrete,
+                background-color 0.7s;
+
+                &:hover {
+                    cursor: pointer;
+                }
+
+            }
+
+            &:popover-open {
+
+                @starting-style{
+
+                    opacity: 0;
+
+                    &::backdrop {
+
+                        background-color: transparent;
+
+                    }
+                }
+
+                opacity: 1;
+
+                &::backdrop {
+
+                    background-color: transparentize(cor-mix(80%), 0.8);
+
+                }
+            }
+
+            div {
+
+                display: flex;
+                flex-direction: column;
+                // width: max-content;
+                min-width: 400px;
+
+                span {
+
+                    display: flex;
+                    justify-content: space-between;
+                    gap: 1rem;
+
+
+                }
+
+            }
+
+        }
+
+        // @starting-style {
+        //     [popover]:popover-open {
+        //         opacity: 0;
+        //     }
+        // }
+
+    }
+
+}

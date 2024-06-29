@@ -11,11 +11,22 @@
 // $cor-primaria: #16045d;
 // $cor-primaria: #191649;
 $cor-primaria: #210f30;
+// $cor-primaria: #0e0e2b;
 // $cor-primaria: #16491e;
 // $cor-primaria: #212f23;
 // $cor-primaria: #062b37;
 
+// $cor-primaria: #71110a;
+// $cor-primaria: #5a0606;
+
+// $cor-primaria: #5a4206;
+// $cor-primaria: #000000;
+// $cor-primaria: #010a3c;
+
+// $cor-secundaria: #dbd5cb;
+
 $cor-secundaria: #e8d4b0;
+// $cor-secundaria: #c1cbd0;
 // $cor-secundaria: #ffddc1;
 
 // $cor-primaria: #baaa8c;
@@ -25,6 +36,13 @@ $cor-secundaria: #e8d4b0;
 // $cor-secundaria: #0e0e2b;
 
 $cor-primaria-transparent: transparentize($cor-primaria, 0.8);
+
+@function cor-mix($percentage) {
+
+    @return mix($cor-primaria, $cor-secundaria, $percentage);
+
+}
+
 $cor-mix: mix($cor-primaria, $cor-secundaria, 10%);
 
 //Animations
@@ -114,3 +132,28 @@ $fonte-destaque: 'Playfair Display';
 //     font-weight: normal; /* Adjust as per font file */
 //     font-style: italic; /* Adjust as per font file */
 // }
+
+@mixin thin-scrollbar {
+    
+    /* width */
+    &::-webkit-scrollbar {
+        width: 0.15rem;
+    }
+    
+    /* Track */
+    &::-webkit-scrollbar-track {
+    background: $cor-secundaria;
+    }
+    
+    /* Handle */
+    &::-webkit-scrollbar-thumb {
+    background: linear-gradient(0deg, $cor-secundaria, cor-mix(50%) 50%, $cor-secundaria);
+    }
+
+    /* Handle on hover */
+    &::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(0deg, $cor-secundaria, cor-mix(80%) 50%, $cor-secundaria);
+    cursor: pointer;
+    // background: linear-gradient(90deg, #521843, #421236);
+    }
+}

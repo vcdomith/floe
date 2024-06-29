@@ -108,12 +108,22 @@
 
 .logo {
 
+    position: fixed;
+    top: 2rem;
+    left: 6rem;
+
     display: flex;
     gap: 1rem;
 
     svg {
 
         width: clamp(50px, 50px, 50px);
+
+        path, circle {
+            
+            stroke: mix($cor-primaria, $cor-secundaria, 30%);
+
+        }
 
     }
 
@@ -125,6 +135,8 @@
         font-size: 1.5rem;
         font-weight: 600;
         width: min-content;
+
+        color: mix($cor-primaria, $cor-secundaria, 30%);
 
     }
 

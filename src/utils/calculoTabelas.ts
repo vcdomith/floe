@@ -2,6 +2,7 @@ import { IProduto } from "@/interfaces/IProduto"
 import { IValores } from "@/interfaces/IValores";
 
 import Converter from "./typeConversion";
+import { produtoCadastro } from "@/app/(app)/calcular/context/CalcularContext";
 
 const { stringToFloat } = Converter
 
@@ -55,4 +56,20 @@ export const getTabelas = (produto: IProduto): number[] => {
         tabela3: customRound((calcularTabela(valorNumerico, listaFatores))*1.3)
     }
     return Object.values(tabelas)
+}
+
+export const getTabelasObject = (produto: produtoCadastro): IValores => {
+
+  // const {fatores, unitario} = controleProdutos[index]
+  const { fatores, unitario } = produto
+  const listaFatores = Object.values((fatores)).map(fator => stringToFloat(fator))
+
+  const valorNumerico = parseFloat(unitario.replace(/,/g, '.'))
+  const tabelas: IValores = {
+      unitario: valorNumerico,
+      tabela1: calcularTabela(valorNumerico, listaFatores),
+      tabela2: valorNumerico*1.5,
+      tabela3: customRound((calcularTabela(valorNumerico, listaFatores))*1.3)
+  }
+  return tabelas
 }

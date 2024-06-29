@@ -1,6 +1,7 @@
 'use client'
 
 import styles from './Container.module.scss'
+import { AnimatePresence, motion } from 'framer-motion'
 
 interface ContainerProps {
     children: React.ReactNode

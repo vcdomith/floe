@@ -28,7 +28,7 @@ const Cadastro = ({ cadastro }: CadastroProps) => {
     const [pattern, setPattern] = useState("M0 377C78.5 377 123.995 199 246.5 199C359.5 199 130.5 199 261.5 199C384.577 199 402.5 376.5 500 376.5")
 
     const controleProdutos = cadastro.produtos
-    const { id } = cadastro
+    const { id, fornecedor } = cadastro
     const dateTime = new Date(cadastro.created_at).toLocaleString().split(',')
 
     const [ref, setRef] = useState<HTMLDivElement | null>(null)
@@ -213,7 +213,7 @@ const Cadastro = ({ cadastro }: CadastroProps) => {
         >
             <div><strong style={{ fontSize: '1.1rem', fontWeight: 600 }}>{id}</strong></div>
             <div><strong>{dateTime[0]}</strong> <span style={{ fontWeight: 400, fontSize: '0.8rem', display: 'flex', flexDirection: 'column'}}>as {dateTime[1].slice(1,)}h</span></div>
-            <div><strong>Denlex</strong></div>
+            <div><strong>{fornecedor|| 'Não informado'}</strong></div>
             <div style={{ fontWeight: 400, fontSize: '0.8rem' }}>{`${(cadastro.produtos.length).toLocaleString('pt-br', { minimumIntegerDigits: 2 })} produtos`}</div>
             <AnimatePresence>
             {!display

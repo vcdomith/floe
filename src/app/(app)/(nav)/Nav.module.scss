@@ -32,6 +32,7 @@ $step-size: 100% /($steps + 1);
     left: 0;
     width: 10rem;
     height: 100vh;
+    // padding: 1rem 0;
 
     overflow: hidden;
     z-index: 1;
@@ -75,8 +76,9 @@ $step-size: 100% /($steps + 1);
     flex-direction: column;
     gap: 2rem;
 
-    height: 100vh;
+    height: calc(100vh - 2rem);
     width: 4rem;
+    padding: 1rem 0;
 
     background-color: transparent;
 
@@ -96,6 +98,7 @@ $step-size: 100% /($steps + 1);
     &:hover {
 
         border-bottom: 2px solid $cor-secundaria;
+
         width: 10rem;
         // background-color: transparentize($cor-primaria, 0.3);
         background-color: transparent;
@@ -168,6 +171,7 @@ $step-size: 100% /($steps + 1);
         margin: 0 0.3rem;
         // padding-left: 0.3rem;
         border-bottom: 2px solid transparentize($cor-secundaria, 0.8);
+        border-image: linear-gradient(to right , transparent, cor-mix(40%) 50%, transparent) 5;
 
         transition: border 1s ease;
 

@@ -177,8 +177,8 @@ export const CalcularProvider = ({ children }: { children: React.ReactNode}) => 
         return Object.values(produtoValuesToCheck).every( value => value !== '' )
     }, [produtoValuesToCheck])
 
-    console.table(produtoValuesToCheck);
-    console.table(produtoIsValid);
+    // console.table(produtoValuesToCheck);
+    // console.table(produtoIsValid);
 
     const tabelaValid = useMemo(() => {
         return tabela.length === parseInt(pedidoData.quantidadeProdutos)
@@ -229,7 +229,15 @@ export const CalcularProvider = ({ children }: { children: React.ReactNode}) => 
             }
         }
 
-        if(!produtoIsValid) addNotification({tipo: 'erro', mensagem: 'Não foi possível adicionar o produto na tabela, preencha todos os dados!'}) 
+        if(!produtoIsValid) {
+            addNotification({tipo: 'erro', mensagem: 'Não foi possível adicionar o produto na tabela, preencha todos os dados!'}) 
+            return
+        } 
+        
+        if(tabelaValid) {
+            addNotification({tipo: 'erro', mensagem: `Não foi possível adicionar o produto na tabela, limite de ${pedidoData.quantidadeProdutos} produtos atingido!`}) 
+            return
+        } 
 
         setTabela( prev => ([...prev, produto]) )
         resetForm()

@@ -10,6 +10,7 @@ import capitalize from "@/utils/capitalize"
 interface SelectFornecedorProps {
 
     loading?: boolean
+    omitSearch?: boolean
 
     fornecedoresControle: string[]
 
@@ -18,7 +19,7 @@ interface SelectFornecedorProps {
 
 }
 
-const SelectFornecedor = ({ loading, fornecedoresControle, fornecedor, setFornecedor }: SelectFornecedorProps) => {
+const SelectFornecedor = ({ loading, omitSearch: omitSearch, fornecedoresControle, fornecedor, setFornecedor }: SelectFornecedorProps) => {
 
     // const [fornecedoresControle, setFornecedoresControle] = useState<string[]>(fornecedores)
 
@@ -289,7 +290,8 @@ const SelectFornecedor = ({ loading, fornecedoresControle, fornecedor, setFornec
                 className={style.options}
                 tabIndex={-1}
             >
-                <span
+                {omitSearch||
+                    <span
                     className={style.search}
                     tabIndex={-1}
                     style={{
@@ -336,6 +338,7 @@ const SelectFornecedor = ({ loading, fornecedoresControle, fornecedor, setFornec
                     </button>
                     }
                 </span>  
+                }
          
             <ul
                 ref={fornecedoresRef}

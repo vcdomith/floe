@@ -7,8 +7,8 @@ export default function TabelaHeader() {
 
         <span className={style.header}>
             <div>Tipo</div>
-            <div>Código</div>
-            <div>Unitário</div>
+            <div>Código <span>(NCM)</span></div>
+            <div>Unitário <span>(Composto)</span></div>
             <div>Tabela 1</div>
             <div>Tabela 2</div>
             <div>Tabela 3</div>

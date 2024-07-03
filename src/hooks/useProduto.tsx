@@ -16,7 +16,9 @@ export interface useProdutoReturn {
 export interface IProdutoContext {
 
     st: boolean
+
     codigo: string
+    ncm: string
     
     desconto: string
     ipi: string
@@ -35,6 +37,7 @@ const INITIAL_STATE: IProdutoContext = {
     st: true,
 
     codigo: '',
+    ncm: '',
     
     desconto: '',
     ipi: '',

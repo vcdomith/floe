@@ -15,7 +15,7 @@ interface TabelaRowProps {
 const TabelaRow = forwardRef<HTMLSpanElement, TabelaRowProps>(
 function TabelaRow({produto, setTabela}: TabelaRowProps, ref) {
 
-    const {id, codigo, st, unitario, unitarioNota, composto, fatores } = produto
+    const {id, codigo, ncm, st, unitario, unitarioNota, composto, fatores } = produto
     const {tabela1, tabela2, tabela3} = useMemo(() => getTabelasObject(produto), [produto])
 
     const handleClick = (id: number) => {
@@ -45,7 +45,13 @@ function TabelaRow({produto, setTabela}: TabelaRowProps, ref) {
                 <div>
                     <p className={style.st} data-st={st}>{ st ? 'ST' : '' }</p>
                 </div>
-                <div>{ codigo }</div>
+                {/* <div>{ codigo }</div> */}
+                <div className={style.composto}>
+                    <p className={style.main}>{ codigo }</p>      
+                    {ncm !== ''&&
+                    <p className={style.second}>{ ncm || '_'.repeat(codigo.length) }</p>
+                    }
+                </div>
                 <div className={style.composto}>
                     <p className={style.main}>{ unitario }</p>
                     {(composto?.every(item => item !== ''))&&

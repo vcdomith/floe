@@ -44,6 +44,7 @@ export interface produtoCadastro {
 
     id: number
     codigo: string
+    ncm: string
     
     st: boolean
     unitario: string
@@ -58,6 +59,7 @@ interface IDisplayControl {
 
     fatorTransportePedido: boolean
     fatorSTPedido: boolean
+    ncm: boolean
     desconto: boolean
     ipi: boolean
     unitarioPedido: boolean
@@ -108,6 +110,7 @@ export const CalcularProvider = ({ children }: { children: React.ReactNode}) => 
 
             fatorTransportePedido: fornecedorData.usaTransporte,
             fatorSTPedido: fornecedorData.usaSt,
+            ncm: pedidoData.usaNcm,
             desconto: fornecedorData.usaDesconto,
             ipi: fornecedorData.usaIpi,
 
@@ -121,6 +124,7 @@ export const CalcularProvider = ({ children }: { children: React.ReactNode}) => 
 
             fatorTransportePedido: false,
             fatorSTPedido: false,
+            ncm: pedidoData.usaNcm,
             desconto: fornecedorData.usaDesconto,
             ipi: false,
 
@@ -201,6 +205,7 @@ export const CalcularProvider = ({ children }: { children: React.ReactNode}) => 
             
             id: new Date().getTime(),
             codigo: controlledInputData.codigo,
+            ncm: controlledInputData.ncm || '',
             st: controlledInputData.st,
             unitario: unitario || '0',
             unitarioNota: controlledInputData.unitarioNota || '0',

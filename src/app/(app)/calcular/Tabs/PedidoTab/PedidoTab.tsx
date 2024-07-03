@@ -8,6 +8,7 @@ import NumberInput from '@/components/FatoresTable/FatoresTableBody/NumberInput/
 import Converter from '@/utils/typeConversion'
 import { useCalcular } from '../../context/CalcularContext'
 import { debug } from 'console'
+import CheckBox from '@/app/(app)/configurar/(CheckBox)/CheckBox'
 
 const NUMBER_INPUT_PLACEHOLDER = '_'.repeat(25)
 
@@ -21,6 +22,7 @@ export default function PedidoTab() {
         fatorBase 
     }, handleFornecedorChange} = fornecedorContext 
     const {pedidoData: {
+        usaNcm,
         quantidadeProdutos,
         fatorTransportePedido,
         valorFrete,
@@ -83,6 +85,17 @@ export default function PedidoTab() {
                     {/* implementar talvez um onSubmit */}
                     <div className={style.fornecedorConfigs}>
                     
+                    <Config 
+                        svg={<SvgFornecedor/>} 
+                        title={'Usa NCM'} 
+                        description={'NCM vai ser cadastrado nesse pedido?'}
+                        input={
+                            <CheckBox 
+                                checked={usaNcm}
+                                setChecked={handlePedidoChange('usaNcm')}
+                            />
+                        }
+                    />
                     <Config 
                         svg={<SvgFornecedor/>} 
                         title={'Quantidade Produtos'} 

@@ -3,6 +3,7 @@ import Converter from "@/utils/typeConversion";
 
 interface IFatoresPedido {
 
+    usaNcm: boolean
     quantidadeProdutos: string
 
     fatorTransportePedido: string
@@ -28,6 +29,7 @@ export interface usePedidoReturn {
 
 const INITIAL_STATE: IFatoresPedido = {
 
+    usaNcm: false,
     quantidadeProdutos: '',
 
     fatorTransportePedido: '',
@@ -50,9 +52,11 @@ export default function usePedido() {
 
     function handlePedidoChange<T>(field: keyof IFatoresPedido){
 
+        const savedField = field
+
         return (valor: T) => setPedidoData((prev) => ({
             ...prev,
-            [field]: valor
+            [savedField]: (savedField !== 'usaNcm') ? valor : !prev[savedField]
         }))
 
     }

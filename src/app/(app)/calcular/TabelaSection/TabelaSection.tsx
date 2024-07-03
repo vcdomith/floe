@@ -62,7 +62,8 @@ export default function TabelaSection() {
                     )   
                     :
                     <div className={style.empty}>
-                        Nenhum produto cadastrado ainda, use as abas para calcular eles.
+                        {/* svg empty table */}
+                        <p>Nenhum produto cadastrado ainda, use as abas para calcular eles.</p>
                     </div>
                     }
                     
@@ -71,24 +72,24 @@ export default function TabelaSection() {
 
                 </div>
 
-                <span className={style.footer}>
-                    {(!tabelaValid && (tabela.length > 0))&&
-                    <span className={style.message}>
-                        <svg width="20" height="20" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M462 433L250.5 67L144.75 250L39 433H462Z" stroke="black" strokeWidth="40" strokeLinejoin="bevel"/>
-                            <path d="M250 198V380" stroke="black" strokeWidth="40"/>
-                        </svg>
-                        <p>É preciso cadastrar {quantidadeProdutos} itens (faltam {parseInt(quantidadeProdutos) - tabela.length})</p>
-                    </span>
-                    }
-                    <button 
-                        className={style.submit}
-                        disabled={!tabelaValid}
-                        onClick={() => cadastrarPedidoDB()}
-                    >Cadastrar Pedido</button>
-                </span>
             </div>
 
+            <span className={style.footer}>
+                {(!tabelaValid && (tabela.length > 0))&&
+                <span className={style.message}>
+                    <svg width="20" height="20" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M462 433L250.5 67L144.75 250L39 433H462Z" stroke="black" strokeWidth="40" strokeLinejoin="bevel"/>
+                        <path d="M250 198V380" stroke="black" strokeWidth="40"/>
+                    </svg>
+                    <p>É preciso cadastrar {quantidadeProdutos} itens (faltam {parseInt(quantidadeProdutos) - tabela.length})</p>
+                </span>
+                }
+                <button 
+                    className={style.submit}
+                    disabled={!tabelaValid}
+                    onClick={() => cadastrarPedidoDB()}
+                >Cadastrar Pedido</button>
+            </span>
 
         </section>
     )

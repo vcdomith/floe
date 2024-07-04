@@ -35,6 +35,9 @@ export default function ProdutoTab() {
 
     const [displayProdutoTab, setDisplayProdutoTab] = useState(false)
 
+    const compostoRef_1 = useRef<HTMLInputElement>(null)
+    const compostoRef_2 = useRef<HTMLInputElement>(null)
+    
     // const [produtoComST, setProdutoComST] = useState(false)
     // const [codigoProduto, setCodigoProduto] = useState('')
     // const [desconto, setDesconto] = useState('')
@@ -49,14 +52,35 @@ export default function ProdutoTab() {
 
         if(e.key === 'Enter') {
             
-            const calculoUnitario = floatToString(stringToFloat(composto1) + stringToFloat(composto2))
+            const calculoUnitario: string = floatToString(stringToFloat(composto1) + stringToFloat(composto2))
+
+            if (calculoUnitario === 'NaN' && field === 'unitarioComposto') {
+
+                e.preventDefault()
+
+                if (composto1 === '') {
+
+                    console.log('composto 1 empty');
+                    compostoRef_1.current?.focus()
+                    return
+
+                } 
+                if (composto2 === '') {
+
+                    console.log('composto 2 empty');
+                    compostoRef_2.current?.focus()
+                    return
+
+                }
+
+            }
 
             const valorCalculado = (field === 'unitarioComposto')
                 ? floatToString(stringToFloat(composto1) + stringToFloat(composto2), 2)
                 : floatToString(stringToFloat(ipiProporcional) / stringToFloat(fatorBase))
 
             setProdutoData(prev => ({...prev, [field]: valorCalculado}))
-            e.preventDefault()
+            if (valorCalculado === 'NaN') e.preventDefault()
         } 
 
     }
@@ -137,6 +161,7 @@ export default function ProdutoTab() {
                                         onChange={(e) => handleProdutoChange('ncm')(e.target.value.toUpperCase())}
                                         required
                                         minLength={8}
+                                        maxLength={8}
                                     />
                                 }
                             />
@@ -282,6 +307,7 @@ export default function ProdutoTab() {
                                                 valor={composto1} 
                                                 setValor={handleProdutoChange('composto1')} 
                                                 required
+                                                refProp={compostoRef_1}
                                             />
                                         </div>        
                                         <p>+</p>
@@ -292,6 +318,7 @@ export default function ProdutoTab() {
                                                 valor={composto2} 
                                                 setValor={handleProdutoChange('composto2')} 
                                                 required
+                                                refProp={compostoRef_2}
                                             />
                                         </div>
                                     </span>

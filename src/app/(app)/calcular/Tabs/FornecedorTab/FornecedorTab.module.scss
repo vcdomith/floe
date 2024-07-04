@@ -48,7 +48,7 @@
 
                 width: 100px;
                 text-overflow: ellipsis;
-                transition: width 400ms ease;
+                transition: width 400ms ease, border-color 400ms ease;
 
                 // &:focus-within {
                 //     width: 100px;
@@ -223,7 +223,7 @@
                             color: cor-mix(80%);
                             text-align: center;
     
-                            transition: background-color 500ms ease;
+                            transition: background-color 500ms ease !important;
 
                             &:hover {
     

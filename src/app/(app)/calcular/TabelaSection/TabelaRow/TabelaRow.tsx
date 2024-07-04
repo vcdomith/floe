@@ -67,13 +67,17 @@ function TabelaRow({produto, setTabela}: TabelaRowProps, ref) {
                 <div>{ tabela3.toFixed(2) }</div>
                 <div>
                     <span className={style.tools}>
-                        <button popoverTarget="fatores">|||</button>
+                        <button popoverTarget={`fatores${produto.id}`}>|||</button>
                         {/* <button popOverTarget="popover">Toggle popover</button> */}
                         <div
-                            id="fatores" popover='auto' 
+                            id={`fatores${produto.id}`} popover='auto' 
                             style={{ width: 'fit-content'}}
                         >
                             <div>
+                                <span>
+                                    <h3>Código</h3>
+                                    <h3>{produto.codigo}</h3>
+                                </span>
                                 {Object.entries(produto.fatores).map(([key, value]) => 
                                     <span key={key}>
                                         <h3>{key}</h3>

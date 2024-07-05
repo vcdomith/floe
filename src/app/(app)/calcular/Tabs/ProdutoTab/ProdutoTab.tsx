@@ -60,14 +60,13 @@ export default function ProdutoTab() {
 
                 if (composto1 === '') {
 
-                    console.log('composto 1 empty');
                     compostoRef_1.current?.focus()
                     return
 
                 } 
+
                 if (composto2 === '') {
 
-                    console.log('composto 2 empty');
                     compostoRef_2.current?.focus()
                     return
 
@@ -181,19 +180,6 @@ export default function ProdutoTab() {
                                 }
                             />
                             }
-                            {/* <Config 
-                                svg={<SvgIPI/>} 
-                                title={'IPI'} 
-                                description={'Aliquiota IPI aplicado ao produto:'}
-                                input={
-                                    <NumberInput 
-                                        placeholder={'______'} 
-                                        valor={ipi} 
-                                        setValor={handleProdutoChange('ipi')}  
-                                        required
-                                    />
-                                }
-                            /> */}
                             {displayControl.ipi&&
                             <div className={`${style.configWrapper} ${styleProduto.configWrapper}`}>
                                 <Config 

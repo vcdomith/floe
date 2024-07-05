@@ -1,5 +1,5 @@
 'use client'
-import { getTabelas } from '@/utils/calculoTabelas'
+import { getTabelas, getTabelasObject } from '@/utils/calculoTabelas'
 import { useCalcular } from '../context/CalcularContext'
 import TableHeader from './TabelaHeader/TableHeader'
 import TabelaRow from './TabelaRow/TabelaRow'
@@ -62,7 +62,6 @@ export default function TabelaSection() {
                     )   
                     :
                     <div className={style.empty}>
-                        {/* svg empty table */}
                         <p>Nenhum produto cadastrado ainda, use as abas para calcular eles.</p>
                     </div>
                     }

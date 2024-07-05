@@ -1,7 +1,7 @@
 import { ChangeEvent, Dispatch, FormEvent, SetStateAction, useEffect, useState } from "react";
 import Converter from "@/utils/typeConversion";
 
-interface IFatoresPedido {
+export interface IFatoresPedido {
 
     usaNcm: boolean
     quantidadeProdutos: string

@@ -1,6 +1,6 @@
 'use client'
 
-import { FormEvent, useEffect, useRef, useState } from 'react'
+import { FormEvent, KeyboardEvent, RefObject, useEffect, useRef, useState } from 'react'
 import style from '../FornecedorTab/FornecedorTab.module.scss'
 import { motion, AnimatePresence } from 'framer-motion'
 import Config from '@/app/(app)/configurar/(Config)/Config'
@@ -9,6 +9,7 @@ import Converter from '@/utils/typeConversion'
 import { useCalcular } from '../../context/CalcularContext'
 import { debug } from 'console'
 import CheckBox from '@/app/(app)/configurar/(CheckBox)/CheckBox'
+import { IFatoresPedido } from '@/hooks/usePedido'
 
 const NUMBER_INPUT_PLACEHOLDER = '_'.repeat(25)
 
@@ -16,7 +17,6 @@ export default function PedidoTab() {
 
     const [displayPedido, setDisplayPedido] = useState(false)
 
-    // const [fatorBase, setFatorBase] = useState('2')
     const {fornecedorContext, pedidoContext, displayControl} = useCalcular()
     const {fornecedorData: { 
         fatorBase 
@@ -34,17 +34,51 @@ export default function PedidoTab() {
         valorTotalProdutosST,
     }, handlePedidoSubmit, handlePedidoChange} = pedidoContext
 
-    // useEffect(() => {
-    //     handlePedidoSubmit('transporte', fatorBase)
-    // }, [valorFrete, fatorFrete, valorTotalProdutos, fatorBase])
-    const {stringToFloat, floatToString} = Converter
-    // const fatorTransporteRender = 
-    //     (valorFrete !== '' && fatorFrete !== '' && valorTotalProdutos !== '' && fatorBase !== '')
-    //     ? floatToString(1 + (
-    //         (stringToFloat(valorFrete) * stringToFloat(fatorFrete)) / 
-    //         (stringToFloat(valorTotalProdutos) * stringToFloat(fatorBase))
-    //     ), 3)
-    //     : ''
+    // const valorFreteRef = useRef<HTMLInputElement>(null)
+    // const fatorFreteRef = useRef<HTMLInputElement>(null)
+    // const valorTotalProdutosRef = useRef<HTMLInputElement>(null)
+    type Refs = {[key: string]: RefObject<HTMLInputElement> | undefined}
+    const transporteRefs = useRef<Refs>({
+        valorFreteRef: undefined, 
+        fatorFreteRef: undefined, 
+        valorTotalProdutosRef: undefined,
+    })
+
+    const valorSTRef = useRef<HTMLInputElement>(null)
+    const multiploSTRef = useRef<HTMLInputElement>(null)
+    const valorTotalProdutosSTRef = useRef<HTMLInputElement>(null)
+
+    const handleKeyDown = (e: KeyboardEvent<HTMLDivElement>, field: keyof IFatoresPedido) => {
+
+        if (e.key === 'Enter') {
+
+            e.preventDefault()
+
+            switch (field) {
+
+                case 'fatorTransportePedido':
+                
+                    // const transporteInvalid = Object.entries(transporteRefs.current).filter(([key, value]) => value === '')
+
+                    const values = Object.values(transporteRefs.current).map( el => el.value)
+
+                    console.log(transporteRefs.current);
+                    console.log(values);
+
+                    break;
+
+                case 'fatorSTPedido':
+                    
+                    console.log(2);
+
+                    break;
+                
+                
+            }
+
+        }
+
+    }
 
     return (
         <div className={style.wrap}>
@@ -77,13 +111,8 @@ export default function PedidoTab() {
                     exit={{ height: 0 }}
                     transition={{ type: 'spring', bounce: 0, restDelta: 0.5 }}
                 >
-                    {/* Implementar render condicional se ambos st e transporte não são usados mostrar mensagem:
-                    'O produto atual não utiliza nem transporte nem st'
-                     */}
-                    {/* {(displayControl.transporte === false && displayControl.st === false)} ? : */}
 
-                    {/* implementar talvez um onSubmit */}
-                    <div className={style.fornecedorConfigs}>
+                    <form className={style.fornecedorConfigs}>
                     
                     <Config 
                         svg={<SvgFornecedor/>} 
@@ -124,34 +153,58 @@ export default function PedidoTab() {
                                 />
                             }
                         />
-                        <form className={style.extra} 
-                        onSubmit={(e) => handlePedidoSubmit('transporte', e, fatorBase)}
+                        <div className={style.extra} 
+                        // onSubmit={(e) => handlePedidoSubmit('transporte', e, fatorBase)}
+                        onKeyDown={(e) => handleKeyDown(e, 'fatorTransportePedido')}
                         >
                             <span> 
                                 <div>
                                     <label htmlFor="">Valor Frete</label>
-                                    <NumberInput placeholder={NUMBER_INPUT_PLACEHOLDER} valor={valorFrete} setValor={handlePedidoChange('valorFrete')} required/>
+                                    <NumberInput 
+                                        placeholder={NUMBER_INPUT_PLACEHOLDER} 
+                                        valor={valorFrete} 
+                                        setValor={handlePedidoChange('valorFrete')} 
+                                        required
+                                        refProp={(el) => transporteRefs.current.valorFreteRef = el}
+                                    />
                                 </div>        
                                 <p>x</p>
                                 <div>
                                     <label htmlFor="">Fator Frete</label>
-                                    <NumberInput placeholder={NUMBER_INPUT_PLACEHOLDER} valor={fatorFrete} setValor={handlePedidoChange('fatorFrete')} required/>
+                                    <NumberInput 
+                                        placeholder={NUMBER_INPUT_PLACEHOLDER} 
+                                        valor={fatorFrete} 
+                                        setValor={handlePedidoChange('fatorFrete')} 
+                                        required
+                                        refProp={(el) => transporteRefs.current.fatorFreteRef = el}
+                                    />
                                 </div>
                             </span>
                         /
                             <span>
                                 <div>
                                     <label htmlFor="">Total Prod.</label>
-                                    <NumberInput placeholder={NUMBER_INPUT_PLACEHOLDER} valor={valorTotalProdutos} setValor={handlePedidoChange('valorTotalProdutos')} required/>
+                                    <NumberInput 
+                                        placeholder={NUMBER_INPUT_PLACEHOLDER} 
+                                        valor={valorTotalProdutos} 
+                                        setValor={handlePedidoChange('valorTotalProdutos')} 
+                                        required
+                                        refProp={(el) => transporteRefs.current.valorTotalProdutosRef = el}
+                                    />
                                 </div>
                                 <p>x</p>
                                 <div>
                                     <label htmlFor="">Fator Base</label>
-                                    <NumberInput placeholder={NUMBER_INPUT_PLACEHOLDER} valor={fatorBase} setValor={handleFornecedorChange('fatorBase')} required disabled/>
+                                    <NumberInput 
+                                        placeholder={NUMBER_INPUT_PLACEHOLDER} 
+                                        valor={fatorBase} setValor={handleFornecedorChange('fatorBase')} 
+                                        required 
+                                        disabled
+                                    />
                                 </div>
                             </span>
-                            <button type='submit' hidden></button>                        
-                        </form>
+                            {/* <button type='submit' hidden></button>                         */}
+                        </div>
                     </div>
                     }
 
@@ -170,39 +223,63 @@ export default function PedidoTab() {
                                 />
                             }
                         />
-                        <form className={style.extra} 
-                        onSubmit={(e) => handlePedidoSubmit('st', e, fatorBase)}
+                        <div className={style.extra} 
+                            onKeyDown={(e) => handleKeyDown(e, 'fatorSTPedido')}
                         >
                             <span> 
                                 <div>
                                     <label htmlFor="">Valor Total ST</label>
-                                    <NumberInput placeholder={NUMBER_INPUT_PLACEHOLDER} valor={valorST} setValor={handlePedidoChange('valorST')} required />
+                                    <NumberInput 
+                                        placeholder={NUMBER_INPUT_PLACEHOLDER} 
+                                        valor={valorST} 
+                                        setValor={handlePedidoChange('valorST')} 
+                                        required 
+                                        refProp={valorSTRef}
+                                    />
                                 </div>        
                                 <p>x</p>
                                 <div>
                                     <label htmlFor="">Fator ST</label>
-                                    <NumberInput placeholder={NUMBER_INPUT_PLACEHOLDER} valor={multiploST} setValor={handlePedidoChange('multiploST')} required />
+                                    <NumberInput 
+                                        placeholder={NUMBER_INPUT_PLACEHOLDER} 
+                                        valor={multiploST} 
+                                        setValor={handlePedidoChange('multiploST')} 
+                                        required 
+                                        refProp={multiploSTRef}
+                                    />
                                 </div>
                             </span>
                         /
                             <span>
                                 <div>
                                     <label htmlFor="">Total P. c/ ST</label>
-                                    <NumberInput placeholder={NUMBER_INPUT_PLACEHOLDER} valor={valorTotalProdutosST} setValor={handlePedidoChange('valorTotalProdutosST')} required />
+                                    <NumberInput 
+                                        placeholder={NUMBER_INPUT_PLACEHOLDER} 
+                                        valor={valorTotalProdutosST} 
+                                        setValor={handlePedidoChange('valorTotalProdutosST')} 
+                                        required 
+                                        refProp={valorTotalProdutosSTRef}
+                                    />
                                 </div>
                                 <p>x</p>
                                 <div>
                                     <label htmlFor="">Fator Base</label>
-                                    <NumberInput placeholder={NUMBER_INPUT_PLACEHOLDER} valor={fatorBase} setValor={handleFornecedorChange('fatorBase')} required disabled/>
+                                    <NumberInput 
+                                        placeholder={NUMBER_INPUT_PLACEHOLDER} 
+                                        valor={fatorBase} 
+                                        setValor={handleFornecedorChange('fatorBase')} 
+                                        required 
+                                        disabled
+                                    />
                                 </div>
                             </span>                        
-                            <button type='submit' hidden></button>
-                        </form>
+                            {/* <button type='submit' hidden></button> */}
+                        </div>
                     </div>
                     }
                     
                     <button type="submit" hidden></button>
-                    </div>
+                    </form>
                 </motion.div>
                 }             
             </AnimatePresence>

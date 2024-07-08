@@ -10,6 +10,7 @@ import { useCalcular } from '../../context/CalcularContext'
 import { debug } from 'console'
 import CheckBox from '@/app/(app)/configurar/(CheckBox)/CheckBox'
 import { IFatoresPedido } from '@/hooks/usePedido'
+import usePedidoTabRefs from '@/hooks/usePedidoTabRefs'
 
 const NUMBER_INPUT_PLACEHOLDER = '_'.repeat(25)
 
@@ -34,19 +35,28 @@ export default function PedidoTab() {
         valorTotalProdutosST,
     }, handlePedidoSubmit, handlePedidoChange} = pedidoContext
 
+    const { refs, transporteRefs, stRefs, assignRef } = usePedidoTabRefs()
+
     // const valorFreteRef = useRef<HTMLInputElement>(null)
     // const fatorFreteRef = useRef<HTMLInputElement>(null)
-    // const valorTotalProdutosRef = useRef<HTMLInputElement>(null)
-    type Refs = {[key: string]: RefObject<HTMLInputElement> | undefined}
-    const transporteRefs = useRef<Refs>({
-        valorFreteRef: undefined, 
-        fatorFreteRef: undefined, 
-        valorTotalProdutosRef: undefined,
-    })
+    // const valorTotalProdutosRef = useRef<HTMLInputElement>(null
 
-    const valorSTRef = useRef<HTMLInputElement>(null)
-    const multiploSTRef = useRef<HTMLInputElement>(null)
-    const valorTotalProdutosSTRef = useRef<HTMLInputElement>(null)
+    // type Refs = {[key: string]: RefObject<HTMLInputElement> | undefined}
+    // const transporteRefs = useRef<Refs>({
+    //     valorFreteRef: undefined, 
+    //     fatorFreteRef: undefined, 
+    //     valorTotalProdutosRef: undefined,
+    // })
+
+    // const stRefs = useRef<Refs>({
+    //     valorSTRef: undefined, 
+    //     multiploSTRef: undefined,
+    //     valorTotalProdutosSTRef: undefined,
+    // })
+
+    // const valorSTRef = useRef<HTMLInputElement>(null)
+    // const multiploSTRef = useRef<HTMLInputElement>(null)
+    // const valorTotalProdutosSTRef = useRef<HTMLInputElement>(null)
 
     const handleKeyDown = (e: KeyboardEvent<HTMLDivElement>, field: keyof IFatoresPedido) => {
 
@@ -58,18 +68,15 @@ export default function PedidoTab() {
 
                 case 'fatorTransportePedido':
                 
-                    // const transporteInvalid = Object.entries(transporteRefs.current).filter(([key, value]) => value === '')
-
-                    const values = Object.values(transporteRefs.current).map( el => el.value)
-
-                    console.log(transporteRefs.current);
-                    console.log(values);
+                    const transporteValues = Object.values(transporteRefs.values())
+                    console.log(transporteValues);
 
                     break;
 
                 case 'fatorSTPedido':
                     
-                    console.log(2);
+                    const STValues = Object.values(stRefs.values())
+                    console.log(STValues);
 
                     break;
                 
@@ -165,7 +172,8 @@ export default function PedidoTab() {
                                         valor={valorFrete} 
                                         setValor={handlePedidoChange('valorFrete')} 
                                         required
-                                        refProp={(el) => transporteRefs.current.valorFreteRef = el}
+                                        // refProp={(el) => transporteRefs.current.valorFreteRef = el}
+                                        refProp={assignRef('valorFreteRef')}
                                     />
                                 </div>        
                                 <p>x</p>
@@ -176,7 +184,7 @@ export default function PedidoTab() {
                                         valor={fatorFrete} 
                                         setValor={handlePedidoChange('fatorFrete')} 
                                         required
-                                        refProp={(el) => transporteRefs.current.fatorFreteRef = el}
+                                        refProp={assignRef('fatorFreteRef')}
                                     />
                                 </div>
                             </span>
@@ -189,7 +197,7 @@ export default function PedidoTab() {
                                         valor={valorTotalProdutos} 
                                         setValor={handlePedidoChange('valorTotalProdutos')} 
                                         required
-                                        refProp={(el) => transporteRefs.current.valorTotalProdutosRef = el}
+                                        refProp={assignRef('valorTotalProdutosRef')}
                                     />
                                 </div>
                                 <p>x</p>
@@ -234,7 +242,7 @@ export default function PedidoTab() {
                                         valor={valorST} 
                                         setValor={handlePedidoChange('valorST')} 
                                         required 
-                                        refProp={valorSTRef}
+                                        refProp={assignRef('valorSTRef')}
                                     />
                                 </div>        
                                 <p>x</p>
@@ -245,7 +253,7 @@ export default function PedidoTab() {
                                         valor={multiploST} 
                                         setValor={handlePedidoChange('multiploST')} 
                                         required 
-                                        refProp={multiploSTRef}
+                                        refProp={assignRef('multiploSTRef')}
                                     />
                                 </div>
                             </span>
@@ -258,7 +266,7 @@ export default function PedidoTab() {
                                         valor={valorTotalProdutosST} 
                                         setValor={handlePedidoChange('valorTotalProdutosST')} 
                                         required 
-                                        refProp={valorTotalProdutosSTRef}
+                                        refProp={assignRef('valorTotalProdutosSTRef')}
                                     />
                                 </div>
                                 <p>x</p>

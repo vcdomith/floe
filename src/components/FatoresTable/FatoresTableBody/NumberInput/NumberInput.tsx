@@ -7,7 +7,7 @@ interface NumberInputProps {
     name?: string
     label?: string
     form?: string
-    refProp?: RefObject<HTMLInputElement>
+    refProp?: RefObject<HTMLInputElement> | ((el: HTMLInputElement | null) => void)
     placeholder: string
     valor: string
     setValor: (valor: string) => void

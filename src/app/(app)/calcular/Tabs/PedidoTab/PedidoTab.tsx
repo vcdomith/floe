@@ -10,7 +10,7 @@ import { useCalcular } from '../../context/CalcularContext'
 import { debug } from 'console'
 import CheckBox from '@/app/(app)/configurar/(CheckBox)/CheckBox'
 import { IFatoresPedido } from '@/hooks/usePedido'
-import usePedidoTabRefs from '@/hooks/usePedidoTabRefs'
+import usePedidoTabRefs, { InputRefs, Transporte_STRefs } from '@/hooks/usePedidoTabRefs'
 
 const NUMBER_INPUT_PLACEHOLDER = '_'.repeat(25)
 
@@ -35,28 +35,7 @@ export default function PedidoTab() {
         valorTotalProdutosST,
     }, handlePedidoSubmit, handlePedidoChange} = pedidoContext
 
-    const { refs, transporteRefs, stRefs, assignRef } = usePedidoTabRefs()
-
-    // const valorFreteRef = useRef<HTMLInputElement>(null)
-    // const fatorFreteRef = useRef<HTMLInputElement>(null)
-    // const valorTotalProdutosRef = useRef<HTMLInputElement>(null
-
-    // type Refs = {[key: string]: RefObject<HTMLInputElement> | undefined}
-    // const transporteRefs = useRef<Refs>({
-    //     valorFreteRef: undefined, 
-    //     fatorFreteRef: undefined, 
-    //     valorTotalProdutosRef: undefined,
-    // })
-
-    // const stRefs = useRef<Refs>({
-    //     valorSTRef: undefined, 
-    //     multiploSTRef: undefined,
-    //     valorTotalProdutosSTRef: undefined,
-    // })
-
-    // const valorSTRef = useRef<HTMLInputElement>(null)
-    // const multiploSTRef = useRef<HTMLInputElement>(null)
-    // const valorTotalProdutosSTRef = useRef<HTMLInputElement>(null)
+    const { refs, pedidoFormRef, transporteRefs, stRefs, assignRef } = usePedidoTabRefs()
 
     const handleKeyDown = (e: KeyboardEvent<HTMLDivElement>, field: keyof IFatoresPedido) => {
 
@@ -64,26 +43,50 @@ export default function PedidoTab() {
 
             e.preventDefault()
 
+            let checkedRefs: {} | Transporte_STRefs = {}
+            let activeField: ('' | 'transporte' | 'st') = ''
+
             switch (field) {
 
                 case 'fatorTransportePedido':
-                
-                    const transporteValues = Object.values(transporteRefs.values())
-                    console.log(transporteValues);
 
+                    checkedRefs = {...transporteRefs}
+                    activeField = 'transporte'
                     break;
 
                 case 'fatorSTPedido':
+                
+                    checkedRefs = {...stRefs}
+                    activeField = 'st'
+                    break;     
                     
-                    const STValues = Object.values(stRefs.values())
-                    console.log(STValues);
+                }
 
-                    break;
-                
-                
-            }
+                const valid = Object.values(checkedRefs as Transporte_STRefs)
+                .filter( (ref: HTMLInputElement) => typeof ref !== 'function')
+                .every( (ref: HTMLInputElement) => {
+                    if(ref.value === '') {
+                        ref.focus()
+                        return false
+                    }
+                    return true
+                })
+
+                if (!valid) return 
+                if (activeField === '') return
+
+                handlePedidoSubmit(activeField, fatorBase)
+                pedidoFormRef.current?.requestSubmit()
 
         }
+
+    }
+
+    const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+
+        e.preventDefault()
+
+        setDisplayPedido(false)
 
     }
 
@@ -119,7 +122,11 @@ export default function PedidoTab() {
                     transition={{ type: 'spring', bounce: 0, restDelta: 0.5 }}
                 >
 
-                    <form className={style.fornecedorConfigs}>
+                    <form 
+                        className={style.fornecedorConfigs}
+                        ref={pedidoFormRef}
+                        onSubmit={(e) => handleSubmit(e)}
+                    >
                     
                     <Config 
                         svg={<SvgFornecedor/>} 
@@ -171,8 +178,7 @@ export default function PedidoTab() {
                                         placeholder={NUMBER_INPUT_PLACEHOLDER} 
                                         valor={valorFrete} 
                                         setValor={handlePedidoChange('valorFrete')} 
-                                        required
-                                        // refProp={(el) => transporteRefs.current.valorFreteRef = el}
+                                        // required
                                         refProp={assignRef('valorFreteRef')}
                                     />
                                 </div>        
@@ -183,7 +189,7 @@ export default function PedidoTab() {
                                         placeholder={NUMBER_INPUT_PLACEHOLDER} 
                                         valor={fatorFrete} 
                                         setValor={handlePedidoChange('fatorFrete')} 
-                                        required
+                                        // required
                                         refProp={assignRef('fatorFreteRef')}
                                     />
                                 </div>
@@ -196,7 +202,7 @@ export default function PedidoTab() {
                                         placeholder={NUMBER_INPUT_PLACEHOLDER} 
                                         valor={valorTotalProdutos} 
                                         setValor={handlePedidoChange('valorTotalProdutos')} 
-                                        required
+                                        // required
                                         refProp={assignRef('valorTotalProdutosRef')}
                                     />
                                 </div>
@@ -241,7 +247,7 @@ export default function PedidoTab() {
                                         placeholder={NUMBER_INPUT_PLACEHOLDER} 
                                         valor={valorST} 
                                         setValor={handlePedidoChange('valorST')} 
-                                        required 
+                                        // required 
                                         refProp={assignRef('valorSTRef')}
                                     />
                                 </div>        
@@ -252,7 +258,7 @@ export default function PedidoTab() {
                                         placeholder={NUMBER_INPUT_PLACEHOLDER} 
                                         valor={multiploST} 
                                         setValor={handlePedidoChange('multiploST')} 
-                                        required 
+                                        // required 
                                         refProp={assignRef('multiploSTRef')}
                                     />
                                 </div>
@@ -265,7 +271,7 @@ export default function PedidoTab() {
                                         placeholder={NUMBER_INPUT_PLACEHOLDER} 
                                         valor={valorTotalProdutosST} 
                                         setValor={handlePedidoChange('valorTotalProdutosST')} 
-                                        required 
+                                        // required 
                                         refProp={assignRef('valorTotalProdutosSTRef')}
                                     />
                                 </div>
@@ -276,7 +282,7 @@ export default function PedidoTab() {
                                         placeholder={NUMBER_INPUT_PLACEHOLDER} 
                                         valor={fatorBase} 
                                         setValor={handleFornecedorChange('fatorBase')} 
-                                        required 
+                                        // required 
                                         disabled
                                     />
                                 </div>

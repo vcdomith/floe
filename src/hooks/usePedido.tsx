@@ -23,7 +23,7 @@ export interface usePedidoReturn {
     pedidoData: IFatoresPedido
     setPedidoData: Dispatch<SetStateAction<IFatoresPedido>>
     handlePedidoChange: <T>(field: keyof IFatoresPedido) =>(valor: T) => void
-    handlePedidoSubmit: (campo: ('transporte' | 'st'), e: FormEvent<HTMLFormElement>, fatorBase: string) => void
+    handlePedidoSubmit: (campo: ('transporte' | 'st'), fatorBase: string) => void
 
 }
 
@@ -61,9 +61,7 @@ export default function usePedido() {
 
     }
 
-    const handlePedidoSubmit = (campo: ('transporte' | 'st'), e: FormEvent<HTMLFormElement>, fatorBase: string) => {
-
-        e.preventDefault()
+    const handlePedidoSubmit = (campo: ('transporte' | 'st'), fatorBase: string) => {
         
         switch (campo) {
             case 'transporte':

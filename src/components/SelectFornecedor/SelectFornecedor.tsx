@@ -33,6 +33,8 @@ const SelectFornecedor = ({ loading, omitSearch: omitSearch, fornecedoresControl
     const fornecedoresRef = useRef<HTMLUListElement>(null)  
     const selectRef = useRef<HTMLButtonElement>(null)
     
+    if (search !== '' && !display) setSearch('')
+
     const handleArrowSelect = (e: KeyboardEvent<HTMLButtonElement>) => {
         
         switch (e.code) {
@@ -188,9 +190,9 @@ const SelectFornecedor = ({ loading, omitSearch: omitSearch, fornecedoresControl
     //         setSelectIndex(0)
     // }, [search])
 
-    useEffect(() => {
-        setSearch('')
-    }, [display])
+    // useEffect(() => {
+    //     setSearch('')
+    // }, [display])
 
 	return (
 		<div

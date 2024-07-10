@@ -9,7 +9,7 @@
     // border: 2px solid cor-mix(50%);
     // border-radius: 1rem;
 
-    border-left: 2px solid;
+    border-left: 1px solid;
     border-image: linear-gradient(0deg , $cor-secundaria, cor-mix(40%)) 5;
 
     .content {
@@ -23,7 +23,7 @@
         box-sizing: border-box;
         padding: 1rem;
 
-        border-top: 2px solid;
+        border-top: 1px solid;
         border-image: linear-gradient(to left , 
         $cor-secundaria, cor-mix(40%)) 27;
 
@@ -31,16 +31,26 @@
      
         .options {
 
+            display: flex;
+            gap: 0.5rem;
             place-self: flex-end;
 
             display: flex;
 
             .search {
 
-                max-height: 20px;
+                // max-height: 33.2px;
+                box-sizing: border-box;
+                height: 33.2px;
                 padding: 0.25rem;
                 border-color: cor-mix(30%);
                 border-radius: 0.5rem;
+
+                svg {
+
+                    fill: cor-mix(60%);
+
+                }
 
                 & > div input {
 

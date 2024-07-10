@@ -31,7 +31,7 @@
      
         .options {
 
-            place-self: end;
+            place-self: flex-end;
 
             display: flex;
 
@@ -152,9 +152,9 @@
 
     .footer {
 
-        place-self: end;
+        place-self: flex-end;
         display: flex;
-        justify-content: end;
+        justify-content: flex-end;
         align-items: center;
         gap: 0.5rem;
 

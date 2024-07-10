@@ -23,7 +23,7 @@ const Nav = ({ pathname }: { pathname: string}) => {
                 className={style.background}
                 // style={{ width: `${display ? '10rem' : '4rem'}`}}
             >
-                <SvgArray className={'a'} interval={2000} />
+                <SvgArray className={'a'} />
             </motion.div>
             } 
         </AnimatePresence>
@@ -96,7 +96,8 @@ const Nav = ({ pathname }: { pathname: string}) => {
                     
             </div>
             <div
-                className={style.links}
+                className={`${style.links} ${style.extra}`}
+                data-expanded={display}
             >
                 <Link href='/usuario' prefetch>
                     <button className={`${(pathname === '/usuario' ? style.active : '')}`}>

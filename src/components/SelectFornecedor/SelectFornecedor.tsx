@@ -32,31 +32,7 @@ const SelectFornecedor = ({ loading, omitSearch: omitSearch, fornecedoresControl
     const searchElementRef = useRef<HTMLInputElement>(null)
     const fornecedoresRef = useRef<HTMLUListElement>(null)  
     const selectRef = useRef<HTMLButtonElement>(null)
-
-    const handleClick = (e: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>) => {
-
-        e.preventDefault()
-
-        searchElementRef.current?.focus()
-        // if(document.activeElement === searchElementRef.current) return
-        // console.log(document.activeElement)
-        // console.log(searchElementRef.current)
-        // console.log(document.activeElement === searchElementRef.current)
-        // setDisplay(prev => !prev)
-
-    }
-
-    const handleBlur = () => {
-
-        setDisplay(false)
-
-    } 
-
-    // useEffect(() => {
-    //     console.log(selectIndex);
-    // }, [selectIndex])
     
-
     const handleArrowSelect = (e: KeyboardEvent<HTMLButtonElement>) => {
         
         switch (e.code) {
@@ -68,12 +44,8 @@ const SelectFornecedor = ({ loading, omitSearch: omitSearch, fornecedoresControl
                 
                 setSelectIndex(prev => {
                     if(prev === 0 || prev === null) return 0
-                    // setFornecedor(fornecedoresDisplay[prev - 1])
                     return prev - 1
                 })
-                // setFornecedor(selectIndex.toString())
-
-                // // setFornecedor((fornecedoresRef.current?.childNodes[selectIndex] as HTMLLIElement).innerText) 
                 
                 break;
             }
@@ -85,12 +57,8 @@ const SelectFornecedor = ({ loading, omitSearch: omitSearch, fornecedoresControl
                 
                 setSelectIndex(prev => {
                     if(prev === (fornecedoresControle.length-1)) return prev
-                    // setFornecedor(fornecedoresDisplay[prev + 1])
                     return (prev === null) ? 0 : prev + 1
                 })
-                // setFornecedor(selectIndex.toString())
-                    
-                // setFornecedor((fornecedoresRef.current?.childNodes[selectIndex] as HTMLLIElement).innerText)
 
                 break;
             }

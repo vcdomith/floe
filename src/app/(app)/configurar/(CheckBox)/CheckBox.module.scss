@@ -1,0 +1,100 @@
+@use '../../../globalStyle.module.scss' as *;
+
+.wrapper {
+
+    position: relative;
+
+    display: flex;
+
+    width: 35px;
+    outline: none;
+    border-radius: 2rem;
+    align-items: center;
+    padding: 0.25rem;
+    border: 2px solid;
+    flex-shrink: 0;
+    transition: background-color 200ms ease,
+                box-shadow 200ms ease;
+
+    cursor: pointer;
+
+    &:not([data-checked]){
+        
+        justify-content: center;
+        border-color: transparentize($cor-primaria, 0.5);
+        
+    }
+    &[data-checked="false"]{
+        
+        justify-content: flex-start;
+        background-color: none;
+        
+    }
+    &[data-checked="true"]{
+        
+        justify-content: flex-end;
+        // background-color: $cor-mix;
+        // $mixed-color: mix($cor-secundaria, $cor-primaria, 40%);
+        // background-color: darken(saturate($mixed-color, 15%), 5%);
+
+    }
+    &[data-disabled="true"]{
+        border-color: cor-mix(30%);
+        .slider {
+            border-color: cor-mix(30%) !important;
+        }
+    }
+    &:focus-within{
+
+        box-shadow: 2px 2px 15px transparentize($cor-primaria, 0.7);
+        // $mixed-color: mix($cor-secundaria, $cor-primaria, 35%);
+        // border-color: darken(saturate($mixed-color, 15%), 5%);
+
+    }
+
+    .input {
+
+        clip: rect(0 0 0 0);
+        clip-path: inset(50%);
+        height: 1px;
+        overflow: hidden;
+        position: absolute;
+        white-space: nowrap;
+        width: 1px;
+
+    }
+
+    .slider {
+
+        width: 10px;
+        height: 10px;
+        // background-color: none;
+        border: 2px solid;
+        border-radius: 15px;
+        transition: background-color 200ms ease,
+                    border-color 200ms ease;
+
+        &:not([data-checked]) {
+
+            // background-color: transparentize($cor-primaria, 0.5);   
+            border-color: transparentize($cor-primaria, 0.5);
+
+        }
+
+        &[data-checked="false"] {
+            background-color: $cor-secundaria;
+            border-color: $cor-primaria;
+        }
+        
+        &[data-checked="true"] {
+            background-color: $cor-primaria;
+            // scale: 1.5;
+            // width: 15px;
+            // height: 15px;
+            // border-color: $cor-secundaria;
+
+        }
+
+    }
+
+}

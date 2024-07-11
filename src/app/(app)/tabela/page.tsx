@@ -246,6 +246,7 @@ export default function Home() {
     const cadastro: ICadastro = {
       id: new Date().getTime(),
       produtos: controleProdutos,
+      fornecedor: null,
       created_at: new Date().toLocaleString(),
     }
     const cadastroString = JSON.stringify(cadastro)

@@ -1,10 +1,13 @@
-import { ChangeEvent, FormEvent, ReactNode, WheelEvent, WheelEventHandler, useState } from 'react'
+import { ChangeEvent, FormEvent, ReactNode, RefObject, WheelEvent, WheelEventHandler, useState } from 'react'
 import styles from './NumberInput.module.scss'
 import { IFatores } from '@/interfaces/IFatores'
 
 interface NumberInputProps {
 
+    name?: string
     label?: string
+    form?: string
+    refProp?: RefObject<HTMLInputElement> | ((el: HTMLInputElement | null) => void)
     placeholder: string
     valor: string
     setValor: (valor: string) => void
@@ -13,7 +16,7 @@ interface NumberInputProps {
 
 }
 
-const NumberInput = ({ label, placeholder, valor, setValor, onBlur, ...props }: NumberInputProps) => {
+const NumberInput = ({ label, refProp, placeholder, valor, setValor, onBlur, name, form, ...props }: NumberInputProps) => {
 
   // const [disabled, setDisabled] = useState(true)
 
@@ -51,13 +54,16 @@ const NumberInput = ({ label, placeholder, valor, setValor, onBlur, ...props }: 
         <input 
             // className={styles.input}
             // disabled={disabled}
+            name={name}
             className={styles.inputFont}
-            required
+            required={props.required}
+            ref={refProp|| null}
             type="text" 
             value={valor}
             inputMode='numeric'
             onChange={handleChangeValor}
             onBlur={onBlur}
+            form={form}
             // onBlur={() => setDisabled(true)}
             placeholder={placeholder}
             {...props}

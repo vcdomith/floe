@@ -6,11 +6,13 @@ import PedidoTab from './Tabs/PedidoTab/PedidoTab'
 import { CalcularProvider } from './context/CalcularContext'
 import FatoresSection from './FatoresSection/FatoresSection'
 import TabelaSection from './TabelaSection/TabelaSection'
+import { useCallback } from 'react'
+
 
 export default async function Calcular() {
-
-    // const fornecedores = getFornecedores()
+    
     const supabase = dbConnect()
+    // const fornecedores = getFornecedores()
     const { data: fornecedoresDB } = await supabase.from('fornecedores').select('nome')
     const fornecedores: string[] | undefined = fornecedoresDB?.map( fornecedor => fornecedor.nome )
 

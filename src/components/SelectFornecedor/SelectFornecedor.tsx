@@ -16,10 +16,11 @@ interface SelectFornecedorProps {
 
     fornecedor: string
     setFornecedor: (value: string) => void
+    confirmFornecedor?: () => (void | Promise<void>)
 
 }
 
-const SelectFornecedor = ({ loading, omitSearch, fornecedoresControle, fornecedor, setFornecedor }: SelectFornecedorProps) => {
+const SelectFornecedor = ({ loading, omitSearch, fornecedoresControle, fornecedor, setFornecedor, confirmFornecedor }: SelectFornecedorProps) => {
 
     // const [fornecedoresControle, setFornecedoresControle] = useState<string[]>(fornecedores)
 
@@ -78,6 +79,8 @@ const SelectFornecedor = ({ loading, omitSearch, fornecedoresControle, fornecedo
             
                 e.preventDefault()
                 
+                if (selectIndex === 0 ) return
+
                 const newSelectIndex = (selectIndex === 0 || selectIndex === null)
                     ? 0
                     : selectIndex - 1
@@ -92,6 +95,8 @@ const SelectFornecedor = ({ loading, omitSearch, fornecedoresControle, fornecedo
                     
                 e.preventDefault()
                 
+                if (selectIndex === (fornecedoresControle.length-1)) return
+
                 const newSelectIndex = (selectIndex === (fornecedoresControle.length-1))
                     ? selectIndex
                     : (selectIndex === null) 
@@ -101,6 +106,17 @@ const SelectFornecedor = ({ loading, omitSearch, fornecedoresControle, fornecedo
                 handleIndexChange(newSelectIndex)
 
                 break;
+            }
+
+            case 'Enter': {
+
+                e.preventDefault()
+                if (fornecedor && confirmFornecedor) confirmFornecedor() 
+
+                selectRef.current?.blur()
+
+                break
+
             }
 
             default:
@@ -117,6 +133,8 @@ const SelectFornecedor = ({ loading, omitSearch, fornecedoresControle, fornecedo
 
                 e.preventDefault()
                 
+                if (selectIndex === 0 ) return
+
                 const newSelectIndex = (selectIndex === 0 || selectIndex === null)
                     ? 0
                     : selectIndex - 1
@@ -130,6 +148,8 @@ const SelectFornecedor = ({ loading, omitSearch, fornecedoresControle, fornecedo
             case 'ArrowDown': {
 
                 e.preventDefault()
+
+                if (selectIndex === (fornecedoresControle.length-1)) return
 
                 const newSelectIndex = (selectIndex === (fornecedoresControle.length-1))
                     ? selectIndex

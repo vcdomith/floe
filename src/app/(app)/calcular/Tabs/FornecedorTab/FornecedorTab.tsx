@@ -56,6 +56,11 @@ export default function FornecedorTab({ fornecedores, svg, titulo }: FornecedorT
 
     const getFornecedorDataDB = async () => {
 
+        if (fornecedorDb && fornecedor.toLowerCase() === fornecedorDb.nome) {
+            console.log('fornecedor já carregado!');
+            return
+        }
+
         setLoadingFornecedor(true)
         const supabase = dbConnect()
         const { data: fornecedorDB, error } = await supabase
@@ -80,6 +85,7 @@ export default function FornecedorTab({ fornecedores, svg, titulo }: FornecedorT
                     fornecedoresControle={fornecedores}
                     fornecedor={fornecedor}
                     setFornecedor={setCapitalizedFornecedor}
+                    confirmFornecedor={getFornecedorDataDB}
                 />
                 {(fornecedorDb === undefined || nome !== fornecedor.toLowerCase())
                 ?

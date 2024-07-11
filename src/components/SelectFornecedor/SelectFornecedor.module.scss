@@ -11,7 +11,11 @@
     // overflow: hidden;
     border-radius: 0.5rem;
     
-    transition: height 600ms ease, border-radius 500ms ease-in, border-color 500ms ease-in;
+    transition: height 600ms ease, 
+                border-radius 500ms ease-in, 
+                border-color 500ms ease-in,
+                box-shadow 500ms ease
+    ;
     
     &:focus-within {
 
@@ -147,8 +151,10 @@
 
         position: absolute;
         // top: 0;
-        width: 154px;
-        right: -2px;
+        // width: 154px;
+        width: calc( 150px + 0.2rem);
+        right: -0.1rem;
+        // left: 0;
         box-sizing: border-box;
 
         border: 2px solid;

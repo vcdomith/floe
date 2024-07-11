@@ -1,5 +1,5 @@
 'use client'
-import { ChangeEvent, KeyboardEvent, MouseEvent, MutableRefObject, RefObject, Suspense, cache, useEffect, useRef, useState } from "react"
+import { ChangeEvent, KeyboardEvent, MouseEvent, MutableRefObject, RefObject, Suspense, cache, useEffect, useMemo, useRef, useState } from "react"
 
 import style from './SelectFornecedor.module.scss'
 import { AnimatePresence, motion } from "framer-motion"
@@ -19,21 +19,55 @@ interface SelectFornecedorProps {
 
 }
 
-const SelectFornecedor = ({ loading, omitSearch: omitSearch, fornecedoresControle, fornecedor, setFornecedor }: SelectFornecedorProps) => {
+const SelectFornecedor = ({ loading, omitSearch, fornecedoresControle, fornecedor, setFornecedor }: SelectFornecedorProps) => {
 
     // const [fornecedoresControle, setFornecedoresControle] = useState<string[]>(fornecedores)
 
-    const [fornecedoresDisplay, setFornecedoresDisplay] = useState<string[]>(fornecedoresControle)
+    // const [fornecedoresDisplay, setFornecedoresDisplay] = useState<string[]>(fornecedoresControle)
     
 	const [display, setDisplay] = useState(false)
     const [search, setSearch] = useState('')
     const [selectIndex, setSelectIndex] = useState<number | null>(null)
 
+    const fornecedoresDisplay = useMemo(() => search
+    ? fornecedoresControle.filter( f => f.includes(search.toLowerCase()))
+    : fornecedoresControle, [search, fornecedoresControle])
+
     const searchElementRef = useRef<HTMLInputElement>(null)
     const fornecedoresRef = useRef<HTMLUListElement>(null)  
     const selectRef = useRef<HTMLButtonElement>(null)
-    
+
     if (search !== '' && !display) setSearch('')
+
+    const scrollToNode = (index: number) => {
+
+        if (!(index !== null && fornecedoresDisplay.length > 0)) return
+        if (!(fornecedoresRef.current && !search)) return
+
+        const selectedNode = (fornecedoresRef.current.childNodes[index] as HTMLLIElement)
+        if (selectedNode) {
+            selectedNode.scrollIntoView({
+                behavior: 'smooth', 
+                block: 'nearest', 
+                inline: 'nearest'
+            })
+        }
+            
+        
+    }
+
+    const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
+
+        setSearch(e.target.value)
+        setSelectIndex(0)
+
+    }
+
+    const handleIndexChange = (index: number) => {
+        setSelectIndex(index)
+        scrollToNode(index)
+        setFornecedor(fornecedoresControle[index])
+    }
 
     const handleArrowSelect = (e: KeyboardEvent<HTMLButtonElement>) => {
         
@@ -44,10 +78,11 @@ const SelectFornecedor = ({ loading, omitSearch: omitSearch, fornecedoresControl
             
                 e.preventDefault()
                 
-                setSelectIndex(prev => {
-                    if(prev === 0 || prev === null) return 0
-                    return prev - 1
-                })
+                const newSelectIndex = (selectIndex === 0 || selectIndex === null)
+                    ? 0
+                    : selectIndex - 1
+
+                handleIndexChange(newSelectIndex)
                 
                 break;
             }
@@ -57,10 +92,13 @@ const SelectFornecedor = ({ loading, omitSearch: omitSearch, fornecedoresControl
                     
                 e.preventDefault()
                 
-                setSelectIndex(prev => {
-                    if(prev === (fornecedoresControle.length-1)) return prev
-                    return (prev === null) ? 0 : prev + 1
-                })
+                const newSelectIndex = (selectIndex === (fornecedoresControle.length-1))
+                    ? selectIndex
+                    : (selectIndex === null) 
+                        ? 0 
+                        : selectIndex + 1
+  
+                handleIndexChange(newSelectIndex)
 
                 break;
             }
@@ -75,27 +113,34 @@ const SelectFornecedor = ({ loading, omitSearch: omitSearch, fornecedoresControl
 
         switch (e.code) {
 
-            case 'ArrowUp':
+            case 'ArrowUp': {
 
                 e.preventDefault()
                 
-                setSelectIndex(prev => {
-                    if(prev === 0 || prev === null) return 0
-                    return prev-1
-                })  
+                const newSelectIndex = (selectIndex === 0 || selectIndex === null)
+                    ? 0
+                    : selectIndex - 1
+
+                handleIndexChange(newSelectIndex)            
                 
                 break;
+
+            }       
                     
-            case 'ArrowDown':
+            case 'ArrowDown': {
 
                 e.preventDefault()
 
-                setSelectIndex(prev => {
-                    if(prev === (fornecedoresDisplay.length-1)) return prev
-                    return (prev === null) ? 0 : prev + 1
-                })
+                const newSelectIndex = (selectIndex === (fornecedoresControle.length-1))
+                    ? selectIndex
+                    : (selectIndex === null) 
+                        ? 0 
+                        : selectIndex + 1
+
+                handleIndexChange(newSelectIndex)
 
                 break;
+            }
 
             case 'Enter':
             case 'Space':
@@ -134,65 +179,6 @@ const SelectFornecedor = ({ loading, omitSearch: omitSearch, fornecedoresControl
         }
 
     }
-
-    useEffect(() => {
-        
-        // if(!display) setFornecedor(fornecedoresControle[selectIndex])
-
-        if (selectIndex == null || fornecedoresDisplay.length === 0) return
-
-        setFornecedor(fornecedoresDisplay[selectIndex])
-
-        if(fornecedoresRef.current)
-            if(!search)
-            (fornecedoresRef.current?.childNodes[selectIndex] as HTMLLIElement)
-                .scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'nearest'})
-
-    }, [selectIndex])
-
-    useEffect(() => {
-
-        // if(selectIndex !== null)
-        // setSelectIndex(0)
-
-        // console.log(selectIndex, fornecedoresDisplay);
-        // if (selectIndex !== null)
-        //     if (selectIndex > fornecedoresDisplay.length) setSelectIndex(0)
-
-        const searchValue = search.toLowerCase()
-
-        // if(search.length > 0) {
-            
-        //     if (!display) setDisplay(true)
-
-        //     setFornecedoresDisplay(fornecedoresControle.filter(fornecedor => fornecedor.includes(searchValue)))
-        //     return
-
-        // } else    {
-        //     setFornecedoresDisplay(fornecedoresControle)
-        // }
-        setSelectIndex(prev => 
-            search
-                ? 0
-                : prev
-        )
-
-        setFornecedoresDisplay(
-            search
-                ? fornecedoresControle.filter(f => f.includes(searchValue))
-                : fornecedoresControle
-        )
-
-    }, [search, fornecedoresControle, selectIndex])
-
-    // useEffect(() => {
-    //     if(selectIndex !== null && fornecedoresDisplay.length > 0)
-    //         setSelectIndex(0)
-    // }, [search])
-
-    // useEffect(() => {
-    //     setSearch('')
-    // }, [display])
 
 	return (
 		<div
@@ -283,7 +269,8 @@ const SelectFornecedor = ({ loading, omitSearch: omitSearch, fornecedoresControl
                         type="text" 
                         value={search} 
                         placeholder={display ? 'Buscar' : 'Selecione um fornecedor'} 
-                        onChange={(e) => setSearch(e.target.value)} 
+                        // onChange={(e) => setSearch(e.target.value)} 
+                        onChange={(e) => handleSearchChange(e)} 
                         // onFocus={() => setDisplay(true)}
                         // onBlur={() => handleBlur()}
                         ref={searchElementRef}

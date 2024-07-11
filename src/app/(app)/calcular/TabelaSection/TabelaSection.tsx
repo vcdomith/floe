@@ -47,7 +47,12 @@ export default function TabelaSection() {
                         fornecedor={searchField} 
                         setFornecedor={setSearchField as (() => void)} 
                     />
-                    <Search className={style.search} searchParam={searchParam} setSearchParam={setSearchParam} />
+                    <Search 
+                        className={style.search} 
+                        searchParam={searchParam} 
+                        setSearchParam={setSearchParam} 
+                        textInput={(searchField === 'codigo')}
+                    />
                 </span>
 
                 <div className={style.tabela}>

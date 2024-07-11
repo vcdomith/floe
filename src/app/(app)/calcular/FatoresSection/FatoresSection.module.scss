@@ -52,6 +52,10 @@
 
         // padding: 1rem;
 
+        & > :first-child h3 {
+            margin-top: 0;
+        }
+
         .title {
 
             h3 {

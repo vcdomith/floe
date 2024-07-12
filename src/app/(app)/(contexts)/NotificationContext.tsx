@@ -24,13 +24,17 @@ export const NotificationProvider = ({ children }: { children: React.ReactNode }
     const [notifications, setNotifications] = useState<INotification[]>([]);
 
     const addNotification = ({ tipo, mensagem }: newNotification ) => {
-        const notificationObject: INotification= { 
+        const newNotification: INotification= { 
             id: new Date().getTime(),
             tipo: tipo,  
             mensagem: mensagem,
-            timer: setTimeout(() => removeNotification(notificationObject.id), 10000) // Remove after 10 seconds
+            timer: setTimeout(() => removeNotification(newNotification.id), 10000) // Remove after 10 seconds
         }
-        setNotifications(prevNotifications => [...prevNotifications, notificationObject]);
+        if(notifications.some( notification => notification.mensagem === newNotification.mensagem )) {
+            console.log(`Notification with %c"${newNotification.mensagem}"%c already deployed`, 'color: #ffa600', 'color: initial');
+            return
+        }
+        setNotifications(prevNotifications => [...prevNotifications, newNotification]);
     };
 
     const removeNotification = (notificationToRemoveId: number) => {

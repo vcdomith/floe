@@ -93,6 +93,7 @@ export const CalcularProvider = ({ children }: { children: React.ReactNode}) => 
     const {fornecedorData} = fornecedorContext
     const {pedidoData} = pedidoContext
     const {produtoData, resetForm, codigoInputRef} = produtoContext
+    const { setSearchParam } = filterContext
 
     type ControlledInputDataKeys = keyof typeof controlledInputData;
     const controlledInputData = useMemo(() => {
@@ -244,6 +245,7 @@ export const CalcularProvider = ({ children }: { children: React.ReactNode}) => 
             return
         } 
 
+        setSearchParam('')
         setTabela( prev => ([...prev, produto]) )
         resetForm()
         codigoInputRef.current.focus()

@@ -1,6 +1,6 @@
 'use client'
 import { getTabelas, getTabelasObject } from '@/utils/calculoTabelas'
-import { useCalcular } from '../context/CalcularContext'
+import { produtoCadastro, useCalcular } from '../context/CalcularContext'
 import TableHeader from './TabelaHeader/TableHeader'
 import TabelaRow from './TabelaRow/TabelaRow'
 import { AnimatePresence } from 'framer-motion'
@@ -21,37 +21,30 @@ export default function TabelaSection() {
         filterContext, 
         pedidoContext: {pedidoData: {quantidadeProdutos}}
     } = useCalcular()
-    const {searchParam, setSearchParam, searchField, setSearchField} = filterContext
+    const {searchParam, setSearchParam, searchField, setSearchFieldCapitalized} = filterContext
 
     const fieldKeys: SearchFieldKeys[] = ['unitario', 'codigo']
 
     const tabelaFilter = useMemo(() => 
-        tabela.filter( item => (item[searchField] as string).includes(searchParam) )
+        tabela.filter( item => (item[searchField.toLowerCase() as keyof produtoCadastro] as string).includes(searchParam) )
     , [searchParam, tabela, searchField])
-
-    console.log(tabela, tabelaFilter);
 
     return (
         <section className={style.tabelaSection}>
             <div className={style.content}>
 
                 <span className={style.options}>
-                    {/* <select name="" id="" value={searchField} onChange={(e) => setSearchField(e.target.value as SearchFieldKeys)}>
-                        {fieldKeys.map( field => 
-                            <option key={field} value={field}>{field}</option>
-                        )}
-                    </select> */}
                     <SelectFornecedor 
                         omitSearch={true}
                         fornecedoresControle={fieldKeys} 
                         fornecedor={searchField} 
-                        setFornecedor={setSearchField as (() => void)} 
+                        setFornecedor={setSearchFieldCapitalized as (() => void)} 
                     />
                     <Search 
                         className={style.search} 
                         searchParam={searchParam} 
                         setSearchParam={setSearchParam} 
-                        textInput={(searchField === 'codigo')}
+                        textInput={(searchField.toLowerCase() === 'codigo')}
                     />
                 </span>
 

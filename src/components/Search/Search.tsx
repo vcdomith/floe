@@ -60,6 +60,7 @@ const Search = ({ className, searchParam, setSearchParam, textInput }: SearchPro
                 type="text"
                 value={searchParam}
                 onChange={(e) => setSearchParam(e.target.value.toUpperCase())}
+                onKeyDown={(e) => {if(e.key === 'Escape') setSearchParam('')}}
                 placeholder='Buscar'
              />
         </div>

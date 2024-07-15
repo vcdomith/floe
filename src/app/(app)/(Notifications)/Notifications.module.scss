@@ -11,7 +11,8 @@
 
     position: absolute;
     bottom: 2rem;
-    left: 4rem;
+    // left: 2rem;
+    right: calc( 200px - 2rem );
 
     // z-index: 10;
 
@@ -22,18 +23,33 @@
     .notification {
 
         display: flex;
+        align-items: flex-start;
+        gap: 1rem;
 
         background-color: $cor-secundaria;
-        width: fit-content;
-        padding: 1rem;
-        border-radius: 1rem;
+        border: 2px solid cor-mix(20%);
+        // width: fit-content;
+        // width: clamp(320px, 500px, 750px);
+        width: 320px;
+        min-width: 320px;
+        padding: 0.5rem;
+        border-radius: 0.5rem;
         // height: 200px;
         box-shadow: 2px 2px 12px 2px transparentize($cor-primaria, 0.5);
+
+        svg {
+
+            min-width: 25px;
+            max-width: 25px;
+            height: 25px;
+
+        }
 
         p {
 
             color: $cor-primaria;
             font-size: 1rem;
+            margin: 0;
 
         }
 
@@ -43,6 +59,82 @@
             outline: none;
             border: none;
 
+        }
+
+    }
+
+    .sucesso {
+
+        background-color: #61832d;
+
+        // svg path {
+        //     stroke: #a3b774;
+        // }
+        
+        // p {
+        //     color: #7c8d55;
+        // }
+        
+        // button {
+        //     border: 2px solid #829557;
+        // }
+
+        svg path {
+            // stroke: cor-mix(10%);
+            // stroke: #c64a10;
+            stroke: $cor-secundaria;
+        }
+        
+        p {
+            // color: cor-mix(80%);
+            color: $cor-secundaria
+        }
+        
+        button {
+            border: 2px solid cor-mix(0%);
+            color: cor-mix(0%);
+        }
+
+    }
+
+    .erro {
+
+        background-color: #c64a10;
+        // background-color: cor-mix(0%);
+
+
+        svg path {
+            // stroke: cor-mix(10%);
+            // stroke: #c64a10;
+            stroke: $cor-secundaria;
+        }
+        
+        p {
+            // color: cor-mix(80%);
+            color: $cor-secundaria
+        }
+        
+        button {
+            border: 2px solid cor-mix(0%);
+            color: cor-mix(0%);
+        }
+
+    }
+
+    .aviso {
+
+        svg path {
+            // stroke: cor-mix(10%);
+            stroke: #c68f10;
+        }
+        
+        p {
+            color: cor-mix(80%);
+        }
+        
+        button {
+            border: 2px solid cor-mix(80%);
+            color: cor-mix(80%);
         }
 
     }

@@ -69,7 +69,7 @@ export default function Configurar() {
         e.preventDefault()
 
         if(!validation) {
-            addNotification({ tipo: 'erro', mensagem: `Não foi possível realizar o cadastro, fornecedor ${nome} já está cadastrado!`})
+            addNotification({ tipo: 'aviso', mensagem: `Não foi possível realizar o cadastro, fornecedor ${nome} já está cadastrado!`})
             return
         }
 
@@ -470,7 +470,7 @@ export default function Configurar() {
                     loading={loadingFornecedores} 
                     fornecedoresControle={cadastrados} 
                     fornecedor={selectedFornecedor} 
-                    setFornecedor={setCapitalizedFornecedor}                
+                    setFornecedor={setCapitalizedFornecedor}
                 />
             <button
                 onClick={() => getFornecedores()}

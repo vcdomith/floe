@@ -52,7 +52,7 @@ function Notification({notification}: NotificationProps, ref) {
             ref={ref}
             layout
 
-            className={style.notification}
+            className={`${style.notification} ${style[tipo]}`}
         >
             <svg width="50" height="50" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M462 433L250.5 67L144.75 250L39 433H462Z" stroke="black" strokeWidth="40" strokeLinejoin="bevel"/>

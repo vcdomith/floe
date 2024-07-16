@@ -7,7 +7,7 @@ export interface newNotification {
 
 export interface INotification extends newNotification {
 
-    id: number
+    id: string
     timer: NodeJS.Timeout
 
 }

@@ -42,6 +42,13 @@ function Notification({notification}: NotificationProps, ref) {
     const { id, tipo, mensagem } = notification
     const { removeNotification } = useNotification()
 
+    type TiposNotification = typeof tipo
+    const icons: Record<TiposNotification, React.ReactNode> = {
+        sucesso: <SvgSucesso />,
+        erro: <SvgErro />,
+        aviso: <SvgAviso />,
+    }
+
     return (
 
         <motion.span
@@ -54,10 +61,11 @@ function Notification({notification}: NotificationProps, ref) {
 
             className={`${style.notification} ${style[tipo]}`}
         >
-            <svg width="50" height="50" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+            {/* <svg width="50" height="50" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M462 433L250.5 67L144.75 250L39 433H462Z" stroke="black" strokeWidth="40" strokeLinejoin="bevel"/>
                 <path d="M250 198V380" stroke="black" strokeWidth="40"/>
-            </svg>
+            </svg> */}
+            {icons[tipo]}
             <p>{mensagem}</p>
             <button 
                 onClick={() => removeNotification(id)}
@@ -68,3 +76,31 @@ function Notification({notification}: NotificationProps, ref) {
 
 }
 )
+
+const SvgSucesso = () => {
+    return (
+        <svg width="50" height="50" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M149 219.875L240.063 310.938L348 203" stroke="black" strokeWidth="40"/>
+            <circle cx="250.5" cy="249.5" r="184.5" stroke="black" strokeWidth="40"/>
+        </svg>
+    )
+}
+
+const SvgAviso = () => {
+    return (
+        <svg width="50" height="50" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M462 433L250.5 67L144.75 250L39 433H462Z" stroke="black" strokeWidth="40" strokeLinejoin="bevel"/>
+            <path d="M250 198V380" stroke="black" strokeWidth="40"/>
+        </svg>
+    )
+}
+
+const SvgErro = () => {
+    return (
+        <svg width="50" height="50" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M146 148L351 353" stroke="black" strokeWidth="40"/>
+            <path d="M351 148L146 353" stroke="black" strokeWidth="40"/>
+            <rect x="66" y="65" width="369" height="369" rx="49" stroke="black" strokeWidth="40"/>
+        </svg>
+    )
+}

@@ -69,7 +69,9 @@ export default function Configurar() {
         e.preventDefault()
 
         if(!validation) {
-            addNotification({ tipo: 'aviso', mensagem: `Não foi possível realizar o cadastro, fornecedor ${nome} já está cadastrado!`})
+            addNotification({ tipo: 'sucesso', mensagem: `Não foi possível realizar o cadastro, fornecedor ${nome} já está cadastrado!`})
+            addNotification({ tipo: 'erro', mensagem: `Teste teste teste teststet!`})
+            addNotification({ tipo: 'aviso', mensagem: `Não  foi possível realizar o cadastro, fornecedor ${nome} já está cadastrado! Não  foi possível realizar o cadastro, fornecedor ${nome} já está cadastrado! Não  foi possível realizar o cadastro, fornecedor ${nome} já está cadastrado! Não  foi possível realizar o cadastro, fornecedor ${nome} já está cadastrado!`})
             return
         }
 
@@ -230,6 +232,7 @@ export default function Configurar() {
                                 type="text"
                                 placeholder="Nome Fornecedor"
                                 spellCheck={false} 
+                                minLength={3}
                                 required
                                 value={nome}
                                 data-valid={validation}

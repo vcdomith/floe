@@ -6,7 +6,7 @@ interface NotificationContextProps {
 
     notifications: INotification[]
     addNotification: ({ tipo, mensagem }: newNotification) => void
-    removeNotification: (notificationToRemoveId: number) => void
+    removeNotification: (notificationToRemoveId: string) => void
 
 }
 
@@ -25,7 +25,8 @@ export const NotificationProvider = ({ children }: { children: React.ReactNode }
 
     const addNotification = ({ tipo, mensagem }: newNotification ) => {
         const newNotification: INotification= { 
-            id: new Date().getTime(),
+            // id: new Date().getTime(),
+            id: Date.now().toString(36) + Math.random().toString(36).substr(2),
             tipo: tipo,  
             mensagem: mensagem,
             timer: setTimeout(() => removeNotification(newNotification.id), 10000) // Remove after 10 seconds
@@ -37,7 +38,7 @@ export const NotificationProvider = ({ children }: { children: React.ReactNode }
         setNotifications(prevNotifications => [...prevNotifications, newNotification]);
     };
 
-    const removeNotification = (notificationToRemoveId: number) => {
+    const removeNotification = (notificationToRemoveId: string) => {
         setNotifications(prevNotifications =>
             prevNotifications.filter(notification => notification.id !== notificationToRemoveId)
         )   

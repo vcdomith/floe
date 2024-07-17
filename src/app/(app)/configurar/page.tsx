@@ -1,5 +1,5 @@
 'use client'
-import { FormEvent, RefObject, SetStateAction, Suspense, useEffect, useMemo, useRef, useState } from "react"
+import { FormEvent, Suspense, useEffect, useMemo, useState } from "react"
 import CheckBox from "./(CheckBox)/CheckBox"
 import NumberInput from "@/components/FatoresTable/FatoresTableBody/NumberInput/NumberInput"
 import SelectFornecedor from "@/components/SelectFornecedor/SelectFornecedor"
@@ -8,17 +8,11 @@ import { dbConnect } from "@/utils/db/supabase"
 import { useNotification } from "../(contexts)/NotificationContext"
 
 import style from './configurar.module.scss'
-import LogoSvg from "@/components/SvgArray/LogoSvg"
-// import Loading from "./loading"
 import Config from "./(Config)/Config"
 import Loading from "../cadastros/loading"
 import capitalize from "@/utils/capitalize"
 import { motion, AnimatePresence } from "framer-motion"
 import useFornecedor from "@/hooks/useFornecedor"
-import { revalidatePath } from "next/cache"
-// import { submitForm } from "./formAction"
-
-import { revalidateTag as revalidate } from "next/cache";
 
 export default function Configurar() {
 
@@ -28,21 +22,8 @@ export default function Configurar() {
 
     // State cadastro
     const [cadastroFornecedor, setCadastroFornecedor] = useState<IFornecedor>()
-    
-    // State Controle Inputs
-    // const [nomeFornecedor, setNomeFornecedor] = useState('')
-    // const [fatorBase, setFatorBase] = useState('')
-    // const [fatorNormal, setFatorNormal] = useState('')
-    // const [fatorSt, setFatorSt] = useState('')
-    // const [transporte, setTransporte] = useState(true)
-    // const [st, setSt] = useState(true)
-    // const [desconto, setDesconto] = useState(false)
-    // const [ipi, setIpi] = useState(false)
-    // const [unitarioNota, setUnitarioNota] = useState(false)
-    // const [composto, setComposto] = useState(false)
      
     const {fornecedorData, setFornecedorData, handleFornecedorChange, resetForm} = useFornecedor()
-
     const {
         nome,
         fatorBase,
@@ -69,9 +50,7 @@ export default function Configurar() {
         e.preventDefault()
 
         if(!validation) {
-            addNotification({ tipo: 'sucesso', mensagem: `Não foi possível realizar o cadastro, fornecedor ${nome} já está cadastrado!`})
-            addNotification({ tipo: 'erro', mensagem: `Teste teste teste teststet!`})
-            addNotification({ tipo: 'aviso', mensagem: `Não  foi possível realizar o cadastro, fornecedor ${nome} já está cadastrado! Não  foi possível realizar o cadastro, fornecedor ${nome} já está cadastrado! Não  foi possível realizar o cadastro, fornecedor ${nome} já está cadastrado! Não  foi possível realizar o cadastro, fornecedor ${nome} já está cadastrado!`})
+            addNotification({ tipo: 'erro', mensagem: `Não foi possível realizar o cadastro, fornecedor ${nome} já está cadastrado!`})
             return
         }
 
@@ -102,22 +81,6 @@ export default function Configurar() {
       
 
     }
-
-    // const resetForm = () => {
-
-    //     setNomeFornecedor('')
-    //     setFatorBase('')
-    //     setFatorNormal('')
-    //     setFatorSt('')
-    //     setTransporte(true)
-    //     setSt(true)
-    //     setDesconto(false)
-    //     setIpi(false)
-    //     setUnitarioNota(false)
-    //     setComposto(false)
-    //     setValidation(true)
-
-    // }
 
     const getFornecedores = async () => {
         

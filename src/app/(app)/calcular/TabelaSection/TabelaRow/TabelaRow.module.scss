@@ -167,6 +167,7 @@
             color: cor-mix(80%);
             border: cor-mix(30%);
             border-radius: 0.5rem;
+            // width: 320px !important;
 
             box-shadow: 2px 2px 12px 2px $cor-primaria-transparent;
 
@@ -217,12 +218,33 @@
                 }
             }
 
+            .header {
+
+                width: 100%;
+                padding: 0.5rem 0.75rem;
+                box-sizing: border-box;
+                border-radius: 0.25rem;
+                border: 2px solid darken(saturate(cor-mix(50%), 15%), 5%);
+
+                background: linear-gradient(27deg, 
+                darken(saturate(cor-mix(40%), 15%), 5%), 
+                darken(saturate(cor-mix(80%), 15%), 5%), 
+                );
+
+                & > h3 {
+                    margin: 0.5rem 0;
+                    color: $cor-secundaria;
+                }
+
+            }
+
             div {
 
                 display: flex;
                 flex-direction: column;
+                width: 100%;
                 // width: max-content;
-                min-width: 400px;
+                // min-width: 400px;
 
                 span {
 

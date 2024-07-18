@@ -17,8 +17,8 @@ interface CalcularContextProps {
     displayControl: IDisplayControl 
     produtoIsValid: boolean
     tabelaValid: boolean
-    tabela: produtoCadastro[]
-    setTabela: Dispatch<SetStateAction<produtoCadastro[]>>
+    tabela: ProdutoCadastro[]
+    setTabela: Dispatch<SetStateAction<ProdutoCadastro[]>>
     cadastrarPedidoDB: () => Promise<void>
     filterContext: useFilterReturn
 
@@ -26,7 +26,7 @@ interface CalcularContextProps {
 
 }
 
-interface fatoresContext {
+export interface FatoresContext {
 
     base: string
     fatorBaseNormal: string
@@ -40,7 +40,7 @@ interface fatoresContext {
 
 }
 
-export interface produtoCadastro {
+export interface ProdutoCadastro {
 
     id: number
     codigo: string
@@ -51,7 +51,7 @@ export interface produtoCadastro {
     unitarioNota: string
     composto: string[] | null
 
-    fatores: fatoresContext
+    fatores: FatoresContext
 
 }
 
@@ -100,7 +100,7 @@ export const CalcularProvider = ({ children }: { children: React.ReactNode}) => 
         return {...fornecedorData, ...pedidoData, ...produtoData}
     }, [fornecedorData, pedidoData, produtoData])
 
-    const [tabela, setTabela] = useState<produtoCadastro[]>([])
+    const [tabela, setTabela] = useState<ProdutoCadastro[]>([])
 
     // Quando implementar tabela esse estado será o estado tabelaContext: produtoCadastro[]
     // const [produtoCadastros, setProdutoCadastros] = useState<produtoCadastro>() 
@@ -202,7 +202,7 @@ export const CalcularProvider = ({ children }: { children: React.ReactNode}) => 
 
     const submitForm = () => {
 
-        let produto: produtoCadastro = {
+        let produto: ProdutoCadastro = {
             
             id: new Date().getTime(),
             codigo: controlledInputData.codigo,

@@ -1,4 +1,4 @@
-import { produtoCadastro } from "@/app/(app)/calcular/context/CalcularContext";
+import { ProdutoCadastro } from "@/app/(app)/calcular/context/CalcularContext";
 import capitalize from "@/utils/capitalize";
 import { Dispatch, SetStateAction, useState } from "react";
 
@@ -6,12 +6,12 @@ export interface useFilterReturn {
 
     searchParam: string
     setSearchParam: Dispatch<SetStateAction<string>>
-    searchField: keyof produtoCadastro
+    searchField: keyof ProdutoCadastro
     setSearchFieldCapitalized: Dispatch<SetStateAction<SearchFieldKeys>>
 
 }
 
-export type SearchFieldKeys = Extract<keyof produtoCadastro, 'unitario' | 'codigo'>
+export type SearchFieldKeys = Extract<keyof ProdutoCadastro, 'unitario' | 'codigo'>
 
 export default function useFilter() {
 

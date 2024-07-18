@@ -1,6 +1,6 @@
 'use client'
 import { getTabelas, getTabelasObject } from '@/utils/calculoTabelas'
-import { produtoCadastro, useCalcular } from '../context/CalcularContext'
+import { ProdutoCadastro, useCalcular } from '../context/CalcularContext'
 import TableHeader from './TabelaHeader/TableHeader'
 import TabelaRow from './TabelaRow/TabelaRow'
 import { AnimatePresence } from 'framer-motion'
@@ -26,7 +26,7 @@ export default function TabelaSection() {
     const fieldKeys: SearchFieldKeys[] = ['unitario', 'codigo']
 
     const tabelaFilter = useMemo(() => 
-        tabela.filter( item => (item[searchField.toLowerCase() as keyof produtoCadastro] as string).includes(searchParam) )
+        tabela.filter( item => (item[searchField.toLowerCase() as keyof ProdutoCadastro] as string).includes(searchParam) )
     , [searchParam, tabela, searchField])
 
     return (

@@ -1,11 +1,12 @@
 import { getTabelasObject } from '@/utils/calculoTabelas'
-import { FatoresContext, ProdutoCadastro } from '../../context/CalcularContext'
+import { FatoresContext, ProdutoCadastro, useCalcular } from '../../context/CalcularContext'
 import style from './TabelaRow.module.scss'
 import { Dispatch, SetStateAction, forwardRef, useMemo } from 'react'
 import {AnimatePresence, motion} from 'framer-motion'
 import { update } from '@react-spring/web'
 import Config from '@/app/(app)/configurar/(Config)/Config'
 import { svgsUtil } from '@/components/SvgArray/SvgUtil'
+import CheckBox from '@/app/(app)/configurar/(CheckBox)/CheckBox'
 
 interface TabelaRowProps {
 
@@ -20,6 +21,9 @@ function TabelaRow({produto, setTabela}: TabelaRowProps, ref) {
     const {id, codigo, ncm, st, unitario, unitarioNota, composto, fatores } = produto
     const {tabela1, tabela2, tabela3} = useMemo(() => getTabelasObject(produto), [produto])
 
+    const {produtoContext} = useCalcular()
+    const { handleProdutoChange } = produtoContext
+
     const handleClick = (id: number) => {
 
         setTabela(prev => {
@@ -32,7 +36,9 @@ function TabelaRow({produto, setTabela}: TabelaRowProps, ref) {
 
     }
 
-    console.log(Object.entries(produto.fatores).filter( ([key, value]) => value ));
+    console.log(Object.entries(produto.fatores));
+    console.log(Object.entries(produto.fatores)
+    .filter( ([key, value]) => (value !== '1' || key === 'base')));
 
     return (
 
@@ -78,52 +84,98 @@ function TabelaRow({produto, setTabela}: TabelaRowProps, ref) {
                             style={{ width: 'fit-content'}}
                         >
                             <div className={style.popoverWrap}>
+
                                 <span className={style.header}>
                                     <SvgProduto_3D />
                                     <h3>Produto</h3>
                                     <h3>{produto.codigo}</h3>
                                 </span>
-                                <div className={style.fatores}>
-                                {/* {Object.entries(produto.fatores).map(([key, value]) => 
+
+                                <div className={style.atributos}>
+                                    <Config 
+                                        svg={svgsUtil.st} 
+                                        title={'Produto com ST?'} 
+                                        description={''}
+                                        input={
+                                            <CheckBox 
+                                                checked={st}
+                                                setChecked={handleProdutoChange('st')}
+                                                disabled
+                                            />
+                                        }
+                                    />
                                     <Config
-                                        key={key} 
-                                        svg={<SvgCodigo/>} 
-                                        title={key} 
-                                        description={'Código do produto Código do produto Código do produto'}
+                                        svg={svgsUtil['ncm']} 
+                                        title={'NCM'} 
+                                        description={''}
                                         input={
                                             <input
                                                 className={style.codigo}
                                                 type="text" 
                                                 placeholder="_____________"
-                                                value={value}
+                                                value={produto.ncm}
                                                 required
                                                 disabled
                                             />
                                         }
                                     />
-                                )} */}
+                                    <Config
+                                        svg={svgsUtil['unitario']} 
+                                        title={'Unitário'} 
+                                        description={''}
+                                        input={
+                                            <input
+                                                className={style.codigo}
+                                                type="text" 
+                                                placeholder="_____________"
+                                                value={produto.unitario}
+                                                required
+                                                disabled
+                                            />
+                                        }
+                                    />
+                                    <Config
+                                        svg={svgsUtil['unitarioNota']} 
+                                        title={'Unitário Nota'} 
+                                        description={''}
+                                        input={
+                                            <input
+                                                className={style.codigo}
+                                                type="text" 
+                                                placeholder="_____________"
+                                                value={produto.unitarioNota}
+                                                required
+                                                disabled
+                                            />
+                                        }
+                                    />
+                                    
+                                </div>
+
+                                <div className={style.fatores}>
                                 {Object.entries(produto.fatores)
-                                    .filter( ([key, value]) => value !== '1')
+                                    .filter( ([key, value]) => (value !== '1' || key === 'base'))
                                     .map(([key, value]) => 
                                         <Config
-                                        key={key} 
-                                        svg={svgsUtil[key as keyof FatoresContext]} 
-                                        title={key} 
-                                        description={'Código do produto Código do produto Código do produto'}
-                                        input={
-                                            <input
-                                                className={style.codigo}
-                                                type="text" 
-                                                placeholder="_____________"
-                                                value={value}
-                                                required
-                                                disabled
-                                            />
-                                        }
-                                    />
+                                            key={key} 
+                                            svg={svgsUtil[key as keyof FatoresContext]} 
+                                            title={key} 
+                                            description={'Código do produto Código do produto Código do produto'}
+                                            input={
+                                                <input
+                                                    className={style.codigo}
+                                                    type="text" 
+                                                    placeholder="_____________"
+                                                    value={value}
+                                                    required
+                                                    disabled
+                                                />
+                                            }
+                                        />
                                     )
                                 }
                                 </div>
+
                             </div>
                         </div>
                         <button onClick={() => handleClick(id)}>X</button>

@@ -91,16 +91,19 @@ function TabelaRow({produto, setTabela}: TabelaRowProps, ref) {
                                     <h3>{produto.codigo}</h3>
                                 </span>
 
+                                {/* <div className={style.title}>
+                                    <h5>Detalhes</h5>
+                                </div> */}
                                 <div className={style.atributos}>
                                     <Config 
                                         svg={svgsUtil.st} 
-                                        title={'Produto com ST?'} 
+                                        title={'Prod. ST?'} 
                                         description={''}
                                         input={
                                             <CheckBox 
                                                 checked={st}
                                                 setChecked={handleProdutoChange('st')}
-                                                disabled
+                                                // disabled
                                             />
                                         }
                                     />
@@ -136,7 +139,7 @@ function TabelaRow({produto, setTabela}: TabelaRowProps, ref) {
                                     />
                                     <Config
                                         svg={svgsUtil['unitarioNota']} 
-                                        title={'Unitário Nota'} 
+                                        title={'Unit. Nota'} 
                                         description={''}
                                         input={
                                             <input
@@ -152,6 +155,9 @@ function TabelaRow({produto, setTabela}: TabelaRowProps, ref) {
                                     
                                 </div>
 
+                                <div className={style.title}>
+                                    <h5>Fatores</h5>
+                                </div>
                                 <div className={style.fatores}>
                                 {Object.entries(produto.fatores)
                                     .filter( ([key, value]) => (value !== '1' || key === 'base'))

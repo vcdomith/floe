@@ -285,8 +285,38 @@
 
             }
 
+            .title {
+
+                margin-top: 0.5rem;
+
+                background-color: cor-mix(5%);
+                border: 2px solid cor-mix(10%);
+                border-radius: 0.25rem;
+
+                h5 {
+                    font-size: 0.9rem;
+                    margin: 0.25rem;
+                    padding-left: 0.5rem;
+                    color: cor-mix(60%);
+                }
+
+            }
+
             .atributos {
                 display: grid;
+                grid-template-columns: 50% 50%;
+
+                & > span > input[type="text"] {
+                    font-family: $fonte-body;
+                    border-color: cor-mix(10%);
+                    color: cor-mix(50%);
+                    font-weight: 600;
+                    transition: border-color 400ms ease;
+
+                    &:hover {
+                        border-color: cor-mix(15%);
+                    }
+                }
             }
 
             .popoverWrap {

@@ -103,21 +103,6 @@ function TabelaRow({produto, setTabela}: TabelaRowProps, ref) {
                                             <CheckBox 
                                                 checked={st}
                                                 setChecked={handleProdutoChange('st')}
-                                                // disabled
-                                            />
-                                        }
-                                    />
-                                    <Config
-                                        svg={svgsUtil['ncm']} 
-                                        title={'NCM'} 
-                                        description={''}
-                                        input={
-                                            <input
-                                                className={style.codigo}
-                                                type="text" 
-                                                placeholder="_____________"
-                                                value={produto.ncm}
-                                                required
                                                 disabled
                                             />
                                         }
@@ -132,6 +117,21 @@ function TabelaRow({produto, setTabela}: TabelaRowProps, ref) {
                                                 type="text" 
                                                 placeholder="_____________"
                                                 value={produto.unitario}
+                                                required
+                                                disabled
+                                            />
+                                        }
+                                    />
+                                    <Config
+                                        svg={svgsUtil['ncm']} 
+                                        title={'NCM'} 
+                                        description={''}
+                                        input={
+                                            <input
+                                                className={style.codigo}
+                                                type="text" 
+                                                placeholder="_____________"
+                                                value={produto.ncm}
                                                 required
                                                 disabled
                                             />

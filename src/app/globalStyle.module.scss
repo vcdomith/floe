@@ -10,11 +10,11 @@
 //Opção layout
 // $cor-primaria: #16045d;
 // $cor-primaria: #191649;
-// $cor-primaria: #210f30;
+$cor-primaria: #210f30;
 // $cor-primaria: #0e0e2b;
 // $cor-primaria: #16491e;
 // $cor-primaria: #212f23;
-$cor-primaria: #062b37;
+// $cor-primaria: #062b37;
 
 // $cor-primaria: #71110a;
 // $cor-primaria: #5a0606;
@@ -90,6 +90,7 @@ $cor-mix: mix($cor-primaria, $cor-secundaria, 10%);
 
 $fonte-titulo: 'Glamuk';
 $fonte-body: 'Archivo';
+// $fonte-body: '';
 $fonte-header: 'Archivo SE';
 $fonte-destaque: 'Playfair Display';
 

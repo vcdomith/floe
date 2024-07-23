@@ -305,16 +305,26 @@
             .atributos {
                 display: grid;
                 grid-template-columns: 50% 50%;
+                margin-top: 0.5rem;
 
-                & > span > input[type="text"] {
-                    font-family: $fonte-body;
-                    border-color: cor-mix(10%);
-                    color: cor-mix(50%);
-                    font-weight: 600;
-                    transition: border-color 400ms ease;
+                & > span {
 
-                    &:hover {
-                        border-color: cor-mix(15%);
+                    & > input[type="text"] {
+                        // font-family: $fonte-body;
+                        width: clamp(50px, 100px, 100px);
+                        border-color: cor-mix(10%);
+                        color: cor-mix(90%);
+                        font-weight: 500;
+                        transition: border-color 400ms ease;
+                        
+                    }
+
+                    &:nth-child(odd) {
+                        border-right: 2px solid cor-mix(7%);
+                    }
+
+                    &:nth-last-child(2) {
+                        border-bottom: none;
                     }
                 }
             }

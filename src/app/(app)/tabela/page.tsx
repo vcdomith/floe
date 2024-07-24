@@ -24,8 +24,6 @@ import input from '@/app/Inputs.module.scss'
 import Logos from '../(svg)/Logos'
 import { useNotification } from '../(contexts)/NotificationContext'
 
-export const revalidate = 0 
-
 export default function Home() {
   
   // useReportWebVitals((metric) => {

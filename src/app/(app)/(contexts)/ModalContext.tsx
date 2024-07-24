@@ -3,6 +3,7 @@ import { createContext, useContext, useState } from "react";
 interface ModalContextProps {
     modal: React.ReactNode
     setModal: (component: React.ReactNode) => void
+    clearModal: () => void
 }
 
 export const ModalContext = createContext<ModalContextProps | undefined>(undefined)
@@ -18,10 +19,13 @@ export const ModalProvider = ({ children }: { children: React.ReactNode}) => {
 
     const [modal, setModal] = useState<React.ReactNode>(null)
 
+    const clearModal = () => setModal(null)
+
     return <ModalContext.Provider
         value={{
             modal,
-            setModal
+            setModal,
+            clearModal
         }}
     >
         {children}

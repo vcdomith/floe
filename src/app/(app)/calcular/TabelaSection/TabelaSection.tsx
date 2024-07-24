@@ -10,6 +10,7 @@ import { SearchFieldKeys } from '@/hooks/useFilter'
 
 import style from './TabelaSection.module.scss'
 import SelectFornecedor from '@/components/SelectFornecedor/SelectFornecedor'
+import { useModal } from '../../(contexts)/ModalContext'
 
 export default function TabelaSection() {
 
@@ -28,6 +29,20 @@ export default function TabelaSection() {
     const tabelaFilter = useMemo(() => 
         tabela.filter( item => (item[searchField.toLowerCase() as keyof ProdutoCadastro] as string).includes(searchParam) )
     , [searchParam, tabela, searchField])
+
+    const { setModal, clearModal } = useModal()
+
+    const handleSaveClick = () => {
+
+        setModal(
+            <ConfirmModal 
+                message='Confirme para salvar pedido'
+                cancelHandler={clearModal}
+                confirmHandler={cadastrarPedidoDB}
+            />
+        )
+
+    }
 
     return (
         <section className={style.tabelaSection}>
@@ -84,7 +99,8 @@ export default function TabelaSection() {
                 <button 
                     className={style.submit}
                     disabled={!tabelaValid}
-                    onClick={() => cadastrarPedidoDB()}
+                    // onClick={() => cadastrarPedidoDB()}
+                    onClick={() => handleSaveClick()}
                 >Cadastrar Pedido</button>
             </span>
 
@@ -92,4 +108,36 @@ export default function TabelaSection() {
     )
 
 
+}
+
+const ConfirmModal = (
+    { message, cancelHandler, confirmHandler }: 
+    { 
+        message: string,
+        cancelHandler: () => void,
+        confirmHandler: () => void,
+    }
+) => {
+
+    return (
+        <div>
+            <SvgAviso />
+            <div>
+                <h3>{message}</h3>
+                <span>
+                    <button onClick={() => cancelHandler()}>Cancelar</button>
+                    <button onClick={() => confirmHandler()}>Confirmar</button>
+                </span>
+            </div>
+        </div>
+    )
+
+}
+const SvgAviso = () => {
+    return (
+        <svg width="50" height="50" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M462 433L250.5 67L144.75 250L39 433H462Z" stroke="black" strokeWidth="40" strokeLinejoin="bevel"/>
+            <path d="M250 198V380" stroke="black" strokeWidth="40"/>
+        </svg>
+    )
 }

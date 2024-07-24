@@ -4,7 +4,7 @@ import style from './Modal.module.scss'
 
 export default function Modal() {
 
-    const { modal, setModal } = useModal()
+    const { modal, clearModal } = useModal()
 
     return (
         <AnimatePresence>
@@ -19,7 +19,7 @@ export default function Modal() {
 
                 <motion.section 
                     className={style.backdrop}
-                    onClick={() => setModal(null)}
+                    onClick={clearModal}
                 />
 
                 <div className={style.modal}>

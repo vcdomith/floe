@@ -11,6 +11,7 @@ import { SearchFieldKeys } from '@/hooks/useFilter'
 import style from './TabelaSection.module.scss'
 import SelectFornecedor from '@/components/SelectFornecedor/SelectFornecedor'
 import { useModal } from '../../(contexts)/ModalContext'
+import ConfirmationDialog from '@/components/ConfirmationDialog/ConfirmationDialog'
 
 export default function TabelaSection() {
 
@@ -35,8 +36,9 @@ export default function TabelaSection() {
     const handleSaveClick = () => {
 
         setModal(
-            <ConfirmModal 
-                message='Confirme para salvar pedido'
+            <ConfirmationDialog 
+                title='Confirme se deseja salvar o pedido:'
+                message='Atenção: O pedido será salvo permanentemente!'
                 cancelHandler={clearModal}
                 confirmHandler={cadastrarPedidoDB}
             />
@@ -108,36 +110,4 @@ export default function TabelaSection() {
     )
 
 
-}
-
-const ConfirmModal = (
-    { message, cancelHandler, confirmHandler }: 
-    { 
-        message: string,
-        cancelHandler: () => void,
-        confirmHandler: () => void,
-    }
-) => {
-
-    return (
-        <div>
-            <SvgAviso />
-            <div>
-                <h3>{message}</h3>
-                <span>
-                    <button onClick={() => cancelHandler()}>Cancelar</button>
-                    <button onClick={() => confirmHandler()}>Confirmar</button>
-                </span>
-            </div>
-        </div>
-    )
-
-}
-const SvgAviso = () => {
-    return (
-        <svg width="50" height="50" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M462 433L250.5 67L144.75 250L39 433H462Z" stroke="black" strokeWidth="40" strokeLinejoin="bevel"/>
-            <path d="M250 198V380" stroke="black" strokeWidth="40"/>
-        </svg>
-    )
 }

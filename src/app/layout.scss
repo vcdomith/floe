@@ -68,27 +68,31 @@ body {
     overflow-x: hidden;
     font-family: $fonte-body;
     color: $cor-primaria;
+
 }
 
-/* width */
-::-webkit-scrollbar {
-    width: 10px;
-}
-  
-/* Track */
-::-webkit-scrollbar-track {
-// background: #141414;
-// background: linear-gradient(180deg, $cor-primaria, $cor-secundaria);
-background: darken($cor-primaria, 5%);
-}
-  
-/* Handle */
-::-webkit-scrollbar-thumb {
-background: $cor-primaria;
-}
+@include thin-scrollbar-global
 
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-background: lighten($cor-primaria, 5%);
-// background: linear-gradient(90deg, #521843, #421236);
-}
+// /* width */
+// ::-webkit-scrollbar {
+//     width: 10px;
+// }
+  
+// /* Track */
+// ::-webkit-scrollbar-track {
+// // background: #141414;
+// // background: linear-gradient(180deg, $cor-primaria, $cor-secundaria);
+// background: darken($cor-primaria, 5%);
+// }
+  
+// /* Handle */
+// ::-webkit-scrollbar-thumb {
+// background: $cor-primaria;
+// }
+
+// /* Handle on hover */
+// ::-webkit-scrollbar-thumb:hover {
+// background: lighten($cor-primaria, 5%);
+// // background: linear-gradient(90deg, #521843, #421236);
+// }
+

@@ -42,6 +42,7 @@ export default function Configurar() {
 
     const [focus, setFocus] = useState(false)
 
+    // TODO change from state to const
     const [valid, setValid] = useState(false)
     const [validation, setValidation] = useState(true)
 
@@ -414,7 +415,10 @@ export default function Configurar() {
 
                 <span className={style.buttons}>
                     <button type='submit' >Salvar Fornecedor</button>
-                    <button type='reset' onClick={() => resetForm()}>Limpar</button>
+                    <button type='reset' onClick={() => {
+                        resetForm()
+                        setValidation(true)
+                    }}>Limpar</button>
                 </span>
 
             </form>

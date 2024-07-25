@@ -46,7 +46,8 @@
     
             display: flex;
             flex-direction: column;
-    
+
+            width: 100%;
             gap: 0.2rem;
     
             h3 {
@@ -63,11 +64,49 @@
                 margin: 0;
                 padding: 0;
                 font-size: 0.9rem;
-                
+                font-weight: 500;
+
                 color: cor-mix(90%);
             }
     
         }
+
+    }
+
+    input[type="text"] {
+
+        background: none;
+        outline: none;
+        border: 2px solid cor-mix(20%);
+        border-radius: 0.5rem;
+        
+        color: cor-mix(100%);
+        font-size: 1.1rem;
+        text-align: end;
+        width: 50px;
+        padding: 0.25rem;
+        padding-right: 0.5rem;
+
+        transition: border-color 400ms ease;
+
+        &::placeholder {
+
+            color: cor-mix(30%);
+
+        }
+
+        &:valid {
+
+            border-color: darken(saturate(cor-mix(70%), 40%), 5%);
+
+        }
+
+        &[data-valid="true"] {
+
+            border-color: darken(saturate(cor-mix(70%), 40%), 5%);
+
+        }
+
     }
 
 

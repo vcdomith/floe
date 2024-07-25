@@ -24,7 +24,10 @@ export default async function Cadastros() {
         <div 
         style={{
             backgroundColor: '#e8d4b0',
-            width: '100%'
+            width: '100%',
+            height: '100%',
+            overflowY: 'scroll',
+            marginTop: '3rem',
         }}>
             <div>
                 <span

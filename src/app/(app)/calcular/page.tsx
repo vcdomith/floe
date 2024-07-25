@@ -8,7 +8,6 @@ import FatoresSection from './FatoresSection/FatoresSection'
 import TabelaSection from './TabelaSection/TabelaSection'
 import { useCallback } from 'react'
 
-
 export default async function Calcular() {
     
     const supabase = dbConnect()

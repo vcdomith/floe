@@ -1,0 +1,50 @@
+@use '../../globalStyle.module.scss' as *;
+
+.wrapper {
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100vh;
+
+    z-index: 998;
+
+    // background-color: $cor-secundaria;
+
+    .backdrop {
+
+        position: fixed;
+        top: 0;
+        left: 0;
+
+        width: 100%;
+        height: 100%;
+
+        background-color: $cor-primaria-transparent;
+
+        z-index: 998;
+        transition: backdrop-filter 400ms ease;
+
+        cursor: alias;
+    }
+
+    .modal {
+
+        display: flex;
+        align-items: center;
+
+        height: fit-content;
+        // height: 100vh;
+        // background-color: $cor-secundaria;
+
+        z-index: 1000;
+
+    }
+
+}

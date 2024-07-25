@@ -6,7 +6,7 @@ interface NotificationContextProps {
 
     notifications: INotification[]
     addNotification: ({ tipo, mensagem }: newNotification) => void
-    removeNotification: (notificationToRemoveId: number) => void
+    removeNotification: (notificationToRemoveId: string) => void
 
 }
 
@@ -24,16 +24,21 @@ export const NotificationProvider = ({ children }: { children: React.ReactNode }
     const [notifications, setNotifications] = useState<INotification[]>([]);
 
     const addNotification = ({ tipo, mensagem }: newNotification ) => {
-        const notificationObject: INotification= { 
-            id: new Date().getTime(),
+        const newNotification: INotification= { 
+            // id: new Date().getTime(),
+            id: Date.now().toString(36) + Math.random().toString(36).substr(2),
             tipo: tipo,  
             mensagem: mensagem,
-            timer: setTimeout(() => removeNotification(notificationObject.id), 10000) // Remove after 10 seconds
+            timer: setTimeout(() => removeNotification(newNotification.id), 10000) // Remove after 10 seconds
         }
-        setNotifications(prevNotifications => [...prevNotifications, notificationObject]);
+        if(notifications.some( notification => notification.mensagem === newNotification.mensagem )) {
+            console.log(`Notification with %c"${newNotification.mensagem}"%c already deployed`, 'color: #ffa600', 'color: initial');
+            return
+        }
+        setNotifications(prevNotifications => [...prevNotifications, newNotification]);
     };
 
-    const removeNotification = (notificationToRemoveId: number) => {
+    const removeNotification = (notificationToRemoveId: string) => {
         setNotifications(prevNotifications =>
             prevNotifications.filter(notification => notification.id !== notificationToRemoveId)
         )   

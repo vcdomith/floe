@@ -1,6 +1,6 @@
 'use client'
 import { getTabelas, getTabelasObject } from '@/utils/calculoTabelas'
-import { useCalcular } from '../context/CalcularContext'
+import { ProdutoCadastro, useCalcular } from '../context/CalcularContext'
 import TableHeader from './TabelaHeader/TableHeader'
 import TabelaRow from './TabelaRow/TabelaRow'
 import { AnimatePresence } from 'framer-motion'
@@ -10,6 +10,8 @@ import { SearchFieldKeys } from '@/hooks/useFilter'
 
 import style from './TabelaSection.module.scss'
 import SelectFornecedor from '@/components/SelectFornecedor/SelectFornecedor'
+import { useModal } from '../../(contexts)/ModalContext'
+import ConfirmationDialog from '@/components/ConfirmationDialog/ConfirmationDialog'
 
 export default function TabelaSection() {
 
@@ -21,37 +23,45 @@ export default function TabelaSection() {
         filterContext, 
         pedidoContext: {pedidoData: {quantidadeProdutos}}
     } = useCalcular()
-    const {searchParam, setSearchParam, searchField, setSearchField} = filterContext
+    const {searchParam, setSearchParam, searchField, setSearchFieldCapitalized} = filterContext
 
     const fieldKeys: SearchFieldKeys[] = ['unitario', 'codigo']
 
     const tabelaFilter = useMemo(() => 
-        tabela.filter( item => (item[searchField] as string).includes(searchParam) )
+        tabela.filter( item => (item[searchField.toLowerCase() as keyof ProdutoCadastro] as string).includes(searchParam) )
     , [searchParam, tabela, searchField])
 
-    console.log(tabela, tabelaFilter);
+    const { setModal, clearModal } = useModal()
+
+    const handleSaveClick = () => {
+
+        setModal(
+            <ConfirmationDialog 
+                title='Confirme se deseja salvar o pedido:'
+                message='Atenção: O pedido será salvo permanentemente!'
+                cancelHandler={clearModal}
+                confirmHandler={cadastrarPedidoDB}
+            />
+        )
+
+    }
 
     return (
         <section className={style.tabelaSection}>
             <div className={style.content}>
 
                 <span className={style.options}>
-                    {/* <select name="" id="" value={searchField} onChange={(e) => setSearchField(e.target.value as SearchFieldKeys)}>
-                        {fieldKeys.map( field => 
-                            <option key={field} value={field}>{field}</option>
-                        )}
-                    </select> */}
                     <SelectFornecedor 
                         omitSearch={true}
                         fornecedoresControle={fieldKeys} 
                         fornecedor={searchField} 
-                        setFornecedor={setSearchField as (() => void)} 
+                        setFornecedor={setSearchFieldCapitalized as (() => void)} 
                     />
                     <Search 
                         className={style.search} 
                         searchParam={searchParam} 
                         setSearchParam={setSearchParam} 
-                        textInput={(searchField === 'codigo')}
+                        textInput={(searchField.toLowerCase() === 'codigo')}
                     />
                 </span>
 
@@ -85,13 +95,14 @@ export default function TabelaSection() {
                         <path d="M462 433L250.5 67L144.75 250L39 433H462Z" stroke="black" strokeWidth="40" strokeLinejoin="bevel"/>
                         <path d="M250 198V380" stroke="black" strokeWidth="40"/>
                     </svg>
-                    <p>É preciso cadastrar {quantidadeProdutos} itens (faltam {parseInt(quantidadeProdutos) - tabela.length})</p>
+                    <p>É preciso cadastrar {quantidadeProdutos} itens para cadastrar pedido (faltam {parseInt(quantidadeProdutos) - tabela.length})</p>
                 </span>
                 }
                 <button 
                     className={style.submit}
                     disabled={!tabelaValid}
-                    onClick={() => cadastrarPedidoDB()}
+                    // onClick={() => cadastrarPedidoDB()}
+                    onClick={() => handleSaveClick()}
                 >Cadastrar Pedido</button>
             </span>
 

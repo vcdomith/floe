@@ -110,9 +110,11 @@ const SelectFornecedor = ({ loading, omitSearch, fornecedoresControle, fornecedo
 
             case 'Enter': {
 
-                e.preventDefault()
-                if (fornecedor && confirmFornecedor) confirmFornecedor() 
+                if (!confirmFornecedor) break
 
+                e.preventDefault()
+
+                if (fornecedor) confirmFornecedor() 
                 selectRef.current?.blur()
 
                 break

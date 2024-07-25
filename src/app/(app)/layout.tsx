@@ -12,6 +12,8 @@ import Notifications from "./(Notifications)/Notifications";
 import LogoSvg from "@/components/SvgArray/LogoSvg";
 import Nav from "./(nav)/Nav";
 import { CalcularProvider } from "./calcular/context/CalcularContext";
+import { ModalProvider } from "./(contexts)/ModalContext";
+import Modal from "./(Modal)/Modal";
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
 
@@ -21,6 +23,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
 
     return (
         <NotificationProvider>
+        <ModalProvider>
         <CalcularProvider>
             <Nav pathname={path} />
         {/* <header className={style.header}>
@@ -80,8 +83,10 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
             <Logo route={path}/>
             {children}
             <Notifications />
+            <Modal />
         </Container>
         </CalcularProvider>
+        </ModalProvider>
         </NotificationProvider>
     )
 

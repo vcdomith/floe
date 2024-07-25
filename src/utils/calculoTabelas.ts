@@ -2,7 +2,7 @@ import { IProduto } from "@/interfaces/IProduto"
 import { IValores } from "@/interfaces/IValores";
 
 import Converter from "./typeConversion";
-import { produtoCadastro } from "@/app/(app)/calcular/context/CalcularContext";
+import { ProdutoCadastro } from "@/app/(app)/calcular/context/CalcularContext";
 
 const { stringToFloat } = Converter
 
@@ -58,7 +58,7 @@ export const getTabelas = (produto: IProduto): number[] => {
     return Object.values(tabelas)
 }
 
-export const getTabelasObject = (produto: produtoCadastro): IValores => {
+export const getTabelasObject = (produto: ProdutoCadastro): IValores => {
 
   // const {fatores, unitario} = controleProdutos[index]
   const { fatores, unitario } = produto

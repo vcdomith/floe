@@ -67,9 +67,10 @@ export default function FornecedorTab({ fornecedores, svg, titulo }: FornecedorT
             .from('fornecedores')
             .select('*')
             .eq('nome', fornecedor.toLowerCase())
+
         setFornecedorDb(fornecedorDB![0] as IFornecedor)
         setLoadingFornecedor(false)
-        console.log(fornecedorDB);
+        // console.log(fornecedorDB);
 
     }
 

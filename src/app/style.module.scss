@@ -26,11 +26,19 @@
 
         transition: width 500ms;
 
-        svg {
+        div > span > svg {
+
+            overflow: visible;
 
             path {
 
+                transform: translate(-47.5%, -47.5%);
+                scale: 15;
+                stroke-width: 2;
+
                 stroke: $cor-secundaria;
+                stroke: transparentize($cor-secundaria, 0.5);
+
 
             }
 
@@ -51,7 +59,7 @@
                 gap: 1rem;
 
                 .nameContainer {
-            
+
                     display: flex;
 
                     width: 0;

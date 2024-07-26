@@ -13,12 +13,15 @@ import Loading from "../cadastros/loading"
 import capitalize from "@/utils/capitalize"
 import { motion, AnimatePresence } from "framer-motion"
 import useFornecedor from "@/hooks/useFornecedor"
+import { useModal } from "../(contexts)/ModalContext"
+import ConfirmationDialog from "@/components/ConfirmationDialog/ConfirmationDialog"
 
 export default function Configurar() {
 
     const supabase = useMemo(() => dbConnect(), [])
 
-    const { notifications, addNotification } = useNotification()
+    const { addNotification } = useNotification()
+    const { setModal, clearModal } = useModal()
 
     // State cadastro
     const [cadastroFornecedor, setCadastroFornecedor] = useState<IFornecedor>()
@@ -51,9 +54,53 @@ export default function Configurar() {
         e.preventDefault()
 
         if(!validation) {
-            addNotification({ tipo: 'erro', mensagem: `Não foi possível realizar o cadastro, fornecedor ${nome} já está cadastrado!`})
+            addNotification({ 
+                tipo: 'erro', 
+                mensagem: `Não foi possível realizar o cadastro, fornecedor ${nome} já está cadastrado!`
+            })
             return
         }
+
+        setModal(
+            <ConfirmationDialog 
+                title={`Confirme para salvar o fornecedor ${capitalize(nome)}:`}
+                message="Alerta: o fornecedor será salvo permanentemente!" 
+                cancelHandler={clearModal} 
+                confirmHandler={cadastrarFornecedor}                
+            />
+        )
+
+        // const novoCadastro: IFornecedor = {...fornecedorData, nome: nome.trim().toLowerCase()}
+        // setCadastroFornecedor(novoCadastro)       
+
+        // try {
+            
+        //     let { data: fornecedor, error } = await supabase
+        //         .from('fornecedores')
+        //         .insert([{...novoCadastro}])
+
+        //     if(error) {
+        //         addNotification({ tipo: 'erro', mensagem: `${error.details}`})
+        //         return
+        //     }
+        //     addNotification({ tipo: 'sucesso', mensagem: `Cadastro do fornecedor ${capitalize(novoCadastro.nome)} feito com sucesso!`})
+        //     resetForm()
+        //     // revalidateTag()
+            
+
+        // } catch (error) {
+            
+        //     console.error(error)
+        //     addNotification({ tipo: 'erro', mensagem: `${error}`})
+
+        // }
+      
+
+    }
+
+    const cadastrarFornecedor = async () => {
+
+        clearModal()
 
         const novoCadastro: IFornecedor = {...fornecedorData, nome: nome.trim().toLowerCase()}
         setCadastroFornecedor(novoCadastro)       
@@ -68,18 +115,21 @@ export default function Configurar() {
                 addNotification({ tipo: 'erro', mensagem: `${error.details}`})
                 return
             }
-            addNotification({ tipo: 'sucesso', mensagem: `Cadastro do fornecedor ${capitalize(novoCadastro.nome)} feito com sucesso!`})
-            resetForm()
-            // revalidateTag()
-            
+            addNotification({ 
+                tipo: 'sucesso', 
+                mensagem: `Cadastro do fornecedor ${capitalize(novoCadastro.nome)} feito com sucesso!`
+            })
+            resetForm()            
 
         } catch (error) {
             
             console.error(error)
-            addNotification({ tipo: 'erro', mensagem: `${error}`})
+            addNotification({ 
+                tipo: 'erro', 
+                mensagem: `${error}`
+            })
 
         }
-      
 
     }
 
@@ -95,7 +145,10 @@ export default function Configurar() {
 
         } catch (error) {
 
-            addNotification({ tipo: 'erro', mensagem: `${error}`})
+            addNotification({ 
+                tipo: 'erro', 
+                mensagem: `${error}`
+            })
 
         }
 

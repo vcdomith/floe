@@ -476,7 +476,7 @@ export default function Configurar() {
 
             </form>
             <div
-                onClick={() => setFocus(true)}
+                // onClick={() => setFocus(true)}
                 style={{
                     border: '2px solid',
                     width: '100%',

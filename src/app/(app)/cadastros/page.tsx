@@ -25,7 +25,7 @@ export default async function Cadastros() {
         style={{
             backgroundColor: '#e8d4b0',
             width: '100%',
-            height: '100%',
+            height: 'calc(100% - 3rem)',
             overflowY: 'scroll',
             marginTop: '3rem',
         }}>

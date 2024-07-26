@@ -15,7 +15,7 @@ export default function ConfirmationDialog (
         <div className={style.dialog}>
             <span className={style.badge}>
                 <SvgAviso />
-                <h3>Confirmação</h3>
+                <h3>Aviso</h3>
             </span>
             <div className={style.content}>
                 <div className={style.texts}>

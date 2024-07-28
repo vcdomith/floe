@@ -35,7 +35,7 @@ export default function Title() {
                         </span>
                     </span>
                 <div className={style.sub}>
-                    <h2>Uma forma <I>prática</I> para calcular todas tabelas de preços <I>automáticamente</I> para seu negócio!</h2>
+                    <h2>Uma forma <I>prática</I> para calcular todas as tabelas de preços <I>automaticamente</I> para seu negócio!</h2>
                 </div>
                 </div>
                 {/* {showOptions&& */}

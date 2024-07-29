@@ -22,11 +22,11 @@ const fatoresConfigTextos: Record<
     },
     transporte: {
         titulo: "Transporte",
-        descricao: "Alíquita acrescentada devido ao frete"
+        descricao: "Alíquota acrescentada devido ao frete"
     },
     st: {
         titulo: "ST",
-        descricao: "Alíquiota acrescentada devido a ST ICMS"
+        descricao: "Alíquota acrescentada devido a ST ICMS"
     },
     ipi: {
         titulo: "IPI",

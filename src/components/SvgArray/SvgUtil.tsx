@@ -4,7 +4,7 @@ import { IFatores } from "@/interfaces/IFatores";
 interface SvgUtilItems extends 
     Record<keyof FatoresContext, React.ReactNode>, 
     Record<keyof Omit<ProdutoCadastro, 'fatores' | 'id' >, React.ReactNode> {
-
+    produto3D?: React.ReactNode
 }
 
 // export const SvgUtil = ({ svg } : { svg: keyof SvgUtilItems } ) => {
@@ -147,5 +147,7 @@ export const svgsUtil: SvgUtilItems = {
     ncm: <SvgNCM />,
     unitario: <SvgDefault />,
     unitarioNota: <SvgUnitarioNota />,
-    composto: <SvgComposto />
+    composto: <SvgComposto />,
+
+    produto3D: <SvgProduto_3D/>
 }

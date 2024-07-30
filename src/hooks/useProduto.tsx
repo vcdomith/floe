@@ -1,6 +1,7 @@
 import SelectFornecedor from "@/components/SelectFornecedor/SelectFornecedor";
 import { Dispatch, FormEvent, MutableRefObject, SetStateAction, useRef, useState } from "react";
 import Converter from "@/utils/typeConversion";
+import { ProdutoCadastro } from "@/app/(app)/calcular/context/CalcularContext";
 
 export interface useProdutoReturn {
 
@@ -51,7 +52,17 @@ const INITIAL_STATE: IProdutoContext = {
 
 }
 
-export default function useProduto() {
+export default function useProduto(produto: (ProdutoCadastro | null) = null) {
+
+    if (produto !== null) {
+        INITIAL_STATE.codigo = produto.codigo
+        INITIAL_STATE.ncm = produto.ncm
+
+        INITIAL_STATE.desconto = produto.fatores.desconto
+        INITIAL_STATE.ipi = produto.fatores.ipi
+
+        INITIAL_STATE.unitarioNota = produto.unitarioNota
+    }
 
     const [produtoData, setProdutoData] = useState(INITIAL_STATE)
     const codigoInputRef = useRef<HTMLInputElement>(null)

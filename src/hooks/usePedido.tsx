@@ -1,5 +1,6 @@
 import { Dispatch, SetStateAction, useState } from "react";
 import Converter from "@/utils/typeConversion";
+import { ProdutoCadastro } from "@/app/(app)/calcular/context/CalcularContext";
 
 export interface IFatoresPedido {
 

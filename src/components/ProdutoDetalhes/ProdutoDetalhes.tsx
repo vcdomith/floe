@@ -3,6 +3,12 @@ import { IProdutoContext } from "@/hooks/useProduto"
 import { svgsUtil } from "../SvgArray/SvgUtil"
 import Config from "@/app/(app)/configurar/(Config)/Config"
 import CheckBox from "@/app/(app)/configurar/(CheckBox)/CheckBox"
+import useEditProduto from "@/hooks/useEditProduto"
+import NumberInput from "../FatoresTable/FatoresTableBody/NumberInput/NumberInput"
+import { Dispatch, SetStateAction, useState } from "react"
+
+import style from './ProdutoDetalhes.module.scss'
+import { AnimatePresence, motion } from "framer-motion"
 
 const fatoresConfigTextos: Record< 
     keyof FatoresContext, 
@@ -38,34 +44,61 @@ const fatoresConfigTextos: Record<
     }
 }
 
-export const ProdutoDetalhes = ({ produto, handleProdutoChange, style }: 
+const disabledFields = [
+    'base',
+    'fatorBaseNormal',
+    'fatorBaseST',
+]
+
+export const ProdutoDetalhes = ({ produto }: 
     { 
         produto: ProdutoCadastro, 
         handleProdutoChange: <T>(field: keyof IProdutoContext) => (valor: T) => void,
         style: { readonly [key: string]: string }
     }
 ) => {
-    return (
-        <div
-            id={`fatores${produto.id}`} 
-            style={{ width: 'fit-content'}}
-        >
-            <div className={style.popoverWrap}>
 
-                <span className={style.header}>
-                    {svgsUtil.produto3D}
-                    <h3>Produto</h3>
-                    <h3>{produto.codigo}</h3>
+    const {produtoEdit, handleProdutoChange, handleCompostoChange, handleFatorChange, resetProduto} = useEditProduto(produto)
+
+    const [displayAtributos, setDisplayAtributos] = useState(true)
+    const [displayFatores, setDisplayFatores] = useState(false)
+
+    return (
+        <div className={style.card}>
+
+            <span className={style.header}>
+                {svgsUtil.produto3D}
+                <h3>Produto</h3>
+                <h3>{produto.codigo}</h3>
+            </span>
+
+            <section className={style.content}>
+
+                <span className={style.tag} onClick={() => setDisplayAtributos(prev => !prev)}>
+                    <h5>Atributos</h5>
+                    <ExpandButton 
+                        display={displayAtributos} 
+                        setDisplay={setDisplayAtributos}                        
+                    />
                 </span>
 
-                <div className={style.atributos}>
+                <AnimatePresence>
+                {displayAtributos&&
+                <motion.div 
+                    className={style.fatores}
+
+                    initial={{ height: 0 }}
+                    animate={{ height: 'auto' }}
+                    exit={{ height: 0 }}
+                    transition={{ type: 'spring', bounce: 0, restDelta: 0.5 }}
+                >
                     <Config 
                         svg={svgsUtil.st} 
                         title={'ST:'} 
                         description={''}
                         input={
                             <CheckBox 
-                                checked={produto.st}
+                                checked={produtoEdit.st}
                                 setChecked={handleProdutoChange('st')}
                                 disabled
                             />
@@ -80,7 +113,8 @@ export const ProdutoDetalhes = ({ produto, handleProdutoChange, style }:
                                 className={style.codigo}
                                 type="text" 
                                 placeholder="_____________"
-                                value={produto.unitario}
+                                value={produtoEdit.unitario}
+                                onChange={handleProdutoChange('unitario')}
                                 required
                                 disabled
                             />
@@ -91,13 +125,10 @@ export const ProdutoDetalhes = ({ produto, handleProdutoChange, style }:
                         title={'NCM'} 
                         description={''}
                         input={
-                            <input
-                                className={style.codigo}
-                                type="text" 
-                                placeholder="_____________"
-                                value={produto.ncm}
-                                required
-                                disabled
+                            <NumberInput 
+                                placeholder={""} 
+                                valor={produtoEdit.ncm} 
+                                setValor={handleProdutoChange('ncm')}                                
                             />
                         }
                     />
@@ -110,20 +141,35 @@ export const ProdutoDetalhes = ({ produto, handleProdutoChange, style }:
                                 className={style.codigo}
                                 type="text" 
                                 placeholder="_____________"
-                                value={produto.unitarioNota}
+                                value={produtoEdit.unitarioNota}
                                 required
                                 disabled
                             />
                         }
                     />
                     
-                </div>
+                </motion.div>
+                }
+                </AnimatePresence>
 
-                <div className={style.title}>
+                <span className={style.tag} onClick={() => setDisplayFatores(prev => !prev)}>
                     <h5>Fatores</h5>
-                </div>
-                <div className={style.fatores}>
-                {Object.entries(produto.fatores)
+                    <ExpandButton 
+                        display={displayFatores} 
+                        setDisplay={setDisplayFatores}                        
+                    />
+                </span>
+                <AnimatePresence>
+                {displayFatores&&
+                <motion.div 
+                    className={style.fatores}
+
+                    initial={{ height: 0 }}
+                    animate={{ height: 'auto' }}
+                    exit={{ height: 0 }}
+                    transition={{ type: 'spring', bounce: 0, restDelta: 0.5 }}
+                >
+                {Object.entries(produtoEdit.fatores)
                     .filter( ([key, value]) => (value !== '1' || key === 'base'))
                     .map(([key, value]) => 
                         <Config
@@ -136,19 +182,56 @@ export const ProdutoDetalhes = ({ produto, handleProdutoChange, style }:
                                     className={style.codigo}
                                     type="text" 
                                     placeholder="_____________"
-                                    value={value}
+                                    value={produtoEdit.fatores[key as keyof FatoresContext]}
+                                    onChange={handleFatorChange(key as keyof FatoresContext)}
                                     required
-                                    disabled
+                                    disabled={disabledFields.includes(key)}
                                 />
                             }
                         />
                     )
                 }
-                </div>
+                </motion.div>
+                }
+                </AnimatePresence>
 
-            </div>
+            </section>
+
+            <span className={style.buttons}>
+                <button 
+                    className={style.discard}
+                    onClick={() => resetProduto()}
+                >
+                    Descartar
+                </button>
+                <button className={style.update}>Atualizar</button>
+            </span>
+
         </div>
     )
 }
 
 export default ProdutoDetalhes
+
+const ExpandButton = (
+    { display, setDisplay }: 
+    { display: boolean, setDisplay: Dispatch<SetStateAction<boolean>> }
+) => {
+
+    return(
+        <button 
+            // className={`${style.button} ${style.expand}`} 
+            // onClick={() => setDisplay(prev => !prev)} 
+        >
+            <svg width="20" height="20" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path 
+                    d={`${display
+                        ? "M376 314L250 188L124 314" 
+                        : "M376 187L250 313L124 187"
+                    }`}  
+                    strokeWidth="50"/>
+            </svg>             
+        </button>
+    )
+
+}

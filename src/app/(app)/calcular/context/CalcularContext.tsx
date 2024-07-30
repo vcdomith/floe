@@ -77,7 +77,7 @@ export const useCalcular = () => {
     return context
 }
 
-export const CalcularProvider = ({ children }: { children: React.ReactNode}) => {
+export const CalcularProvider = ({ children }: { children: React.ReactNode }) => {
 
     const {notifications, addNotification} = useNotification()
 

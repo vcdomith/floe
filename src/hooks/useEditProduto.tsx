@@ -2,7 +2,8 @@ import { FatoresContext, ProdutoCadastro, useCalcular } from "@/app/(app)/calcul
 import useFornecedor from "./useFornecedor";
 import usePedido from "./usePedido";
 import useProduto, { useProdutoReturn } from "./useProduto";
-import { ChangeEvent, Dispatch, SetStateAction, useState } from "react";
+import { ChangeEvent, Dispatch, SetStateAction, useMemo, useState } from "react";
+import _, { isArray } from 'lodash'
 
 interface UseEditProdutoReturn {
     
@@ -19,7 +20,30 @@ export default function useEditProduto( produto: ProdutoCadastro ) {
 
     const [produtoEdit, setProdutoEdit] = useState<ProdutoCadastro>(produto)
 
-    const { fornecedorContext } = useCalcular()
+    const { } = useCalcular()
+
+    const valid = useMemo(() => {
+
+        const isDiff = !(_.isEqual(produto, produtoEdit))
+        const valuesAreValid = Object.values(produtoEdit).every( value => {
+
+            if(typeof value === 'string') {
+                return value !== ''
+            } 
+            else if(typeof value === 'object' && !(Array.isArray(value))){
+                Object.values(value as FatoresContext).every( value => value !== '' )
+            }
+            else {
+                return true
+            } 
+
+        } )
+        // console.log(Object.values(produtoEdit).flatMap(Object.values));
+
+        return (isDiff && valuesAreValid)
+        
+    }, [produtoEdit, produto])
+    console.log(valid);
 
     function handleProdutoChange<T>(field: keyof Omit<ProdutoCadastro, 'fatores' | 'composto'>){
 

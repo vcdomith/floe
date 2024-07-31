@@ -347,10 +347,10 @@ export default TabelaRow
 const SvgProduto_3D = () => {
     return(
         <svg width="50" height="50" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M449 135L250 20L51 135V365L250 480L449 365V135Z" stroke="black" stroke-width="40" stroke-linejoin="round"/>
-            <path d="M449 365V135L250 250.649V480L449 365Z" stroke="black" stroke-width="40" stroke-linejoin="round"/>
-            <path d="M449 135L250 20L51 135L250 250.649L449 135Z" stroke="black" stroke-width="40" stroke-linejoin="round"/>
-            <path d="M51 365L250 480V250.649L51 135V365Z" stroke="black" stroke-width="40" stroke-linejoin="round"/>
+            <path d="M449 135L250 20L51 135V365L250 480L449 365V135Z" stroke="black" strokeWidth="40" strokeLinejoin="round"/>
+            <path d="M449 365V135L250 250.649V480L449 365Z" stroke="black" strokeWidth="40" strokeLinejoin="round"/>
+            <path d="M449 135L250 20L51 135L250 250.649L449 135Z" stroke="black" strokeWidth="40" strokeLinejoin="round"/>
+            <path d="M51 365L250 480V250.649L51 135V365Z" stroke="black" strokeWidth="40" strokeLinejoin="round"/>
         </svg>
     )
 }

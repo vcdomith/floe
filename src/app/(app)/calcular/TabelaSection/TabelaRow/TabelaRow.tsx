@@ -24,7 +24,7 @@ function TabelaRow({produto, setTabela}: TabelaRowProps, ref) {
     const {id, codigo, ncm, st, unitario, unitarioNota, composto, fatores } = produto
     const {tabela1, tabela2, tabela3} = useMemo(() => getTabelasObject(produto), [produto])
 
-    const {produtoContext} = useCalcular()
+    const {fornecedorContext, produtoContext} = useCalcular()
     const { handleProdutoChange } = produtoContext
 
     const { setModal } = useModal()
@@ -86,9 +86,7 @@ function TabelaRow({produto, setTabela}: TabelaRowProps, ref) {
                         <button 
                             onClick={() => setModal( 
                                 <ProdutoDetalhes 
-                                    produto={produto} 
-                                    handleProdutoChange={handleProdutoChange} 
-                                    style={style}
+                                    produto={produto}
                                 /> 
                             )}
                         >

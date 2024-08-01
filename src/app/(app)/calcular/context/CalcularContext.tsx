@@ -9,11 +9,12 @@ import { IFator } from "@/interfaces/IFator";
 import useFilter, { useFilterReturn } from "@/hooks/useFilter";
 import { dbConnect } from "@/utils/db/supabase";
 
-interface CalcularContextProps {
+export interface CalcularContextProps {
 
     fornecedorContext: useFornecedorReturn
     pedidoContext: usePedidoReturn
     produtoContext: useProdutoReturn
+    getDisplayControl: (st: boolean) => IDisplayControl
     displayControl: IDisplayControl 
     produtoIsValid: boolean
     tabelaValid: boolean
@@ -55,7 +56,7 @@ export interface ProdutoCadastro {
 
 }
 
-interface IDisplayControl {
+export interface IDisplayControl {
 
     fatorTransportePedido: boolean
     fatorSTPedido: boolean
@@ -106,7 +107,7 @@ export const CalcularProvider = ({ children }: { children: React.ReactNode }) =>
     // const [produtoCadastros, setProdutoCadastros] = useState<produtoCadastro>() 
 
     type DisplayControlKeys = typeof displayControl;
-    const displayControl: IDisplayControl = (produtoData.st)
+    const getDisplayControl = (st = produtoData.st): IDisplayControl => (st)
         ? {
 
             fatorTransportePedido: fornecedorData.usaTransporte,
@@ -137,6 +138,7 @@ export const CalcularProvider = ({ children }: { children: React.ReactNode }) =>
         }
 
     // const validKeys = Object.fromEntries(Object.entries(displayControl).filter( item => item[1] ))                               
+    const displayControl = getDisplayControl()
     const validKeys = Object.keys(displayControl)
                             .filter( key => displayControl[key as keyof DisplayControlKeys] )
 
@@ -298,6 +300,7 @@ export const CalcularProvider = ({ children }: { children: React.ReactNode }) =>
             fornecedorContext,
             pedidoContext,
             produtoContext,
+            getDisplayControl,
             displayControl,
             produtoIsValid,
             tabela,

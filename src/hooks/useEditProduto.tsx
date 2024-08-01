@@ -1,9 +1,10 @@
-import { FatoresContext, ProdutoCadastro, useCalcular } from "@/app/(app)/calcular/context/CalcularContext";
-import useFornecedor from "./useFornecedor";
-import usePedido from "./usePedido";
+import { CalcularContextProps, FatoresContext, IDisplayControl, ProdutoCadastro, useCalcular } from "@/app/(app)/calcular/context/CalcularContext";
+import useFornecedor, { useFornecedorReturn } from "./useFornecedor";
+import usePedido, { usePedidoReturn } from "./usePedido";
 import useProduto, { useProdutoReturn } from "./useProduto";
 import { ChangeEvent, Dispatch, SetStateAction, useMemo, useState } from "react";
 import _, { isArray } from 'lodash'
+import { useNotification } from "@/app/(app)/(contexts)/NotificationContext";
 
 interface UseEditProdutoReturn {
     
@@ -20,7 +21,13 @@ export default function useEditProduto( produto: ProdutoCadastro ) {
 
     const [produtoEdit, setProdutoEdit] = useState<ProdutoCadastro>(produto)
 
-    const { } = useCalcular()
+    const { pedidoData } = usePedido()
+    const { produtoData } = useProduto()
+
+    const { getDisplayControl, fornecedorContext } = useCalcular()
+    // const {getDisplayControl, fornecedorContext: {fornecedorData}} = calcularContext
+
+    const displayControl = useMemo(() => getDisplayControl(produto.st), [produto, getDisplayControl])
 
     const valid = useMemo(() => {
 
@@ -43,7 +50,6 @@ export default function useEditProduto( produto: ProdutoCadastro ) {
         return (isDiff && valuesAreValid)
         
     }, [produtoEdit, produto])
-    console.log(valid);
 
     function handleProdutoChange<T>(field: keyof Omit<ProdutoCadastro, 'fatores' | 'composto'>){
 

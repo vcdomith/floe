@@ -23,8 +23,8 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
 
     return (
         <NotificationProvider>
-        <ModalProvider>
         <CalcularProvider>
+        <ModalProvider>
             <Nav pathname={path} />
         {/* <header className={style.header}>
             <div>
@@ -85,8 +85,8 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
             <Notifications />
             <Modal />
         </Container>
-        </CalcularProvider>
         </ModalProvider>
+        </CalcularProvider>
         </NotificationProvider>
     )
 

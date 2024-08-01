@@ -1,4 +1,4 @@
-import { FatoresContext, ProdutoCadastro } from "@/app/(app)/calcular/context/CalcularContext"
+import { CalcularProvider, FatoresContext, ProdutoCadastro, useCalcular } from "@/app/(app)/calcular/context/CalcularContext"
 import { IProdutoContext } from "@/hooks/useProduto"
 import { svgsUtil } from "../SvgArray/SvgUtil"
 import Config from "@/app/(app)/configurar/(Config)/Config"
@@ -9,6 +9,8 @@ import { Dispatch, SetStateAction, useState } from "react"
 
 import style from './ProdutoDetalhes.module.scss'
 import { AnimatePresence, motion } from "framer-motion"
+import { useFornecedorReturn } from "@/hooks/useFornecedor"
+import { useNotification } from "@/app/(app)/(contexts)/NotificationContext"
 
 const fatoresConfigTextos: Record< 
     keyof FatoresContext, 
@@ -44,19 +46,22 @@ const fatoresConfigTextos: Record<
     }
 }
 
-const disabledFields = [
+const disabledFields: (keyof FatoresContext)[] = [
     'base',
     'fatorBaseNormal',
     'fatorBaseST',
+    'transporte',
+    'st'
 ]
 
 export const ProdutoDetalhes = ({ produto }: 
     { 
-        produto: ProdutoCadastro, 
-        handleProdutoChange: <T>(field: keyof IProdutoContext) => (valor: T) => void,
-        style: { readonly [key: string]: string }
+        produto: ProdutoCadastro,
     }
 ) => {
+
+    const calcularContext = useCalcular()
+    console.log(calcularContext.fornecedorContext.fornecedorData);
 
     const {produtoEdit, handleProdutoChange, handleCompostoChange, handleFatorChange, resetProduto} = useEditProduto(produto)
 
@@ -169,21 +174,21 @@ export const ProdutoDetalhes = ({ produto }:
                     exit={{ height: 0 }}
                     transition={{ type: 'spring', bounce: 0, restDelta: 0.5 }}
                 >
-                {Object.entries(produtoEdit.fatores)
+                {(Object.entries(produtoEdit.fatores) as [keyof FatoresContext, string][])
                     .filter( ([key, value]) => (value !== '1' || key === 'base'))
                     .map(([key, value]) => 
                         <Config
                             key={key} 
-                            svg={svgsUtil[key as keyof FatoresContext]} 
-                            title={fatoresConfigTextos[key as keyof FatoresContext].titulo} 
-                            description={fatoresConfigTextos[key as keyof FatoresContext].descricao}
+                            svg={svgsUtil[key]} 
+                            title={fatoresConfigTextos[key].titulo} 
+                            description={fatoresConfigTextos[key].descricao}
                             input={
                                 <input
                                     className={style.codigo}
                                     type="text" 
                                     placeholder="_____________"
-                                    value={produtoEdit.fatores[key as keyof FatoresContext]}
-                                    onChange={handleFatorChange(key as keyof FatoresContext)}
+                                    value={produtoEdit.fatores[key]}
+                                    onChange={handleFatorChange(key)}
                                     required
                                     disabled={disabledFields.includes(key)}
                                 />

@@ -93,6 +93,46 @@
 
     }
 
+    .valores {
+
+        padding: 0.5rem;
+        margin-right: 0.5rem;
+
+        background-color: cor-mix(2%);
+        border: 2px solid cor-mix(10%);
+        border-radius: 0.25rem;
+
+        .wrapper {
+
+            display: grid;
+            align-items: center;
+            grid-template-columns: 25% 25% 25% 25%;
+
+            .valor {
+
+                display: flex;
+                flex-direction: column;
+                gap: 0.25rem;
+                text-align: center;
+
+                &:not(:last-of-type) {
+                    border-right: 2px solid cor-mix(10%);
+                }
+
+                label {
+
+                }
+
+                h3 {
+                    margin: 0;
+                }
+
+            }
+
+        }
+
+    }
+
     .content {
 
         height: 100%;
@@ -143,6 +183,195 @@
         .fatores {
 
             overflow: hidden;
+
+            .configWrapper {
+
+                display: flex;
+                flex-direction: column;
+                gap: 1.5rem;
+
+                &:not(:last-child) {
+                    border-bottom: 2px solid cor-mix(20%);
+                }
+
+                & > :first-child {
+                    // border-bottom: none;
+                    border-image: linear-gradient(to right , transparent, $cor-secundaria 8%, cor-mix(20%) 50%, $cor-secundaria 92%, transparent) 27;
+
+                }
+
+                .extra {
+
+                    display: flex;
+                    justify-content: space-evenly;
+                    align-items: center;
+                    gap: 0.5rem;
+
+                    // margin: 0.5rem;
+                    padding: 0.5rem;
+                    color: cor-mix(50%);
+
+                    // background-color: cor-mix(5%);
+
+                    // border: 2px solid cor-mix(20%);
+                    border-radius: 0.5rem;
+
+                    span {
+                        
+                        position: relative;
+
+                        flex: 1;
+
+                        display: flex;
+                        justify-content: space-evenly;
+                        align-items: center;
+                        
+                        background-color: cor-mix(3.5%);
+                        border: 2px solid cor-mix(5%);
+                        border-radius: 0.25rem;
+
+                        div {
+
+                            position: relative;
+                            // overflow: hidden;
+                            text-overflow: ellipsis;
+
+                            input {
+                                box-sizing: border-box;
+
+                            }
+
+                            input[type="text"] {
+
+                                background: none;
+                                outline: none;
+                                border-radius: 0.25rem;
+                                
+                                color: cor-mix(100%);
+                                font-size: 1.1rem;
+                                width: 50px;
+                
+                                transition: border-color 400ms ease;
+                
+                                &:hover {
+    
+                                    background-color: cor-mix(10%);
+        
+                                }
+        
+                                &::placeholder {
+                                    font-size: 0.75rem;
+                                    color: cor-mix(30%);
+                                }
+
+                                // &::placeholder {
+                
+                                //     color: cor-mix(30%);
+                
+                                // }
+                
+                                &:valid {
+                
+                                    border-color: darken(saturate(cor-mix(70%), 40%), 5%);
+                
+                                }
+                
+                                &[data-valid="true"] {
+                
+                                    border-color: darken(saturate(cor-mix(70%), 40%), 5%);
+                
+                                }
+                
+                            }
+
+                            &:nth-child(1) {
+
+                                flex: 5;
+
+                                input {
+
+                                    width: 100%;
+                                    box-sizing: border-box;
+
+                                }
+
+                                label {
+
+                                    left: 0;
+
+                                }
+
+                            }
+
+                            &:nth-child(3) {
+
+                                flex: 1;
+
+                                input {
+
+                                    box-sizing: border-box;
+                                    max-width: 50px;
+
+                                }
+
+                                label {
+
+                                    right: 0;
+
+                                }
+
+                            }
+
+                            label {
+
+                                position: absolute;
+                                top: -1rem;
+                                font-size: 0.8rem;
+                                color: cor-mix(40%);
+                                width: max-content;
+
+                                top: -1.2rem;
+    
+                            }
+
+                        }
+
+                        p {
+                            margin: 0;
+                            padding: 0;
+                        }
+
+                        input {
+
+                            // flex: 1;
+                            padding: 0.4rem;
+
+                            border: none;
+                            border-radius: 0.25rem;
+    
+                            color: cor-mix(80%);
+                            text-align: center;
+    
+                            transition: background-color 500ms ease !important;
+
+                            &:hover {
+    
+                                background-color: cor-mix(10%);
+    
+                            }
+    
+                            &::placeholder {
+                                font-size: 0.75rem;
+                                color: cor-mix(30%);
+                            }
+
+                        }
+
+                    }
+
+                }
+
+            }
 
         }
 
@@ -199,6 +428,14 @@
             font-size: 0.9rem;
 
             cursor: pointer;
+
+            &:disabled {
+
+                background-color: cor-mix(20%);
+                border-color: cor-mix(30%);
+                color: cor-mix(0%);
+
+            }
 
         }
 

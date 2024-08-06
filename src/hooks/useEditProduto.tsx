@@ -3,7 +3,7 @@ import useFornecedor, { useFornecedorReturn } from "./useFornecedor";
 import usePedido, { usePedidoReturn } from "./usePedido";
 import useProduto, { useProdutoReturn } from "./useProduto";
 import { ChangeEvent, Dispatch, SetStateAction, useMemo, useState } from "react";
-import _, { isArray } from 'lodash'
+import _, { initial, isArray } from 'lodash'
 import { useNotification } from "@/app/(app)/(contexts)/NotificationContext";
 
 interface UseEditProdutoReturn {
@@ -14,42 +14,43 @@ interface UseEditProdutoReturn {
     handleCompostoChange: (index: 0 | 1) => (valor: string) => void
     handleFatorChange: (field: keyof FatoresContext) => (valor: ChangeEvent<HTMLInputElement>) => void,
     resetProduto: () => void
+    displayControl: IDisplayControl
+    valid: boolean
 
 }
 
 export default function useEditProduto( produto: ProdutoCadastro ) {
 
     const [produtoEdit, setProdutoEdit] = useState<ProdutoCadastro>(produto)
-
-    const { pedidoData } = usePedido()
-    const { produtoData } = useProduto()
+    const {fatores, composto, ...atributos} = useMemo(() => {
+        return produtoEdit
+    }, [produtoEdit])
 
     const { getDisplayControl, fornecedorContext } = useCalcular()
     // const {getDisplayControl, fornecedorContext: {fornecedorData}} = calcularContext
 
-    const displayControl = useMemo(() => getDisplayControl(produto.st), [produto, getDisplayControl])
+    const displayControl = useMemo(() => getDisplayControl(produtoEdit.st), [produtoEdit, getDisplayControl])
+    console.log(produtoEdit);
+   
+    // console.log('fatoresValid:', fatoresValid, 'atributosValid:', atributosValid);
 
-    const valid = useMemo(() => {
+    const valid: boolean = useMemo(() => {
 
-        const isDiff = !(_.isEqual(produto, produtoEdit))
-        const valuesAreValid = Object.values(produtoEdit).every( value => {
+        if (_.isEqual(produto, produtoEdit)) return false
 
-            if(typeof value === 'string') {
-                return value !== ''
-            } 
-            else if(typeof value === 'object' && !(Array.isArray(value))){
-                Object.values(value as FatoresContext).every( value => value !== '' )
-            }
-            else {
-                return true
-            } 
+        if (Object.entries(atributos).some( ([key, value]) => {
+            if (displayControl.ncm && key === 'ncm') 
+                return value === '' || (value as string).length !== 8
+            
+            return (value === '' && key !== 'ncm')
+        })) return false
 
-        } )
-        // console.log(Object.values(produtoEdit).flatMap(Object.values));
+        if (Object.values(fatores).some(value => value === '')) return false
 
-        return (isDiff && valuesAreValid)
+        return true
         
-    }, [produtoEdit, produto])
+    }, [produtoEdit, produto, displayControl, atributos, fatores])
+    console.log(valid);
 
     function handleProdutoChange<T>(field: keyof Omit<ProdutoCadastro, 'fatores' | 'composto'>){
 
@@ -112,6 +113,8 @@ export default function useEditProduto( produto: ProdutoCadastro ) {
         handleCompostoChange,
         handleFatorChange,
         resetProduto,
+        displayControl,
+        valid
     } as UseEditProdutoReturn
 
 }

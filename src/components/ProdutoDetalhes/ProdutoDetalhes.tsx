@@ -5,12 +5,17 @@ import Config from "@/app/(app)/configurar/(Config)/Config"
 import CheckBox from "@/app/(app)/configurar/(CheckBox)/CheckBox"
 import useEditProduto from "@/hooks/useEditProduto"
 import NumberInput from "../FatoresTable/FatoresTableBody/NumberInput/NumberInput"
-import { Dispatch, SetStateAction, useState } from "react"
+import { Dispatch, KeyboardEvent, SetStateAction, useMemo, useRef, useState } from "react"
+import Converter from "@/utils/typeConversion"
 
 import style from './ProdutoDetalhes.module.scss'
+import styleProduto from '../../app/(app)/calcular/Tabs/ProdutoTab/ProdutoTab.module.scss'
 import { AnimatePresence, motion } from "framer-motion"
 import { useFornecedorReturn } from "@/hooks/useFornecedor"
 import { useNotification } from "@/app/(app)/(contexts)/NotificationContext"
+import { getTabelasObject } from "@/utils/calculoTabelas"
+
+const NUMBER_INPUT_PLACEHOLDER = '_'.repeat(50)
 
 const fatoresConfigTextos: Record< 
     keyof FatoresContext, 
@@ -60,22 +65,92 @@ export const ProdutoDetalhes = ({ produto }:
     }
 ) => {
 
-    const calcularContext = useCalcular()
-    console.log(calcularContext.fornecedorContext.fornecedorData);
+    const {produtoEdit, 
+    handleProdutoChange, 
+    handleCompostoChange, 
+    handleFatorChange, 
+    resetProduto, 
+    displayControl, 
+    valid} = useEditProduto(produto)
 
-    const {produtoEdit, handleProdutoChange, handleCompostoChange, handleFatorChange, resetProduto} = useEditProduto(produto)
+    const {
+        id,
+        codigo,
+        ncm,
+        st,
+        unitario, 
+        unitarioNota,
+        composto,
+        fatores
+    } = produtoEdit
+
+    const tabelas = useMemo(() => Object.entries(getTabelasObject(produtoEdit)), [produtoEdit])
 
     const [displayAtributos, setDisplayAtributos] = useState(true)
     const [displayFatores, setDisplayFatores] = useState(false)
 
+    const {floatToString, stringToFloat} = Converter
+
+    const compostoRef_1 = useRef<HTMLInputElement>(null)
+    const compostoRef_2 = useRef<HTMLInputElement>(null)
+
+    const handleKeyDown = (e: KeyboardEvent<HTMLDivElement>, field: keyof IProdutoContext) => {
+
+        if(e.key === 'Enter') {
+            
+            const calculoUnitario: string = floatToString(stringToFloat(composto[0]) + stringToFloat(composto[1]))
+
+            if (calculoUnitario === 'NaN' && field === 'unitarioComposto') {
+
+                e.preventDefault()
+
+                if (composto[0] === '') {
+
+                    compostoRef_1.current?.focus()
+                    return
+
+                } 
+
+                if (composto[1] === '') {
+
+                    compostoRef_2.current?.focus()
+                    return
+
+                }
+
+            }
+
+            const valorCalculado = floatToString(
+                stringToFloat(composto[0]) + 
+                stringToFloat(composto[1])
+                , 2)
+
+            // setProdutoData(prev => ({...prev, [field]: valorCalculado}))
+            handleProdutoChange('unitario')(valorCalculado)
+            if (valorCalculado === 'NaN') e.preventDefault()
+        } 
+
+    }
+
     return (
         <div className={style.card}>
 
-            <span className={style.header}>
+            <section className={style.header}>
                 {svgsUtil.produto3D}
                 <h3>Produto</h3>
                 <h3>{produto.codigo}</h3>
-            </span>
+            </section>
+
+            <section className={style.valores}>
+                <span className={style.wrapper}>
+                    {tabelas.map(([key, value]) => 
+                        <div key={key} className={style.valor}>
+                            <label>{key}</label>
+                            <h3>{value}</h3>
+                        </div>
+                    )}
+                </span>
+            </section>
 
             <section className={style.content}>
 
@@ -103,40 +178,28 @@ export const ProdutoDetalhes = ({ produto }:
                         description={''}
                         input={
                             <CheckBox 
-                                checked={produtoEdit.st}
+                                checked={st}
                                 setChecked={handleProdutoChange('st')}
                                 disabled
                             />
                         }
                     />
-                    <Config
-                        svg={svgsUtil['unitario']} 
-                        title={'Unitário'} 
-                        description={''}
-                        input={
-                            <input
-                                className={style.codigo}
-                                type="text" 
-                                placeholder="_____________"
-                                value={produtoEdit.unitario}
-                                onChange={handleProdutoChange('unitario')}
-                                required
-                                disabled
-                            />
-                        }
-                    />
+                    {displayControl.ncm&&
                     <Config
                         svg={svgsUtil['ncm']} 
                         title={'NCM'} 
-                        description={''}
+                        description={'Código NCM (8 dígitos)'}
                         input={
                             <NumberInput 
                                 placeholder={""} 
-                                valor={produtoEdit.ncm} 
-                                setValor={handleProdutoChange('ncm')}                                
+                                valor={ncm} 
+                                setValor={handleProdutoChange('ncm')}
+                                minLength={8}
+                                maxLength={8}
                             />
                         }
                     />
+                    }
                     <Config
                         svg={svgsUtil['unitarioNota']} 
                         title={'Unit. Nota'} 
@@ -146,13 +209,79 @@ export const ProdutoDetalhes = ({ produto }:
                                 className={style.codigo}
                                 type="text" 
                                 placeholder="_____________"
-                                value={produtoEdit.unitarioNota}
+                                value={unitarioNota}
                                 required
                                 disabled
                             />
                         }
                     />
-                    
+                    {displayControl.unitarioPedido&&
+                    <Config 
+                        svg={svgsUtil.unitario} 
+                        title={'Unitário (Pedido)'} 
+                        description={'Valor para calcular preços:'}
+                        input={
+                            <NumberInput 
+                                placeholder={'______'} 
+                                valor={unitario} 
+                                setValor={handleProdutoChange('unitario')}  
+                                required
+                            />
+                        }
+                    />
+                    }
+                    {displayControl.unitarioComposto&&
+                    <div className={`${style.configWrapper} ${styleProduto.configWrapper} ${styleProduto.compostoWrapper}`}>
+                        <Config 
+                            svg={svgsUtil.composto} 
+                            title={'Unitário (Composto)'} 
+                            description={'Unitário calculado pelo soma de dois valores:'}
+                            input={
+                                <NumberInput 
+                                    placeholder={'______'} 
+                                    valor={unitario} 
+                                    setValor={handleProdutoChange('unitario')}
+                                    disabled
+                                    data-valid={(unitario) ? true : false}
+                                    required
+                                />
+                            }
+                        />
+                        {/* Adicionar variante que depende se o produto tem ou não ST
+                            -> Sem st (novo TODO): valor x 2
+                            -> Com st (existente): valor1 + valor2 
+                        */}
+                        <div className={`${style.extra} ${styleProduto.composto}`} 
+                        // onSubmit={(e) => handleProdutoSubmit('composto', e, fatorBase)}
+                        onKeyDown={(e) => handleKeyDown(e, 'unitarioComposto')}
+                        >
+                            <span> 
+                                <div>
+                                    <label htmlFor="">Composto 1</label>
+                                    <NumberInput 
+                                        placeholder={NUMBER_INPUT_PLACEHOLDER} 
+                                        valor={composto[0]} 
+                                        setValor={handleCompostoChange(0)} 
+                                        required
+                                        refProp={compostoRef_1}
+                                    />
+                                </div>        
+                                <p>+</p>
+                                <div>
+                                    <label htmlFor="">Composto 2</label>
+                                    <NumberInput 
+                                        placeholder={NUMBER_INPUT_PLACEHOLDER} 
+                                        valor={composto[1]} 
+                                        setValor={handleCompostoChange(1)} 
+                                        required
+                                        refProp={compostoRef_2}
+                                    />
+                                </div>
+                            </span>
+                            <button type='submit' hidden></button>                        
+                        </div>
+                    </div>
+                    }
                 </motion.div>
                 }
                 </AnimatePresence>
@@ -174,7 +303,8 @@ export const ProdutoDetalhes = ({ produto }:
                     exit={{ height: 0 }}
                     transition={{ type: 'spring', bounce: 0, restDelta: 0.5 }}
                 >
-                {(Object.entries(produtoEdit.fatores) as [keyof FatoresContext, string][])
+                {/* TODO: Separar cada fator unitariamente, controlados pelo displayControl */}
+                {(Object.entries(fatores) as [keyof FatoresContext, string][])
                     .filter( ([key, value]) => (value !== '1' || key === 'base'))
                     .map(([key, value]) => 
                         <Config
@@ -187,7 +317,7 @@ export const ProdutoDetalhes = ({ produto }:
                                     className={style.codigo}
                                     type="text" 
                                     placeholder="_____________"
-                                    value={produtoEdit.fatores[key]}
+                                    value={fatores[key]}
                                     onChange={handleFatorChange(key)}
                                     required
                                     disabled={disabledFields.includes(key)}
@@ -209,7 +339,13 @@ export const ProdutoDetalhes = ({ produto }:
                 >
                     Descartar
                 </button>
-                <button className={style.update}>Atualizar</button>
+                <button 
+                    className={style.update}
+                    disabled={!valid}
+                    onClick={() => alert('ataliza')}
+                >
+                    Atualizar
+                </button>
             </span>
 
         </div>

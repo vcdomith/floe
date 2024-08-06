@@ -50,7 +50,7 @@ export interface ProdutoCadastro {
     st: boolean
     unitario: string
     unitarioNota: string
-    composto: string[] | null
+    composto: string[]
 
     fatores: FatoresContext
 

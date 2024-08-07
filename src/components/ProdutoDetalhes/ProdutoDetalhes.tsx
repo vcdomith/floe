@@ -65,13 +65,15 @@ export const ProdutoDetalhes = ({ produto }:
     }
 ) => {
 
-    const {produtoEdit, 
-    handleProdutoChange, 
-    handleCompostoChange, 
-    handleFatorChange, 
-    resetProduto, 
-    displayControl, 
-    valid} = useEditProduto(produto)
+    const {
+        produtoEdit, 
+        handleProdutoChange, 
+        handleCompostoChange, 
+        handleFatorChange, 
+        resetProduto, 
+        displayControl, 
+        valid
+    } = useEditProduto(produto)
 
     const {
         id,
@@ -175,12 +177,12 @@ export const ProdutoDetalhes = ({ produto }:
                     <Config 
                         svg={svgsUtil.st} 
                         title={'ST:'} 
-                        description={''}
+                        description={'Produto usa Subs. Trib.'}
                         input={
                             <CheckBox 
                                 checked={st}
                                 setChecked={handleProdutoChange('st')}
-                                disabled
+                                // disabled
                             />
                         }
                     />

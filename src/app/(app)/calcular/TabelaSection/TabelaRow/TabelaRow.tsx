@@ -10,6 +10,7 @@ import CheckBox from '@/app/(app)/configurar/(CheckBox)/CheckBox'
 import { useModal } from '@/app/(app)/(contexts)/ModalContext'
 import { IProdutoContext } from '@/hooks/useProduto'
 import ProdutoDetalhes from '@/components/ProdutoDetalhes/ProdutoDetalhes'
+import ConfirmationDialog from '@/components/ConfirmationDialog/ConfirmationDialog'
 
 interface TabelaRowProps {
 
@@ -27,10 +28,22 @@ function TabelaRow({produto, setTabela}: TabelaRowProps, ref) {
     const {fornecedorContext, produtoContext} = useCalcular()
     const { handleProdutoChange } = produtoContext
 
-    const { setModal } = useModal()
+    const { setModal, clearModal } = useModal()
 
     const handleClick = (id: number) => {
 
+        setModal(
+            <ConfirmationDialog 
+                title={`Confirme a exclusão do produto ${produto.codigo}:`}
+                message='Aviso: o produto será excluído permanentemente!' 
+                cancelHandler={clearModal} 
+                confirmHandler={() => removeProduto(id)}                
+            />
+        )
+
+    }
+
+    const removeProduto = (id: number) => {
         setTabela(prev => {
             const updated = [...prev]
             const removed = updated.filter( produto => produto.id !== id )
@@ -38,7 +51,7 @@ function TabelaRow({produto, setTabela}: TabelaRowProps, ref) {
             // updated.splice(updated.indexOf(itemToRemove), 1)
             return removed
         })
-
+        clearModal()
     }
 
     console.log(Object.entries(produto.fatores));

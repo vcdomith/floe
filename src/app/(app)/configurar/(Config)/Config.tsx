@@ -28,6 +28,7 @@ const Config = ({svg, title, description, input}: ConfigProps) => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
+      transition={{ type: 'spring', bounce: 0, restDelta: 0.5 }}
     >
         <span className={style.info}>
             {svg}

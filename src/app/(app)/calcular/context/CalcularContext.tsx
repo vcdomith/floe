@@ -9,16 +9,19 @@ import { IFator } from "@/interfaces/IFator";
 import useFilter, { useFilterReturn } from "@/hooks/useFilter";
 import { dbConnect } from "@/utils/db/supabase";
 
-interface CalcularContextProps {
+export interface CalcularContextProps {
 
     fornecedorContext: useFornecedorReturn
     pedidoContext: usePedidoReturn
     produtoContext: useProdutoReturn
+    getDisplayControl: (st: boolean) => IDisplayControl
     displayControl: IDisplayControl 
     produtoIsValid: boolean
+
     tabelaValid: boolean
     tabela: ProdutoCadastro[]
     setTabela: Dispatch<SetStateAction<ProdutoCadastro[]>>
+    updateProdutoTabela: (id: number, updatedProduto: ProdutoCadastro) => void
     cadastrarPedidoDB: () => Promise<void>
     filterContext: useFilterReturn
 
@@ -49,13 +52,13 @@ export interface ProdutoCadastro {
     st: boolean
     unitario: string
     unitarioNota: string
-    composto: string[] | null
+    composto: string[]
 
     fatores: FatoresContext
 
 }
 
-interface IDisplayControl {
+export interface IDisplayControl {
 
     fatorTransportePedido: boolean
     fatorSTPedido: boolean
@@ -77,7 +80,7 @@ export const useCalcular = () => {
     return context
 }
 
-export const CalcularProvider = ({ children }: { children: React.ReactNode}) => {
+export const CalcularProvider = ({ children }: { children: React.ReactNode }) => {
 
     const {notifications, addNotification} = useNotification()
 
@@ -101,12 +104,20 @@ export const CalcularProvider = ({ children }: { children: React.ReactNode}) => 
     }, [fornecedorData, pedidoData, produtoData])
 
     const [tabela, setTabela] = useState<ProdutoCadastro[]>([])
+    const updateProdutoTabela = (id: number, updatedProduto: ProdutoCadastro) => {
+        setTabela((prev) => {
+            const newTabela = [...prev]
+            const index = newTabela.indexOf(newTabela.filter( produto => produto.id === id )[0])
+            newTabela[index] = updatedProduto
+            return newTabela
+        })
+    }
 
     // Quando implementar tabela esse estado será o estado tabelaContext: produtoCadastro[]
     // const [produtoCadastros, setProdutoCadastros] = useState<produtoCadastro>() 
 
     type DisplayControlKeys = typeof displayControl;
-    const displayControl: IDisplayControl = (produtoData.st)
+    const getDisplayControl = (st = produtoData.st): IDisplayControl => (st)
         ? {
 
             fatorTransportePedido: fornecedorData.usaTransporte,
@@ -137,6 +148,7 @@ export const CalcularProvider = ({ children }: { children: React.ReactNode}) => 
         }
 
     // const validKeys = Object.fromEntries(Object.entries(displayControl).filter( item => item[1] ))                               
+    const displayControl = getDisplayControl()
     const validKeys = Object.keys(displayControl)
                             .filter( key => displayControl[key as keyof DisplayControlKeys] )
 
@@ -298,11 +310,13 @@ export const CalcularProvider = ({ children }: { children: React.ReactNode}) => 
             fornecedorContext,
             pedidoContext,
             produtoContext,
+            getDisplayControl,
             displayControl,
             produtoIsValid,
             tabela,
             tabelaValid,
             setTabela,
+            updateProdutoTabela,
             submitForm,
             cadastrarPedidoDB,
             filterContext

@@ -20,7 +20,16 @@ interface ConfigProps {
 const Config = ({svg, title, description, input}: ConfigProps) => {
 
   return (
-    <motion.span layout className={style.config}>
+    <motion.span 
+      className={style.config}
+      key={title}
+
+      layout 
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ type: 'spring', bounce: 0, restDelta: 0.5 }}
+    >
         <span className={style.info}>
             {svg}
             <div className={style.texts}>

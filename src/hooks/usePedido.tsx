@@ -1,5 +1,6 @@
 import { Dispatch, SetStateAction, useState } from "react";
 import Converter from "@/utils/typeConversion";
+import { ProdutoCadastro } from "@/app/(app)/calcular/context/CalcularContext";
 
 export interface IFatoresPedido {
 
@@ -44,9 +45,27 @@ const INITIAL_STATE: IFatoresPedido = {
 
 }
 
-export default function usePedido() {
+export default function usePedido( produto: (ProdutoCadastro | null) = null ) {
 
-    const [pedidoData, setPedidoData] = useState<IFatoresPedido>(INITIAL_STATE)
+    const [pedidoData, setPedidoData] = useState<IFatoresPedido>(() => {
+        
+        if (!produto) return INITIAL_STATE
+
+        return {
+            usaNcm: !!produto.ncm,
+            quantidadeProdutos: '',
+
+            fatorTransportePedido: produto.fatores.transporte,
+            valorFrete: '',
+            fatorFrete: '3,4',
+            valorTotalProdutos: '',
+
+            fatorSTPedido: produto.fatores.st,
+            valorST: '',
+            multiploST: '1',
+            valorTotalProdutosST: '',
+        }
+    })
 
     const { stringToFloat, floatToString } = Converter
 

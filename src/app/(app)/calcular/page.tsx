@@ -16,7 +16,6 @@ export default async function Calcular() {
     const fornecedores: string[] | undefined = fornecedoresDB?.map( fornecedor => fornecedor.nome )
 
     return (
-        <CalcularProvider>
         <main
             className={style.main}
         >
@@ -63,8 +62,6 @@ export default async function Calcular() {
           
             
         </main>
-        </CalcularProvider>
-
     )
 
 

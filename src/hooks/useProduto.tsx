@@ -1,6 +1,7 @@
 import SelectFornecedor from "@/components/SelectFornecedor/SelectFornecedor";
 import { Dispatch, FormEvent, MutableRefObject, SetStateAction, useRef, useState } from "react";
 import Converter from "@/utils/typeConversion";
+import { ProdutoCadastro } from "@/app/(app)/calcular/context/CalcularContext";
 
 export interface useProdutoReturn {
 
@@ -51,12 +52,36 @@ const INITIAL_STATE: IProdutoContext = {
 
 }
 
-export default function useProduto() {
-
-    const [produtoData, setProdutoData] = useState(INITIAL_STATE)
-    const codigoInputRef = useRef<HTMLInputElement>(null)
+export default function useProduto(produto: (ProdutoCadastro | null) = null) {
 
     const {floatToString, stringToFloat} = Converter
+
+    const getInitialState = (produto: (ProdutoCadastro | null)): IProdutoContext => {
+        if (!produto) return INITIAL_STATE
+
+        return {
+            st: produto.st,
+
+            codigo: produto.codigo,
+            ncm: produto.ncm,
+            
+            desconto: produto.fatores.desconto,
+            ipi: produto.fatores.ipi,
+            ipiProporcional: '',
+
+            unitarioNota: produto.unitarioNota,
+            unitarioPedido: produto.unitario,
+            unitarioComposto: 
+                (produto.composto.every(valor => valor !== '')) 
+                    ? floatToString(stringToFloat(produto.composto[0]) + stringToFloat(produto.composto[1]), 2)
+                    : '',
+            composto1: produto.composto[0],
+            composto2: produto.composto[1],
+        } 
+    } 
+
+    const [produtoData, setProdutoData] = useState<IProdutoContext>(getInitialState(produto))
+    const codigoInputRef = useRef<HTMLInputElement>(null)
 
     function handleProdutoChange<T>(field: keyof IProdutoContext) {
 
@@ -95,10 +120,11 @@ export default function useProduto() {
 
     function resetForm() {
 
-        setProdutoData((prev) => ({
-            ...INITIAL_STATE,
-            st: prev['st']
-        }))
+        // setProdutoData((prev) => ({
+        //     ...INITIAL_STATE,
+        //     st: prev['st']
+        // }))
+        setProdutoData(getInitialState(produto))
 
     }
 

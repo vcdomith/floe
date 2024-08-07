@@ -4,7 +4,8 @@ import { IFatores } from "@/interfaces/IFatores";
 interface SvgUtilItems extends 
     Record<keyof FatoresContext, React.ReactNode>, 
     Record<keyof Omit<ProdutoCadastro, 'fatores' | 'id' >, React.ReactNode> {
-
+    produto: React.ReactNode
+    produto3D: React.ReactNode
 }
 
 // export const SvgUtil = ({ svg } : { svg: keyof SvgUtilItems } ) => {
@@ -31,10 +32,10 @@ interface SvgUtilItems extends
 const SvgProduto_3D = () => {
     return(
         <svg width="50" height="50" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M449 135L250 20L51 135V365L250 480L449 365V135Z" stroke="black" stroke-width="40" stroke-linejoin="round"/>
-            <path d="M449 365V135L250 250.649V480L449 365Z" stroke="black" stroke-width="40" stroke-linejoin="round"/>
-            <path d="M449 135L250 20L51 135L250 250.649L449 135Z" stroke="black" stroke-width="40" stroke-linejoin="round"/>
-            <path d="M51 365L250 480V250.649L51 135V365Z" stroke="black" stroke-width="40" stroke-linejoin="round"/>
+            <path d="M449 135L250 20L51 135V365L250 480L449 365V135Z" stroke="black" strokeWidth="40" strokeLinejoin="round"/>
+            <path d="M449 365V135L250 250.649V480L449 365Z" stroke="black" strokeWidth="40" strokeLinejoin="round"/>
+            <path d="M449 135L250 20L51 135L250 250.649L449 135Z" stroke="black" strokeWidth="40" strokeLinejoin="round"/>
+            <path d="M51 365L250 480V250.649L51 135V365Z" stroke="black" strokeWidth="40" strokeLinejoin="round"/>
         </svg>
     )
 }
@@ -135,6 +136,16 @@ const SvgDefault = () => {
     )
 }
 
+const SvgProduto = () => {
+    return(
+        <svg width="500" height="500" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M449 135L250 20L51 135V365L250 480L449 365V135Z" stroke="black" strokeWidth="40" strokeLinejoin="round"/>
+        <path d="M250 250.649C327.714 205.876 371.286 180.773 449 136M250 250.649C172.286 205.876 128.714 180.773 51 136M250 250.649V473" stroke="black" strokeWidth="40"/>
+        <path d="M149 69C227.105 113.841 270.895 138.981 349 183.822C349 183.822 349 268.648 349 323" stroke="black" strokeWidth="40"/>
+        </svg>
+    )
+}
+
 export const svgsUtil: SvgUtilItems = {
     base: <SvgDefault />,
     fatorBaseNormal: <SvgDefault />,
@@ -147,5 +158,8 @@ export const svgsUtil: SvgUtilItems = {
     ncm: <SvgNCM />,
     unitario: <SvgDefault />,
     unitarioNota: <SvgUnitarioNota />,
-    composto: <SvgComposto />
+    composto: <SvgComposto />,
+
+    produto: <SvgProduto/>,
+    produto3D: <SvgProduto_3D/>
 }

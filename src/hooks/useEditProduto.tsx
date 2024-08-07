@@ -99,8 +99,8 @@ export default function useEditProduto( produto: ProdutoCadastro ) {
                 : '1'
             ,
 
-            transporte: (st) ? pedidoData.fatorTransportePedido : '1',
-            st: (st) ? pedidoData.fatorSTPedido : '1',
+            transporte: (st) ? pedidoData.fatorTransportePedido || '1' : '1',
+            st: (st) ? pedidoData.fatorSTPedido || '1' : '1',
 
             ipi: (st) ? ipi : '1',
             desconto: (st) ? desconto : '1',

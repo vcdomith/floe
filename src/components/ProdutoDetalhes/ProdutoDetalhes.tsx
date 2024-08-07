@@ -342,7 +342,6 @@ export const ProdutoDetalhes = ({ produto }:
                     exit={{ height: 0 }}
                     transition={{ type: 'spring', bounce: 0, restDelta: 0.5 }}
                 >
-                <AnimatePresence>
                     <Config
                         svg={svgsUtil.base} 
                         title={fatoresConfigTextos.base.titulo} 
@@ -472,7 +471,6 @@ export const ProdutoDetalhes = ({ produto }:
                         }
                     />
                     }
-                </AnimatePresence>
                 </motion.div>
                 }
                 </AnimatePresence>

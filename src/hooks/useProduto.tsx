@@ -54,20 +54,34 @@ const INITIAL_STATE: IProdutoContext = {
 
 export default function useProduto(produto: (ProdutoCadastro | null) = null) {
 
-    if (produto !== null) {
-        INITIAL_STATE.codigo = produto.codigo
-        INITIAL_STATE.ncm = produto.ncm
-
-        INITIAL_STATE.desconto = produto.fatores.desconto
-        INITIAL_STATE.ipi = produto.fatores.ipi
-
-        INITIAL_STATE.unitarioNota = produto.unitarioNota
-    }
-
-    const [produtoData, setProdutoData] = useState(INITIAL_STATE)
-    const codigoInputRef = useRef<HTMLInputElement>(null)
-
     const {floatToString, stringToFloat} = Converter
+
+    const getInitialState = (produto: (ProdutoCadastro | null)): IProdutoContext => {
+        if (!produto) return INITIAL_STATE
+
+        return {
+            st: produto.st,
+
+            codigo: produto.codigo,
+            ncm: produto.ncm,
+            
+            desconto: produto.fatores.desconto,
+            ipi: produto.fatores.ipi,
+            ipiProporcional: '',
+
+            unitarioNota: produto.unitarioNota,
+            unitarioPedido: produto.unitario,
+            unitarioComposto: 
+                (produto.composto.every(valor => valor !== '')) 
+                    ? floatToString(stringToFloat(produto.composto[0]) + stringToFloat(produto.composto[1]), 2)
+                    : '',
+            composto1: produto.composto[0],
+            composto2: produto.composto[1],
+        } 
+    } 
+
+    const [produtoData, setProdutoData] = useState<IProdutoContext>(getInitialState(produto))
+    const codigoInputRef = useRef<HTMLInputElement>(null)
 
     function handleProdutoChange<T>(field: keyof IProdutoContext) {
 
@@ -106,10 +120,11 @@ export default function useProduto(produto: (ProdutoCadastro | null) = null) {
 
     function resetForm() {
 
-        setProdutoData((prev) => ({
-            ...INITIAL_STATE,
-            st: prev['st']
-        }))
+        // setProdutoData((prev) => ({
+        //     ...INITIAL_STATE,
+        //     st: prev['st']
+        // }))
+        setProdutoData(getInitialState(produto))
 
     }
 

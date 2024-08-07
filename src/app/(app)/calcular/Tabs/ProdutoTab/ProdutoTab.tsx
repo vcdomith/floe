@@ -265,7 +265,7 @@ export default function ProdutoTab() {
                                 <Config 
                                     svg={<SvgComposto/>} 
                                     title={'Unitário (Composto)'} 
-                                    description={'Unitário calculado pelo soma de dois valores:'}
+                                    description={'Unitário calculado pela soma de dois valores:'}
                                     input={
                                         <NumberInput 
                                             placeholder={'______'} 

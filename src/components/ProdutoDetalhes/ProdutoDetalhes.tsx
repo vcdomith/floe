@@ -5,7 +5,7 @@ import Config from "@/app/(app)/configurar/(Config)/Config"
 import CheckBox from "@/app/(app)/configurar/(CheckBox)/CheckBox"
 import useEditProduto from "@/hooks/useEditProduto"
 import NumberInput from "../FatoresTable/FatoresTableBody/NumberInput/NumberInput"
-import { Dispatch, KeyboardEvent, SetStateAction, useMemo, useRef, useState } from "react"
+import { Dispatch, KeyboardEvent, MouseEvent, SetStateAction, useMemo, useRef, useState } from "react"
 import Converter from "@/utils/typeConversion"
 
 import style from './ProdutoDetalhes.module.scss'
@@ -66,30 +66,38 @@ export const ProdutoDetalhes = ({ produto }:
 ) => {
 
     const {
-        produtoEdit, 
-        handleProdutoChange, 
-        handleCompostoChange, 
-        handleFatorChange, 
-        resetProduto, 
+        produtoEdit,
+        controlledInputs, 
+        handleProdutoChange,
+        resetForm: resetProduto, 
         displayControl, 
-        valid
+        valid,
+        updateTabela,
     } = useEditProduto(produto)
 
     const {
-        id,
-        codigo,
-        ncm,
-        st,
-        unitario, 
-        unitarioNota,
-        composto,
         fatores
     } = produtoEdit
 
+    const {
+        codigo,
+        ncm,
+        st,
+        unitarioPedido, 
+        unitarioNota,
+        unitarioComposto,
+        composto1,
+        composto2,
+        ipi,
+        desconto
+    } = controlledInputs
+
     const tabelas = useMemo(() => Object.entries(getTabelasObject(produtoEdit)), [produtoEdit])
 
-    const [displayAtributos, setDisplayAtributos] = useState(true)
-    const [displayFatores, setDisplayFatores] = useState(false)
+    const [tabDisplayControl, setTabDisplayControl] = useState({
+        atributos: false,
+        fatores: false,
+    })
 
     const {floatToString, stringToFloat} = Converter
 
@@ -100,20 +108,20 @@ export const ProdutoDetalhes = ({ produto }:
 
         if(e.key === 'Enter') {
             
-            const calculoUnitario: string = floatToString(stringToFloat(composto[0]) + stringToFloat(composto[1]))
+            const calculoUnitario: string = floatToString(stringToFloat(composto1) + stringToFloat(composto2))
 
             if (calculoUnitario === 'NaN' && field === 'unitarioComposto') {
 
                 e.preventDefault()
 
-                if (composto[0] === '') {
+                if (composto1 === '') {
 
                     compostoRef_1.current?.focus()
                     return
 
                 } 
 
-                if (composto[1] === '') {
+                if (composto2 === '') {
 
                     compostoRef_2.current?.focus()
                     return
@@ -123,14 +131,23 @@ export const ProdutoDetalhes = ({ produto }:
             }
 
             const valorCalculado = floatToString(
-                stringToFloat(composto[0]) + 
-                stringToFloat(composto[1])
+                stringToFloat(composto1) + 
+                stringToFloat(composto2)
                 , 2)
 
-            // setProdutoData(prev => ({...prev, [field]: valorCalculado}))
-            handleProdutoChange('unitario')(valorCalculado)
+            handleProdutoChange('unitarioComposto')(valorCalculado)
             if (valorCalculado === 'NaN') e.preventDefault()
         } 
+
+    }
+
+    const handleTabClick = (e: MouseEvent<HTMLSpanElement, globalThis.MouseEvent>, tab: keyof typeof tabDisplayControl) => {
+
+        e.stopPropagation()
+        setTabDisplayControl((prev) => ({
+            ...prev,
+            [tab]: !prev[tab]
+        }))
 
     }
 
@@ -148,7 +165,7 @@ export const ProdutoDetalhes = ({ produto }:
                     {tabelas.map(([key, value]) => 
                         <div key={key} className={style.valor}>
                             <label>{key}</label>
-                            <h3>{value}</h3>
+                            <h3>{(value) ? value : '~~~~~'}</h3>
                         </div>
                     )}
                 </span>
@@ -156,16 +173,15 @@ export const ProdutoDetalhes = ({ produto }:
 
             <section className={style.content}>
 
-                <span className={style.tag} onClick={() => setDisplayAtributos(prev => !prev)}>
+                <button className={style.tag} onClick={(e) => handleTabClick(e, 'atributos')}>
                     <h5>Atributos</h5>
                     <ExpandButton 
-                        display={displayAtributos} 
-                        setDisplay={setDisplayAtributos}                        
+                        display={tabDisplayControl.atributos} 
                     />
-                </span>
+                </button>
 
                 <AnimatePresence>
-                {displayAtributos&&
+                {tabDisplayControl.atributos&&
                 <motion.div 
                     className={style.fatores}
 
@@ -186,6 +202,22 @@ export const ProdutoDetalhes = ({ produto }:
                             />
                         }
                     />
+                    <Config
+                        svg={svgsUtil['codigo']} 
+                        title={'Código'} 
+                        description={'Código do Produto'}
+                        input={
+                            <input
+                                className={style.codigo}
+                                type="text" 
+                                placeholder="_____________"
+                                value={codigo}
+                                onChange={(e) => handleProdutoChange('codigo')(e.target.value.toUpperCase())}
+                                required
+                                data-valid={codigo}
+                            />
+                        }
+                    />
                     {displayControl.ncm&&
                     <Config
                         svg={svgsUtil['ncm']} 
@@ -198,6 +230,7 @@ export const ProdutoDetalhes = ({ produto }:
                                 setValor={handleProdutoChange('ncm')}
                                 minLength={8}
                                 maxLength={8}
+                                className={style.codigo}
                             />
                         }
                     />
@@ -205,15 +238,20 @@ export const ProdutoDetalhes = ({ produto }:
                     <Config
                         svg={svgsUtil['unitarioNota']} 
                         title={'Unit. Nota'} 
-                        description={''}
+                        description={'Valor para calcular preços:'}
                         input={
-                            <input
-                                className={style.codigo}
-                                type="text" 
-                                placeholder="_____________"
-                                value={unitarioNota}
+                            // <input
+                            //     className={style.codigo}
+                            //     type="text" 
+                            //     placeholder="_____________"
+                            //     value={unitarioNota}
+                            //     required
+                            // />
+                            <NumberInput 
+                                placeholder={'______'} 
+                                valor={unitarioNota} 
+                                setValor={handleProdutoChange('unitarioNota')}  
                                 required
-                                disabled
                             />
                         }
                     />
@@ -225,8 +263,8 @@ export const ProdutoDetalhes = ({ produto }:
                         input={
                             <NumberInput 
                                 placeholder={'______'} 
-                                valor={unitario} 
-                                setValor={handleProdutoChange('unitario')}  
+                                valor={unitarioPedido} 
+                                setValor={handleProdutoChange('unitarioPedido')}  
                                 required
                             />
                         }
@@ -237,14 +275,14 @@ export const ProdutoDetalhes = ({ produto }:
                         <Config 
                             svg={svgsUtil.composto} 
                             title={'Unitário (Composto)'} 
-                            description={'Unitário calculado pelo soma de dois valores:'}
+                            description={'Unitário calculado pela soma de dois valores:'}
                             input={
                                 <NumberInput 
                                     placeholder={'______'} 
-                                    valor={unitario} 
-                                    setValor={handleProdutoChange('unitario')}
+                                    valor={unitarioComposto} 
+                                    setValor={handleProdutoChange('unitarioComposto')}
                                     disabled
-                                    data-valid={(unitario) ? true : false}
+                                    data-valid={(unitarioComposto) ? true : false}
                                     required
                                 />
                             }
@@ -253,17 +291,17 @@ export const ProdutoDetalhes = ({ produto }:
                             -> Sem st (novo TODO): valor x 2
                             -> Com st (existente): valor1 + valor2 
                         */}
-                        <div className={`${style.extra} ${styleProduto.composto}`} 
-                        // onSubmit={(e) => handleProdutoSubmit('composto', e, fatorBase)}
-                        onKeyDown={(e) => handleKeyDown(e, 'unitarioComposto')}
+                        <div 
+                            className={`${style.extra} ${styleProduto.composto}`} 
+                            onKeyDown={(e) => handleKeyDown(e, 'unitarioComposto')}
                         >
                             <span> 
                                 <div>
                                     <label htmlFor="">Composto 1</label>
                                     <NumberInput 
                                         placeholder={NUMBER_INPUT_PLACEHOLDER} 
-                                        valor={composto[0]} 
-                                        setValor={handleCompostoChange(0)} 
+                                        valor={composto1} 
+                                        setValor={handleProdutoChange('composto1')} 
                                         required
                                         refProp={compostoRef_1}
                                     />
@@ -273,8 +311,8 @@ export const ProdutoDetalhes = ({ produto }:
                                     <label htmlFor="">Composto 2</label>
                                     <NumberInput 
                                         placeholder={NUMBER_INPUT_PLACEHOLDER} 
-                                        valor={composto[1]} 
-                                        setValor={handleCompostoChange(1)} 
+                                        valor={composto2} 
+                                        setValor={handleProdutoChange('composto2')} 
                                         required
                                         refProp={compostoRef_2}
                                     />
@@ -288,15 +326,14 @@ export const ProdutoDetalhes = ({ produto }:
                 }
                 </AnimatePresence>
 
-                <span className={style.tag} onClick={() => setDisplayFatores(prev => !prev)}>
+                <button className={style.tag} onClick={(e) => handleTabClick(e, 'fatores')}>
                     <h5>Fatores</h5>
                     <ExpandButton 
-                        display={displayFatores} 
-                        setDisplay={setDisplayFatores}                        
+                        display={tabDisplayControl.fatores} 
                     />
-                </span>
+                </button>
                 <AnimatePresence>
-                {displayFatores&&
+                {tabDisplayControl.fatores&&
                 <motion.div 
                     className={style.fatores}
 
@@ -305,29 +342,137 @@ export const ProdutoDetalhes = ({ produto }:
                     exit={{ height: 0 }}
                     transition={{ type: 'spring', bounce: 0, restDelta: 0.5 }}
                 >
-                {/* TODO: Separar cada fator unitariamente, controlados pelo displayControl */}
-                {(Object.entries(fatores) as [keyof FatoresContext, string][])
-                    .filter( ([key, value]) => (value !== '1' || key === 'base'))
-                    .map(([key, value]) => 
-                        <Config
-                            key={key} 
-                            svg={svgsUtil[key]} 
-                            title={fatoresConfigTextos[key].titulo} 
-                            description={fatoresConfigTextos[key].descricao}
-                            input={
-                                <input
-                                    className={style.codigo}
-                                    type="text" 
-                                    placeholder="_____________"
-                                    value={fatores[key]}
-                                    onChange={handleFatorChange(key)}
-                                    required
-                                    disabled={disabledFields.includes(key)}
-                                />
-                            }
-                        />
-                    )
-                }
+                <AnimatePresence>
+                    <Config
+                        svg={svgsUtil.base} 
+                        title={fatoresConfigTextos.base.titulo} 
+                        description={fatoresConfigTextos.base.descricao}
+                        input={
+                            <input
+                                type="text" 
+                                placeholder="_____________"
+                                value={fatores.base}
+                                // onChange={handleFatorChange('base')}
+                                required
+                                disabled
+                            />
+                        }
+                    />
+                    {(st)
+                    ?
+                    <Config
+                        svg={svgsUtil.fatorBaseST} 
+                        title={fatoresConfigTextos.fatorBaseST.titulo} 
+                        description={fatoresConfigTextos.fatorBaseST.descricao}
+                        input={
+                            <input
+                                type="text" 
+                                placeholder="_____________"
+                                value={fatores.fatorBaseST}
+                                // onChange={handleFatorChange('fatorBaseST')}
+                                required
+                                disabled
+                            />
+                        }
+                    />
+                    :
+                    <Config
+                        svg={svgsUtil.base} 
+                        title={fatoresConfigTextos.fatorBaseNormal.titulo} 
+                        description={fatoresConfigTextos.fatorBaseNormal.descricao}
+                        input={
+                            <input
+                                type="text" 
+                                placeholder="_____________"
+                                value={fatores.fatorBaseNormal}
+                                // onChange={handleFatorChange('fatorBaseNormal')}
+                                required
+                                disabled
+                            />
+                        }
+                    />
+                    }
+                    {displayControl.fatorTransportePedido&&
+                    <Config
+                        svg={svgsUtil.transporte} 
+                        title={fatoresConfigTextos.transporte.titulo} 
+                        description={fatoresConfigTextos.transporte.descricao}
+                        input={
+                            <input
+                                type="text" 
+                                placeholder="_____________"
+                                value={fatores.transporte}
+                                // onChange={handleFatorChange('transporte')}
+                                required
+                                disabled
+                            />
+                        }
+                    />
+                    }
+                    {displayControl.fatorSTPedido&&
+                    <Config
+                        svg={svgsUtil.st} 
+                        title={fatoresConfigTextos.st.titulo} 
+                        description={fatoresConfigTextos.st.descricao}
+                        input={
+                            <input
+                                type="text" 
+                                placeholder="_____________"
+                                value={fatores.st}
+                                // onChange={handleFatorChange('st')}
+                                required
+                                disabled
+                            />
+                        }
+                    />
+                    }
+                    {displayControl.ipi&&
+                    <Config
+                        svg={svgsUtil.ipi} 
+                        title={fatoresConfigTextos.ipi.titulo} 
+                        description={fatoresConfigTextos.ipi.descricao}
+                        input={
+                            // <input
+                            //     className={style.codigo}
+                            //     type="text" 
+                            //     placeholder="_____________"
+                            //     value={ipi}
+                            //     onChange={handleProdutoChange('ipi')}
+                            //     required
+                            // />
+                            <NumberInput 
+                                placeholder={'______'} 
+                                valor={ipi} 
+                                setValor={handleProdutoChange('ipi')}
+                                required                  
+                            />
+                        }
+                    />
+                    }
+                    {displayControl.desconto&&
+                    <Config
+                        svg={svgsUtil.desconto} 
+                        title={fatoresConfigTextos.desconto.titulo} 
+                        description={fatoresConfigTextos.desconto.descricao}
+                        input={
+                            // <input
+                            //     className={style.codigo}
+                            //     type="text" 
+                            //     placeholder="_____________"
+                            //     value={desconto}
+                            //     onChange={handleProdutoChange('desconto')}
+                            //     required
+                            // />
+                            <NumberInput 
+                                placeholder={'______'} 
+                                valor={desconto} 
+                                setValor={handleProdutoChange('desconto')}
+                                required                  
+                            />
+                        }
+                    />
+                    }
+                </AnimatePresence>
                 </motion.div>
                 }
                 </AnimatePresence>
@@ -344,7 +489,7 @@ export const ProdutoDetalhes = ({ produto }:
                 <button 
                     className={style.update}
                     disabled={!valid}
-                    onClick={() => alert('ataliza')}
+                    onClick={() => updateTabela(produto.id, produtoEdit)}
                 >
                     Atualizar
                 </button>
@@ -357,8 +502,8 @@ export const ProdutoDetalhes = ({ produto }:
 export default ProdutoDetalhes
 
 const ExpandButton = (
-    { display, setDisplay }: 
-    { display: boolean, setDisplay: Dispatch<SetStateAction<boolean>> }
+    { display }: 
+    { display: boolean }
 ) => {
 
     return(

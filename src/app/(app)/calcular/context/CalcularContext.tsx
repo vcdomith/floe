@@ -17,9 +17,11 @@ export interface CalcularContextProps {
     getDisplayControl: (st: boolean) => IDisplayControl
     displayControl: IDisplayControl 
     produtoIsValid: boolean
+
     tabelaValid: boolean
     tabela: ProdutoCadastro[]
     setTabela: Dispatch<SetStateAction<ProdutoCadastro[]>>
+    updateProdutoTabela: (id: number, updatedProduto: ProdutoCadastro) => void
     cadastrarPedidoDB: () => Promise<void>
     filterContext: useFilterReturn
 
@@ -102,6 +104,14 @@ export const CalcularProvider = ({ children }: { children: React.ReactNode }) =>
     }, [fornecedorData, pedidoData, produtoData])
 
     const [tabela, setTabela] = useState<ProdutoCadastro[]>([])
+    const updateProdutoTabela = (id: number, updatedProduto: ProdutoCadastro) => {
+        setTabela((prev) => {
+            const newTabela = [...prev]
+            const index = newTabela.indexOf(newTabela.filter( produto => produto.id === id )[0])
+            newTabela[index] = updatedProduto
+            return newTabela
+        })
+    }
 
     // Quando implementar tabela esse estado será o estado tabelaContext: produtoCadastro[]
     // const [produtoCadastros, setProdutoCadastros] = useState<produtoCadastro>() 
@@ -306,6 +316,7 @@ export const CalcularProvider = ({ children }: { children: React.ReactNode }) =>
             tabela,
             tabelaValid,
             setTabela,
+            updateProdutoTabela,
             submitForm,
             cadastrarPedidoDB,
             filterContext

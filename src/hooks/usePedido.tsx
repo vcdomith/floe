@@ -25,6 +25,7 @@ export interface usePedidoReturn {
     setPedidoData: Dispatch<SetStateAction<IFatoresPedido>>
     handlePedidoChange: <T>(field: keyof IFatoresPedido) =>(valor: T) => void
     handlePedidoSubmit: (campo: ('transporte' | 'st'), fatorBase: string) => void
+    resetPedido: () => void
 
 }
 
@@ -109,6 +110,16 @@ export default function usePedido( produto: (ProdutoCadastro | null) = null ) {
 
     }
 
-    return {pedidoData, setPedidoData, handlePedidoChange, handlePedidoSubmit} as usePedidoReturn
+    const resetPedido = () => {
+        setPedidoData({...INITIAL_STATE})
+    }
+
+    return {
+        pedidoData, 
+        setPedidoData, 
+        handlePedidoChange, 
+        handlePedidoSubmit,
+        resetPedido
+    } as usePedidoReturn
 
 }

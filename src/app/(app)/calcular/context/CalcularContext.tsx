@@ -21,11 +21,13 @@ export interface CalcularContextProps {
     tabelaValid: boolean
     tabela: ProdutoCadastro[]
     setTabela: Dispatch<SetStateAction<ProdutoCadastro[]>>
+    removeProduto: (id: number) => void
     updateProdutoTabela: (id: number, updatedProduto: ProdutoCadastro) => void
     cadastrarPedidoDB: () => Promise<void>
     filterContext: useFilterReturn
-
+    
     submitForm: () => void
+    resetContext: () => void
 
 }
 
@@ -93,8 +95,8 @@ export const CalcularProvider = ({ children }: { children: React.ReactNode }) =>
 
     // TABELA CONTEXT _ TODO
 
-    const {fornecedorData} = fornecedorContext
-    const {pedidoData} = pedidoContext
+    const {fornecedorData, resetForm: resetFornecedor} = fornecedorContext
+    const {pedidoData, resetPedido} = pedidoContext
     const {produtoData, resetForm, codigoInputRef} = produtoContext
     const { setSearchParam } = filterContext
 
@@ -104,6 +106,19 @@ export const CalcularProvider = ({ children }: { children: React.ReactNode }) =>
     }, [fornecedorData, pedidoData, produtoData])
 
     const [tabela, setTabela] = useState<ProdutoCadastro[]>([])
+
+    const adicionarProdutoTabela = (produto: ProdutoCadastro) => {
+        setTabela( prev => ([...prev, produto]) )
+    }
+
+    const removeProduto = (id: number) => {
+        setTabela(prev => {
+            const updated = [...prev]
+            const removed = updated.filter( produto => produto.id !== id )
+            return removed
+        })
+    }
+
     const updateProdutoTabela = (id: number, updatedProduto: ProdutoCadastro) => {
         setTabela((prev) => {
             const newTabela = [...prev]
@@ -113,8 +128,12 @@ export const CalcularProvider = ({ children }: { children: React.ReactNode }) =>
         })
     }
 
-    // Quando implementar tabela esse estado será o estado tabelaContext: produtoCadastro[]
-    // const [produtoCadastros, setProdutoCadastros] = useState<produtoCadastro>() 
+    const resetContext = () => {
+        resetFornecedor()
+        resetPedido()
+        resetForm()
+        setTabela([])
+    }
 
     type DisplayControlKeys = typeof displayControl;
     const getDisplayControl = (st = produtoData.st): IDisplayControl => (st)
@@ -146,8 +165,7 @@ export const CalcularProvider = ({ children }: { children: React.ReactNode }) =>
             unitarioComposto: (fornecedorData.usaUnitarioPedido && fornecedorData.usaComposto),
 
         }
-
-    // const validKeys = Object.fromEntries(Object.entries(displayControl).filter( item => item[1] ))                               
+                              
     const displayControl = getDisplayControl()
     const validKeys = Object.keys(displayControl)
                             .filter( key => displayControl[key as keyof DisplayControlKeys] )
@@ -187,15 +205,9 @@ export const CalcularProvider = ({ children }: { children: React.ReactNode }) =>
 
     }, [fornecedorData, produtoData, pedidoData, validKeys, controlledInputData])
 
-    // console.log(validKeys);
-    // console.table(check)
-
     const produtoIsValid = useMemo(() => {
         return Object.values(produtoValuesToCheck).every( value => value !== '' )
     }, [produtoValuesToCheck])
-
-    // console.table(produtoValuesToCheck);
-    // console.table(produtoIsValid);
 
     const tabelaValid = useMemo(() => {
         return tabela.length === parseInt(pedidoData.quantidadeProdutos)
@@ -258,7 +270,7 @@ export const CalcularProvider = ({ children }: { children: React.ReactNode }) =>
         } 
 
         setSearchParam('')
-        setTabela( prev => ([...prev, produto]) )
+        adicionarProdutoTabela(produto)
         resetForm()
         codigoInputRef.current.focus()
 
@@ -316,10 +328,12 @@ export const CalcularProvider = ({ children }: { children: React.ReactNode }) =>
             tabela,
             tabelaValid,
             setTabela,
+            removeProduto,
             updateProdutoTabela,
-            submitForm,
             cadastrarPedidoDB,
-            filterContext
+            filterContext,
+            submitForm,
+            resetContext,
         }}
     >
         {children}

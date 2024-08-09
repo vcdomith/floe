@@ -8,6 +8,7 @@
     flex-shrink: 0;
     // border: 2px solid cor-mix(50%);
     // border-radius: 1rem;
+    overflow: hidden;
 
     border-left: 1px solid;
     border-image: linear-gradient(0deg , $cor-secundaria, cor-mix(40%)) 5;
@@ -82,28 +83,32 @@
 
             height: 100%;
 
-            overflow: hidden;
+            overflow-y: hidden;
+            overflow-x: scroll;
 
             .tabelaBody {
 
-                display: flex;
-                flex-direction: column;
+                display: grid;
+                grid-template-rows: repeat(auto-fill, 3.5rem);
+                // display: flex;
+                // flex-direction: column;
 
                 box-sizing: border-box;
                 height: 100%;
-
-                // border: 2px solid cor-mix(20%);
-                // border-bottom-left-radius: 0.5rem;
-                // border-bottom-right-radius: 0.5rem;
+                // width: max-content;
+                width: 100%;
+                max-width: 100%;
+                min-width: max-content;
 
                 overflow-y: scroll;
+                overflow-x: hidden;
 
                 @include thin-scrollbar;
 
                 & > span {
 
                     box-sizing: border-box;
-                    display: flex;
+                    // display: flex;
                     align-items: center;
                     gap: 0.5rem;
                     padding: 0 0.5rem;

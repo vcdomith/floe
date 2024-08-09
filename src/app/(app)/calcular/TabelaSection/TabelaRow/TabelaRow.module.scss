@@ -2,7 +2,15 @@
 
 .row {
 
-    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(7, minmax(75px, 1fr));
+    min-width: calc( 7 * calc(75px + 0.5rem) + 0.5rem );
+    // width: max-content;
+    // max-width: max-content;
+    // min-width: max-content;
+    // width: clamp(100%, max-content, max-content);
+
+    // width: 100%;
     box-sizing: border-box;
     border-bottom: 2px solid cor-mix(10%);
     // border-bottom-color: cor-mix(10%);
@@ -27,12 +35,15 @@
 
     & > div {
 
-        // font-size: 1.2rem;
         font-weight: 600;
-        // min-width: 50px;
-        width: clamp(50px, 50px, 100px);
         text-overflow: ellipsis;
-        // overflow: hidden;
+        min-width: calc(75px - .1rem);
+
+        & > p {
+            overflow-x: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
 
     }
 

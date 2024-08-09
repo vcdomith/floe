@@ -50,7 +50,7 @@ function TabelaRow({produto, setTabela}: TabelaRowProps, ref) {
 
             initial={{ opacity: 0, x: -10 }}
             animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: 10 }}
+            exit={{ opacity: 0, x: 10, width: '100px' }}
             transition={{ duration: .3 }}
             ref={ref}
             layout

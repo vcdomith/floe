@@ -69,6 +69,7 @@ export default function TabelaSection() {
                     />
                 </span>
 
+
                 <div className={style.tabela}>
 
                     <TableHeader />

@@ -25,7 +25,7 @@ interface UseEditProdutoReturn {
     produtoEdit: ProdutoCadastro
     controlledInputs: IProdutoContext
     handleProdutoChange: <T>(field: keyof IProdutoContext) => (valor: T) => void
-    resetForm: () => void
+    resetForm: (preserveSt?: boolean) => void
     displayControl: IDisplayControl
     valid: boolean
     updateTabela: (id: number, updatedProduto: ProdutoCadastro) => void
@@ -34,14 +34,8 @@ interface UseEditProdutoReturn {
 
 export default function useEditProduto( produto: ProdutoCadastro ) {
 
-    // const [produtoEdit, setProdutoEdit] = useState<ProdutoCadastro>(produto)
-    // const {fatores, composto, ...atributos} = useMemo(() => {
-    //     return produtoEdit
-    // }, [produtoEdit])
-
     const { produtoData, handleProdutoChange, resetForm } = useProduto(produto)
     const {
-
         st,
 
         codigo,
@@ -103,9 +97,10 @@ export default function useEditProduto( produto: ProdutoCadastro ) {
             st: (st) ? pedidoData.fatorSTPedido || '1' : '1',
 
             ipi: (st) ? ipi : '1',
-            desconto: (st) ? desconto : '1',
+            desconto: desconto || '1',
         }
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }), [produtoData])
 
     const {fatores, composto, ...atributos} = useMemo(() => {
@@ -131,6 +126,11 @@ export default function useEditProduto( produto: ProdutoCadastro ) {
         
     }, [produtoEdit, produto, displayControl, atributos, fatores])
  
+    console.log(_.isEqual(produto, produtoEdit));
+    console.log(produto);
+    console.log(produtoEdit);
+    // console.log(valid);
+
     const updateTabela = () => {
         updateProdutoTabela(produto.id, produtoEdit)
         clearModal()

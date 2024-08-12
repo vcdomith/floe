@@ -16,6 +16,7 @@ import { useNotification } from "@/app/(app)/(contexts)/NotificationContext"
 import { getTabelasObject } from "@/utils/calculoTabelas"
 
 const NUMBER_INPUT_PLACEHOLDER = '_'.repeat(50)
+const PRESERVE_ST_STATE = false
 
 const fatoresConfigTextos: Record< 
     keyof FatoresContext, 
@@ -480,7 +481,7 @@ export const ProdutoDetalhes = ({ produto }:
             <span className={style.buttons}>
                 <button 
                     className={style.discard}
-                    onClick={() => resetProduto()}
+                    onClick={() => resetProduto(PRESERVE_ST_STATE)}
                 >
                     Descartar
                 </button>

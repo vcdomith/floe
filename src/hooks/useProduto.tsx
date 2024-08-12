@@ -9,7 +9,7 @@ export interface useProdutoReturn {
     setProdutoData: Dispatch<SetStateAction<IProdutoContext>>
     handleProdutoChange: <T>(field: keyof IProdutoContext) => (valor: T) => void
     handleProdutoSubmit: (campo: 'ipi' | 'composto', e: FormEvent<HTMLFormElement>, fatorBase: string) => void
-    resetForm: () => void
+    resetForm: (preserveSt?: boolean) => void
     codigoInputRef: MutableRefObject<HTMLInputElement>
 
 }
@@ -118,13 +118,20 @@ export default function useProduto(produto: (ProdutoCadastro | null) = null) {
 
     }
 
-    function resetForm() {
+    function resetForm(preserveSt = true) {
 
         // setProdutoData((prev) => ({
         //     ...INITIAL_STATE,
         //     st: prev['st']
         // }))
-        setProdutoData(getInitialState(produto))
+        setProdutoData( prev => {
+
+            const initial = getInitialState(produto)
+            return {
+                ...initial,
+                st: (preserveSt) ? prev.st : initial.st 
+            }
+        })
 
     }
 

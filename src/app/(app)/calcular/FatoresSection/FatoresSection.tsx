@@ -15,7 +15,16 @@ interface FatoresSectionProps {
 
 export default function FatoresSection({ fornecedores }: FatoresSectionProps) {
 
-    const {fornecedorContext, produtoIsValid, submitForm, tabelaValid} = useCalcular()
+    const {
+        fornecedorContext, 
+        fatoresControl: {
+            fornecedorControl,
+            updateFornecedorControl
+        },
+        produtoIsValid, 
+        submitForm, 
+        tabelaValid
+    } = useCalcular()
     const {fornecedorData: {nome}} = fornecedorContext
 
     // const formIsValid: boolean = produtoCadastros

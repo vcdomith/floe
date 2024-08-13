@@ -6,6 +6,7 @@ import { ChangeEvent, Dispatch, SetStateAction, useMemo, useState } from "react"
 import _, { initial, isArray } from 'lodash'
 import { useNotification } from "@/app/(app)/(contexts)/NotificationContext";
 import { useModal } from "@/app/(app)/(contexts)/ModalContext";
+import isEqual from "@/utils/isEqual";
 
 interface UseEditProdutoReturn {
     
@@ -99,7 +100,8 @@ export default function useEditProduto( produto: ProdutoCadastro ) {
 
     const valid: boolean = useMemo(() => {
 
-        if (_.isEqual(produto, produtoEdit)) return false
+        // if (_.isEqual(produto, produtoEdit)) return false
+        if (isEqual(produto, produtoEdit)) return false
 
         if (Object.entries(atributos).some( ([key, value]) => {
             if (displayControl.ncm && key === 'ncm') 

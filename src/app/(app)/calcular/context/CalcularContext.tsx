@@ -1,6 +1,6 @@
 'use client'
 import useFornecedor, { useFornecedorReturn } from "@/hooks/useFornecedor";
-import usePedido, { usePedidoReturn } from "@/hooks/usePedido";
+import usePedido, { IFatoresPedido, usePedidoReturn } from "@/hooks/usePedido";
 import useProduto, { useProdutoReturn } from "@/hooks/useProduto";
 import { IFornecedor } from "@/interfaces/IFornecedor";
 import { Dispatch, SetStateAction, createContext, useContext, useEffect, useMemo, useState } from "react";
@@ -8,6 +8,9 @@ import { useNotification } from "../../(contexts)/NotificationContext";
 import { IFator } from "@/interfaces/IFator";
 import useFilter, { useFilterReturn } from "@/hooks/useFilter";
 import { dbConnect } from "@/utils/db/supabase";
+import useFatoresControl, { FatoresControlReturn } from "@/hooks/useFatoresControl";
+import isEqual from "@/utils/isEqual";
+import getDifferentKeys from "@/utils/differentKeys";
 
 export interface CalcularContextProps {
 
@@ -17,6 +20,9 @@ export interface CalcularContextProps {
     getDisplayControl: (st: boolean) => IDisplayControl
     displayControl: IDisplayControl 
     produtoIsValid: boolean
+
+    fatoresControl: FatoresControlReturn
+    diffControl: DifferenceControl
 
     tabelaValid: boolean
     tabela: ProdutoCadastro[]
@@ -73,6 +79,31 @@ export interface IDisplayControl {
 
 }
 
+const INITIAL_STATE_DIFF_CONTROL: DifferenceControl = {
+    nome: false,
+    fatorBase: false,
+    fatorBaseNormal: false,
+    fatorBaseST: false,
+    usaTransporte: false,
+    usaSt: false,
+    usaDesconto: false,
+    usaIpi: false,
+    usaUnitarioPedido: false,
+    usaComposto: false,
+    usaNcm: false,
+    quantidadeProdutos: false,
+    fatorTransportePedido: false,
+    valorFrete: false,
+    fatorFrete: false,
+    valorTotalProdutos: false,
+    fatorSTPedido: false,
+    valorST: false,
+    multiploST: false,
+    valorTotalProdutosST: false
+}
+
+export interface DifferenceControl extends Record<keyof IFornecedor, boolean>, Record<keyof IFatoresPedido, boolean> {}
+
 export const CalcularContext = createContext<CalcularContextProps | undefined>(undefined)
 CalcularContext.displayName = 'Calcular'
 
@@ -99,6 +130,41 @@ export const CalcularProvider = ({ children }: { children: React.ReactNode }) =>
     const {pedidoData, resetPedido} = pedidoContext
     const {produtoData, resetForm, codigoInputRef} = produtoContext
     const { setSearchParam } = filterContext
+
+    const fatoresControl = useFatoresControl()
+    const {
+        fornecedorControl, 
+        updateFornecedorControl,
+        pedidoControl,
+        updatePedidoControl,
+        resetControl 
+    } = fatoresControl
+
+    // const fornecedorValid = isEqual(fornecedorData, fornecedorControl)
+    // console.log('fornecedorValid', fornecedorValid);
+    // console.log(getDifferentKeys(fornecedorData, fornecedorControl));
+
+    // const pedidoValid = isEqual(pedidoData, pedidoControl)
+    // console.log('pedidoValid', pedidoValid);
+    // console.log(getDifferentKeys(pedidoData, pedidoControl));
+
+    const diffControl = useMemo<DifferenceControl>(() => {
+
+        const diffControl = {...INITIAL_STATE_DIFF_CONTROL}
+
+        getDifferentKeys(fornecedorData, fornecedorControl).map( (key) => {
+            diffControl[key as keyof IFornecedor] = true
+        })
+        getDifferentKeys(pedidoData, pedidoControl).map( (key) => {
+            diffControl[key as keyof IFornecedor] = true
+        })
+
+        return diffControl
+
+    }, [fornecedorData, fornecedorControl, pedidoData, pedidoControl])
+    console.log(diffControl);
+
+    // const [differenceControl, setDifferenceControl] = useState<DifferenceControl>(INITIAL_STATE_DIFF_CONTROL)
 
     type ControlledInputDataKeys = keyof typeof controlledInputData;
     const controlledInputData = useMemo(() => {
@@ -325,6 +391,10 @@ export const CalcularProvider = ({ children }: { children: React.ReactNode }) =>
             getDisplayControl,
             displayControl,
             produtoIsValid,
+
+            fatoresControl,
+            diffControl,
+
             tabela,
             tabelaValid,
             setTabela,
@@ -332,6 +402,7 @@ export const CalcularProvider = ({ children }: { children: React.ReactNode }) =>
             updateProdutoTabela,
             cadastrarPedidoDB,
             filterContext,
+
             submitForm,
             resetContext,
         }}

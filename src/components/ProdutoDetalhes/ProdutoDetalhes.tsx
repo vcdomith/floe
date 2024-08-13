@@ -156,8 +156,10 @@ export const ProdutoDetalhes = ({ produto }:
         <div className={style.card}>
 
             <section className={style.header}>
-                {svgsUtil.produto3D}
-                <h3>Produto</h3>
+                <span className={style.badge}>
+                    {svgsUtil.produto3D}
+                    <h3>Produto</h3>
+                </span>
                 <h3>{produto.codigo}</h3>
             </section>
 
@@ -506,7 +508,7 @@ const ExpandButton = (
 ) => {
 
     return(
-        <button 
+        <div 
             // className={`${style.button} ${style.expand}`} 
             // onClick={() => setDisplay(prev => !prev)} 
         >
@@ -518,7 +520,7 @@ const ExpandButton = (
                     }`}  
                     strokeWidth="50"/>
             </svg>             
-        </button>
+        </div>
     )
 
 }

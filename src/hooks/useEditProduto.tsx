@@ -7,19 +7,6 @@ import _, { initial, isArray } from 'lodash'
 import { useNotification } from "@/app/(app)/(contexts)/NotificationContext";
 import { useModal } from "@/app/(app)/(contexts)/ModalContext";
 
-// interface UseEditProdutoReturn {
-    
-//     produtoEdit: ProdutoCadastro
-//     setProdutoEdit: Dispatch<SetStateAction<ProdutoCadastro>>
-//     handleProdutoChange: <T>(field: keyof Omit<ProdutoCadastro, "fatores" | "composto">) => (valor: T) => void
-//     handleCompostoChange: (index: 0 | 1) => (valor: string) => void
-//     handleFatorChange: (field: keyof FatoresContext) => (valor: ChangeEvent<HTMLInputElement>) => void,
-//     resetProduto: () => void
-//     displayControl: IDisplayControl
-//     valid: boolean
-
-// }
-
 interface UseEditProdutoReturn {
     
     produtoEdit: ProdutoCadastro
@@ -71,6 +58,7 @@ export default function useEditProduto( produto: ProdutoCadastro ) {
         else 
             return unitarioNota
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [fornecedorData, produtoData])
 
     const produtoEdit: ProdutoCadastro = useMemo(() => ({
@@ -125,11 +113,6 @@ export default function useEditProduto( produto: ProdutoCadastro ) {
         return true
         
     }, [produtoEdit, produto, displayControl, atributos, fatores])
- 
-    console.log(_.isEqual(produto, produtoEdit));
-    console.log(produto);
-    console.log(produtoEdit);
-    // console.log(valid);
 
     const updateTabela = () => {
         updateProdutoTabela(produto.id, produtoEdit)

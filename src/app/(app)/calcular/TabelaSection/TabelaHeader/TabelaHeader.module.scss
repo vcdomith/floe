@@ -2,22 +2,21 @@
 
 .header {
 
-    // display: flex;
     display: grid;
     grid-template-columns: repeat(7, minmax(75px, 1fr));
     gap: 0.5rem;
 
-    width: fit-content;
+    width: 100%;
+    min-width: calc( 7 * calc(75px + 0.5rem) + 0.5rem );
 
-    // border: 2px solid cor-mix(20%);
     border-bottom: none;
     border-top-right-radius: 0.5rem;
     border-top-left-radius: 0.5rem;
     border-bottom: 2px solid cor-mix(20%);
-    // padding: 0.5rem;
     padding: 0 0.65rem 0 0.5rem;
     background-color: cor-mix(5%);
-    // margin-bottom: 1rem;
+
+    box-sizing: border-box;
 
     & > div {
 
@@ -26,6 +25,7 @@
         font-size: 0.9rem;
         // min-width: 50px;
         width: clamp(50px, auto, 100px);
+        min-width: calc(75px - .1rem);
 
         padding: 0.5rem 0;
 
@@ -45,6 +45,17 @@
 
             border-right: 2px solid cor-mix(20%);
 
+        }
+
+        p {
+            margin: 0;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+
+            &:nth-child(2) {
+                
+                color: cor-mix(40%);
+            }
         }
 
         & > span {

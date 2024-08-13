@@ -98,7 +98,9 @@
                 // width: max-content;
                 width: 100%;
                 max-width: 100%;
-                min-width: max-content;
+                // min-width: max-content;
+                min-width: calc( 7 * calc(75px + 0.5rem) + 0.5rem );
+
 
                 overflow-y: scroll;
                 overflow-x: hidden;

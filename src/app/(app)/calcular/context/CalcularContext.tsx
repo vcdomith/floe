@@ -1,7 +1,7 @@
 'use client'
 import useFornecedor, { useFornecedorReturn } from "@/hooks/useFornecedor";
-import usePedido, { IFatoresPedido, usePedidoReturn } from "@/hooks/usePedido";
-import useProduto, { useProdutoReturn } from "@/hooks/useProduto";
+import usePedido, { IFatoresPedido, UsePedido } from "@/hooks/usePedido";
+import useProduto, { UseProduto } from "@/hooks/useProduto";
 import { IFornecedor } from "@/interfaces/IFornecedor";
 import { Dispatch, SetStateAction, createContext, useContext, useEffect, useMemo, useState } from "react";
 import { useNotification } from "../../(contexts)/NotificationContext";
@@ -12,11 +12,11 @@ import useFatoresControl, { FatoresControlReturn } from "@/hooks/useFatoresContr
 import isEqual from "@/utils/isEqual";
 import getDifferentKeys from "@/utils/differentKeys";
 
-export interface CalcularContextProps {
+export interface CalcularContext {
 
     fornecedorContext: useFornecedorReturn
-    pedidoContext: usePedidoReturn
-    produtoContext: useProdutoReturn
+    pedidoContext: UsePedido
+    produtoContext: UseProduto
     getDisplayControl: (st: boolean) => IDisplayControl
     displayControl: IDisplayControl 
     produtoIsValid: boolean
@@ -104,7 +104,7 @@ const INITIAL_STATE_DIFF_CONTROL: DifferenceControl = {
 
 export interface DifferenceControl extends Record<keyof IFornecedor, boolean>, Record<keyof IFatoresPedido, boolean> {}
 
-export const CalcularContext = createContext<CalcularContextProps | undefined>(undefined)
+export const CalcularContext = createContext<CalcularContext | undefined>(undefined)
 CalcularContext.displayName = 'Calcular'
 
 export const useCalcular = () => {
@@ -202,7 +202,7 @@ export const CalcularProvider = ({ children }: { children: React.ReactNode }) =>
     }
 
     type DisplayControlKeys = typeof displayControl;
-    const getDisplayControl = (st = produtoData.st): IDisplayControl => (st)
+    const getDisplayControl = (st: boolean = produtoData.st): IDisplayControl => (st)
         ? {
 
             fatorTransportePedido: fornecedorData.usaTransporte,
@@ -234,7 +234,7 @@ export const CalcularProvider = ({ children }: { children: React.ReactNode }) =>
                               
     const displayControl = getDisplayControl()
     const validKeys = Object.keys(displayControl)
-                            .filter( key => displayControl[key as keyof DisplayControlKeys] )
+                        .filter( key => displayControl[key as keyof DisplayControlKeys] )
 
     interface BaseCheck {
         
@@ -338,7 +338,7 @@ export const CalcularProvider = ({ children }: { children: React.ReactNode }) =>
         setSearchParam('')
         adicionarProdutoTabela(produto)
         resetForm()
-        codigoInputRef.current.focus()
+        codigoInputRef?.current?.focus()
 
     }
 

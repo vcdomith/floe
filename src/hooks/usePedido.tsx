@@ -1,6 +1,24 @@
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction, useMemo, useState } from "react";
 import Converter from "@/utils/typeConversion";
-import { ProdutoCadastro } from "@/app/(app)/calcular/context/CalcularContext";
+import { CalcularContext, ProdutoCadastro } from "@/app/(app)/calcular/context/CalcularContext";
+import { IFornecedor } from "@/interfaces/IFornecedor";
+import { IProdutoContext } from "./useProduto";
+import getDifferentKeys from "@/utils/differentKeys";
+
+export interface UsePedido {
+
+    pedidoData: IFatoresPedido
+    setPedidoData: Dispatch<SetStateAction<IFatoresPedido>>
+    handlePedidoChange: <T>(field: keyof IFatoresPedido) =>(valor: T) => void
+    handlePedidoSubmit: (campo: ('transporte' | 'st'), fatorBase: string) => void
+    resetPedido: () => void
+
+    getPedidoDisplayControl: (ctx: CalcularContext) => IPedidoDisplayControl
+
+    pedidoDiff: (keyof IFatoresPedido)[]
+    updatePedidoControl: (pedido: IFatoresPedido) => void
+
+}
 
 export interface IFatoresPedido {
 
@@ -19,15 +37,7 @@ export interface IFatoresPedido {
 
 }
 
-export interface usePedidoReturn {
-
-    pedidoData: IFatoresPedido
-    setPedidoData: Dispatch<SetStateAction<IFatoresPedido>>
-    handlePedidoChange: <T>(field: keyof IFatoresPedido) =>(valor: T) => void
-    handlePedidoSubmit: (campo: ('transporte' | 'st'), fatorBase: string) => void
-    resetPedido: () => void
-
-}
+export interface IPedidoDisplayControl extends Record<keyof Pick<IFatoresPedido, 'fatorTransportePedido' | 'fatorSTPedido'>, boolean>{}
 
 const INITIAL_STATE: IFatoresPedido = {
 
@@ -46,10 +56,9 @@ const INITIAL_STATE: IFatoresPedido = {
 
 }
 
-export default function usePedido( produto: (ProdutoCadastro | null) = null ) {
+export default function usePedido( produto: (ProdutoCadastro | null) = null ): UsePedido {
 
-    const [pedidoData, setPedidoData] = useState<IFatoresPedido>(() => {
-        
+    const initialState: IFatoresPedido = useMemo(() => {
         if (!produto) return INITIAL_STATE
 
         return {
@@ -66,7 +75,11 @@ export default function usePedido( produto: (ProdutoCadastro | null) = null ) {
             multiploST: '1',
             valorTotalProdutosST: '',
         }
-    })
+    }, [produto])
+
+    const [pedidoData, setPedidoData] = useState<IFatoresPedido>(initialState)
+    
+    const [pedidoControl, updatePedidoControl] = useState(initialState)
 
     const { stringToFloat, floatToString } = Converter
 
@@ -114,12 +127,36 @@ export default function usePedido( produto: (ProdutoCadastro | null) = null ) {
         setPedidoData({...INITIAL_STATE})
     }
 
+    const getPedidoDisplayControl = ({
+        fornecedorContext: {fornecedorData},
+         produtoContext: {produtoData}
+        }: CalcularContext): IPedidoDisplayControl => 
+    (produtoData.st)
+    ? {
+
+        fatorTransportePedido: fornecedorData.usaTransporte,
+        fatorSTPedido: fornecedorData.usaSt,
+
+    }
+    : {
+
+        fatorTransportePedido: false,
+        fatorSTPedido: false,
+
+    }
+
+    const pedidoDiff: (keyof IFatoresPedido)[] = useMemo(() => getDifferentKeys(pedidoData, pedidoControl)
+    , [pedidoData, pedidoControl])
+
     return {
         pedidoData, 
         setPedidoData, 
         handlePedidoChange, 
         handlePedidoSubmit,
-        resetPedido
-    } as usePedidoReturn
+        resetPedido,
+        getPedidoDisplayControl,
+        pedidoDiff,
+        updatePedidoControl,
+    }
 
 }

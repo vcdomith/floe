@@ -1,7 +1,7 @@
 'use client'
 
 import { motion, AnimatePresence } from "framer-motion"
-import { FormEvent, KeyboardEvent, MouseEvent, useRef, useState } from "react"
+import { FormEvent, KeyboardEvent, MouseEvent, useMemo, useRef, useState } from "react"
 
 import style from '../FornecedorTab/FornecedorTab.module.scss'
 import styleProduto from './ProdutoTab.module.scss'
@@ -11,14 +11,21 @@ import NumberInput from "@/components/FatoresTable/FatoresTableBody/NumberInput/
 import CheckBox from "@/app/(app)/configurar/(CheckBox)/CheckBox"
 import { useCalcular } from "../../context/CalcularContext"
 import Converter from "@/utils/typeConversion"
-import { IProdutoContext } from "@/hooks/useProduto"
+import { IProdutoContext, IProdutoDisplayControl } from "@/hooks/useProduto"
 import { svgsUtil } from "@/components/SvgArray/SvgUtil"
 
 const NUMBER_INPUT_PLACEHOLDER = '_'.repeat(50)
 
 export default function ProdutoTab() {
 
-    const {produtoContext, fornecedorContext, produtoIsValid, submitForm, displayControl} = useCalcular()
+    const calcularContext = useCalcular()
+    const {
+        produtoContext, 
+        fornecedorContext, 
+        produtoIsValid, 
+        submitForm, 
+        displayControl
+    } = calcularContext
     const {produtoData: {
         st,
         codigo,
@@ -31,17 +38,13 @@ export default function ProdutoTab() {
         unitarioComposto,
         composto1,
         composto2,
-    }, setProdutoData, handleProdutoChange, handleProdutoSubmit, resetForm, codigoInputRef} = produtoContext
+    }, setProdutoData, handleProdutoChange, handleProdutoSubmit, resetForm, codigoInputRef, getProdutoDisplayControl} = produtoContext
     const {fornecedorData: { fatorBase, usaUnitarioPedido }, handleFornecedorChange} = fornecedorContext
 
     const [displayProdutoTab, setDisplayProdutoTab] = useState(false)
 
     const compostoRef_1 = useRef<HTMLInputElement>(null)
     const compostoRef_2 = useRef<HTMLInputElement>(null)
-    
-    // const [produtoComST, setProdutoComST] = useState(false)
-    // const [codigoProduto, setCodigoProduto] = useState('')
-    // const [desconto, setDesconto] = useState('')
 
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
@@ -84,6 +87,16 @@ export default function ProdutoTab() {
         } 
 
     }
+
+    const produtoDisplayControl = useMemo(() => {
+
+        const displayControl = getProdutoDisplayControl(calcularContext)
+        return Object.keys(displayControl).filter( (key) => displayControl[key as keyof IProdutoDisplayControl] )
+
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    , [calcularContext])
+    console.table(produtoDisplayControl);
 
     return (
         <div className={style.wrap}>

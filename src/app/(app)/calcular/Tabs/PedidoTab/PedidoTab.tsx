@@ -1,6 +1,6 @@
 'use client'
 
-import { FormEvent, KeyboardEvent, RefObject, useEffect, useRef, useState } from 'react'
+import { FormEvent, KeyboardEvent, RefObject, useEffect, useMemo, useRef, useState } from 'react'
 import style from '../FornecedorTab/FornecedorTab.module.scss'
 import { motion, AnimatePresence } from 'framer-motion'
 import Config from '@/app/(app)/configurar/(Config)/Config'
@@ -9,7 +9,7 @@ import Converter from '@/utils/typeConversion'
 import { useCalcular } from '../../context/CalcularContext'
 import { debug } from 'console'
 import CheckBox from '@/app/(app)/configurar/(CheckBox)/CheckBox'
-import { IFatoresPedido } from '@/hooks/usePedido'
+import { IFatoresPedido, IPedidoDisplayControl } from '@/hooks/usePedido'
 import usePedidoTabRefs, { InputRefs, Transporte_STRefs } from '@/hooks/usePedidoTabRefs'
 import { svgsUtil } from '@/components/SvgArray/SvgUtil'
 
@@ -19,7 +19,8 @@ export default function PedidoTab() {
 
     const [displayPedido, setDisplayPedido] = useState(false)
 
-    const {fornecedorContext, pedidoContext, displayControl} = useCalcular()
+    const calcularContext = useCalcular()
+    const {fornecedorContext, pedidoContext, displayControl} = calcularContext
     const {fornecedorData: { 
         fatorBase 
     }, handleFornecedorChange} = fornecedorContext 
@@ -34,9 +35,16 @@ export default function PedidoTab() {
         valorST,
         multiploST,
         valorTotalProdutosST,
-    }, handlePedidoSubmit, handlePedidoChange} = pedidoContext
+    }, handlePedidoSubmit, handlePedidoChange, getPedidoDisplayControl} = pedidoContext
 
     const { refs, pedidoFormRef, transporteRefs, stRefs, assignRef } = usePedidoTabRefs()
+
+    const pedidoDisplayControl = useMemo(() => {
+        const displayControl = getPedidoDisplayControl(calcularContext)
+        return Object.keys(displayControl).filter( key => displayControl[key as keyof IPedidoDisplayControl ])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [calcularContext])
+    console.table(pedidoDisplayControl);
 
     const handleKeyDown = (e: KeyboardEvent<HTMLDivElement>, field: keyof IFatoresPedido) => {
 

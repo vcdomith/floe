@@ -1,10 +1,7 @@
-import { CalcularContextProps, FatoresContext, IDisplayControl, ProdutoCadastro, useCalcular } from "@/app/(app)/calcular/context/CalcularContext";
-import useFornecedor, { useFornecedorReturn } from "./useFornecedor";
-import usePedido, { usePedidoReturn } from "./usePedido";
-import useProduto, { IProdutoContext, useProdutoReturn } from "./useProduto";
-import { ChangeEvent, Dispatch, SetStateAction, useMemo, useState } from "react";
-import _, { initial, isArray } from 'lodash'
-import { useNotification } from "@/app/(app)/(contexts)/NotificationContext";
+import { IDisplayControl, ProdutoCadastro, useCalcular } from "@/app/(app)/calcular/context/CalcularContext";
+
+import useProduto, { IProdutoContext } from "./useProduto";
+import { useMemo } from "react";
 import { useModal } from "@/app/(app)/(contexts)/ModalContext";
 import isEqual from "@/utils/isEqual";
 

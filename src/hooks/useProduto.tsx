@@ -1,16 +1,17 @@
 import SelectFornecedor from "@/components/SelectFornecedor/SelectFornecedor";
-import { Dispatch, FormEvent, MutableRefObject, SetStateAction, useRef, useState } from "react";
+import { Dispatch, FormEvent, MutableRefObject, RefObject, SetStateAction, useMemo, useRef, useState } from "react";
 import Converter from "@/utils/typeConversion";
-import { ProdutoCadastro } from "@/app/(app)/calcular/context/CalcularContext";
+import { CalcularContext, ProdutoCadastro } from "@/app/(app)/calcular/context/CalcularContext";
 
-export interface useProdutoReturn {
+export interface UseProduto {
 
     produtoData: IProdutoContext
     setProdutoData: Dispatch<SetStateAction<IProdutoContext>>
     handleProdutoChange: <T>(field: keyof IProdutoContext) => (valor: T) => void
     handleProdutoSubmit: (campo: 'ipi' | 'composto', e: FormEvent<HTMLFormElement>, fatorBase: string) => void
     resetForm: (preserveSt?: boolean) => void
-    codigoInputRef: MutableRefObject<HTMLInputElement>
+    codigoInputRef: RefObject<HTMLInputElement> | null
+    getProdutoDisplayControl: (ctx: CalcularContext) => IProdutoDisplayControl
 
 }
 
@@ -33,6 +34,8 @@ export interface IProdutoContext {
 
 }
 
+export interface IProdutoDisplayControl extends Record<keyof Omit<IProdutoContext, 'codigo' | 'st' | 'ipiProporcional' | 'unitarioNota' | 'composto1' | 'composto2'>, boolean> {}
+
 const INITIAL_STATE: IProdutoContext = {
 
     st: true,
@@ -52,11 +55,11 @@ const INITIAL_STATE: IProdutoContext = {
 
 }
 
-export default function useProduto(produto: (ProdutoCadastro | null) = null) {
+export default function useProduto(produto: (ProdutoCadastro | null) = null): UseProduto {
 
     const {floatToString, stringToFloat} = Converter
 
-    const getInitialState = (produto: (ProdutoCadastro | null)): IProdutoContext => {
+    const initialState = useMemo(() => {
         if (!produto) return INITIAL_STATE
 
         return {
@@ -77,10 +80,11 @@ export default function useProduto(produto: (ProdutoCadastro | null) = null) {
                     : '',
             composto1: produto.composto[0],
             composto2: produto.composto[1],
-        } 
-    } 
+        }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [produto])
 
-    const [produtoData, setProdutoData] = useState<IProdutoContext>(getInitialState(produto))
+    const [produtoData, setProdutoData] = useState<IProdutoContext>(initialState)
     const codigoInputRef = useRef<HTMLInputElement>(null)
 
     function handleProdutoChange<T>(field: keyof IProdutoContext) {
@@ -120,20 +124,42 @@ export default function useProduto(produto: (ProdutoCadastro | null) = null) {
 
     function resetForm(preserveSt = true) {
 
-        // setProdutoData((prev) => ({
-        //     ...INITIAL_STATE,
-        //     st: prev['st']
-        // }))
         setProdutoData( prev => {
-
-            const initial = getInitialState(produto)
             return {
-                ...initial,
-                st: (preserveSt) ? prev.st : initial.st 
+                ...initialState,
+                st: (preserveSt) ? prev.st : initialState.st 
             }
         })
 
     }
+
+    const getProdutoDisplayControl = ({
+        fornecedorContext: {fornecedorData},
+        pedidoContext: {pedidoData},
+        produtoContext: {produtoData},
+        }: CalcularContext): IProdutoDisplayControl => 
+    (produtoData.st)
+    ? {
+
+        ncm: pedidoData.usaNcm,
+        desconto: fornecedorData.usaDesconto,
+        ipi: fornecedorData.usaIpi,
+
+        unitarioPedido: (fornecedorData.usaUnitarioPedido && !fornecedorData.usaComposto), 
+        unitarioComposto: (fornecedorData.usaUnitarioPedido && fornecedorData.usaComposto),
+
+    }
+    : {
+
+        ncm: pedidoData.usaNcm,
+        desconto: fornecedorData.usaDesconto,
+        ipi: false,
+
+        unitarioPedido: (fornecedorData.usaUnitarioPedido && !fornecedorData.usaComposto), 
+        unitarioComposto: (fornecedorData.usaUnitarioPedido && fornecedorData.usaComposto),
+
+    }
+    
 
     return {
         produtoData, 
@@ -141,7 +167,8 @@ export default function useProduto(produto: (ProdutoCadastro | null) = null) {
         handleProdutoChange, 
         handleProdutoSubmit, 
         resetForm,
-        codigoInputRef
-    } as useProdutoReturn
+        codigoInputRef,
+        getProdutoDisplayControl
+    }
 
 }

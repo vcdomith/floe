@@ -43,6 +43,7 @@ export default function FornecedorTab({ fornecedores, svg, titulo }: FornecedorT
         },
         diffControl
     } = useCalcular()
+
     const {fornecedorData: {
         nome,
         fatorBase,
@@ -82,6 +83,8 @@ export default function FornecedorTab({ fornecedores, svg, titulo }: FornecedorT
         // console.log(fornecedorDB);
 
     }
+
+
 
     return (
         <div className={style.wrap}>
@@ -236,19 +239,6 @@ export default function FornecedorTab({ fornecedores, svg, titulo }: FornecedorT
                         />
                     }                             
                 />
-                {/* {ipi&&
-                <Config 
-                    svg={<SvgIPI/>} 
-                    title={'IPI Proporcional'} 
-                    description={'Usa IPI proporcional ao fator base?'}
-                    input={
-                        <CheckBox 
-                            checked={ipi} 
-                            setChecked={handleFornecedorChange('ipi')}
-                        />
-                    }
-                />
-                } */}
                 <Config 
                     svg={svgsUtil.unitarioNota} 
                     title={'Unitário Pedido'} 

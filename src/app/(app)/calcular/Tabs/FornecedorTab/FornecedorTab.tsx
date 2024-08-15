@@ -37,11 +37,10 @@ export default function FornecedorTab({ fornecedores, svg, titulo }: FornecedorT
 
     const { 
         fornecedorContext, 
-        fatoresControl: {
-            fornecedorControl,
-            updateFornecedorControl,
-        },
-        diffControl
+        // fatoresControl: {
+        //     fornecedorControl,
+        //     updateFornecedorControl,
+        // }
     } = useCalcular()
 
     const {fornecedorData: {
@@ -55,7 +54,7 @@ export default function FornecedorTab({ fornecedores, svg, titulo }: FornecedorT
         usaIpi,
         usaUnitarioPedido,
         usaComposto
-    }, setFornecedorData, handleFornecedorChange} = fornecedorContext
+    }, setFornecedorData, handleFornecedorChange, fornecedorDiff, updateFornecedorControl} = fornecedorContext
 
     useEffect(() => {
         if(fornecedorDb !== undefined) 
@@ -146,17 +145,12 @@ export default function FornecedorTab({ fornecedores, svg, titulo }: FornecedorT
                 exit={{ height: 0 }}
                 transition={{ type: 'spring', bounce: 0, restDelta: 0.5 }}
             >
-            <div className={style.fornecedorConfigs}>
-                {/* {fornecedores.map( fornecedor => 
-                    <li key={fornecedor}>
-                        {fornecedor}
-                    </li>
-                )} */}
+            <motion.div className={style.fornecedorConfigs}>
                 <Config 
                     svg={svgsUtil.base} 
                     title={'Fator Base'} 
                     description={'Fator Base que todos produtos do fornecedor usam'} 
-                    diff={diffControl.fatorBase}
+                    diff={fornecedorDiff.includes('fatorBase')}
                     input={
                         <NumberInput 
                             placeholder={"x1,0"} 
@@ -169,7 +163,7 @@ export default function FornecedorTab({ fornecedores, svg, titulo }: FornecedorT
                     svg={svgsUtil.fatorBaseNormal} 
                     title={'Fator Normal'} 
                     description={'Fator que os produtos sem ST usam'} 
-                    diff={diffControl.fatorBaseNormal}
+                    diff={fornecedorDiff.includes('fatorBaseNormal')}
                     input={
                         <NumberInput 
                             placeholder={"x1,0"} 
@@ -182,7 +176,7 @@ export default function FornecedorTab({ fornecedores, svg, titulo }: FornecedorT
                     svg={svgsUtil.fatorBaseST} 
                     title={'Fator ST'} 
                     description={'Fator que os produtos com ST usam'}
-                    diff={diffControl.fatorBaseST}
+                    diff={fornecedorDiff.includes('fatorBaseST')}
                     input={
                         <NumberInput 
                             placeholder={"x1,0"} 
@@ -195,7 +189,7 @@ export default function FornecedorTab({ fornecedores, svg, titulo }: FornecedorT
                     svg={svgsUtil.transporte} 
                     title={'Transporte'} 
                     description={'Usa transporte no calculo?'} 
-                    diff={diffControl.usaTransporte}
+                    diff={fornecedorDiff.includes('usaTransporte')}
                     input={
                         <CheckBox
                             checked={usaTransporte} 
@@ -207,7 +201,7 @@ export default function FornecedorTab({ fornecedores, svg, titulo }: FornecedorT
                     svg={svgsUtil.st} 
                     title={'ST'} 
                     description={'Usa ST no calculo?'} 
-                    diff={diffControl.usaSt}
+                    diff={fornecedorDiff.includes('usaSt')}
                     input={
                         <CheckBox 
                             checked={usaSt} 
@@ -219,7 +213,7 @@ export default function FornecedorTab({ fornecedores, svg, titulo }: FornecedorT
                     svg={svgsUtil.desconto} 
                     title={'Desconto'} 
                     description={'Usa desconto no calculo?'} 
-                    diff={diffControl.usaDesconto}
+                    diff={fornecedorDiff.includes('usaDesconto')}
                     input={
                         <CheckBox 
                             checked={usaDesconto} 
@@ -231,7 +225,7 @@ export default function FornecedorTab({ fornecedores, svg, titulo }: FornecedorT
                     svg={svgsUtil.ipi} 
                     title={'IPI'} 
                     description={'Usa IPI no calculo?'} 
-                    diff={diffControl.usaIpi}
+                    diff={fornecedorDiff.includes('usaIpi')}
                     input={
                         <CheckBox 
                             checked={usaIpi} 
@@ -243,7 +237,7 @@ export default function FornecedorTab({ fornecedores, svg, titulo }: FornecedorT
                     svg={svgsUtil.unitarioNota} 
                     title={'Unitário Pedido'} 
                     description={'Usa unitário do pedido no calculo?'} 
-                    diff={diffControl.usaUnitarioPedido}
+                    diff={fornecedorDiff.includes('usaUnitarioPedido')}
                     input={
                         <CheckBox 
                             checked={usaUnitarioPedido} 
@@ -255,7 +249,7 @@ export default function FornecedorTab({ fornecedores, svg, titulo }: FornecedorT
                     svg={svgsUtil.composto} 
                     title={'Composto'} 
                     description={'Usa unitário composto no pedido?'} 
-                    diff={diffControl.usaComposto}
+                    diff={fornecedorDiff.includes('usaComposto')}
                     input={
                         <CheckBox 
                             checked={usaComposto} 
@@ -264,7 +258,7 @@ export default function FornecedorTab({ fornecedores, svg, titulo }: FornecedorT
                         />
                     }                              
                 />
-            </div>
+            </motion.div>
             </motion.div>
             }
         </AnimatePresence>

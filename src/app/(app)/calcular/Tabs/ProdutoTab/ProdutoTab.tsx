@@ -49,7 +49,7 @@ export default function ProdutoTab() {
         produtoDiff,
         updateProdutoControl,
     } = produtoContext
-    console.log(produtoDiff);
+    // console.log(produtoDiff);
     
     const {fornecedorData: { fatorBase, usaUnitarioPedido }, handleFornecedorChange} = fornecedorContext
 
@@ -108,7 +108,7 @@ export default function ProdutoTab() {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
     , [calcularContext])
-    console.table(produtoDisplayControl);
+    // console.table(produtoDisplayControl);
 
     return (
         <div className={style.wrap}>

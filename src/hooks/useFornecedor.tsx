@@ -1,12 +1,17 @@
 import { IFornecedor } from "@/interfaces/IFornecedor";
-import { Dispatch, SetStateAction, useState } from "react";
+import getDifferentKeys from "@/utils/differentKeys";
+import { Dispatch, SetStateAction, useMemo, useState } from "react";
 
-export interface useFornecedorReturn {
+export interface UseFornecedor {
 
     fornecedorData: IFornecedor
     setFornecedorData: Dispatch<SetStateAction<IFornecedor>>
     handleFornecedorChange: <T>(field: keyof IFornecedor) => (valor: T) => void
-    resetForm: () => void
+    resetFornecedor: () => void
+
+    fornecedorDiff: (keyof IFornecedor)[]
+    updateFornecedorControl: (fornecedor: IFornecedor) => void
+    rollbackFornecedor: () => void
 
 }
 
@@ -24,15 +29,21 @@ const INITIAL_STATE: IFornecedor = {
     usaComposto: false,
 }
 
-export default function useFornecedor() {
+export default function useFornecedor(): UseFornecedor {
 
     const [fornecedorData, setFornecedorData] = useState<IFornecedor>(INITIAL_STATE)
 
-    const [fornecedorControl, updateFornecedorControl] = useState(INITIAL_STATE)
+    const [fornecedorControl, updateFornecedorControl] = useState<IFornecedor>()
 
-    function handleFornecedorChange(field: keyof IFornecedor) {
+    const rollbackFornecedor = () => setFornecedorData((prev) => {
+        return fornecedorControl
+        ? fornecedorControl
+        : {...prev}
+    })
 
-        return (valor: (string | boolean)) => setFornecedorData((prev) => {
+    function handleFornecedorChange<T>(field: keyof IFornecedor) {
+
+        return (valor: T) => setFornecedorData((prev) => {
 
             const newValue = (STRING_INPUT_FIELDS.includes(field))
                 ? valor
@@ -56,12 +67,27 @@ export default function useFornecedor() {
         
     }
     
-    function resetForm() {
+    function resetFornecedor() {
 
         setFornecedorData({...INITIAL_STATE})
 
     }
 
-    return {fornecedorData, setFornecedorData, handleFornecedorChange, resetForm} as useFornecedorReturn
+    const fornecedorDiff: (keyof IFornecedor)[] = useMemo(() => {
+        if (fornecedorControl) return getDifferentKeys(fornecedorData, fornecedorControl)
+        return []
+    }
+    , [fornecedorData, fornecedorControl])
+
+    return {
+        fornecedorData, 
+        setFornecedorData,
+        handleFornecedorChange, 
+        resetFornecedor,
+
+        fornecedorDiff,
+        updateFornecedorControl,
+        rollbackFornecedor
+    }
 
 }

@@ -44,7 +44,7 @@ export default function useFatoresControl(): FatoresControlReturn {
     const {
         fornecedorData: fornecedorControl,
         setFornecedorData,
-        resetForm
+        resetFornecedor
     } = useFornecedor()
 
     const {
@@ -62,7 +62,7 @@ export default function useFatoresControl(): FatoresControlReturn {
     }
 
     function resetControl() {
-        resetForm()
+        resetFornecedor()
         resetPedido()
     }
 

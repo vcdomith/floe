@@ -91,7 +91,7 @@ export default function useProduto(produto: (ProdutoCadastro | null) = null): Us
 
     const [produtoData, setProdutoData] = useState<IProdutoContext>(initialState)
 
-    const [produtoControl, updateProdutoControl] = useState(initialState)
+    const [produtoControl, updateProdutoControl] = useState<IProdutoContext>()
 
     const codigoInputRef = useRef<HTMLInputElement>(null)
 
@@ -168,7 +168,10 @@ export default function useProduto(produto: (ProdutoCadastro | null) = null): Us
 
     }
     
-    const produtoDiff: (keyof IProdutoContext)[] = useMemo(() => getDifferentKeys(produtoData, produtoControl)
+    const produtoDiff: (keyof IProdutoContext)[] = useMemo(() => {
+        if (produtoControl) return getDifferentKeys(produtoData, produtoControl)
+        return []
+    }
     , [produtoData, produtoControl])
 
     return {

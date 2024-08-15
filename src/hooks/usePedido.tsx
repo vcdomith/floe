@@ -17,6 +17,7 @@ export interface UsePedido {
 
     pedidoDiff: (keyof IFatoresPedido)[]
     updatePedidoControl: (pedido: IFatoresPedido) => void
+    rollbackPedido: () => void
 
 }
 
@@ -79,7 +80,13 @@ export default function usePedido( produto: (ProdutoCadastro | null) = null ): U
 
     const [pedidoData, setPedidoData] = useState<IFatoresPedido>(initialState)
     
-    const [pedidoControl, updatePedidoControl] = useState(initialState)
+    const [pedidoControl, updatePedidoControl] = useState<IFatoresPedido>()
+
+    const rollbackPedido = () => setPedidoData((prev) => {
+        return pedidoControl
+        ? pedidoControl
+        : {...prev}
+    })
 
     const { stringToFloat, floatToString } = Converter
 
@@ -145,7 +152,10 @@ export default function usePedido( produto: (ProdutoCadastro | null) = null ): U
 
     }
 
-    const pedidoDiff: (keyof IFatoresPedido)[] = useMemo(() => getDifferentKeys(pedidoData, pedidoControl)
+    const pedidoDiff: (keyof IFatoresPedido)[] = useMemo(() => {
+        if (pedidoControl) return getDifferentKeys(pedidoData, pedidoControl)
+        return []
+    }
     , [pedidoData, pedidoControl])
 
     return {
@@ -159,6 +169,7 @@ export default function usePedido( produto: (ProdutoCadastro | null) = null ): U
         
         pedidoDiff,
         updatePedidoControl,
+        rollbackPedido
     }
 
 }

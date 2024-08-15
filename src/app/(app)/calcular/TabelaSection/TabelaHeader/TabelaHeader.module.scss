@@ -49,6 +49,8 @@
 
         p {
             margin: 0;
+            display: block;
+            overflow: hidden;
             white-space: nowrap;
             text-overflow: ellipsis;
 

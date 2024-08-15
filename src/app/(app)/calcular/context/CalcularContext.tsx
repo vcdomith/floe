@@ -1,5 +1,5 @@
 'use client'
-import useFornecedor, { useFornecedorReturn } from "@/hooks/useFornecedor";
+import useFornecedor, { UseFornecedor } from "@/hooks/useFornecedor";
 import usePedido, { IFatoresPedido, UsePedido } from "@/hooks/usePedido";
 import useProduto, { UseProduto } from "@/hooks/useProduto";
 import { IFornecedor } from "@/interfaces/IFornecedor";
@@ -14,7 +14,7 @@ import getDifferentKeys from "@/utils/differentKeys";
 
 export interface CalcularContext {
 
-    fornecedorContext: useFornecedorReturn
+    fornecedorContext: UseFornecedor
     pedidoContext: UsePedido
     produtoContext: UseProduto
     getDisplayControl: (st: boolean) => IDisplayControl
@@ -29,6 +29,7 @@ export interface CalcularContext {
     setTabela: Dispatch<SetStateAction<ProdutoCadastro[]>>
     removeProduto: (id: number) => void
     updateProdutoTabela: (id: number, updatedProduto: ProdutoCadastro) => void
+    updateFatoresTabela: () => void
     cadastrarPedidoDB: () => Promise<void>
     filterContext: useFilterReturn
     
@@ -126,8 +127,8 @@ export const CalcularProvider = ({ children }: { children: React.ReactNode }) =>
 
     // TABELA CONTEXT _ TODO
 
-    const {fornecedorData, resetForm: resetFornecedor} = fornecedorContext
-    const {pedidoData, resetPedido} = pedidoContext
+    const {fornecedorData, resetFornecedor, fornecedorDiff} = fornecedorContext
+    const {pedidoData, resetPedido, pedidoDiff} = pedidoContext
     const {produtoData, resetForm, codigoInputRef} = produtoContext
     const { setSearchParam } = filterContext
 
@@ -162,7 +163,7 @@ export const CalcularProvider = ({ children }: { children: React.ReactNode }) =>
         return diffControl
 
     }, [fornecedorData, fornecedorControl, pedidoData, pedidoControl])
-    console.log(diffControl);
+    // console.log(diffControl);
 
     // const [differenceControl, setDifferenceControl] = useState<DifferenceControl>(INITIAL_STATE_DIFF_CONTROL)
 
@@ -173,7 +174,7 @@ export const CalcularProvider = ({ children }: { children: React.ReactNode }) =>
 
     const [tabela, setTabela] = useState<ProdutoCadastro[]>([])
 
-    const adicionarProdutoTabela = (produto: ProdutoCadastro) => {
+    const adicionarProduto = (produto: ProdutoCadastro) => {
         setTabela( prev => ([...prev, produto]) )
     }
 
@@ -192,6 +193,85 @@ export const CalcularProvider = ({ children }: { children: React.ReactNode }) =>
             newTabela[index] = updatedProduto
             return newTabela
         })
+    }
+
+    interface FatoresDiffMap extends 
+        Record<keyof Pick<IFornecedor, 'fatorBase' | 'fatorBaseNormal'| 'fatorBaseST'>, string>,
+        Record<keyof Pick<IFatoresPedido, 'fatorTransportePedido' | 'fatorSTPedido'>, string>
+    {}
+    const FATORES_MAP: FatoresDiffMap = {
+        fatorBase: "base",
+        fatorBaseNormal: "fatorBaseNormal",
+        fatorBaseST: "fatorBaseST",
+        fatorTransportePedido: "transporte",
+        fatorSTPedido: "st"
+    }
+    const newFatores: Omit<FatoresContext, 'ipi' | 'desconto'> = useMemo(() => {
+        return {
+
+                base: fornecedorData.fatorBase || '1',
+                fatorBaseNormal: (!controlledInputData.st) ? fornecedorData.fatorBaseNormal : '1',
+                fatorBaseST: (controlledInputData.st) ? fornecedorData.fatorBaseST : '1',
+        
+                transporte: (controlledInputData.st) 
+                    ? pedidoData.fatorTransportePedido || '1'
+                    : '1',
+                st: (controlledInputData.st) 
+                    ? pedidoData.fatorSTPedido || '1'
+                    : '1',
+
+            }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [fornecedorDiff, pedidoDiff])
+    console.log('newFatores', newFatores);
+
+    const updateFatoresTabela = () => {
+
+        setTabela((prev) => {
+            // const newTabela = [...prev]
+            // newTabela.map( produto => {
+            //     const newFatores = {
+            //         base: fornecedorData.fatorBase || '1',
+            //         fatorBaseNormal: (!produto.st) ? fornecedorData.fatorBaseNormal : '1',
+            //         fatorBaseST: (produto.st) ? fornecedorData.fatorBaseST : '1',
+            
+            //         transporte: (produto.st) 
+            //             ? pedidoData.fatorTransportePedido || '1'
+            //             : '1',
+            //         st: (produto.st) 
+            //             ? pedidoData.fatorSTPedido || '1'
+            //             : '1',
+            //     }
+            //     produto.fatores = {...produto.fatores, ...newFatores}
+            // })
+            // return newTabela
+            const newTabela = prev.map( produto => {
+
+                const newFatores = {
+                    base: fornecedorData.fatorBase || '1',
+                    fatorBaseNormal: (!produto.st) ? fornecedorData.fatorBaseNormal : '1',
+                    fatorBaseST: (produto.st) ? fornecedorData.fatorBaseST : '1',
+            
+                    transporte: (produto.st) 
+                        ? pedidoData.fatorTransportePedido || '1'
+                        : '1',
+                    st: (produto.st) 
+                        ? pedidoData.fatorSTPedido || '1'
+                        : '1',
+                }
+
+                return {
+                    ...produto,
+                    fatores: {
+                        ...produto.fatores,
+                        ...newFatores,
+                    },
+                }
+            })
+            
+            return newTabela
+        })
+
     }
 
     const resetContext = () => {
@@ -312,7 +392,6 @@ export const CalcularProvider = ({ children }: { children: React.ReactNode }) =>
                 fatorBaseNormal: (!controlledInputData.st) ? controlledInputData.fatorBaseNormal : '1',
                 fatorBaseST: (controlledInputData.st) ? controlledInputData.fatorBaseST : '1',
         
-                // transporte: controlledInputData.fatorTransportePedido || '1',
                 transporte: (controlledInputData.st) 
                     ? controlledInputData.fatorTransportePedido || '1'
                     : '1',
@@ -336,7 +415,7 @@ export const CalcularProvider = ({ children }: { children: React.ReactNode }) =>
         } 
 
         setSearchParam('')
-        adicionarProdutoTabela(produto)
+        adicionarProduto(produto)
         resetForm()
         codigoInputRef?.current?.focus()
 
@@ -400,6 +479,7 @@ export const CalcularProvider = ({ children }: { children: React.ReactNode }) =>
             setTabela,
             removeProduto,
             updateProdutoTabela,
+            updateFatoresTabela,
             cadastrarPedidoDB,
             filterContext,
 

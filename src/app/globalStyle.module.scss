@@ -35,8 +35,6 @@ $cor-secundaria: #e8d4b0;
 // $cor-primaria: #b4a992;
 // $cor-secundaria: #0e0e2b;
 
-$cor-primaria-transparent: transparentize($cor-primaria, 0.8);
-
 @function cor-mix($percentage) {
 
     @return mix($cor-primaria, $cor-secundaria, $percentage);
@@ -44,6 +42,9 @@ $cor-primaria-transparent: transparentize($cor-primaria, 0.8);
 }
 
 $cor-mix: mix($cor-primaria, $cor-secundaria, 10%);
+
+$cor-primaria-transparent: transparentize($cor-primaria, 0.8);
+$cor-aviso: darken(saturate(cor-mix(20%), 40%), 20%);
 
 //Animations
 @keyframes appear {

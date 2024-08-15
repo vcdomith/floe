@@ -22,7 +22,7 @@ const Config = ({svg, title, description, diff, input}: ConfigProps) => {
       className={style.config}
       key={title}
 
-      layout 
+      layout
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}

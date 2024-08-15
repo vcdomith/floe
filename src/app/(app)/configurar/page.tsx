@@ -27,7 +27,7 @@ export default function Configurar() {
     // State cadastro
     const [cadastroFornecedor, setCadastroFornecedor] = useState<IFornecedor>()
      
-    const {fornecedorData, setFornecedorData, handleFornecedorChange, resetForm} = useFornecedor()
+    const {fornecedorData, setFornecedorData, handleFornecedorChange, resetFornecedor} = useFornecedor()
     const {
         nome,
         fatorBase,
@@ -118,7 +118,7 @@ export default function Configurar() {
                 tipo: 'sucesso', 
                 mensagem: `Cadastro do fornecedor ${capitalize(novoCadastro.nome)} feito com sucesso!`
             })
-            resetForm()            
+            resetFornecedor()            
 
         } catch (error) {
             
@@ -414,7 +414,7 @@ export default function Configurar() {
                 <span className={style.buttons}>
                     <button type='submit' >Salvar Fornecedor</button>
                     <button type='reset' onClick={() => {
-                        resetForm()
+                        resetFornecedor()
                         setValidation(true)
                     }}>Limpar</button>
                 </span>

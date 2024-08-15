@@ -9,22 +9,20 @@ interface ConfigProps {
     svg: React.ReactNode
     title: string
     description: string
-
-    // checked: boolean
-    // setChecked: (checked: SetStateAction<boolean>) => void
+    diff?: boolean
 
     input: React.ReactNode
 
 }
 
-const Config = ({svg, title, description, input}: ConfigProps) => {
+const Config = ({svg, title, description, diff, input}: ConfigProps) => {
 
   return (
     <motion.span 
       className={style.config}
       key={title}
 
-      layout 
+      layout
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
@@ -36,8 +34,11 @@ const Config = ({svg, title, description, input}: ConfigProps) => {
                 <h3>{title}</h3>
                 <p>{description}</p>
             </div>
+            <div 
+              className={style.diffIcon}
+              data-diff={diff}
+            ></div>           
         </span>
-        {/* <CheckBox checked={checked} setChecked={setChecked} /> */}
         {input}
     </motion.span>
   )

@@ -6,6 +6,7 @@ import ProdutoTab from "../Tabs/ProdutoTab/ProdutoTab";
 import { useCalcular } from "../context/CalcularContext";
 
 import style from './FatoresSection.module.scss'
+import { useNotification } from "../../(contexts)/NotificationContext";
 
 interface FatoresSectionProps {
 
@@ -15,8 +16,18 @@ interface FatoresSectionProps {
 
 export default function FatoresSection({ fornecedores }: FatoresSectionProps) {
 
-    const {fornecedorContext, produtoIsValid, submitForm, tabelaValid} = useCalcular()
-    const {fornecedorData: {nome}} = fornecedorContext
+    const {
+        fornecedorContext,
+        pedidoContext,  
+        produtoIsValid, 
+        submitForm, 
+        tabelaValid,
+        updateFatoresTabela
+    } = useCalcular()
+    const {fornecedorData, fornecedorDiff, rollbackFornecedor, updateFornecedorControl} = fornecedorContext
+    const {pedidoData, pedidoDiff, rollbackPedido, updatePedidoControl} = pedidoContext
+
+    const {addNotification} = useNotification()
 
     // const formIsValid: boolean = produtoCadastros
     // ? Object.values(produtoCadastros!).some( (element) => element === '' )
@@ -31,14 +42,14 @@ export default function FatoresSection({ fornecedores }: FatoresSectionProps) {
                 <div className={style.title}>
                     <h3>Fornecedor</h3>
                     <AnimatePresence initial={false}>
-                    {(nome === '')&&
+                    {(fornecedorData.nome === '')&&
                     <motion.p
                         animate={{ opacity: 1, height: 'auto' }}
                         exit={{ opacity: 0, height: 0 }}
                     >
                         Selecione um fornecedor para acessar os fatores e configurações para calcular as tabelas:
                     </motion.p>
-                    }                        
+                    }
                     </AnimatePresence>
                 </div>
                 {fornecedores&&
@@ -46,11 +57,27 @@ export default function FatoresSection({ fornecedores }: FatoresSectionProps) {
                     <FornecedorTab
                     fornecedores={fornecedores}
                     />
+                    <AnimatePresence initial={false}>
+                    {(fornecedorDiff.length > 0)&&
+                        <AvisoFatoresDiferentes 
+                            tab="fornecedor" 
+                            cancelHandler={rollbackFornecedor}
+                            confirmHandler={() => {
+                                updateFornecedorControl(fornecedorData)
+                                updateFatoresTabela()
+                                addNotification({
+                                    tipo: 'sucesso',
+                                    mensagem: 'Fatores atualizados com sucesso!'
+                                })
+                            }}
+                        />
+                    }
+                    </AnimatePresence>
                 </div>
                 }
 
                 <AnimatePresence>
-                {(nome !== '')
+                {(fornecedorData.nome !== '')
                 ?
                 <motion.div
                     initial={{ opacity: 0 }}
@@ -58,16 +85,45 @@ export default function FatoresSection({ fornecedores }: FatoresSectionProps) {
                     exit={{ opacity: 0 }}
                     transition={{ duration: 1, delayChildren: 0.5 }}
                 >
+                {(fornecedorDiff.length === 0)&&
+                <>
                 <div className={style.title}>
+
                     <h3>Fatores</h3>
-                    {/* <p>Selecione o fornecedor para acessar os fatores e configurações para calcular as tabelas:</p> */}
+
                 </div>
             
                 <div className={style.tabContainer}>
-                    {/* {(displayControl.transporte || displayControl.st)&& <PedidoTab />} */}
+                    <AnimatePresence initial={false}>
+
                     <PedidoTab />
+                    
+                    {(pedidoDiff.length > 0)&&
+                        <AvisoFatoresDiferentes 
+                            tab="pedido" 
+                            cancelHandler={rollbackPedido}
+                            confirmHandler={() => {
+                                updatePedidoControl(pedidoData)
+                                updateFatoresTabela()
+                                addNotification({
+                                    tipo: 'sucesso',
+                                    mensagem: 'Fatores atualizados com sucesso!'
+                                })
+                            }}
+                        />
+                    }
+                    </AnimatePresence>
+                    
+                </div>
+                </>
+                }
+
+
+                {(fornecedorDiff.length === 0 && pedidoDiff.length === 0)&&
+                <div className={style.tabContainer}>
                     <ProdutoTab />
                 </div>
+                }
                 </motion.div>
                 :
                 ''
@@ -78,7 +134,10 @@ export default function FatoresSection({ fornecedores }: FatoresSectionProps) {
             <button 
                 className={style.submit} 
                 onClick={() => submitForm()} 
-                disabled={(tabelaValid)|| !produtoIsValid}
+                disabled={(fornecedorDiff.length === 0 && pedidoDiff.length === 0) 
+                    ? (tabelaValid)|| !produtoIsValid
+                    : true
+                }
             >
                 {(!tabelaValid)
                 ?
@@ -92,12 +151,39 @@ export default function FatoresSection({ fornecedores }: FatoresSectionProps) {
 
 }
 
-const SvgProduto = () => {
-    return(
-        <svg width="30" height="30" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M29.7784 404.32C38.2784 410.82 153.778 495.32 198.278 459.32C242.778 423.32 5.27837 290.82 29.7784 204.32C49.3784 135.12 150.278 180.487 198.278 211.82" stroke="#591C4A" strokeWidth="40"/>
-        <path d="M474.07 98.893C465.57 92.393 350.07 7.89299 305.57 43.893C261.07 79.893 498.57 212.393 474.07 298.893C454.47 368.093 353.57 322.726 305.57 291.393" stroke="#591C4A" strokeWidth="40"/>
-        <circle cx="250" cy="250" r="69" stroke="#591C4A" strokeWidth="40"/>
-        </svg>
+interface AvisoFatoresDiferentesProps {
+    tab: 'pedido' | 'fornecedor' 
+    cancelHandler: () => void
+    confirmHandler: () => void
+}
+
+const AvisoFatoresDiferentes = ({tab, cancelHandler, confirmHandler}: AvisoFatoresDiferentesProps) => {
+    return (
+        <motion.span
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            key={tab}
+            
+            className={style.aviso}
+        >
+            <span className={style.mensagem}>
+                <svg width="20" height="20" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M462 433L250.5 67L144.75 250L39 433H462Z" stroke="black" strokeWidth="40" strokeLinejoin="bevel"/>
+                    <path d="M250 198V380" stroke="black" strokeWidth="40"/>
+                </svg>
+                <p>{`Fatores alterados em ${tab} não estão afetando os produtos!`}</p> 
+            </span>
+            <span className={style.buttons}>
+                <button 
+                    className={style.discard}
+                    onClick={() => cancelHandler()}
+                >Descartar</button>
+                <button 
+                    className={style.confirm}
+                    onClick={() => confirmHandler()}
+                >Atualizar Fatores</button>
+            </span>
+        </motion.span>
     )
 }

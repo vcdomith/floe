@@ -21,6 +21,7 @@ export default function TabelaSection() {
         tabelaValid,
         cadastrarPedidoDB, 
         filterContext, 
+        resetContext,
         pedidoContext: {pedidoData: {quantidadeProdutos}}
     } = useCalcular()
     const {searchParam, setSearchParam, searchField, setSearchFieldCapitalized} = filterContext
@@ -40,7 +41,10 @@ export default function TabelaSection() {
                 title='Confirme se deseja salvar o pedido:'
                 message='Atenção: O pedido será salvo permanentemente!'
                 cancelHandler={clearModal}
-                confirmHandler={cadastrarPedidoDB}
+                confirmHandler={() => {
+                    cadastrarPedidoDB()
+                    resetContext()
+                }}
             />
         )
 
@@ -64,6 +68,7 @@ export default function TabelaSection() {
                         textInput={(searchField.toLowerCase() === 'codigo')}
                     />
                 </span>
+
 
                 <div className={style.tabela}>
 

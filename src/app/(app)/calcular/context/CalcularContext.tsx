@@ -1,31 +1,40 @@
 'use client'
-import useFornecedor, { useFornecedorReturn } from "@/hooks/useFornecedor";
-import usePedido, { usePedidoReturn } from "@/hooks/usePedido";
-import useProduto, { useProdutoReturn } from "@/hooks/useProduto";
+import useFornecedor, { UseFornecedor } from "@/hooks/useFornecedor";
+import usePedido, { IFatoresPedido, UsePedido } from "@/hooks/usePedido";
+import useProduto, { UseProduto } from "@/hooks/useProduto";
 import { IFornecedor } from "@/interfaces/IFornecedor";
 import { Dispatch, SetStateAction, createContext, useContext, useEffect, useMemo, useState } from "react";
 import { useNotification } from "../../(contexts)/NotificationContext";
 import { IFator } from "@/interfaces/IFator";
 import useFilter, { useFilterReturn } from "@/hooks/useFilter";
 import { dbConnect } from "@/utils/db/supabase";
+import useFatoresControl, { FatoresControlReturn } from "@/hooks/useFatoresControl";
+import isEqual from "@/utils/isEqual";
+import getDifferentKeys from "@/utils/differentKeys";
 
-export interface CalcularContextProps {
+export interface CalcularContext {
 
-    fornecedorContext: useFornecedorReturn
-    pedidoContext: usePedidoReturn
-    produtoContext: useProdutoReturn
+    fornecedorContext: UseFornecedor
+    pedidoContext: UsePedido
+    produtoContext: UseProduto
     getDisplayControl: (st: boolean) => IDisplayControl
     displayControl: IDisplayControl 
     produtoIsValid: boolean
 
+    fatoresControl: FatoresControlReturn
+    diffControl: DifferenceControl
+
     tabelaValid: boolean
     tabela: ProdutoCadastro[]
     setTabela: Dispatch<SetStateAction<ProdutoCadastro[]>>
+    removeProduto: (id: number) => void
     updateProdutoTabela: (id: number, updatedProduto: ProdutoCadastro) => void
+    updateFatoresTabela: () => void
     cadastrarPedidoDB: () => Promise<void>
     filterContext: useFilterReturn
-
+    
     submitForm: () => void
+    resetContext: () => void
 
 }
 
@@ -71,7 +80,32 @@ export interface IDisplayControl {
 
 }
 
-export const CalcularContext = createContext<CalcularContextProps | undefined>(undefined)
+const INITIAL_STATE_DIFF_CONTROL: DifferenceControl = {
+    nome: false,
+    fatorBase: false,
+    fatorBaseNormal: false,
+    fatorBaseST: false,
+    usaTransporte: false,
+    usaSt: false,
+    usaDesconto: false,
+    usaIpi: false,
+    usaUnitarioPedido: false,
+    usaComposto: false,
+    usaNcm: false,
+    quantidadeProdutos: false,
+    fatorTransportePedido: false,
+    valorFrete: false,
+    fatorFrete: false,
+    valorTotalProdutos: false,
+    fatorSTPedido: false,
+    valorST: false,
+    multiploST: false,
+    valorTotalProdutosST: false
+}
+
+export interface DifferenceControl extends Record<keyof IFornecedor, boolean>, Record<keyof IFatoresPedido, boolean> {}
+
+export const CalcularContext = createContext<CalcularContext | undefined>(undefined)
 CalcularContext.displayName = 'Calcular'
 
 export const useCalcular = () => {
@@ -93,10 +127,45 @@ export const CalcularProvider = ({ children }: { children: React.ReactNode }) =>
 
     // TABELA CONTEXT _ TODO
 
-    const {fornecedorData} = fornecedorContext
-    const {pedidoData} = pedidoContext
+    const {fornecedorData, resetFornecedor, fornecedorDiff} = fornecedorContext
+    const {pedidoData, resetPedido, pedidoDiff} = pedidoContext
     const {produtoData, resetForm, codigoInputRef} = produtoContext
     const { setSearchParam } = filterContext
+
+    const fatoresControl = useFatoresControl()
+    const {
+        fornecedorControl, 
+        updateFornecedorControl,
+        pedidoControl,
+        updatePedidoControl,
+        resetControl 
+    } = fatoresControl
+
+    // const fornecedorValid = isEqual(fornecedorData, fornecedorControl)
+    // console.log('fornecedorValid', fornecedorValid);
+    // console.log(getDifferentKeys(fornecedorData, fornecedorControl));
+
+    // const pedidoValid = isEqual(pedidoData, pedidoControl)
+    // console.log('pedidoValid', pedidoValid);
+    // console.log(getDifferentKeys(pedidoData, pedidoControl));
+
+    const diffControl = useMemo<DifferenceControl>(() => {
+
+        const diffControl = {...INITIAL_STATE_DIFF_CONTROL}
+
+        getDifferentKeys(fornecedorData, fornecedorControl).map( (key) => {
+            diffControl[key as keyof IFornecedor] = true
+        })
+        getDifferentKeys(pedidoData, pedidoControl).map( (key) => {
+            diffControl[key as keyof IFornecedor] = true
+        })
+
+        return diffControl
+
+    }, [fornecedorData, fornecedorControl, pedidoData, pedidoControl])
+    // console.log(diffControl);
+
+    // const [differenceControl, setDifferenceControl] = useState<DifferenceControl>(INITIAL_STATE_DIFF_CONTROL)
 
     type ControlledInputDataKeys = keyof typeof controlledInputData;
     const controlledInputData = useMemo(() => {
@@ -104,6 +173,19 @@ export const CalcularProvider = ({ children }: { children: React.ReactNode }) =>
     }, [fornecedorData, pedidoData, produtoData])
 
     const [tabela, setTabela] = useState<ProdutoCadastro[]>([])
+
+    const adicionarProduto = (produto: ProdutoCadastro) => {
+        setTabela( prev => ([...prev, produto]) )
+    }
+
+    const removeProduto = (id: number) => {
+        setTabela(prev => {
+            const updated = [...prev]
+            const removed = updated.filter( produto => produto.id !== id )
+            return removed
+        })
+    }
+
     const updateProdutoTabela = (id: number, updatedProduto: ProdutoCadastro) => {
         setTabela((prev) => {
             const newTabela = [...prev]
@@ -113,11 +195,94 @@ export const CalcularProvider = ({ children }: { children: React.ReactNode }) =>
         })
     }
 
-    // Quando implementar tabela esse estado será o estado tabelaContext: produtoCadastro[]
-    // const [produtoCadastros, setProdutoCadastros] = useState<produtoCadastro>() 
+    interface FatoresDiffMap extends 
+        Record<keyof Pick<IFornecedor, 'fatorBase' | 'fatorBaseNormal'| 'fatorBaseST'>, string>,
+        Record<keyof Pick<IFatoresPedido, 'fatorTransportePedido' | 'fatorSTPedido'>, string>
+    {}
+    const FATORES_MAP: FatoresDiffMap = {
+        fatorBase: "base",
+        fatorBaseNormal: "fatorBaseNormal",
+        fatorBaseST: "fatorBaseST",
+        fatorTransportePedido: "transporte",
+        fatorSTPedido: "st"
+    }
+    const newFatores: Omit<FatoresContext, 'ipi' | 'desconto'> = useMemo(() => {
+        return {
+
+                base: fornecedorData.fatorBase || '1',
+                fatorBaseNormal: (!controlledInputData.st) ? fornecedorData.fatorBaseNormal : '1',
+                fatorBaseST: (controlledInputData.st) ? fornecedorData.fatorBaseST : '1',
+        
+                transporte: (controlledInputData.st) 
+                    ? pedidoData.fatorTransportePedido || '1'
+                    : '1',
+                st: (controlledInputData.st) 
+                    ? pedidoData.fatorSTPedido || '1'
+                    : '1',
+
+            }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [fornecedorDiff, pedidoDiff])
+    console.log('newFatores', newFatores);
+
+    const updateFatoresTabela = () => {
+
+        setTabela((prev) => {
+            // const newTabela = [...prev]
+            // newTabela.map( produto => {
+            //     const newFatores = {
+            //         base: fornecedorData.fatorBase || '1',
+            //         fatorBaseNormal: (!produto.st) ? fornecedorData.fatorBaseNormal : '1',
+            //         fatorBaseST: (produto.st) ? fornecedorData.fatorBaseST : '1',
+            
+            //         transporte: (produto.st) 
+            //             ? pedidoData.fatorTransportePedido || '1'
+            //             : '1',
+            //         st: (produto.st) 
+            //             ? pedidoData.fatorSTPedido || '1'
+            //             : '1',
+            //     }
+            //     produto.fatores = {...produto.fatores, ...newFatores}
+            // })
+            // return newTabela
+            const newTabela = prev.map( produto => {
+
+                const newFatores = {
+                    base: fornecedorData.fatorBase || '1',
+                    fatorBaseNormal: (!produto.st) ? fornecedorData.fatorBaseNormal : '1',
+                    fatorBaseST: (produto.st) ? fornecedorData.fatorBaseST : '1',
+            
+                    transporte: (produto.st) 
+                        ? pedidoData.fatorTransportePedido || '1'
+                        : '1',
+                    st: (produto.st) 
+                        ? pedidoData.fatorSTPedido || '1'
+                        : '1',
+                }
+
+                return {
+                    ...produto,
+                    fatores: {
+                        ...produto.fatores,
+                        ...newFatores,
+                    },
+                }
+            })
+            
+            return newTabela
+        })
+
+    }
+
+    const resetContext = () => {
+        resetFornecedor()
+        resetPedido()
+        resetForm()
+        setTabela([])
+    }
 
     type DisplayControlKeys = typeof displayControl;
-    const getDisplayControl = (st = produtoData.st): IDisplayControl => (st)
+    const getDisplayControl = (st: boolean = produtoData.st): IDisplayControl => (st)
         ? {
 
             fatorTransportePedido: fornecedorData.usaTransporte,
@@ -146,11 +311,10 @@ export const CalcularProvider = ({ children }: { children: React.ReactNode }) =>
             unitarioComposto: (fornecedorData.usaUnitarioPedido && fornecedorData.usaComposto),
 
         }
-
-    // const validKeys = Object.fromEntries(Object.entries(displayControl).filter( item => item[1] ))                               
+                              
     const displayControl = getDisplayControl()
     const validKeys = Object.keys(displayControl)
-                            .filter( key => displayControl[key as keyof DisplayControlKeys] )
+                        .filter( key => displayControl[key as keyof DisplayControlKeys] )
 
     interface BaseCheck {
         
@@ -187,15 +351,9 @@ export const CalcularProvider = ({ children }: { children: React.ReactNode }) =>
 
     }, [fornecedorData, produtoData, pedidoData, validKeys, controlledInputData])
 
-    // console.log(validKeys);
-    // console.table(check)
-
     const produtoIsValid = useMemo(() => {
         return Object.values(produtoValuesToCheck).every( value => value !== '' )
     }, [produtoValuesToCheck])
-
-    // console.table(produtoValuesToCheck);
-    // console.table(produtoIsValid);
 
     const tabelaValid = useMemo(() => {
         return tabela.length === parseInt(pedidoData.quantidadeProdutos)
@@ -234,7 +392,6 @@ export const CalcularProvider = ({ children }: { children: React.ReactNode }) =>
                 fatorBaseNormal: (!controlledInputData.st) ? controlledInputData.fatorBaseNormal : '1',
                 fatorBaseST: (controlledInputData.st) ? controlledInputData.fatorBaseST : '1',
         
-                // transporte: controlledInputData.fatorTransportePedido || '1',
                 transporte: (controlledInputData.st) 
                     ? controlledInputData.fatorTransportePedido || '1'
                     : '1',
@@ -258,9 +415,9 @@ export const CalcularProvider = ({ children }: { children: React.ReactNode }) =>
         } 
 
         setSearchParam('')
-        setTabela( prev => ([...prev, produto]) )
+        adicionarProduto(produto)
         resetForm()
-        codigoInputRef.current.focus()
+        codigoInputRef?.current?.focus()
 
     }
 
@@ -313,13 +470,21 @@ export const CalcularProvider = ({ children }: { children: React.ReactNode }) =>
             getDisplayControl,
             displayControl,
             produtoIsValid,
+
+            fatoresControl,
+            diffControl,
+
             tabela,
             tabelaValid,
             setTabela,
+            removeProduto,
             updateProdutoTabela,
-            submitForm,
+            updateFatoresTabela,
             cadastrarPedidoDB,
-            filterContext
+            filterContext,
+
+            submitForm,
+            resetContext,
         }}
     >
         {children}

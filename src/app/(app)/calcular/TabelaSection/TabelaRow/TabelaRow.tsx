@@ -25,7 +25,7 @@ function TabelaRow({produto, setTabela}: TabelaRowProps, ref) {
     const {id, codigo, ncm, st, unitario, unitarioNota, composto, fatores } = produto
     const {tabela1, tabela2, tabela3} = useMemo(() => getTabelasObject(produto), [produto])
 
-    const {fornecedorContext, produtoContext} = useCalcular()
+    const { fornecedorContext, produtoContext, removeProduto } = useCalcular()
     const { handleProdutoChange } = produtoContext
 
     const { setModal, clearModal } = useModal()
@@ -42,21 +42,6 @@ function TabelaRow({produto, setTabela}: TabelaRowProps, ref) {
         )
 
     }
-
-    const removeProduto = (id: number) => {
-        setTabela(prev => {
-            const updated = [...prev]
-            const removed = updated.filter( produto => produto.id !== id )
-            // console.log(itemToRemove);
-            // updated.splice(updated.indexOf(itemToRemove), 1)
-            return removed
-        })
-        clearModal()
-    }
-
-    console.log(Object.entries(produto.fatores));
-    console.log(Object.entries(produto.fatores)
-    .filter( ([key, value]) => (value !== '1' || key === 'base')));
 
     return (
 
@@ -95,7 +80,7 @@ function TabelaRow({produto, setTabela}: TabelaRowProps, ref) {
                 <div>{ tabela3.toFixed(2) }</div>
                 <div>
                     <span className={style.tools}>
-                        {/* <button popoverTarget={`fatores${produto.id}`}>|||</button> */}
+                        
                         <button 
                             onClick={() => setModal( 
                                 <ProdutoDetalhes 
@@ -105,109 +90,7 @@ function TabelaRow({produto, setTabela}: TabelaRowProps, ref) {
                         >
                             |||
                         </button>
-                        {/* <button popOverTarget="popover">Toggle popover</button> */}
-                        {/* <div
-                            id={`fatores${produto.id}`} popover='auto' 
-                            style={{ width: 'fit-content'}}
-                        >
-                            <div className={style.popoverWrap}>
-
-                                <span className={style.header}>
-                                    <SvgProduto_3D />
-                                    <h3>Produto</h3>
-                                    <h3>{produto.codigo}</h3>
-                                </span>
-
-                                <div className={style.atributos}>
-                                    <Config 
-                                        svg={svgsUtil.st} 
-                                        title={'Prod. ST?'} 
-                                        description={''}
-                                        input={
-                                            <CheckBox 
-                                                checked={st}
-                                                setChecked={handleProdutoChange('st')}
-                                                disabled
-                                            />
-                                        }
-                                    />
-                                    <Config
-                                        svg={svgsUtil['unitario']} 
-                                        title={'Unitário'} 
-                                        description={''}
-                                        input={
-                                            <input
-                                                className={style.codigo}
-                                                type="text" 
-                                                placeholder="_____________"
-                                                value={produto.unitario}
-                                                required
-                                                disabled
-                                            />
-                                        }
-                                    />
-                                    <Config
-                                        svg={svgsUtil['ncm']} 
-                                        title={'NCM'} 
-                                        description={''}
-                                        input={
-                                            <input
-                                                className={style.codigo}
-                                                type="text" 
-                                                placeholder="_____________"
-                                                value={produto.ncm}
-                                                required
-                                                disabled
-                                            />
-                                        }
-                                    />
-                                    <Config
-                                        svg={svgsUtil['unitarioNota']} 
-                                        title={'Unit. Nota'} 
-                                        description={''}
-                                        input={
-                                            <input
-                                                className={style.codigo}
-                                                type="text" 
-                                                placeholder="_____________"
-                                                value={produto.unitarioNota}
-                                                required
-                                                disabled
-                                            />
-                                        }
-                                    />
-                                    
-                                </div>
-
-                                <div className={style.title}>
-                                    <h5>Fatores</h5>
-                                </div>
-                                <div className={style.fatores}>
-                                {Object.entries(produto.fatores)
-                                    .filter( ([key, value]) => (value !== '1' || key === 'base'))
-                                    .map(([key, value]) => 
-                                        <Config
-                                            key={key} 
-                                            svg={svgsUtil[key as keyof FatoresContext]} 
-                                            title={key} 
-                                            description={'Código do produto Código do produto Código do produto'}
-                                            input={
-                                                <input
-                                                    className={style.codigo}
-                                                    type="text" 
-                                                    placeholder="_____________"
-                                                    value={value}
-                                                    required
-                                                    disabled
-                                                />
-                                            }
-                                        />
-                                    )
-                                }
-                                </div>
-
-                            </div>
-                        </div> */}
+        
                         <button onClick={() => handleClick(id)}>X</button>
                     </span>
                 </div>

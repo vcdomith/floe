@@ -1,3 +1,4 @@
+import { useModal } from '@/app/(app)/(contexts)/ModalContext'
 import style from './ConfirmationDialog.module.scss'
 
 interface ConfirmationDialogProps {
@@ -10,6 +11,13 @@ interface ConfirmationDialogProps {
 export default function ConfirmationDialog (
     { title, message, cancelHandler, confirmHandler }: ConfirmationDialogProps
 ) {
+
+    const { clearModal } = useModal()
+
+    const handleConfirm = () => {
+        confirmHandler()
+        clearModal()
+    }
 
     return (
         <div className={style.dialog}>
@@ -24,7 +32,7 @@ export default function ConfirmationDialog (
                 </div>
                 <span className={style.buttons}>
                     <button className={style.cancel} onClick={() => cancelHandler()}>Cancelar</button>
-                    <button className={style.confirm} onClick={() => confirmHandler()}>Confirmar</button>
+                    <button className={style.confirm} onClick={() => handleConfirm()}>Confirmar</button>
                 </span>
             </div>
         </div>

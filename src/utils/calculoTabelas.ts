@@ -61,14 +61,16 @@ export const getTabelas = (produto: IProduto): number[] => {
 export const getTabelasObject = (produto: ProdutoCadastro): IValores => {
 
   // const {fatores, unitario} = controleProdutos[index]
-  const { fatores, unitario } = produto
+  const { fatores, unitario, unitarioNota } = produto
   const listaFatores = Object.values((fatores)).map(fator => stringToFloat(fator))
 
   const valorNumerico = parseFloat(unitario.replace(/,/g, '.'))
+  const unitarioNotaNumero = parseFloat(unitarioNota.replace(/,/g, '.'))
+  
   const tabelas: IValores = {
       unitario: valorNumerico,
       tabela1: calcularTabela(valorNumerico, listaFatores),
-      tabela2: valorNumerico*1.5,
+      tabela2: unitarioNotaNumero*1.5,
       tabela3: customRound((calcularTabela(valorNumerico, listaFatores))*1.3)
   }
   return tabelas

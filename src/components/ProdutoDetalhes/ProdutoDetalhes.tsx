@@ -16,6 +16,7 @@ import { useNotification } from "@/app/(app)/(contexts)/NotificationContext"
 import { getTabelasObject } from "@/utils/calculoTabelas"
 
 const NUMBER_INPUT_PLACEHOLDER = '_'.repeat(50)
+const PRESERVE_ST_STATE = false
 
 const fatoresConfigTextos: Record< 
     keyof FatoresContext, 
@@ -92,7 +93,7 @@ export const ProdutoDetalhes = ({ produto }:
         desconto
     } = controlledInputs
 
-    const tabelas = useMemo(() => Object.entries(getTabelasObject(produtoEdit)), [produtoEdit])
+    const tabelas: [string, number][] = useMemo(() => Object.entries(getTabelasObject(produtoEdit)), [produtoEdit])
 
     const [tabDisplayControl, setTabDisplayControl] = useState({
         atributos: false,
@@ -155,8 +156,10 @@ export const ProdutoDetalhes = ({ produto }:
         <div className={style.card}>
 
             <section className={style.header}>
-                {svgsUtil.produto3D}
-                <h3>Produto</h3>
+                <span className={style.badge}>
+                    {svgsUtil.produto3D}
+                    <h3>Produto</h3>
+                </span>
                 <h3>{produto.codigo}</h3>
             </section>
 
@@ -165,7 +168,7 @@ export const ProdutoDetalhes = ({ produto }:
                     {tabelas.map(([key, value]) => 
                         <div key={key} className={style.valor}>
                             <label>{key}</label>
-                            <h3>{(value) ? value : '~~~~~'}</h3>
+                            <h3>{(value) ? value.toFixed(2) : '~~~~~'}</h3>
                         </div>
                     )}
                 </span>
@@ -480,7 +483,7 @@ export const ProdutoDetalhes = ({ produto }:
             <span className={style.buttons}>
                 <button 
                     className={style.discard}
-                    onClick={() => resetProduto()}
+                    onClick={() => resetProduto(PRESERVE_ST_STATE)}
                 >
                     Descartar
                 </button>
@@ -505,7 +508,7 @@ const ExpandButton = (
 ) => {
 
     return(
-        <button 
+        <div 
             // className={`${style.button} ${style.expand}`} 
             // onClick={() => setDisplay(prev => !prev)} 
         >
@@ -517,7 +520,7 @@ const ExpandButton = (
                     }`}  
                     strokeWidth="50"/>
             </svg>             
-        </button>
+        </div>
     )
 
 }

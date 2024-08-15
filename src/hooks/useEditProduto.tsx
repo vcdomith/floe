@@ -1,31 +1,16 @@
-import { CalcularContextProps, FatoresContext, IDisplayControl, ProdutoCadastro, useCalcular } from "@/app/(app)/calcular/context/CalcularContext";
-import useFornecedor, { useFornecedorReturn } from "./useFornecedor";
-import usePedido, { usePedidoReturn } from "./usePedido";
-import useProduto, { IProdutoContext, useProdutoReturn } from "./useProduto";
-import { ChangeEvent, Dispatch, SetStateAction, useMemo, useState } from "react";
-import _, { initial, isArray } from 'lodash'
-import { useNotification } from "@/app/(app)/(contexts)/NotificationContext";
+import { IDisplayControl, ProdutoCadastro, useCalcular } from "@/app/(app)/calcular/context/CalcularContext";
+
+import useProduto, { IProdutoContext } from "./useProduto";
+import { useMemo } from "react";
 import { useModal } from "@/app/(app)/(contexts)/ModalContext";
-
-// interface UseEditProdutoReturn {
-    
-//     produtoEdit: ProdutoCadastro
-//     setProdutoEdit: Dispatch<SetStateAction<ProdutoCadastro>>
-//     handleProdutoChange: <T>(field: keyof Omit<ProdutoCadastro, "fatores" | "composto">) => (valor: T) => void
-//     handleCompostoChange: (index: 0 | 1) => (valor: string) => void
-//     handleFatorChange: (field: keyof FatoresContext) => (valor: ChangeEvent<HTMLInputElement>) => void,
-//     resetProduto: () => void
-//     displayControl: IDisplayControl
-//     valid: boolean
-
-// }
+import isEqual from "@/utils/isEqual";
 
 interface UseEditProdutoReturn {
     
     produtoEdit: ProdutoCadastro
     controlledInputs: IProdutoContext
     handleProdutoChange: <T>(field: keyof IProdutoContext) => (valor: T) => void
-    resetForm: () => void
+    resetForm: (preserveSt?: boolean) => void
     displayControl: IDisplayControl
     valid: boolean
     updateTabela: (id: number, updatedProduto: ProdutoCadastro) => void
@@ -34,14 +19,8 @@ interface UseEditProdutoReturn {
 
 export default function useEditProduto( produto: ProdutoCadastro ) {
 
-    // const [produtoEdit, setProdutoEdit] = useState<ProdutoCadastro>(produto)
-    // const {fatores, composto, ...atributos} = useMemo(() => {
-    //     return produtoEdit
-    // }, [produtoEdit])
-
     const { produtoData, handleProdutoChange, resetForm } = useProduto(produto)
     const {
-
         st,
 
         codigo,
@@ -77,6 +56,7 @@ export default function useEditProduto( produto: ProdutoCadastro ) {
         else 
             return unitarioNota
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [fornecedorData, produtoData])
 
     const produtoEdit: ProdutoCadastro = useMemo(() => ({
@@ -103,9 +83,10 @@ export default function useEditProduto( produto: ProdutoCadastro ) {
             st: (st) ? pedidoData.fatorSTPedido || '1' : '1',
 
             ipi: (st) ? ipi : '1',
-            desconto: (st) ? desconto : '1',
+            desconto: desconto || '1',
         }
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }), [produtoData])
 
     const {fatores, composto, ...atributos} = useMemo(() => {
@@ -116,7 +97,8 @@ export default function useEditProduto( produto: ProdutoCadastro ) {
 
     const valid: boolean = useMemo(() => {
 
-        if (_.isEqual(produto, produtoEdit)) return false
+        // if (_.isEqual(produto, produtoEdit)) return false
+        if (isEqual(produto, produtoEdit)) return false
 
         if (Object.entries(atributos).some( ([key, value]) => {
             if (displayControl.ncm && key === 'ncm') 
@@ -130,7 +112,7 @@ export default function useEditProduto( produto: ProdutoCadastro ) {
         return true
         
     }, [produtoEdit, produto, displayControl, atributos, fatores])
- 
+
     const updateTabela = () => {
         updateProdutoTabela(produto.id, produtoEdit)
         clearModal()

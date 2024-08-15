@@ -1,6 +1,6 @@
 'use client'
 
-import { FormEvent, KeyboardEvent, RefObject, useEffect, useRef, useState } from 'react'
+import { FormEvent, KeyboardEvent, RefObject, useEffect, useMemo, useRef, useState } from 'react'
 import style from '../FornecedorTab/FornecedorTab.module.scss'
 import { motion, AnimatePresence } from 'framer-motion'
 import Config from '@/app/(app)/configurar/(Config)/Config'
@@ -9,7 +9,7 @@ import Converter from '@/utils/typeConversion'
 import { useCalcular } from '../../context/CalcularContext'
 import { debug } from 'console'
 import CheckBox from '@/app/(app)/configurar/(CheckBox)/CheckBox'
-import { IFatoresPedido } from '@/hooks/usePedido'
+import { IFatoresPedido, IPedidoDisplayControl } from '@/hooks/usePedido'
 import usePedidoTabRefs, { InputRefs, Transporte_STRefs } from '@/hooks/usePedidoTabRefs'
 import { svgsUtil } from '@/components/SvgArray/SvgUtil'
 
@@ -19,11 +19,20 @@ export default function PedidoTab() {
 
     const [displayPedido, setDisplayPedido] = useState(false)
 
-    const {fornecedorContext, pedidoContext, displayControl} = useCalcular()
+    const calcularContext = useCalcular()
+    const {fornecedorContext, pedidoContext, displayControl} = calcularContext
     const {fornecedorData: { 
         fatorBase 
     }, handleFornecedorChange} = fornecedorContext 
-    const {pedidoData: {
+    const {
+        pedidoData,
+        handlePedidoSubmit, 
+        handlePedidoChange, 
+        getPedidoDisplayControl,
+        updatePedidoControl,
+        pedidoDiff
+    } = pedidoContext
+    const {
         usaNcm,
         quantidadeProdutos,
         fatorTransportePedido,
@@ -34,9 +43,16 @@ export default function PedidoTab() {
         valorST,
         multiploST,
         valorTotalProdutosST,
-    }, handlePedidoSubmit, handlePedidoChange} = pedidoContext
+    } = pedidoData
 
     const { refs, pedidoFormRef, transporteRefs, stRefs, assignRef } = usePedidoTabRefs()
+
+    // const pedidoDisplayControl = useMemo(() => {
+    //     const displayControl = getPedidoDisplayControl(calcularContext)
+    //     return Object.keys(displayControl).filter( key => displayControl[key as keyof IPedidoDisplayControl ])
+    // // eslint-disable-next-line react-hooks/exhaustive-deps
+    // }, [calcularContext])
+    // console.table(pedidoDisplayControl);
 
     const handleKeyDown = (e: KeyboardEvent<HTMLDivElement>, field: keyof IFatoresPedido) => {
 
@@ -61,23 +77,23 @@ export default function PedidoTab() {
                     activeField = 'st'
                     break;     
                     
+            }
+
+            const valid = Object.values(checkedRefs as Transporte_STRefs)
+            .filter( (ref: HTMLInputElement) => typeof ref !== 'function')
+            .every( (ref: HTMLInputElement) => {
+                if(ref.value === '') {
+                    ref.focus()
+                    return false
                 }
+                return true
+            })
 
-                const valid = Object.values(checkedRefs as Transporte_STRefs)
-                .filter( (ref: HTMLInputElement) => typeof ref !== 'function')
-                .every( (ref: HTMLInputElement) => {
-                    if(ref.value === '') {
-                        ref.focus()
-                        return false
-                    }
-                    return true
-                })
+            if (!valid) return 
+            if (activeField === '') return
 
-                if (!valid) return 
-                if (activeField === '') return
-
-                handlePedidoSubmit(activeField, fatorBase)
-                pedidoFormRef.current?.requestSubmit()
+            handlePedidoSubmit(activeField, fatorBase)
+            pedidoFormRef.current?.requestSubmit()
 
         }
 
@@ -87,6 +103,7 @@ export default function PedidoTab() {
 
         e.preventDefault()
 
+        if(pedidoDiff.length === 0) updatePedidoControl(pedidoData)
         setDisplayPedido(false)
 
     }
@@ -101,7 +118,10 @@ export default function PedidoTab() {
                 <span className={style.selectWrap}>
                     <button 
                         className={`${style.button} ${style.expand}`} 
-                        onClick={() => setDisplayPedido(prev => !prev)} 
+                        onClick={(e) => {
+                            e.stopPropagation()
+                            setDisplayPedido(prev => !prev)
+                        }} 
                     >
                         <svg width="25" height="25" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path 
@@ -117,6 +137,7 @@ export default function PedidoTab() {
             <AnimatePresence>
                 {displayPedido&&
                 <motion.div className={style.list}
+                    layoutRoot
                     initial={{ height: 0 }}
                     animate={{ height: 'auto' }}
                     exit={{ height: 0 }}
@@ -133,6 +154,7 @@ export default function PedidoTab() {
                         svg={svgsUtil.ncm} 
                         title={'Usa NCM'} 
                         description={'NCM vai ser cadastrado nesse pedido?'}
+                        diff={pedidoDiff.includes('usaNcm')}
                         input={
                             <CheckBox 
                                 checked={usaNcm}
@@ -144,6 +166,7 @@ export default function PedidoTab() {
                         svg={svgsUtil.produto} 
                         title={'Quantidade Produtos'} 
                         description={'Quantidade de produtos na nota para conferir na tabela'}
+                        diff={pedidoDiff.includes('quantidadeProdutos')}
                         input={
                             <NumberInput 
                                 placeholder={'______'} 
@@ -159,6 +182,7 @@ export default function PedidoTab() {
                             svg={svgsUtil.transporte} 
                             title={'Fator Transporte'} 
                             description={'Calcula o fator acrescentado devido ao frete'}
+                            diff={pedidoDiff.includes('fatorTransportePedido')}
                             input={
                                 <NumberInput 
                                     placeholder={'______'} 
@@ -229,6 +253,7 @@ export default function PedidoTab() {
                             svg={svgsUtil.st} 
                             title={'Fator ST'} 
                             description={'Calcula o fator acrescentado aos produtos com ST'}
+                            diff={pedidoDiff.includes('fatorSTPedido')}
                             input={
                                 <NumberInput 
                                     placeholder={'______'} 

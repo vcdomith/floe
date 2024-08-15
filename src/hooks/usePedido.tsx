@@ -154,7 +154,9 @@ export default function usePedido( produto: (ProdutoCadastro | null) = null ): U
         handlePedidoChange, 
         handlePedidoSubmit,
         resetPedido,
+
         getPedidoDisplayControl,
+        
         pedidoDiff,
         updatePedidoControl,
     }

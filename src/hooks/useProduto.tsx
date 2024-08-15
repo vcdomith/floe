@@ -2,6 +2,7 @@ import SelectFornecedor from "@/components/SelectFornecedor/SelectFornecedor";
 import { Dispatch, FormEvent, MutableRefObject, RefObject, SetStateAction, useMemo, useRef, useState } from "react";
 import Converter from "@/utils/typeConversion";
 import { CalcularContext, ProdutoCadastro } from "@/app/(app)/calcular/context/CalcularContext";
+import getDifferentKeys from "@/utils/differentKeys";
 
 export interface UseProduto {
 
@@ -11,7 +12,11 @@ export interface UseProduto {
     handleProdutoSubmit: (campo: 'ipi' | 'composto', e: FormEvent<HTMLFormElement>, fatorBase: string) => void
     resetForm: (preserveSt?: boolean) => void
     codigoInputRef: RefObject<HTMLInputElement> | null
+
     getProdutoDisplayControl: (ctx: CalcularContext) => IProdutoDisplayControl
+
+    produtoDiff: (keyof IProdutoContext)[]
+    updateProdutoControl: (produto: IProdutoContext) => void
 
 }
 
@@ -85,6 +90,9 @@ export default function useProduto(produto: (ProdutoCadastro | null) = null): Us
     }, [produto])
 
     const [produtoData, setProdutoData] = useState<IProdutoContext>(initialState)
+
+    const [produtoControl, updateProdutoControl] = useState(initialState)
+
     const codigoInputRef = useRef<HTMLInputElement>(null)
 
     function handleProdutoChange<T>(field: keyof IProdutoContext) {
@@ -137,7 +145,7 @@ export default function useProduto(produto: (ProdutoCadastro | null) = null): Us
         fornecedorContext: {fornecedorData},
         pedidoContext: {pedidoData},
         produtoContext: {produtoData},
-        }: CalcularContext): IProdutoDisplayControl => 
+    }: CalcularContext): IProdutoDisplayControl => 
     (produtoData.st)
     ? {
 
@@ -160,6 +168,8 @@ export default function useProduto(produto: (ProdutoCadastro | null) = null): Us
 
     }
     
+    const produtoDiff: (keyof IProdutoContext)[] = useMemo(() => getDifferentKeys(produtoData, produtoControl)
+    , [produtoData, produtoControl])
 
     return {
         produtoData, 
@@ -168,7 +178,11 @@ export default function useProduto(produto: (ProdutoCadastro | null) = null): Us
         handleProdutoSubmit, 
         resetForm,
         codigoInputRef,
-        getProdutoDisplayControl
+
+        getProdutoDisplayControl,
+
+        produtoDiff,
+        updateProdutoControl
     }
 
 }

@@ -26,19 +26,31 @@ export default function ProdutoTab() {
         submitForm, 
         displayControl
     } = calcularContext
-    const {produtoData: {
-        st,
-        codigo,
-        ncm,
-        desconto,
-        ipi,
-        ipiProporcional,
-        unitarioNota,
-        unitarioPedido,
-        unitarioComposto,
-        composto1,
-        composto2,
-    }, setProdutoData, handleProdutoChange, handleProdutoSubmit, resetForm, codigoInputRef, getProdutoDisplayControl} = produtoContext
+    const {
+        produtoData: {
+            st,
+            codigo,
+            ncm,
+            desconto,
+            ipi,
+            ipiProporcional,
+            unitarioNota,
+            unitarioPedido,
+            unitarioComposto,
+            composto1,
+            composto2,
+        }, 
+        setProdutoData, 
+        handleProdutoChange, 
+        handleProdutoSubmit, 
+        resetForm, 
+        codigoInputRef, 
+        getProdutoDisplayControl,
+        produtoDiff,
+        updateProdutoControl,
+    } = produtoContext
+    console.log(produtoDiff);
+    
     const {fornecedorData: { fatorBase, usaUnitarioPedido }, handleFornecedorChange} = fornecedorContext
 
     const [displayProdutoTab, setDisplayProdutoTab] = useState(false)

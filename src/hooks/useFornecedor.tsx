@@ -28,6 +28,8 @@ export default function useFornecedor() {
 
     const [fornecedorData, setFornecedorData] = useState<IFornecedor>(INITIAL_STATE)
 
+    const [fornecedorControl, updateFornecedorControl] = useState(INITIAL_STATE)
+
     function handleFornecedorChange(field: keyof IFornecedor) {
 
         return (valor: (string | boolean)) => setFornecedorData((prev) => {

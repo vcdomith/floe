@@ -134,7 +134,10 @@ export default function FatoresSection({ fornecedores }: FatoresSectionProps) {
             <button 
                 className={style.submit} 
                 onClick={() => submitForm()} 
-                disabled={(tabelaValid)|| !produtoIsValid}
+                disabled={(fornecedorDiff.length === 0 && pedidoDiff.length === 0) 
+                    ? (tabelaValid)|| !produtoIsValid
+                    : true
+                }
             >
                 {(!tabelaValid)
                 ?

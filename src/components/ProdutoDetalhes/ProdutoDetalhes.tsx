@@ -11,7 +11,7 @@ import Converter from "@/utils/typeConversion"
 import style from './ProdutoDetalhes.module.scss'
 import styleProduto from '../../app/(app)/calcular/Tabs/ProdutoTab/ProdutoTab.module.scss'
 import { AnimatePresence, motion } from "framer-motion"
-import { useFornecedorReturn } from "@/hooks/useFornecedor"
+import { UseFornecedor } from "@/hooks/useFornecedor"
 import { useNotification } from "@/app/(app)/(contexts)/NotificationContext"
 import { getTabelasObject } from "@/utils/calculoTabelas"
 

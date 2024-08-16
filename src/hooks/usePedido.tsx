@@ -38,7 +38,19 @@ export interface IFatoresPedido {
 
 }
 
-export interface IPedidoDisplayControl extends Record<keyof Pick<IFatoresPedido, 'fatorTransportePedido' | 'fatorSTPedido'>, boolean>{}
+export interface IPedidoDisplayControl extends 
+    Record<
+        keyof Pick<
+            IFatoresPedido,
+            (
+                'usaNcm' |
+                'quantidadeProdutos' | 
+                'fatorTransportePedido' | 
+                'fatorSTPedido'
+            )
+        >, 
+        boolean
+    >{}
 
 const INITIAL_STATE: IFatoresPedido = {
 
@@ -140,16 +152,17 @@ export default function usePedido( produto: (ProdutoCadastro | null) = null ): U
         }: CalcularContext): IPedidoDisplayControl => 
     (produtoData.st)
     ? {
-
+        usaNcm: true,
+        quantidadeProdutos: true,
         fatorTransportePedido: fornecedorData.usaTransporte,
         fatorSTPedido: fornecedorData.usaSt,
 
     }
     : {
-
+        usaNcm: true,
+        quantidadeProdutos: true,
         fatorTransportePedido: false,
         fatorSTPedido: false,
-
     }
 
     const pedidoDiff: (keyof IFatoresPedido)[] = useMemo(() => {

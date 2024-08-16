@@ -20,7 +20,7 @@ export default function PedidoTab() {
     const [displayPedido, setDisplayPedido] = useState(false)
 
     const calcularContext = useCalcular()
-    const {fornecedorContext, pedidoContext, displayControl} = calcularContext
+    const {fornecedorContext, pedidoContext} = calcularContext
     const {fornecedorData: { 
         fatorBase 
     }, handleFornecedorChange} = fornecedorContext 
@@ -45,14 +45,10 @@ export default function PedidoTab() {
         valorTotalProdutosST,
     } = pedidoData
 
-    const { refs, pedidoFormRef, transporteRefs, stRefs, assignRef } = usePedidoTabRefs()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    const pedidoDisplayControl = useMemo(() => getPedidoDisplayControl(calcularContext), [calcularContext])
 
-    // const pedidoDisplayControl = useMemo(() => {
-    //     const displayControl = getPedidoDisplayControl(calcularContext)
-    //     return Object.keys(displayControl).filter( key => displayControl[key as keyof IPedidoDisplayControl ])
-    // // eslint-disable-next-line react-hooks/exhaustive-deps
-    // }, [calcularContext])
-    // console.table(pedidoDisplayControl);
+    const { refs, pedidoFormRef, transporteRefs, stRefs, assignRef } = usePedidoTabRefs()
 
     const handleKeyDown = (e: KeyboardEvent<HTMLDivElement>, field: keyof IFatoresPedido) => {
 
@@ -176,7 +172,7 @@ export default function PedidoTab() {
                             />
                         }
                     />
-                    {displayControl.fatorTransportePedido&&
+                    {pedidoDisplayControl.fatorTransportePedido&&
                     <div className={style.configWrapper}>
                         <Config 
                             svg={svgsUtil.transporte} 
@@ -247,7 +243,7 @@ export default function PedidoTab() {
                     </div>
                     }
 
-                    {displayControl.fatorSTPedido&&
+                    {pedidoDisplayControl.fatorSTPedido&&
                     <div className={style.configWrapper}>
                         <Config 
                             svg={svgsUtil.st} 

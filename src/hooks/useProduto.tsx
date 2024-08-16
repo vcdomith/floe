@@ -39,7 +39,16 @@ export interface IProdutoContext {
 
 }
 
-export interface IProdutoDisplayControl extends Record<keyof Omit<IProdutoContext, 'codigo' | 'st' | 'ipiProporcional' | 'unitarioNota' | 'composto1' | 'composto2'>, boolean> {}
+export interface IProdutoDisplayControl extends 
+    Record<
+        keyof Omit<
+            IProdutoContext,
+            'ipiProporcional' | 
+            'composto1' | 
+            'composto2'
+        >
+        , boolean
+    > {}
 
 const INITIAL_STATE: IProdutoContext = {
 
@@ -149,20 +158,28 @@ export default function useProduto(produto: (ProdutoCadastro | null) = null): Us
     (produtoData.st)
     ? {
 
+        st: true,
+        codigo: true,
+
         ncm: pedidoData.usaNcm,
         desconto: fornecedorData.usaDesconto,
         ipi: fornecedorData.usaIpi,
 
+        unitarioNota: true,
         unitarioPedido: (fornecedorData.usaUnitarioPedido && !fornecedorData.usaComposto), 
         unitarioComposto: (fornecedorData.usaUnitarioPedido && fornecedorData.usaComposto),
 
     }
     : {
 
+        st: true,
+        codigo: true,
+
         ncm: pedidoData.usaNcm,
         desconto: fornecedorData.usaDesconto,
         ipi: false,
 
+        unitarioNota: true,
         unitarioPedido: (fornecedorData.usaUnitarioPedido && !fornecedorData.usaComposto), 
         unitarioComposto: (fornecedorData.usaUnitarioPedido && fornecedorData.usaComposto),
 

@@ -7,6 +7,7 @@ import { useCalcular } from "../context/CalcularContext";
 
 import style from './FatoresSection.module.scss'
 import { useNotification } from "../../(contexts)/NotificationContext";
+import capitalize from "@/utils/capitalize";
 
 interface FatoresSectionProps {
 
@@ -172,7 +173,7 @@ const AvisoFatoresDiferentes = ({tab, cancelHandler, confirmHandler}: AvisoFator
                     <path d="M462 433L250.5 67L144.75 250L39 433H462Z" stroke="black" strokeWidth="40" strokeLinejoin="bevel"/>
                     <path d="M250 198V380" stroke="black" strokeWidth="40"/>
                 </svg>
-                <p>{`Fatores alterados em ${tab} não estão afetando os produtos!`}</p> 
+                <p>{`Fatores alterados em '${capitalize(tab)}' não estão afetando os produtos!`}</p> 
             </span>
             <span className={style.buttons}>
                 <button 

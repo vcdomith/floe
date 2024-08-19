@@ -100,6 +100,8 @@ export default function usePedido( produto: (ProdutoCadastro | null) = null ): U
         : {...prev}
     })
 
+    // adicionar reset
+    
     const { stringToFloat, floatToString } = Converter
 
     function handlePedidoChange<T>(field: keyof IFatoresPedido){

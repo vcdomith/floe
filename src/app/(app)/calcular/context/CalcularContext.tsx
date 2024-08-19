@@ -206,28 +206,13 @@ export const CalcularProvider = ({ children }: { children: React.ReactNode }) =>
         fatorTransportePedido: "transporte",
         fatorSTPedido: "st"
     }
-    const newFatores: Omit<FatoresContext, 'ipi' | 'desconto'> = useMemo(() => {
-        return {
-
-                base: fornecedorData.fatorBase || '1',
-                fatorBaseNormal: (!controlledInputData.st) ? fornecedorData.fatorBaseNormal : '1',
-                fatorBaseST: (controlledInputData.st) ? fornecedorData.fatorBaseST : '1',
-        
-                transporte: (controlledInputData.st) 
-                    ? pedidoData.fatorTransportePedido || '1'
-                    : '1',
-                st: (controlledInputData.st) 
-                    ? pedidoData.fatorSTPedido || '1'
-                    : '1',
-
-            }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [fornecedorDiff, pedidoDiff])
-    console.log('newFatores', newFatores);
 
     const updateFatoresTabela = () => {
 
         setTabela((prev) => {
+
+            //Exemplo errado de como atualizar um objeto mais complexo no React, abaixo está a maneira correta de lidar com tais objetos
+
             // const newTabela = [...prev]
             // newTabela.map( produto => {
             //     const newFatores = {
@@ -245,6 +230,7 @@ export const CalcularProvider = ({ children }: { children: React.ReactNode }) =>
             //     produto.fatores = {...produto.fatores, ...newFatores}
             // })
             // return newTabela
+
             const newTabela = prev.map( produto => {
 
                 const newFatores = {

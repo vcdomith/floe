@@ -12,6 +12,7 @@ export interface UseFornecedor {
     fornecedorDiff: (keyof IFornecedor)[]
     updateFornecedorControl: (fornecedor: IFornecedor) => void
     rollbackFornecedor: () => void
+    resetFornecedorControl: () => void
 
 }
 
@@ -34,6 +35,10 @@ export default function useFornecedor(): UseFornecedor {
     const [fornecedorData, setFornecedorData] = useState<IFornecedor>(INITIAL_STATE)
 
     const [fornecedorControl, updateFornecedorControl] = useState<IFornecedor>()
+
+    const resetFornecedorControl = () => {
+        updateFornecedorControl(undefined)
+    }
 
     const rollbackFornecedor = () => setFornecedorData((prev) => {
         return fornecedorControl
@@ -87,7 +92,8 @@ export default function useFornecedor(): UseFornecedor {
 
         fornecedorDiff,
         updateFornecedorControl,
-        rollbackFornecedor
+        rollbackFornecedor,
+        resetFornecedorControl,
     }
 
 }

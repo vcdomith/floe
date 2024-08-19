@@ -102,6 +102,8 @@ export default function useProduto(produto: (ProdutoCadastro | null) = null): Us
 
     const [produtoControl, updateProdutoControl] = useState<IProdutoContext>()
 
+    // adicionar reset
+
     const codigoInputRef = useRef<HTMLInputElement>(null)
 
     function handleProdutoChange<T>(field: keyof IProdutoContext) {

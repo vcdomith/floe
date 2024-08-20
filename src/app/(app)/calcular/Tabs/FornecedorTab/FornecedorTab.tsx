@@ -38,7 +38,8 @@ export default function FornecedorTab({ fornecedores, svg, titulo }: FornecedorT
     const [loadingFornecedor, setLoadingFornecedor] = useState(false)
 
     const { 
-        fornecedorContext, 
+        fornecedorContext,
+        tabela, 
         resetContext
     } = useCalcular()
 
@@ -86,7 +87,11 @@ export default function FornecedorTab({ fornecedores, svg, titulo }: FornecedorT
 
     const handleFornecedorConfirm = () => {
 
-        if (fornecedorDb && fornecedor.toLowerCase() !== fornecedorDb.nome) {
+        if (
+            fornecedorDb && 
+            fornecedor.toLowerCase() !== fornecedorDb.nome &&
+            tabela.length > 0
+        ) {
             setModal(
                 <ConfirmationDialog 
                     title={"Confirme a troca de Fornecedor:"} 

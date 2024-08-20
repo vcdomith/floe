@@ -17,6 +17,7 @@ export interface UseProduto {
 
     produtoDiff: (keyof IProdutoContext)[]
     updateProdutoControl: (produto: IProdutoContext) => void
+    resetProdutoControl: () => void
 
 }
 
@@ -103,6 +104,9 @@ export default function useProduto(produto: (ProdutoCadastro | null) = null): Us
     const [produtoControl, updateProdutoControl] = useState<IProdutoContext>()
 
     // adicionar reset
+    const resetProdutoControl = () => {
+        updateProdutoControl(undefined)
+    }
 
     const codigoInputRef = useRef<HTMLInputElement>(null)
 
@@ -204,7 +208,8 @@ export default function useProduto(produto: (ProdutoCadastro | null) = null): Us
         getProdutoDisplayControl,
 
         produtoDiff,
-        updateProdutoControl
+        updateProdutoControl,
+        resetProdutoControl,
     }
 
 }

@@ -1,7 +1,7 @@
 'use client'
 import { getTabelas, getTabelasObject } from '@/utils/calculoTabelas'
 import { ProdutoCadastro, useCalcular } from '../context/CalcularContext'
-import TableHeader from './TabelaHeader/TableHeader'
+import TableHeader from './TabelaHeader/TabelaHeader'
 import TabelaRow from './TabelaRow/TabelaRow'
 import { AnimatePresence } from 'framer-motion'
 import Search from '@/components/Search/Search'

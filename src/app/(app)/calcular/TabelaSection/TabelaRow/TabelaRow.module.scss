@@ -125,14 +125,15 @@
             justify-content: center;
             align-items: center;
     
-            width: 25px;
-            height: 25px;
+            width: 30px;
+            height: 30px;
             padding: 0.2rem;
     
             background: none;
             outline: none;
 
-            border: 2px solid cor-mix(30%);
+            // border: 2px solid cor-mix(30%);
+            border: none;
             border-radius: 0.25rem;
             
             color: cor-mix(60%);
@@ -157,6 +158,10 @@
 
             svg path, line, ellipse {
                 stroke: cor-mix(50%);
+            }
+
+            svg {
+                min-width: 30px;
             }
 
         }

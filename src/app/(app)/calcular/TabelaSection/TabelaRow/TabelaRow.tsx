@@ -88,10 +88,10 @@ function TabelaRow({produto, setTabela}: TabelaRowProps, ref) {
                                 /> 
                             )}
                         >
-                            |||
+                            <SvgDetalhes />
                         </button>
         
-                        <button onClick={() => handleClick(id)}>X</button>
+                        <button onClick={() => handleClick(id)}><SvgExcluir/></button>
                     </span>
                 </div>
         </motion.span>
@@ -238,13 +238,20 @@ function TabelaRow({produto, setTabela}: TabelaRowProps, ref) {
 
 export default TabelaRow
 
-const SvgProduto_3D = () => {
+const SvgExcluir = () => {
     return(
         <svg width="50" height="50" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M449 135L250 20L51 135V365L250 480L449 365V135Z" stroke="black" strokeWidth="40" strokeLinejoin="round"/>
-            <path d="M449 365V135L250 250.649V480L449 365Z" stroke="black" strokeWidth="40" strokeLinejoin="round"/>
-            <path d="M449 135L250 20L51 135L250 250.649L449 135Z" stroke="black" strokeWidth="40" strokeLinejoin="round"/>
-            <path d="M51 365L250 480V250.649L51 135V365Z" stroke="black" strokeWidth="40" strokeLinejoin="round"/>
+            <path d="M156 345L346 155" stroke="black" stroke-width="40"/>
+            <path d="M155 155L345 345" stroke="black" stroke-width="40"/>
+        </svg>
+    )
+}
+const SvgDetalhes = () => {
+    return(
+        <svg width="500" height="500" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M117 161H383" stroke="black" stroke-width="40"/>
+            <path d="M117 250H383" stroke="black" stroke-width="40"/>
+            <path d="M117 339H383" stroke="black" stroke-width="40"/>
         </svg>
     )
 }

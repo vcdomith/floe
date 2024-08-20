@@ -18,6 +18,7 @@ export interface UsePedido {
     pedidoDiff: (keyof IFatoresPedido)[]
     updatePedidoControl: (pedido: IFatoresPedido) => void
     rollbackPedido: () => void
+    resetPedidoControl: () => void
 
 }
 
@@ -100,7 +101,9 @@ export default function usePedido( produto: (ProdutoCadastro | null) = null ): U
         : {...prev}
     })
 
-    // adicionar reset
+    const resetPedidoControl = () => {
+        updatePedidoControl(undefined)
+    }
     
     const { stringToFloat, floatToString } = Converter
 
@@ -184,7 +187,8 @@ export default function usePedido( produto: (ProdutoCadastro | null) = null ): U
         
         pedidoDiff,
         updatePedidoControl,
-        rollbackPedido
+        rollbackPedido,
+        resetPedidoControl,
     }
 
 }

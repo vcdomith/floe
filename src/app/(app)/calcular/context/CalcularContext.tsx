@@ -5,12 +5,8 @@ import useProduto, { UseProduto } from "@/hooks/useProduto";
 import { IFornecedor } from "@/interfaces/IFornecedor";
 import { Dispatch, SetStateAction, createContext, useContext, useEffect, useMemo, useState } from "react";
 import { useNotification } from "../../(contexts)/NotificationContext";
-import { IFator } from "@/interfaces/IFator";
 import useFilter, { useFilterReturn } from "@/hooks/useFilter";
 import { dbConnect } from "@/utils/db/supabase";
-import useFatoresControl, { FatoresControlReturn } from "@/hooks/useFatoresControl";
-import isEqual from "@/utils/isEqual";
-import getDifferentKeys from "@/utils/differentKeys";
 
 export interface CalcularContext {
 
@@ -20,9 +16,6 @@ export interface CalcularContext {
     getDisplayControl: (st: boolean) => IDisplayControl
     displayControl: IDisplayControl 
     produtoIsValid: boolean
-
-    fatoresControl: FatoresControlReturn
-    diffControl: DifferenceControl
 
     tabelaValid: boolean
     tabela: ProdutoCadastro[]
@@ -127,19 +120,10 @@ export const CalcularProvider = ({ children }: { children: React.ReactNode }) =>
 
     // TABELA CONTEXT _ TODO
 
-    const {fornecedorData, resetFornecedor, fornecedorDiff} = fornecedorContext
-    const {pedidoData, resetPedido, pedidoDiff} = pedidoContext
+    const {fornecedorData, resetFornecedor, resetFornecedorControl} = fornecedorContext
+    const {pedidoData, resetPedido, resetPedidoControl} = pedidoContext
     const {produtoData, resetForm, codigoInputRef} = produtoContext
     const { setSearchParam } = filterContext
-
-    const fatoresControl = useFatoresControl()
-    const {
-        fornecedorControl, 
-        updateFornecedorControl,
-        pedidoControl,
-        updatePedidoControl,
-        resetControl 
-    } = fatoresControl
 
     // const fornecedorValid = isEqual(fornecedorData, fornecedorControl)
     // console.log('fornecedorValid', fornecedorValid);
@@ -148,24 +132,6 @@ export const CalcularProvider = ({ children }: { children: React.ReactNode }) =>
     // const pedidoValid = isEqual(pedidoData, pedidoControl)
     // console.log('pedidoValid', pedidoValid);
     // console.log(getDifferentKeys(pedidoData, pedidoControl));
-
-    const diffControl = useMemo<DifferenceControl>(() => {
-
-        const diffControl = {...INITIAL_STATE_DIFF_CONTROL}
-
-        getDifferentKeys(fornecedorData, fornecedorControl).map( (key) => {
-            diffControl[key as keyof IFornecedor] = true
-        })
-        getDifferentKeys(pedidoData, pedidoControl).map( (key) => {
-            diffControl[key as keyof IFornecedor] = true
-        })
-
-        return diffControl
-
-    }, [fornecedorData, fornecedorControl, pedidoData, pedidoControl])
-    // console.log(diffControl);
-
-    // const [differenceControl, setDifferenceControl] = useState<DifferenceControl>(INITIAL_STATE_DIFF_CONTROL)
 
     type ControlledInputDataKeys = keyof typeof controlledInputData;
     const controlledInputData = useMemo(() => {
@@ -193,18 +159,6 @@ export const CalcularProvider = ({ children }: { children: React.ReactNode }) =>
             newTabela[index] = updatedProduto
             return newTabela
         })
-    }
-
-    interface FatoresDiffMap extends 
-        Record<keyof Pick<IFornecedor, 'fatorBase' | 'fatorBaseNormal'| 'fatorBaseST'>, string>,
-        Record<keyof Pick<IFatoresPedido, 'fatorTransportePedido' | 'fatorSTPedido'>, string>
-    {}
-    const FATORES_MAP: FatoresDiffMap = {
-        fatorBase: "base",
-        fatorBaseNormal: "fatorBaseNormal",
-        fatorBaseST: "fatorBaseST",
-        fatorTransportePedido: "transporte",
-        fatorSTPedido: "st"
     }
 
     const updateFatoresTabela = () => {
@@ -261,8 +215,13 @@ export const CalcularProvider = ({ children }: { children: React.ReactNode }) =>
     }
 
     const resetContext = () => {
+
         resetFornecedor()
+        resetFornecedorControl()
+        
         resetPedido()
+        resetPedidoControl()
+
         resetForm()
         setTabela([])
     }
@@ -456,9 +415,6 @@ export const CalcularProvider = ({ children }: { children: React.ReactNode }) =>
             getDisplayControl,
             displayControl,
             produtoIsValid,
-
-            fatoresControl,
-            diffControl,
 
             tabela,
             tabelaValid,

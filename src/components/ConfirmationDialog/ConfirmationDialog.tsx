@@ -1,5 +1,6 @@
 import { useModal } from '@/app/(app)/(contexts)/ModalContext'
 import style from './ConfirmationDialog.module.scss'
+import { useRef } from 'react'
 
 interface ConfirmationDialogProps {
     title: string
@@ -12,10 +13,13 @@ export default function ConfirmationDialog (
     { title, message, cancelHandler, confirmHandler }: ConfirmationDialogProps
 ) {
 
+    const confirmRef = useRef<HTMLButtonElement | null>(null)
+
     const { clearModal } = useModal()
 
     const handleConfirm = () => {
         confirmHandler()
+        confirmRef.current!.disabled = true
         clearModal()
     }
 
@@ -32,7 +36,12 @@ export default function ConfirmationDialog (
                 </div>
                 <span className={style.buttons}>
                     <button className={style.cancel} onClick={() => cancelHandler()}>Cancelar</button>
-                    <button className={style.confirm} onClick={() => handleConfirm()}>Confirmar</button>
+                    <button 
+                        className={style.confirm} 
+                        ref={confirmRef}
+                        onClick={() => handleConfirm()}>
+                            Confirmar
+                    </button>
                 </span>
             </div>
         </div>

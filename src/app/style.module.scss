@@ -34,11 +34,12 @@
 
                 transform: translate(-47.5%, -47.5%);
                 scale: 15;
-                stroke-width: 2;
+                stroke-width: 1;
 
                 stroke: $cor-secundaria;
                 stroke: transparentize($cor-secundaria, 0.5);
 
+                transition: stroke-width 400ms ease;
 
             }
 

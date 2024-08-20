@@ -11,6 +11,7 @@ import { useModal } from '@/app/(app)/(contexts)/ModalContext'
 import { IProdutoContext } from '@/hooks/useProduto'
 import ProdutoDetalhes from '@/components/ProdutoDetalhes/ProdutoDetalhes'
 import ConfirmationDialog from '@/components/ConfirmationDialog/ConfirmationDialog'
+import { useNotification } from '@/app/(app)/(contexts)/NotificationContext'
 
 interface TabelaRowProps {
 
@@ -26,6 +27,7 @@ function TabelaRow({produto, setTabela}: TabelaRowProps, ref) {
     const {tabela1, tabela2, tabela3} = useMemo(() => getTabelasObject(produto), [produto])
 
     const { fornecedorContext, produtoContext, removeProduto } = useCalcular()
+    const {addNotification} = useNotification()
     const { handleProdutoChange } = produtoContext
 
     const { setModal, clearModal } = useModal()
@@ -37,7 +39,13 @@ function TabelaRow({produto, setTabela}: TabelaRowProps, ref) {
                 title={`Confirme a exclusão do produto ${produto.codigo}:`}
                 message='Aviso: o produto será excluído permanentemente!' 
                 cancelHandler={clearModal} 
-                confirmHandler={() => removeProduto(id)}                
+                confirmHandler={() => {
+                    addNotification({
+                        tipo: 'sucesso',
+                        mensagem: `Produto ${produto.codigo} excluído com sucesso!`,
+                    })
+                    removeProduto(id)
+                }}                
             />
         )
 
@@ -100,142 +108,6 @@ function TabelaRow({produto, setTabela}: TabelaRowProps, ref) {
 
 })
 
-// const DetalhesProduto = ({ produto, handleProdutoChange }: 
-//     { 
-//         produto: ProdutoCadastro, 
-//         handleProdutoChange: <T>(field: keyof IProdutoContext) => (valor: T) => void
-//     }
-// ) => {
-//     return (
-//         <div
-//             id={`fatores${produto.id}`} 
-//             style={{ width: 'fit-content'}}
-//         >
-//             <div className={style.popoverWrap}>
-
-//                 <span className={style.header}>
-//                     <SvgProduto_3D />
-//                     <h3>Produto</h3>
-//                     <h3>{produto.codigo}</h3>
-//                 </span>
-
-//                 <div className={style.atributos}>
-//                     <Config 
-//                         svg={svgsUtil.st} 
-//                         title={'ST:'} 
-//                         description={''}
-//                         input={
-//                             <CheckBox 
-//                                 checked={produto.st}
-//                                 setChecked={handleProdutoChange('st')}
-//                                 disabled
-//                             />
-//                         }
-//                     />
-//                     <Config
-//                         svg={svgsUtil['unitario']} 
-//                         title={'Unitário'} 
-//                         description={''}
-//                         input={
-//                             <input
-//                                 className={style.codigo}
-//                                 type="text" 
-//                                 placeholder="_____________"
-//                                 value={produto.unitario}
-//                                 required
-//                                 disabled
-//                             />
-//                         }
-//                     />
-//                     <Config
-//                         svg={svgsUtil['ncm']} 
-//                         title={'NCM'} 
-//                         description={''}
-//                         input={
-//                             <input
-//                                 className={style.codigo}
-//                                 type="text" 
-//                                 placeholder="_____________"
-//                                 value={produto.ncm}
-//                                 required
-//                                 disabled
-//                             />
-//                         }
-//                     />
-//                     <Config
-//                         svg={svgsUtil['unitarioNota']} 
-//                         title={'Unit. Nota'} 
-//                         description={''}
-//                         input={
-//                             <input
-//                                 className={style.codigo}
-//                                 type="text" 
-//                                 placeholder="_____________"
-//                                 value={produto.unitarioNota}
-//                                 required
-//                                 disabled
-//                             />
-//                         }
-//                     />
-                    
-//                 </div>
-
-//                 <div className={style.title}>
-//                     <h5>Fatores</h5>
-//                 </div>
-//                 <div className={style.fatores}>
-//                 {Object.entries(produto.fatores)
-//                     .filter( ([key, value]) => (value !== '1' || key === 'base'))
-//                     .map(([key, value]) => 
-//                         <Config
-//                             key={key} 
-//                             svg={svgsUtil[key as keyof FatoresContext]} 
-//                             title={key} 
-//                             description={'Código do produto Código do produto Código do produto'}
-//                             input={
-//                                 <input
-//                                     className={style.codigo}
-//                                     type="text" 
-//                                     placeholder="_____________"
-//                                     value={value}
-//                                     required
-//                                     disabled
-//                                 />
-//                             }
-//                         />
-//                     )
-//                 }
-//                 </div>
-
-//             </div>
-//         </div>
-//     )
-// }
-
-// const ProdutoDetalhes = ({ produto }: {produto: ProdutoCadastro}) => {
-
-//     return (
-//         <div>
-//             <Config 
-//                 svg={svgsUtil[produto]} 
-//                 title={'Código'} 
-//                 description={'Código do produto'}
-//                 input={
-//                     <input
-//                         className={style.codigo}
-//                         type="text" 
-//                         placeholder="_____________"
-//                         value={produto.codigo}
-//                         required
-//                         disabled
-//                     />
-//                 }
-//             />
-//         </div>
-//     )
-
-// }
-
 export default TabelaRow
 
 const SvgExcluir = () => {
@@ -248,7 +120,7 @@ const SvgExcluir = () => {
 }
 const SvgDetalhes = () => {
     return(
-        <svg width="500" height="500" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg width="50" height="50" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M117 161H383" stroke="black" stroke-width="40"/>
             <path d="M117 250H383" stroke="black" stroke-width="40"/>
             <path d="M117 339H383" stroke="black" stroke-width="40"/>

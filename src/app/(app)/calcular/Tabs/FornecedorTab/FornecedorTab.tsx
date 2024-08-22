@@ -117,7 +117,7 @@ export default function FornecedorTab({ fornecedores, svg, titulo }: FornecedorT
                 {svg || svgsUtil.transporte}
                 <h3>{ titulo ? titulo : 'Fornecedor'}</h3>
             </span>
-            <span className={style.selectWrap}>
+            <span className={`${style.selectWrap} ${style.w100}`}>
                 <SelectFornecedor 
                     fornecedoresControle={fornecedores}
                     fornecedor={fornecedor}

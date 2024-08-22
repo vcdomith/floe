@@ -78,7 +78,7 @@ $step-size: 100% /($steps + 1);
 
     // padding-left: 0.5rem;
 
-    border-bottom: 2px solid transparentize($cor-secundaria, 0.9);
+    // border-bottom: 2px solid transparentize($cor-secundaria, 0.9);
     
     transition: border 2s ease,
                 background-color 400ms ease,
@@ -88,7 +88,7 @@ $step-size: 100% /($steps + 1);
 
     &:hover {
 
-        border-bottom: 2px solid $cor-secundaria;
+        // border-bottom: 2px solid $cor-secundaria;
 
         width: 10rem;
         // background-color: transparentize($cor-primaria, 0.3);
@@ -294,17 +294,58 @@ $step-size: 100% /($steps + 1);
 
         margin-top: auto;
 
-        // &[data-expanded="true"] {
-    
-        //     a button svg path,circle {
-        
-        //         stroke: cor-mix(80%);
-        
-        //     }
-            
-    
-        // }
     }
     
+}
+
+@media (width <= 800px) {
+
+    // .background {
+    //     width: 11rem;
+    // }
+
+    .nav {
+
+        height: 5rem;
+        overflow: hidden;
+
+        padding: 0;
+        
+        &[data-display='true'] {
+            height: calc(100vh - 2rem);
+        }
+
+        .logo {
+            min-height: 4rem;
+        }
+
+        .links {
+            
+            opacity: 0;
+            width: 0;
+            overflow: hidden;
+
+            transition: opacity 400ms ease,
+                        width 400ms ease;
+
+            .active {
+                width: 0;
+            }
+
+            &[data-display="true"] {
+
+                opacity: 1;
+                width: 100%;
+
+                .active {
+                    width: 100%;
+                }
+
+            }
+
+
+        }
+
+    }
 
 }

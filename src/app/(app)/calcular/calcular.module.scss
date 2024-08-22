@@ -11,3 +11,11 @@
     overflow: hidden;
 
 }
+
+@media (width <= 800px) {
+
+    .main {
+        height: calc(100svh - 7rem);
+    }
+
+}

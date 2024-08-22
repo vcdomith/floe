@@ -466,3 +466,30 @@
     }
 
 }
+
+@media (width <= 800px) {
+
+    .wrap {
+
+        .tab {
+    
+            flex-wrap: wrap; 
+
+                .w100 {
+                    
+                    width: 100%;
+            
+                    .expand {
+            
+                        margin-left: auto;
+            
+                    }
+            
+                }
+        }
+    
+        
+    }
+
+
+}

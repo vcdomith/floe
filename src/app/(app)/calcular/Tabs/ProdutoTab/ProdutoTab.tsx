@@ -16,6 +16,57 @@ import { svgsUtil } from "@/components/SvgArray/SvgUtil"
 
 const NUMBER_INPUT_PLACEHOLDER = '_'.repeat(50)
 
+//Input by default is a NumberInput
+interface ProdutoConfigElements {
+    title: string
+    description: string
+    input?: React.ReactNode
+}
+
+const PRODUTO_CONFIG_MAP: Record<keyof IProdutoDisplayControl, ProdutoConfigElements> = {
+    st: {
+        title: 'Produto com ST?',
+        description: 'Produto usa Subst. Trib.',
+        // input: 
+        //     <CheckBox 
+        //         checked={st}
+        //         setChecked={handleProdutoChange('st')}
+        //     />,
+    },
+    codigo: {
+        title: 'Código',
+        description: 'Código do produto',
+        input: <div></div>
+    },
+    ncm: {
+        title: '',
+        description: '',
+        input: <div></div>
+    },
+    desconto: {
+        title: '',
+        description: '',
+    },
+    ipi: {
+        title: '',
+        description: '',
+        input: <div></div>
+    },
+    unitarioNota: {
+        title: '',
+        description: '',
+    },
+    unitarioPedido: {
+        title: '',
+        description: '',
+    },
+    unitarioComposto: {
+        title: '',
+        description: '',
+        input: <div></div>
+    },
+}
+
 export default function ProdutoTab() {
 
     const calcularContext = useCalcular()
@@ -24,7 +75,6 @@ export default function ProdutoTab() {
         fornecedorContext, 
         produtoIsValid, 
         submitForm, 
-        displayControl
     } = calcularContext
     const {
         produtoData: {
@@ -52,6 +102,9 @@ export default function ProdutoTab() {
     // console.log(produtoDiff);
     
     const {fornecedorData: { fatorBase, usaUnitarioPedido }, handleFornecedorChange} = fornecedorContext
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    const produtoDisplayControl = useMemo(() => getProdutoDisplayControl(calcularContext), [calcularContext])
 
     const [displayProdutoTab, setDisplayProdutoTab] = useState(false)
 
@@ -99,16 +152,6 @@ export default function ProdutoTab() {
         } 
 
     }
-
-    const produtoDisplayControl = useMemo(() => {
-
-        const displayControl = getProdutoDisplayControl(calcularContext)
-        return Object.keys(displayControl).filter( (key) => displayControl[key as keyof IProdutoDisplayControl] )
-
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    , [calcularContext])
-    // console.table(produtoDisplayControl);
 
     return (
         <div className={style.wrap}>
@@ -172,7 +215,7 @@ export default function ProdutoTab() {
                                     />
                                 }
                             />
-                            {displayControl.ncm&&
+                            {produtoDisplayControl.ncm&&
                             <Config 
                                 svg={svgsUtil.ncm} 
                                 title={'NCM'} 
@@ -191,7 +234,7 @@ export default function ProdutoTab() {
                                 }
                             />
                             }        
-                            {displayControl.desconto&&
+                            {produtoDisplayControl.desconto&&
                             <Config 
                                 svg={svgsUtil.desconto} 
                                 title={'Desconto'} 
@@ -206,7 +249,7 @@ export default function ProdutoTab() {
                                 }
                             />
                             }
-                            {displayControl.ipi&&
+                            {produtoDisplayControl.ipi&&
                             <div className={`${style.configWrapper} ${styleProduto.configWrapper}`}>
                                 <Config 
                                     svg={svgsUtil.ipi} 
@@ -251,7 +294,6 @@ export default function ProdutoTab() {
                                 </div>
                             </div>
                             }
-                            {displayControl.unitarioNota&&
                             <Config 
                                 svg={svgsUtil.unitarioNota} 
                                 title={'Unitário (Nota)'} 
@@ -270,8 +312,7 @@ export default function ProdutoTab() {
                                     />
                                 }
                             />
-                            }
-                            {displayControl.unitarioPedido&&
+                            {produtoDisplayControl.unitarioPedido&&
                             <Config 
                                 svg={svgsUtil.unitarioNota} 
                                 title={'Unitário (Pedido)'} 
@@ -286,7 +327,7 @@ export default function ProdutoTab() {
                                 }
                             />
                             }
-                            {displayControl.unitarioComposto&&
+                            {produtoDisplayControl.unitarioComposto&&
                             <div className={`${style.configWrapper} ${styleProduto.configWrapper} ${styleProduto.compostoWrapper}`}>
                                 <Config 
                                     svg={svgsUtil.composto} 
@@ -347,4 +388,8 @@ export default function ProdutoTab() {
         </div>
     )
 
+}
+
+const ProdutoConfig = () => {
+    
 }

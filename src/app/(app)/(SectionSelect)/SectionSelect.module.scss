@@ -1,0 +1,45 @@
+@use '../../globalStyle.module.scss' as *;
+
+.select {
+
+    display: none;
+
+    position: fixed;
+    top: 0;
+    right: 1rem;
+
+    z-index: 10;
+
+}
+
+@media (width <= 800px) {
+
+    .select {
+        
+        display: flex;
+        align-items: center;
+
+        height: 4rem;
+
+        div {
+
+            border-width: 1px;
+
+            button {
+
+                background-color: transparent !important;
+
+                input {
+
+                    color: $cor-secundaria !important;
+
+                }
+
+
+            }
+
+        }
+
+    }
+
+}

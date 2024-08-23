@@ -27,16 +27,21 @@ const Nav = ({ pathname }: { pathname: string}) => {
             </motion.div>
             } 
         </AnimatePresence>
-    <nav className={style.nav}
+    <nav 
+        className={style.nav}
+        data-display={display}
         onMouseEnter={() => setDisplay(true)}
         onMouseLeave={() => setDisplay(false)}
     >       
         
-            <span>
+            <span className={style.logo}>
                 <LogoSvg />
                 <h2>floe</h2>
             </span>
-            <div className={style.links}>
+            <div 
+                className={style.links}
+                data-display={display}
+            >
                 <Link href='/configurar' prefetch>
                     <button 
                     className={`${(pathname === '/configurar' ? style.active : '')}`}
@@ -98,6 +103,7 @@ const Nav = ({ pathname }: { pathname: string}) => {
             <div
                 className={`${style.links} ${style.extra}`}
                 data-expanded={display}
+                data-display={display}
             >
                 <Link href='/usuario' prefetch>
                     <button className={`${(pathname === '/usuario' ? style.active : '')}`}>

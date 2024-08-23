@@ -17,6 +17,7 @@ export interface UseProduto {
 
     produtoDiff: (keyof IProdutoContext)[]
     updateProdutoControl: (produto: IProdutoContext) => void
+    resetProdutoControl: () => void
 
 }
 
@@ -39,7 +40,16 @@ export interface IProdutoContext {
 
 }
 
-export interface IProdutoDisplayControl extends Record<keyof Omit<IProdutoContext, 'codigo' | 'st' | 'ipiProporcional' | 'unitarioNota' | 'composto1' | 'composto2'>, boolean> {}
+export interface IProdutoDisplayControl extends 
+    Record<
+        keyof Omit<
+            IProdutoContext,
+            'ipiProporcional' | 
+            'composto1' | 
+            'composto2'
+        >
+        , boolean
+    > {}
 
 const INITIAL_STATE: IProdutoContext = {
 
@@ -92,6 +102,11 @@ export default function useProduto(produto: (ProdutoCadastro | null) = null): Us
     const [produtoData, setProdutoData] = useState<IProdutoContext>(initialState)
 
     const [produtoControl, updateProdutoControl] = useState<IProdutoContext>()
+
+    // adicionar reset
+    const resetProdutoControl = () => {
+        updateProdutoControl(undefined)
+    }
 
     const codigoInputRef = useRef<HTMLInputElement>(null)
 
@@ -149,20 +164,28 @@ export default function useProduto(produto: (ProdutoCadastro | null) = null): Us
     (produtoData.st)
     ? {
 
+        st: true,
+        codigo: true,
+
         ncm: pedidoData.usaNcm,
         desconto: fornecedorData.usaDesconto,
         ipi: fornecedorData.usaIpi,
 
+        unitarioNota: true,
         unitarioPedido: (fornecedorData.usaUnitarioPedido && !fornecedorData.usaComposto), 
         unitarioComposto: (fornecedorData.usaUnitarioPedido && fornecedorData.usaComposto),
 
     }
     : {
 
+        st: true,
+        codigo: true,
+
         ncm: pedidoData.usaNcm,
         desconto: fornecedorData.usaDesconto,
         ipi: false,
 
+        unitarioNota: true,
         unitarioPedido: (fornecedorData.usaUnitarioPedido && !fornecedorData.usaComposto), 
         unitarioComposto: (fornecedorData.usaUnitarioPedido && fornecedorData.usaComposto),
 
@@ -185,7 +208,8 @@ export default function useProduto(produto: (ProdutoCadastro | null) = null): Us
         getProdutoDisplayControl,
 
         produtoDiff,
-        updateProdutoControl
+        updateProdutoControl,
+        resetProdutoControl,
     }
 
 }

@@ -93,6 +93,8 @@ export const ProdutoDetalhes = ({ produto }:
         desconto
     } = controlledInputs
 
+    const {addNotification} = useNotification()
+
     const tabelas: [string, number][] = useMemo(() => Object.entries(getTabelasObject(produtoEdit)), [produtoEdit])
 
     const [tabDisplayControl, setTabDisplayControl] = useState({
@@ -490,7 +492,13 @@ export const ProdutoDetalhes = ({ produto }:
                 <button 
                     className={style.update}
                     disabled={!valid}
-                    onClick={() => updateTabela(produto.id, produtoEdit)}
+                    onClick={() => {
+                        addNotification({
+                            tipo: 'sucesso',
+                            mensagem: `Produto ${codigo} atualizado com sucesso!`,
+                        })
+                        updateTabela(produto.id, produtoEdit)
+                    }}
                 >
                     Atualizar
                 </button>

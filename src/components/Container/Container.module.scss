@@ -84,19 +84,39 @@
 }
 
 
-@media (max-width: 850px) {
+@media (width <= 800px) {
 
-    .container {
-
-        flex-direction: column;
-        width: 100%;
+    .section {
         
-    }
+        padding: 1rem;
 
-    .container {
+        margin-left: 1rem;
+        margin-top: 4rem;
 
-        width: 100%;
+        width: calc(100vw - 2rem);
+        max-width: calc(100vw - 2rem);
+
+        height: calc(100vh - 5rem);
+
+
 
     }
 
 }
+
+// @media (max-width: 850px) {
+
+//     .container {
+
+//         flex-direction: column;
+//         width: 100%;
+        
+//     }
+
+//     .container {
+
+//         width: 100%;
+
+//     }
+
+// }

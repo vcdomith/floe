@@ -53,8 +53,8 @@
         justify-content: center;
         align-items: center;
 
-        width: 15px;
-        height: 15px;
+        width: calc(25px - 0.5rem);
+        height: calc(25px - 0.5rem);
         margin: 0;
         padding: 0.25rem;
         border-radius: 0.25rem;
@@ -111,7 +111,7 @@
     .tools {
 
         display: flex;
-        gap: 0.25rem;
+        gap: 0.5rem;
 
         button {
 
@@ -125,14 +125,15 @@
             justify-content: center;
             align-items: center;
     
-            width: 25px;
-            height: 25px;
+            width: 30px;
+            height: 30px;
             padding: 0.2rem;
     
             background: none;
             outline: none;
 
-            border: 2px solid cor-mix(30%);
+            // border: 2px solid cor-mix(30%);
+            border: none;
             border-radius: 0.25rem;
             
             color: cor-mix(60%);
@@ -157,6 +158,11 @@
 
             svg path, line, ellipse {
                 stroke: cor-mix(50%);
+            }
+
+            svg {
+                min-width: 30px;
+                max-height: 30px;
             }
 
         }

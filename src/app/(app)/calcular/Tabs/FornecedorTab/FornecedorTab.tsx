@@ -15,6 +15,8 @@ import LogoSvg from "@/components/SvgArray/LogoSvg";
 import useFornecedor from "@/hooks/useFornecedor";
 import { useCalcular } from "../../context/CalcularContext";
 import { svgsUtil } from "@/components/SvgArray/SvgUtil";
+import { useModal } from "@/app/(app)/(contexts)/ModalContext";
+import ConfirmationDialog from "@/components/ConfirmationDialog/ConfirmationDialog";
 
 interface FornecedorTabProps {
 
@@ -36,11 +38,9 @@ export default function FornecedorTab({ fornecedores, svg, titulo }: FornecedorT
     const [loadingFornecedor, setLoadingFornecedor] = useState(false)
 
     const { 
-        fornecedorContext, 
-        // fatoresControl: {
-        //     fornecedorControl,
-        //     updateFornecedorControl,
-        // }
+        fornecedorContext,
+        tabela, 
+        resetContext
     } = useCalcular()
 
     const {fornecedorData: {
@@ -55,6 +55,8 @@ export default function FornecedorTab({ fornecedores, svg, titulo }: FornecedorT
         usaUnitarioPedido,
         usaComposto
     }, setFornecedorData, handleFornecedorChange, fornecedorDiff, updateFornecedorControl} = fornecedorContext
+
+    const {setModal, clearModal} = useModal()
 
     useEffect(() => {
         if(fornecedorDb !== undefined) 
@@ -83,7 +85,30 @@ export default function FornecedorTab({ fornecedores, svg, titulo }: FornecedorT
 
     }
 
+    const handleFornecedorConfirm = () => {
 
+        if (
+            fornecedorDb && 
+            fornecedor.toLowerCase() !== fornecedorDb.nome &&
+            tabela.length > 0
+        ) {
+            setModal(
+                <ConfirmationDialog 
+                    title={"Confirme a troca de Fornecedor:"} 
+                    message={"Aviso: Ao confirmar a troca todos produtos serão apagados!"}
+                    cancelHandler={clearModal} 
+                    confirmHandler={() => {
+                        resetContext()
+                        getFornecedorDataDB()
+                    }} 
+                />
+            )
+            return
+        }
+
+        getFornecedorDataDB()
+
+    }
 
     return (
         <div className={style.wrap}>
@@ -92,7 +117,7 @@ export default function FornecedorTab({ fornecedores, svg, titulo }: FornecedorT
                 {svg || svgsUtil.transporte}
                 <h3>{ titulo ? titulo : 'Fornecedor'}</h3>
             </span>
-            <span className={style.selectWrap}>
+            <span className={`${style.selectWrap} ${style.w100}`}>
                 <SelectFornecedor 
                     fornecedoresControle={fornecedores}
                     fornecedor={fornecedor}
@@ -104,7 +129,7 @@ export default function FornecedorTab({ fornecedores, svg, titulo }: FornecedorT
                 <button 
                     className={style.button} 
                     // onClick={() => setDisplay(prev => !prev)} 
-                    onClick={() => getFornecedorDataDB()}
+                    onClick={() => handleFornecedorConfirm()}
                     disabled={fornecedor === '' ? true : false}>
                     {loadingFornecedor
                     ?

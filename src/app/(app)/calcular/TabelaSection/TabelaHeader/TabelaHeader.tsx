@@ -19,7 +19,7 @@ export default function TabelaHeader() {
             <div><p>Tabela 1</p></div>
             <div><p>Tabela 2</p></div>
             <div><p>Tabela 3</p></div>
-            <div><p>Fatores</p></div>
+            <div><p>Opções</p></div>
         </span>
 
     )

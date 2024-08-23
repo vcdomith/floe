@@ -14,6 +14,7 @@ import Nav from "./(nav)/Nav";
 import { CalcularProvider } from "./calcular/context/CalcularContext";
 import { ModalProvider } from "./(contexts)/ModalContext";
 import Modal from "./(Modal)/Modal";
+import SectionSelect from "./(SectionSelect)/SectionSelect";
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
 
@@ -26,6 +27,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
         <CalcularProvider>
         <ModalProvider>
             <Nav pathname={path} />
+            <SectionSelect />
         {/* <header className={style.header}>
             <div>
                 <MainLogo /> 

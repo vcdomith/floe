@@ -5,7 +5,7 @@
     // position: fixed;
     display: flex;
     width: 100%;
-    height: calc(100svh - 6rem);
+    height: calc(100dvh - 6rem);
     // gap: 1rem;
 
     overflow: hidden;
@@ -15,7 +15,7 @@
 @media (width <= 800px) {
 
     .main {
-        height: calc(100svh - 7rem);
+        height: calc(100dvh - 7rem);
     }
 
 }

@@ -5,8 +5,6 @@ import { dbConnect } from '@/utils/db/supabase'
 
 import style from './calcular.module.scss'
 
-export const revalidate = 0
-
 export default async function Calcular() {
     
     const supabase = dbConnect()

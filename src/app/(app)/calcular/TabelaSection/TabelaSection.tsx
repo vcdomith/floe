@@ -22,7 +22,8 @@ export default function TabelaSection() {
         cadastrarPedidoDB, 
         filterContext, 
         resetContext,
-        pedidoContext: {pedidoData: {quantidadeProdutos}}
+        pedidoContext: {pedidoData: {quantidadeProdutos}},
+        calcularSection
     } = useCalcular()
     const {searchParam, setSearchParam, searchField, setSearchFieldCapitalized} = filterContext
 
@@ -51,7 +52,7 @@ export default function TabelaSection() {
     }
 
     return (
-        <section className={style.tabelaSection}>
+        <section className={style.tabelaSection} data-active={(calcularSection === 'Tabela')}> 
             <div className={style.content}>
 
                 <span className={style.options}>

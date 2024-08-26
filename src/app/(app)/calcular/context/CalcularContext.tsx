@@ -8,6 +8,7 @@ import { useNotification } from "../../(contexts)/NotificationContext";
 import useFilter, { useFilterReturn } from "@/hooks/useFilter";
 import { dbConnect } from "@/utils/db/supabase";
 
+
 export interface CalcularContext {
 
     fornecedorContext: UseFornecedor
@@ -28,6 +29,9 @@ export interface CalcularContext {
     
     submitForm: () => void
     resetContext: () => void
+
+    calcularSection: 'Fatores' | 'Tabela'
+    setCalcularSection : Dispatch<SetStateAction<"Fatores" | "Tabela">>
 
 }
 
@@ -119,6 +123,7 @@ export const CalcularProvider = ({ children }: { children: React.ReactNode }) =>
     const filterContext = useFilter()
 
     // TABELA CONTEXT _ TODO
+    const [calcularSection, setCalcularSection] = useState<'Fatores' | 'Tabela'>('Fatores')
 
     const {fornecedorData, resetFornecedor, resetFornecedorControl} = fornecedorContext
     const {pedidoData, resetPedido, resetPedidoControl} = pedidoContext
@@ -427,6 +432,9 @@ export const CalcularProvider = ({ children }: { children: React.ReactNode }) =>
 
             submitForm,
             resetContext,
+
+            calcularSection,
+            setCalcularSection,
         }}
     >
         {children}

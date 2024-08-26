@@ -238,7 +238,12 @@
 @media (width <= 800px) {
 
     .fatores {
+
         min-width: 280px;
+
+        &[data-active="false"]{
+            display: none;
+        }
     }
 
 }

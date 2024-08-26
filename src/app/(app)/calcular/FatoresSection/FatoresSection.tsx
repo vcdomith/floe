@@ -23,7 +23,8 @@ export default function FatoresSection({ fornecedores }: FatoresSectionProps) {
         produtoIsValid, 
         submitForm, 
         tabelaValid,
-        updateFatoresTabela
+        updateFatoresTabela,
+        calcularSection
     } = useCalcular()
     const {fornecedorData, fornecedorDiff, rollbackFornecedor, updateFornecedorControl} = fornecedorContext
     const {pedidoData, pedidoDiff, rollbackPedido, updatePedidoControl} = pedidoContext
@@ -37,7 +38,7 @@ export default function FatoresSection({ fornecedores }: FatoresSectionProps) {
     // produtoCadastros&& console.log( Object.values(produtoCadastros) );
 
     return (
-        <section className={style.fatores}>
+        <section className={style.fatores} data-active={(calcularSection === 'Fatores')}>
             <div className={style.content}>
     
                 <div className={style.title}>

@@ -2,7 +2,7 @@
 
 import SelectFornecedor from "@/components/SelectFornecedor/SelectFornecedor";
 import capitalize from "@/utils/capitalize";
-import { useEffect, useRef, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 
 import style from './FornecedorTab.module.scss'
 import { motion, AnimatePresence } from "framer-motion";
@@ -121,7 +121,7 @@ export default function FornecedorTab({ fornecedores, svg, titulo }: FornecedorT
                 <SelectFornecedor 
                     fornecedoresControle={fornecedores}
                     fornecedor={fornecedor}
-                    setFornecedor={setCapitalizedFornecedor}
+                    setFornecedor={setCapitalizedFornecedor as Dispatch<SetStateAction<string>>}
                     confirmFornecedor={getFornecedorDataDB}
                 />
                 {(fornecedorDb === undefined || nome !== fornecedor.toLowerCase())

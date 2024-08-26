@@ -1,5 +1,5 @@
 'use client'
-import { ChangeEvent, KeyboardEvent, MouseEvent, MutableRefObject, RefObject, Suspense, cache, useEffect, useMemo, useRef, useState } from "react"
+import { ChangeEvent, Dispatch, KeyboardEvent, MouseEvent, MutableRefObject, RefObject, SetStateAction, Suspense, cache, useEffect, useMemo, useRef, useState } from "react"
 
 import style from './SelectFornecedor.module.scss'
 import { AnimatePresence, motion } from "framer-motion"
@@ -15,7 +15,7 @@ interface SelectFornecedorProps {
     fornecedoresControle: string[]
 
     fornecedor: string
-    setFornecedor: (value: string) => void
+    setFornecedor: Dispatch<SetStateAction<string>>
     confirmFornecedor?: () => (void | Promise<void>)
 
 }

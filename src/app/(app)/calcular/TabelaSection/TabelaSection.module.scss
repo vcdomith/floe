@@ -243,3 +243,11 @@
 
 
 }
+
+@media (width <= 800px) {
+    
+    .tabelaSection[data-active="false"]{
+        display: none;
+    }
+
+}

@@ -121,7 +121,7 @@ export default function FornecedorTab({ fornecedores, svg, titulo }: FornecedorT
                 <SelectFornecedor 
                     fornecedoresControle={fornecedores}
                     fornecedor={fornecedor}
-                    setFornecedor={setCapitalizedFornecedor as Dispatch<SetStateAction<string>>}
+                    setFornecedor={setCapitalizedFornecedor}
                     confirmFornecedor={getFornecedorDataDB}
                 />
                 {(fornecedorDb === undefined || nome !== fornecedor.toLowerCase())

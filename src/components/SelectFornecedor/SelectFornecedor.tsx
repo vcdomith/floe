@@ -15,7 +15,7 @@ interface SelectFornecedorProps {
     fornecedoresControle: string[]
 
     fornecedor: string
-    setFornecedor: Dispatch<SetStateAction<string>>
+    setFornecedor: (value: string) => void | Dispatch<SetStateAction<string>>
     confirmFornecedor?: () => (void | Promise<void>)
 
 }

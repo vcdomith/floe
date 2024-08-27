@@ -55,6 +55,9 @@
 
                 & > div input {
 
+                    width: 75px;
+                    padding-left: 0.25rem;
+
                     font-size: 1rem;
                     color: cor-mix(80%);
                     
@@ -68,6 +71,17 @@
 
             }
 
+            & > div {
+
+                width: 110px;
+
+                & > div {
+
+                    width: 113.2px;
+
+                }
+
+            }
 
         }
 
@@ -244,7 +258,7 @@
 
 }
 
-@media (width <= 800px) {
+@media (width <= 700px) {
     
     .tabelaSection[data-active="false"]{
         display: none;

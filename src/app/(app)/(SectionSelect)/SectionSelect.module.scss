@@ -10,9 +10,21 @@
 
     z-index: 10;
 
+    & > div {
+
+        width: 120px;
+
+        & > div {
+
+            width: 123.2px !important;
+
+        }
+
+    }
+
 }
 
-@media (width <= 800px) {
+@media (width <= 700px) {
 
     .select {
         

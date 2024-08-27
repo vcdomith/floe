@@ -1,6 +1,6 @@
 import { useModal } from '@/app/(app)/(contexts)/ModalContext'
 import style from './ConfirmationDialog.module.scss'
-import { useRef } from 'react'
+import { useEffect, useRef } from 'react'
 
 interface ConfirmationDialogProps {
     title: string
@@ -22,6 +22,24 @@ export default function ConfirmationDialog (
         confirmRef.current!.disabled = true
         clearModal()
     }
+
+    useEffect(() => {
+
+        const handleEscapeCancel = (e: globalThis.KeyboardEvent) => {
+            if (e.key === 'Escape') {
+                clearModal()
+                return
+            }
+        }
+
+        window.addEventListener('keydown', handleEscapeCancel)
+
+        return () => {
+            window.removeEventListener('keydown', handleEscapeCancel)
+        }
+        
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
 
     return (
         <div className={style.dialog}>

@@ -5,7 +5,7 @@ import Config from "@/app/(app)/configurar/(Config)/Config"
 import CheckBox from "@/app/(app)/configurar/(CheckBox)/CheckBox"
 import useEditProduto from "@/hooks/useEditProduto"
 import NumberInput from "../FatoresTable/FatoresTableBody/NumberInput/NumberInput"
-import { Dispatch, KeyboardEvent, MouseEvent, SetStateAction, useMemo, useRef, useState } from "react"
+import { Dispatch, KeyboardEvent, MouseEvent, SetStateAction, useEffect, useMemo, useRef, useState } from "react"
 import Converter from "@/utils/typeConversion"
 
 import style from './ProdutoDetalhes.module.scss'
@@ -14,6 +14,7 @@ import { AnimatePresence, motion } from "framer-motion"
 import { UseFornecedor } from "@/hooks/useFornecedor"
 import { useNotification } from "@/app/(app)/(contexts)/NotificationContext"
 import { getTabelasObject } from "@/utils/calculoTabelas"
+import { useModal } from "@/app/(app)/(contexts)/ModalContext"
 
 const NUMBER_INPUT_PLACEHOLDER = '_'.repeat(50)
 const PRESERVE_ST_STATE = false
@@ -94,6 +95,7 @@ export const ProdutoDetalhes = ({ produto }:
     } = controlledInputs
 
     const {addNotification} = useNotification()
+    const {clearModal} = useModal()
 
     const tabelas: [string, number][] = useMemo(() => Object.entries(getTabelasObject(produtoEdit)), [produtoEdit])
 
@@ -153,6 +155,24 @@ export const ProdutoDetalhes = ({ produto }:
         }))
 
     }
+
+    useEffect(() => {
+
+        const handleEscapeCancel = (e: globalThis.KeyboardEvent) => {
+            if (e.key === 'Escape') {
+                clearModal()
+                return
+            }
+        }
+
+        window.addEventListener('keydown', handleEscapeCancel)
+
+        return () => {
+            window.removeEventListener('keydown', handleEscapeCancel)
+        }
+        
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
 
     return (
         <div className={style.card}>

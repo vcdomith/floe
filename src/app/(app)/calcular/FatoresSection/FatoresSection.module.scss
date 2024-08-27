@@ -235,15 +235,20 @@
 
 }
 
-@media (width <= 800px) {
+@media (width <= 900px) {
 
     .fatores {
 
         min-width: 280px;
 
-        &[data-active="false"]{
-            display: none;
-        }
     }
 
 }
+
+@media (width <= 700px) {
+
+    .fatores[data-active="false"]{
+        display: none;
+    }
+
+} 

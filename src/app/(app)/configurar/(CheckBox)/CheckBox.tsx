@@ -56,10 +56,11 @@ export default function CheckBox({ checked, setChecked, name, disabled }: CheckB
     }
 
     return (
-        <label
+        <motion.label
             className={style.wrapper}
             data-checked={checked}
             data-disabled={disabled || false}
+            layout layoutRoot
         >
             <input
                 className={style.input}
@@ -82,7 +83,7 @@ export default function CheckBox({ checked, setChecked, name, disabled }: CheckB
                 data-checked={checked}
             >
             </motion.div>
-        </label>
+        </motion.label>
     )
 
 }

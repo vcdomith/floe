@@ -10,9 +10,22 @@
 
     z-index: 10;
 
+    & > div {
+
+        width: 150px;
+
+        & > div {
+
+            width: 153.2px !important;
+            // width: fit-content !important;
+
+        }
+
+    }
+
 }
 
-@media (width <= 800px) {
+@media (width <= 700px) {
 
     .select {
         

@@ -26,7 +26,7 @@ function TabelaRow({produto, setTabela}: TabelaRowProps, ref) {
     const {id, codigo, ncm, st, unitario, unitarioNota, composto, fatores } = produto
     const {tabela1, tabela2, tabela3} = useMemo(() => getTabelasObject(produto), [produto])
 
-    const { fornecedorContext, produtoContext, removeProduto } = useCalcular()
+    const { fornecedorContext, produtoContext, removeProduto, calcularSection } = useCalcular()
     const {addNotification} = useNotification()
     const { handleProdutoChange } = produtoContext
 
@@ -61,7 +61,7 @@ function TabelaRow({produto, setTabela}: TabelaRowProps, ref) {
             exit={{ opacity: 0, x: 10 }}
             transition={{ duration: .3 }}
             ref={ref}
-            layout
+            layout='position'
         >
                 <div>
                     <p className={style.st} data-st={st}>{ st ? 'ST' : '' }</p>

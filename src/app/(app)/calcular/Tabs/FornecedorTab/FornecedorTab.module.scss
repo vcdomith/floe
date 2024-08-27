@@ -467,7 +467,7 @@
 
 }
 
-@media (width <= 800px) {
+@media (width <= 900px) {
 
     .wrap {
 
@@ -475,20 +475,26 @@
     
             flex-wrap: wrap; 
 
-                .w100 {
-                    
-                    width: 100%;
-            
-                    .expand {
-            
-                        margin-left: auto;
-            
-                    }
-            
-                }
         }
     
         
+    }
+
+
+}
+
+@media (width <= 440px) {
+
+    .w100 {
+        
+        width: 100%;
+
+        .expand, .button {
+
+            margin-left: auto;
+
+        }
+
     }
 
 

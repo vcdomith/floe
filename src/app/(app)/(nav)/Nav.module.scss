@@ -65,7 +65,7 @@ $step-size: 100% /($steps + 1);
 
     display: flex;
     flex-direction: column;
-    gap: 2rem;
+    gap: 1rem;
 
     height: calc(100vh - 2rem);
     width: 4rem;
@@ -171,6 +171,8 @@ $step-size: 100% /($steps + 1);
         padding: 0 0.5rem;
 
         a {
+
+            height: 48px;
 
             button {
 

@@ -240,12 +240,21 @@
     .fatores {
 
         min-width: 280px;
+        margin-top: 0;
+
+        .content {
+            border-top: none;
+        }
 
     }
 
 }
 
 @media (width <= 700px) {
+
+    .fatores {
+        min-width: 0;
+    }
 
     .fatores[data-active="false"]{
         display: none;

@@ -5,7 +5,7 @@ import TableHeader from './TabelaHeader/TabelaHeader'
 import TabelaRow from './TabelaRow/TabelaRow'
 import { motion, AnimatePresence } from 'framer-motion'
 import Search from '@/components/Search/Search'
-import { useMemo } from 'react'
+import { useEffect, useMemo } from 'react'
 import { SearchFieldKeys } from '@/hooks/useFilter'
 
 import style from './TabelaSection.module.scss'
@@ -23,7 +23,8 @@ export default function TabelaSection() {
         filterContext, 
         resetContext,
         pedidoContext: {pedidoData: {quantidadeProdutos}},
-        calcularSection
+        calcularSection,
+        setCalcularSection
     } = useCalcular()
     const {searchParam, setSearchParam, searchField, setSearchFieldCapitalized} = filterContext
 
@@ -53,7 +54,18 @@ export default function TabelaSection() {
 
     return (
        
-        <section className={style.tabelaSection} data-active={(calcularSection === 'Tabela')}> 
+        <motion.section 
+            className={style.tabelaSection} 
+            data-active={(calcularSection === 'Tabela')}
+
+            drag='x'
+            dragConstraints={{ left: 0, right: 0, top: 0, bottom: 0 }}
+            onDrag={(event, info) => {
+                if (info.offset.x >= 40) {
+                    setCalcularSection('Fatores')
+                }
+            }}
+        > 
         <div className={style.content}>
 
             <span className={style.options}>
@@ -112,7 +124,7 @@ export default function TabelaSection() {
             >Cadastrar Pedido</button>
         </span>
 
-    </section>
+    </motion.section>
         
     )
 

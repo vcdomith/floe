@@ -107,6 +107,7 @@ const Logo = ({ route }: { route: string }): React.ReactNode => {
 
         configurar?: Logo
         tabela: Logo
+        calcular: Logo
         cadastros: Logo
 
     }
@@ -120,6 +121,10 @@ const Logo = ({ route }: { route: string }): React.ReactNode => {
             Titulo: 'Configurar Fatores',
         },
         tabela: {
+            Svg: () => <SvgTabela/>,
+            Titulo: 'Calcular Tabela'
+        },
+        calcular: {
             Svg: () => <SvgTabela/>,
             Titulo: 'Calcular Tabela'
         },

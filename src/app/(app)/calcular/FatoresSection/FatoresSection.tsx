@@ -8,6 +8,7 @@ import { useCalcular } from "../context/CalcularContext";
 import style from './FatoresSection.module.scss'
 import { useNotification } from "../../(contexts)/NotificationContext";
 import capitalize from "@/utils/capitalize";
+import { useEffect } from "react";
 
 interface FatoresSectionProps {
 
@@ -24,7 +25,8 @@ export default function FatoresSection({ fornecedores }: FatoresSectionProps) {
         submitForm, 
         tabelaValid,
         updateFatoresTabela,
-        calcularSection
+        calcularSection,
+        setCalcularSection
     } = useCalcular()
     const {fornecedorData, fornecedorDiff, rollbackFornecedor, updateFornecedorControl} = fornecedorContext
     const {pedidoData, pedidoDiff, rollbackPedido, updatePedidoControl} = pedidoContext
@@ -37,8 +39,52 @@ export default function FatoresSection({ fornecedores }: FatoresSectionProps) {
     // console.log(formIsValid);
     // produtoCadastros&& console.log( Object.values(produtoCadastros) );
 
+    useEffect(() => {
+
+        const handleKeyCombo = (e: KeyboardEvent) => {
+
+            if (e.key === 'Alt') {
+                e.preventDefault()
+                setCalcularSection((prev) => {
+                    return (prev === 'Fatores')
+                        ? 'Tabela' 
+                        : 'Fatores'
+                })
+            }
+
+            // if (e.altKey && e.key === '.') {
+            //     console.log(e.key, e.altKey && e.key === '.');
+            //     setCalcularSection('Tabela')
+            //     return
+            // }
+
+            // if (e.altKey && e.key === ',') {
+            //     console.log(e.key, e.altKey && e.key === ',');
+            //     setCalcularSection('Fatores')
+            //     return
+            // }
+
+        }
+        
+        window.addEventListener('keydown', handleKeyCombo)
+        
+        return () => window.removeEventListener('keydown', handleKeyCombo)
+
+    }, [])
+
     return (
-        <section className={style.fatores} data-active={(calcularSection === 'Fatores')}>
+        <motion.section 
+            className={style.fatores} 
+            data-active={(calcularSection === 'Fatores')}
+
+            drag='x'
+            dragConstraints={{ left: 0, right: 0, top: 0, bottom: 0 }}
+            onDrag={(event, info) => {
+                if (info.offset.x <= -40) {
+                    setCalcularSection('Tabela')
+                }
+            }}
+        >
             <div className={style.content}>
     
                 <div className={style.title}>
@@ -148,7 +194,7 @@ export default function FatoresSection({ fornecedores }: FatoresSectionProps) {
                 'Limite produtos atingido'
                 }
             </button>
-        </section>
+        </motion.section>
     )
 
 }

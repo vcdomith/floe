@@ -2,7 +2,7 @@
 
 .select {
 
-    display: none;
+    display: flex;
 
     position: fixed;
     top: 0;
@@ -12,12 +12,43 @@
 
     & > div {
 
+        display: none;
         width: 150px;
 
         & > div {
 
             width: 153.2px !important;
             // width: fit-content !important;
+
+        }
+
+    }
+
+    .logo {
+
+        display: flex;
+        align-items: center;
+
+        gap: 0.5rem;
+
+        svg {
+
+            width: 20px;
+
+            path, circle {
+
+                stroke: cor-mix(10%);
+
+            }
+
+        }
+
+        p {
+
+            font-size: 1rem;
+            color: cor-mix(10%);
+
+            margin: 0;
 
         }
 
@@ -31,11 +62,13 @@
         
         display: flex;
         align-items: center;
+        gap: 0.5rem;
 
         height: 4rem;
 
         div {
 
+            display: inline;
             border-width: 1px;
 
             button {

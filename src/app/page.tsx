@@ -2,7 +2,7 @@
 import LogoSvg from "@/components/SvgArray/LogoSvg";
 
 import style from './style.module.scss'
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { motion } from 'framer-motion'
 
@@ -19,7 +19,7 @@ export default function Title() {
           opacity: 0,
         //   width: '200px',
         },
-      }
+    }
 
     return (
         <section className={style.container}>

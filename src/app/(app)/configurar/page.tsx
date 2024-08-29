@@ -206,7 +206,7 @@ export default function Configurar() {
                 justifyContent: 'center',
                 transform: `${focus ? 'translateX(-40%)' : 'translateX(0%)'}`,
                 transition: 'transform 800ms ease',
-                height: 'calc(100vh - 6rem)',
+                height: 'calc(100dvh - 6rem)',
 
             }}>
             <form

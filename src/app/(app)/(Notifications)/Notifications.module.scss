@@ -63,13 +63,25 @@
 
         }
 
-        button {
+        .dismiss {
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
 
             margin-left: auto;
 
             background: none;
             outline: none;
             border: none;
+            border-radius: 0.25rem;
+
+            width: 30px;
+            height: 30px;
+
+            cursor: pointer;
+
+            transition: background-color 400ms ease;
 
         }
 
@@ -95,6 +107,10 @@
         
         button {
             color: darken($cor-ctx, 10%);
+            &:hover{
+                background-color: mix($cor-secundaria, $cor-ctx, 80%);
+                box-shadow: inset 2px 2px 12px 2px transparentize(saturate(darken($cor-ctx, 2%), 15%), 0.9);
+            }
         }
 
     }
@@ -119,6 +135,10 @@
         
         button {
             color: darken($cor-ctx, 10%);
+            &:hover{
+                background-color: mix($cor-secundaria, $cor-ctx, 80%);
+                box-shadow: inset 2px 2px 12px 2px transparentize(saturate(darken($cor-ctx, 2%), 15%), 0.9);
+            }
         }
 
     }
@@ -143,6 +163,10 @@
         
         button {
             color: darken($cor-ctx, 10%);
+            &:hover{
+                background-color: mix($cor-secundaria, $cor-ctx, 80%);
+                box-shadow: inset 2px 2px 12px 2px transparentize(saturate(darken($cor-ctx, 2%), 15%), 0.9);
+            }
         }
 
     }

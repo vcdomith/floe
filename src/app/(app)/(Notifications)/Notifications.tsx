@@ -67,15 +67,25 @@ function Notification({notification}: NotificationProps, ref) {
             </svg> */}
             {icons[tipo]}
             <p>{mensagem}</p>
-            <button 
+            <button
+                className={style.dismiss} 
                 onClick={() => removeNotification(id)}
-            >x</button>
+            ><SvgExcluir /></button>
         </motion.span>
 
     )
 
 }
 )
+
+const SvgExcluir = () => {
+    return(
+        <svg width="50" height="50" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M156 345L346 155" stroke="black" strokeWidth="40"/>
+            <path d="M155 155L345 345" stroke="black" strokeWidth="40"/>
+        </svg>
+    )
+}
 
 const SvgSucesso = () => {
     return (

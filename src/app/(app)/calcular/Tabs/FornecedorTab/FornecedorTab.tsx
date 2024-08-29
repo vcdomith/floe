@@ -20,15 +20,16 @@ import ConfirmationDialog from "@/components/ConfirmationDialog/ConfirmationDial
 
 interface FornecedorTabProps {
 
+    fornecedorCtx: string
     fornecedores: string[]
     svg?: React.ReactNode
     titulo?: string
 
 }
 
-export default function FornecedorTab({ fornecedores, svg, titulo }: FornecedorTabProps) {
+export default function FornecedorTab({ fornecedorCtx, fornecedores, svg, titulo }: FornecedorTabProps) {
 
-    const [fornecedor, setFornecedor] = useState('')
+    const [fornecedor, setFornecedor] = useState(fornecedorCtx&& capitalize(fornecedorCtx))
     const setCapitalizedFornecedor = (value: string) => {
         setFornecedor(capitalize(value))
     }

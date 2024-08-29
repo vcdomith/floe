@@ -3,7 +3,7 @@ import { getTabelas, getTabelasObject } from '@/utils/calculoTabelas'
 import { ProdutoCadastro, useCalcular } from '../context/CalcularContext'
 import TableHeader from './TabelaHeader/TabelaHeader'
 import TabelaRow from './TabelaRow/TabelaRow'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion, AnimatePresence, LayoutGroup } from 'framer-motion'
 import Search from '@/components/Search/Search'
 import { useEffect, useMemo } from 'react'
 import { SearchFieldKeys } from '@/hooks/useFilter'
@@ -12,6 +12,7 @@ import style from './TabelaSection.module.scss'
 import SelectFornecedor from '@/components/SelectFornecedor/SelectFornecedor'
 import { useModal } from '../../(contexts)/ModalContext'
 import ConfirmationDialog from '@/components/ConfirmationDialog/ConfirmationDialog'
+import { useMediaQuery } from '../../(contexts)/MediaQueryContext'
 
 export default function TabelaSection() {
 
@@ -35,6 +36,7 @@ export default function TabelaSection() {
     , [searchParam, tabela, searchField])
 
     const { setModal, clearModal } = useModal()
+    const { matches: isMobile } = useMediaQuery()
 
     const handleSaveClick = () => {
 
@@ -52,19 +54,21 @@ export default function TabelaSection() {
 
     }
 
+    console.log(isMobile);
+
     return (
-       
-        <motion.section 
+        (!isMobile || calcularSection === 'Tabela')&&
+        <section 
             className={style.tabelaSection} 
             data-active={(calcularSection === 'Tabela')}
 
-            drag='x'
-            dragConstraints={{ left: 0, right: 0, top: 0, bottom: 0 }}
-            onDrag={(event, info) => {
-                if (info.offset.x >= 40) {
-                    setCalcularSection('Fatores')
-                }
-            }}
+            // drag='x'
+            // dragConstraints={{ left: 0, right: 0 }}
+            // onDrag={(event, info) => {
+            //     if (info.offset.x >= 40) {
+            //         setCalcularSection('Fatores')
+            //     }
+            // }}
         > 
         <div className={style.content}>
 
@@ -87,20 +91,34 @@ export default function TabelaSection() {
             <div className={style.tabela}>
 
                 <TableHeader />
-                <motion.div className={style.tabelaBody} layout layoutRoot>
                 <AnimatePresence mode='popLayout'>
+                <motion.div 
+                    className={style.tabelaBody} 
+                    layout 
+                    layoutRoot
+                >
                 {(tabelaFilter.length !== 0)
                 ?
-                tabelaFilter.map((produto) => 
-                    <TabelaRow produto={produto} setTabela={setTabela} key={produto.id} />
-                )   
+                // <LayoutGroup>
+                // {
+                    tabelaFilter.map((produto) => 
+                        <TabelaRow produto={produto} setTabela={setTabela} key={produto.id} />
+                    )   
+                // }
+                // </LayoutGroup>
                 :
-                <div className={style.empty}>
+                <motion.div 
+                    className={style.empty}
+
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                >
                     <p>Nenhum produto cadastrado ainda, use as abas para calcular eles.</p>
-                </div>
-                }
-                </AnimatePresence>
                 </motion.div>
+                }
+                </motion.div>
+                </AnimatePresence>
 
             </div>
 
@@ -124,7 +142,7 @@ export default function TabelaSection() {
             >Cadastrar Pedido</button>
         </span>
 
-    </motion.section>
+    </section>
         
     )
 

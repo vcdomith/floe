@@ -31,7 +31,7 @@ $step-size: 100% /($steps + 1);
     top: 0;
     left: 0;
     width: 10rem;
-    height: 100vh;
+    height: 100dvh;
     // padding: 1rem 0;
 
     overflow: hidden;
@@ -67,7 +67,7 @@ $step-size: 100% /($steps + 1);
     flex-direction: column;
     gap: 1rem;
 
-    height: calc(100vh - 2rem);
+    height: calc(100dvh - 2rem);
     width: 4rem;
     padding: 1rem 0;
 
@@ -315,7 +315,7 @@ $step-size: 100% /($steps + 1);
         padding: 0;
         
         &[data-display='true'] {
-            height: calc(100vh - 2rem);
+            height: calc(100dvh - 2rem);
         }
 
         .logo {

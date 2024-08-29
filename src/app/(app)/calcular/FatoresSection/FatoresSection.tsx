@@ -9,6 +9,7 @@ import style from './FatoresSection.module.scss'
 import { useNotification } from "../../(contexts)/NotificationContext";
 import capitalize from "@/utils/capitalize";
 import { useEffect } from "react";
+import { useMediaQuery } from "../../(contexts)/MediaQueryContext";
 
 interface FatoresSectionProps {
 
@@ -33,11 +34,7 @@ export default function FatoresSection({ fornecedores }: FatoresSectionProps) {
 
     const {addNotification} = useNotification()
 
-    // const formIsValid: boolean = produtoCadastros
-    // ? Object.values(produtoCadastros!).some( (element) => element === '' )
-    // : false
-    // console.log(formIsValid);
-    // produtoCadastros&& console.log( Object.values(produtoCadastros) );
+    const {matches: isMobile} = useMediaQuery()
 
     useEffect(() => {
 
@@ -52,18 +49,6 @@ export default function FatoresSection({ fornecedores }: FatoresSectionProps) {
                 })
             }
 
-            // if (e.altKey && e.key === '.') {
-            //     console.log(e.key, e.altKey && e.key === '.');
-            //     setCalcularSection('Tabela')
-            //     return
-            // }
-
-            // if (e.altKey && e.key === ',') {
-            //     console.log(e.key, e.altKey && e.key === ',');
-            //     setCalcularSection('Fatores')
-            //     return
-            // }
-
         }
         
         window.addEventListener('keydown', handleKeyCombo)
@@ -73,17 +58,18 @@ export default function FatoresSection({ fornecedores }: FatoresSectionProps) {
     }, [])
 
     return (
-        <motion.section 
+        (!isMobile || calcularSection === 'Fatores')&&
+        <section 
             className={style.fatores} 
             data-active={(calcularSection === 'Fatores')}
 
-            drag='x'
-            dragConstraints={{ left: 0, right: 0, top: 0, bottom: 0 }}
-            onDrag={(event, info) => {
-                if (info.offset.x <= -40) {
-                    setCalcularSection('Tabela')
-                }
-            }}
+            // drag='x'
+            // dragConstraints={{ left: 0, right: 0, top: 0, bottom: 0 }}
+            // onDrag={(event, info) => {
+            //     if (info.offset.x <= -40) {
+            //         setCalcularSection('Tabela')
+            //     }
+            // }}
         >
             <div className={style.content}>
     
@@ -103,6 +89,7 @@ export default function FatoresSection({ fornecedores }: FatoresSectionProps) {
                 {fornecedores&&
                 <div className={style.tabContainer}>
                     <FornecedorTab
+                    fornecedorCtx={fornecedorData.nome}
                     fornecedores={fornecedores}
                     />
                     <AnimatePresence initial={false}>
@@ -194,7 +181,7 @@ export default function FatoresSection({ fornecedores }: FatoresSectionProps) {
                 'Limite produtos atingido'
                 }
             </button>
-        </motion.section>
+        </section>
     )
 
 }

@@ -54,8 +54,6 @@ export default function TabelaSection() {
 
     }
 
-    console.log(isMobile);
-
     return (
         (!isMobile || calcularSection === 'Tabela')&&
         <section 

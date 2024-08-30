@@ -95,11 +95,17 @@ export default function PedidoTab() {
 
     }
 
+    const blurRefs = () => {
+        refs.current.fatorTransportePedidoRef?.blur()
+        refs.current.fatorStPedidoRef?.blur()
+    }
+
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
 
         e.preventDefault()
 
         if(pedidoDiff.length === 0) updatePedidoControl(pedidoData)
+        blurRefs()
         setDisplayPedido(false)
 
     }
@@ -185,6 +191,7 @@ export default function PedidoTab() {
                                     valor={fatorTransportePedido} 
                                     setValor={handlePedidoChange('fatorTransportePedido')}
                                     required
+                                    refProp={assignRef('fatorTransportePedidoRef')}
                                 />
                             }
                         />
@@ -256,6 +263,7 @@ export default function PedidoTab() {
                                     valor={fatorSTPedido} 
                                     setValor={handlePedidoChange('fatorSTPedido')}
                                     required
+                                    refProp={assignRef('fatorStPedidoRef')}
                                 />
                             }
                         />

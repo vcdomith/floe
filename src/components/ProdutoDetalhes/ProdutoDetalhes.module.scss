@@ -15,8 +15,8 @@
     border: cor-mix(30%);
     border-radius: 0.5rem;
 
-    min-width: 420px;
-    max-width: 420px;
+    width: calc(80vw - 6rem);
+    max-width: calc(600px - 6rem);
     height: 80dvh;
 
     box-shadow: 2px 2px 12px 2px $cor-primaria-transparent;
@@ -546,5 +546,15 @@
     // &:focus-within {
     //     width: 100px;
     // }
+
+}
+
+@media (width <= 700px) {
+
+    .card {
+
+        min-width: calc(100dvw - 4rem);
+
+    }
 
 }

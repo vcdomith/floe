@@ -2,10 +2,12 @@ import { useCallback, useMemo, useRef } from "react"
 
 export interface InputRefs {
 
+    fatorTransportePedidoRef: HTMLInputElement | null
     valorFreteRef: HTMLInputElement | null
     fatorFreteRef: HTMLInputElement | null
     valorTotalProdutosRef: HTMLInputElement | null
 
+    fatorStPedidoRef: HTMLInputElement | null
     valorSTRef: HTMLInputElement | null
     multiploSTRef: HTMLInputElement | null
     valorTotalProdutosSTRef: HTMLInputElement | null
@@ -19,10 +21,12 @@ const usePedidoTabRefs = () => {
 
     const refs = useRef<InputRefs>({
 
+        fatorTransportePedidoRef: null,
         valorFreteRef: null, 
         fatorFreteRef: null, 
         valorTotalProdutosRef: null,
 
+        fatorStPedidoRef: null,
         valorSTRef: null, 
         multiploSTRef: null,
         valorTotalProdutosSTRef: null,

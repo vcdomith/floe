@@ -1,6 +1,6 @@
 import { INotification } from "@/interfaces/INotification"
 import { useNotification } from "../(contexts)/NotificationContext"
-import { motion, AnimatePresence } from "framer-motion"
+import { motion, AnimatePresence, LayoutGroup } from "framer-motion"
 
 import style from './Notifications.module.scss'
 import { forwardRef } from "react"
@@ -12,6 +12,7 @@ export default function Notifications() {
     return (
         <motion.div
             className={style.notifications}
+            // layout layoutRoot
             // style={{ height: `${notifications.length*(98+16)}px` }}
             // style={{
             //     flex: 1,
@@ -19,12 +20,14 @@ export default function Notifications() {
             // }}
         >
         <AnimatePresence mode="popLayout">
+        <LayoutGroup>
         {Object.entries(notifications).map(([_, notification]) => 
             <Notification
                 key={notification.id}
                 notification={notification}
             />
         )}
+        </LayoutGroup>
         </AnimatePresence>
         </motion.div>
     )

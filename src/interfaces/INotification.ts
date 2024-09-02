@@ -2,6 +2,7 @@ export interface newNotification {
 
     tipo: 'sucesso' | 'erro' | 'aviso'
     mensagem: string
+    timeout?: number
 
 }
 

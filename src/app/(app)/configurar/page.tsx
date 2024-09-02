@@ -37,6 +37,7 @@ export default function Configurar() {
         usaSt,
         usaDesconto,
         usaIpi,
+        usaIpiUniversal,
         usaUnitarioPedido,
         usaComposto
     } = fornecedorData
@@ -381,6 +382,20 @@ export default function Configurar() {
                                 />
                             }                             
                         />
+                        <Config
+                            subConfig 
+                            svg={svgsUtil.ipi} 
+                            title={'IPI Universal'} 
+                            description={'Usa IPI em todos produtos?'} 
+                            input={
+                                <CheckBox 
+                                    name="ipiUniversal"
+                                    checked={usaIpiUniversal} 
+                                    setChecked={handleFornecedorChange('usaIpiUniversal')}
+                                    disabled={!usaIpi}
+                                />
+                            }                             
+                        />
                         <Config 
                             svg={svgsUtil.unitarioNota} 
                             title={'Unitário Pedido'} 
@@ -393,7 +408,8 @@ export default function Configurar() {
                                 />
                             }                                
                         />
-                        <Config 
+                        <Config
+                            subConfig 
                             svg={svgsUtil.composto} 
                             title={'Composto'} 
                             description={'Usa unitário composto no pedido?'} 

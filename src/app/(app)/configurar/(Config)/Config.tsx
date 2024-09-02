@@ -6,6 +6,7 @@ import style from './Config.module.scss'
 
 interface ConfigProps {
 
+    subConfig?: boolean
     svg: React.ReactNode
     title: string
     description: string
@@ -15,11 +16,12 @@ interface ConfigProps {
 
 }
 
-const Config = ({svg, title, description, diff, input}: ConfigProps) => {
+const Config = ({subConfig, svg, title, description, diff, input}: ConfigProps) => {
 
   return (
     <motion.span 
       className={style.config}
+      data-subConfig={subConfig}
       key={title}
 
       // layout
@@ -29,6 +31,12 @@ const Config = ({svg, title, description, diff, input}: ConfigProps) => {
       exit={{ opacity: 0 }}
       transition={{ type: 'spring', bounce: 0, restDelta: 0.5 }}
     >
+        {subConfig&&
+            <div className={style.subConfig}>
+                <div className={style.icon}></div>
+                <div></div>
+            </div>
+        }
         <span className={style.info}>
             {svg}
             <div className={style.texts}>

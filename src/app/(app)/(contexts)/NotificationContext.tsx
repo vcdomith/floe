@@ -23,12 +23,12 @@ export const NotificationProvider = ({ children }: { children: React.ReactNode }
 
     const [notifications, setNotifications] = useState<INotification[]>([]);
 
-    const addNotification = ({ tipo, mensagem }: newNotification ) => {
+    const addNotification = ({ tipo, mensagem, timeout = 10000 }: newNotification ) => {
         const newNotification: INotification= { 
             id: Date.now().toString(36) + Math.random().toString(36).substring(2),
             tipo: tipo,  
             mensagem: mensagem,
-            timer: setTimeout(() => removeNotification(newNotification.id), 10000)
+            timer: setTimeout(() => removeNotification(newNotification.id), timeout)
         }
         if(notifications.some( notification => notification.mensagem === newNotification.mensagem )) {
             console.log(`Notification with %c"${newNotification.mensagem}"%c already deployed`, 'color: #ffa600', 'color: initial');

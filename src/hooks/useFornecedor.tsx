@@ -26,6 +26,7 @@ const INITIAL_STATE: IFornecedor = {
     usaSt: true,
     usaDesconto: false,
     usaIpi: false,
+    usaIpiUniversal: false,
     usaUnitarioPedido: false,
     usaComposto: false,
 }
@@ -55,6 +56,16 @@ export default function useFornecedor(): UseFornecedor {
                 : !prev[field]
 
             let updatedData = {...prev, [field]: newValue}
+
+            if (field === 'usaIpi' && !newValue) {
+
+                updatedData.usaIpiUniversal = false
+                
+            } else if ( field === 'usaIpiUniversal' && newValue && !prev.usaIpi) {
+
+                return prev
+
+            }
 
             if (field === 'usaUnitarioPedido' && !newValue) {
 

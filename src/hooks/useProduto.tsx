@@ -183,7 +183,7 @@ export default function useProduto(produto: (ProdutoCadastro | null) = null): Us
 
         ncm: pedidoData.usaNcm,
         desconto: fornecedorData.usaDesconto,
-        ipi: false,
+        ipi: fornecedorData.usaIpiUniversal,
 
         unitarioNota: true,
         unitarioPedido: (fornecedorData.usaUnitarioPedido && !fornecedorData.usaComposto), 

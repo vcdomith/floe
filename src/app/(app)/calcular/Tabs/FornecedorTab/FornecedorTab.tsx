@@ -53,6 +53,7 @@ export default function FornecedorTab({ fornecedorCtx, fornecedores, svg, titulo
         usaSt,
         usaDesconto,
         usaIpi,
+        usaIpiUniversal,
         usaUnitarioPedido,
         usaComposto
     }, setFornecedorData, handleFornecedorChange, fornecedorDiff, updateFornecedorControl} = fornecedorContext
@@ -260,6 +261,19 @@ export default function FornecedorTab({ fornecedorCtx, fornecedores, svg, titulo
                     }                             
                 />
                 <Config 
+                    subConfig
+                    svg={svgsUtil.ipi} 
+                    title={'IPI Universal'} 
+                    description={'Usa IPI no calculo de todos produtos?'} 
+                    diff={fornecedorDiff.includes('usaIpiUniversal')}
+                    input={
+                        <CheckBox 
+                            checked={usaIpiUniversal} 
+                            setChecked={handleFornecedorChange('usaIpiUniversal')} 
+                        />
+                    }                             
+                />
+                <Config 
                     svg={svgsUtil.unitarioNota} 
                     title={'Unitário Pedido'} 
                     description={'Usa unitário do pedido no calculo?'} 
@@ -271,7 +285,8 @@ export default function FornecedorTab({ fornecedorCtx, fornecedores, svg, titulo
                         />
                     }                                
                 />
-                <Config 
+                <Config
+                    subConfig 
                     svg={svgsUtil.composto} 
                     title={'Composto'} 
                     description={'Usa unitário composto no pedido?'} 

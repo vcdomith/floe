@@ -17,7 +17,10 @@ export const revalidate = 0
 export default async function Cadastros() {
     
     const supabase = dbConnect()
-    const {data: cadastros} = await supabase.from('cadastros').select()
+    const {data: cadastros} = await supabase
+        .from('cadastros')
+        .select()
+        .order('id', { ascending: true })
 
     return (
     <>

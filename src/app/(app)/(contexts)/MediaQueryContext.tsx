@@ -41,7 +41,7 @@ MediaQueryContext.displayName = 'MediaQuery'
 
 export const useMediaQuery = () => {
     const context = useContext(MediaQueryContext)
-    if (!context) throw new Error('useMediaQuery')
+    if (!context) throw new Error("useMediaQuery must be used within it's Provider")
     return context
 }
 

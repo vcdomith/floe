@@ -254,7 +254,7 @@ export const CalcularProvider = ({ children }: { children: React.ReactNode }) =>
             fatorSTPedido: false,
             ncm: pedidoData.usaNcm,
             desconto: fornecedorData.usaDesconto,
-            ipi: false,
+            ipi: fornecedorData.usaIpiUniversal,
 
             // unitarioNota: (fornecedorData.usaComposto) ? true : fornecedorData.usaUnitarioPedido,
             unitarioNota: true,

@@ -10,7 +10,7 @@ import Converter from "@/utils/typeConversion"
 
 import style from './ProdutoDetalhes.module.scss'
 import styleProduto from '../../app/(app)/calcular/Tabs/ProdutoTab/ProdutoTab.module.scss'
-import { AnimatePresence, motion } from "framer-motion"
+import { AnimatePresence, LayoutGroup, motion } from "framer-motion"
 import { UseFornecedor } from "@/hooks/useFornecedor"
 import { useNotification } from "@/app/(app)/(contexts)/NotificationContext"
 import { getTabelasObject } from "@/utils/calculoTabelas"
@@ -215,6 +215,7 @@ export const ProdutoDetalhes = ({ produto }:
                     exit={{ height: 0 }}
                     transition={{ type: 'spring', bounce: 0, restDelta: 0.5 }}
                 >
+                    <LayoutGroup>
                     <Config 
                         svg={svgsUtil.st} 
                         title={'ST:'} 
@@ -347,6 +348,7 @@ export const ProdutoDetalhes = ({ produto }:
                         </div>
                     </div>
                     }
+                </LayoutGroup>
                 </motion.div>
                 }
                 </AnimatePresence>
@@ -367,6 +369,7 @@ export const ProdutoDetalhes = ({ produto }:
                     exit={{ height: 0 }}
                     transition={{ type: 'spring', bounce: 0, restDelta: 0.5 }}
                 >
+                    <LayoutGroup>
                     <Config
                         svg={svgsUtil.base} 
                         title={fatoresConfigTextos.base.titulo} 
@@ -496,6 +499,7 @@ export const ProdutoDetalhes = ({ produto }:
                         }
                     />
                     }
+                </LayoutGroup>
                 </motion.div>
                 }
                 </AnimatePresence>

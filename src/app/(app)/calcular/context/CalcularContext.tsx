@@ -86,6 +86,7 @@ const INITIAL_STATE_DIFF_CONTROL: DifferenceControl = {
     usaSt: false,
     usaDesconto: false,
     usaIpi: false,
+    usaIpiUniversal: false,
     usaUnitarioPedido: false,
     usaComposto: false,
     usaNcm: false,

@@ -269,7 +269,8 @@ export default function FornecedorTab({ fornecedorCtx, fornecedores, svg, titulo
                     input={
                         <CheckBox 
                             checked={usaIpiUniversal} 
-                            setChecked={handleFornecedorChange('usaIpiUniversal')} 
+                            setChecked={handleFornecedorChange('usaIpiUniversal')}
+                            disabled={!usaIpi} 
                         />
                     }                             
                 />
@@ -292,10 +293,10 @@ export default function FornecedorTab({ fornecedorCtx, fornecedores, svg, titulo
                     description={'Usa unitário composto no pedido?'} 
                     diff={fornecedorDiff.includes('usaComposto')}
                     input={
-                        <CheckBox 
+                        <CheckBox
                             checked={usaComposto} 
                             setChecked={handleFornecedorChange('usaComposto')}
-                            disabled={!usaUnitarioPedido} 
+                            disabled={!usaUnitarioPedido}
                         />
                     }                              
                 />

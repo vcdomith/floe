@@ -1,5 +1,3 @@
-import { SetStateAction } from "react"
-import CheckBox from "../(CheckBox)/CheckBox"
 import { motion } from 'framer-motion'
 
 import style from './Config.module.scss'
@@ -21,7 +19,7 @@ const Config = ({subConfig, svg, title, description, diff, input}: ConfigProps) 
   return (
     <motion.span 
       className={style.config}
-      data-subConfig={subConfig}
+      data-subconfig={subConfig}
       key={title}
 
       // layout

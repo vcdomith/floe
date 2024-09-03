@@ -23,6 +23,7 @@ const INITIAL_STATE_FORNECEDOR: IFornecedor = {
     usaSt: false,
     usaDesconto: false,
     usaIpi: false,
+    usaIpiUniversal: false,
     usaUnitarioPedido: false,
     usaComposto: false
 }

@@ -35,7 +35,7 @@ export default function FatoresSection({ fornecedores }: FatoresSectionProps) {
 
     const {addNotification} = useNotification()
 
-    const { section } = useSectionSelect()
+    const { section, setSection } = useSectionSelect()
     const {matches: isMobile} = useMediaQuery()
 
     useEffect(() => {
@@ -44,7 +44,7 @@ export default function FatoresSection({ fornecedores }: FatoresSectionProps) {
 
             if (e.key === 'Alt') {
                 e.preventDefault()
-                setCalcularSection((prev) => {
+                setSection((prev) => {
                     return (prev === 'Fatores')
                         ? 'Tabela' 
                         : 'Fatores'

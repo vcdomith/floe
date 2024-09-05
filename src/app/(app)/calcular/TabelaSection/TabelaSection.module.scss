@@ -278,6 +278,20 @@
             padding: 0;
             border-top: none;
 
+            .tabela {
+
+                .tabelaBody {
+
+                    grid-template-rows: repeat(auto-fill, 7.5rem);
+                    gap: 0.5rem;
+                    
+                    min-width: calc(3*(67px + 0.5rem) + 0.5rem);
+                    padding: 0.5rem;
+
+                }
+
+            }
+
         }
 
     }

@@ -12,7 +12,8 @@
     position: absolute;
     bottom: 2rem;
     // left: 2rem;
-    right: calc( 200px - 2rem );
+    right: calc( calc(320px - 2rem) - 2rem );
+    // right: 2rem;
 
     // z-index: 10;
 
@@ -31,7 +32,8 @@
         // width: fit-content;
         // width: clamp(320px, 500px, 750px);
         width: 320px;
-        min-width: 320px;
+        min-width: calc(320px - 2rem);
+        max-width: calc(100vw - 12rem);
 
         padding: 0.5rem;
 

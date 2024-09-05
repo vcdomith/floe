@@ -30,7 +30,7 @@ export const SectionSelectProvider = ({ children }: { children: React.ReactNode 
 
     const path = usePathname().slice(1,)
     
-    const [previousPath, setPreviousPath] = useState<string>(path)
+    // const [previousPath, setPreviousPath] = useState<string>(path)
 
     const sections = useMemo(() => {
 

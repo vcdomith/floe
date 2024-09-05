@@ -572,13 +572,28 @@
 
 }
 
+@media (width <= 440px) {
 
-// @keyframes rotation {
-//     to {
-//         transform: rotate3d(0, 1, 0);
-//     }
-    
-//     from {
-//         transform: rotate3d(0, 1, 0, 3.142rad);
-//     }
-// }
+    .row {
+
+        // grid-template-columns: repeat(3, minmax(67px, 1fr));
+        grid-template-columns: repeat(3, minmax(67px, 1fr));
+        grid-template-rows: repeat(2, 3.5rem);
+
+        height: 7.5rem !important;
+        max-height: 7.5rem;
+        min-width: calc(3*(67px + 0.5rem) + 0.5rem);
+
+        border: 2px solid cor-mix(40%);
+        border-radius: 0.5rem;
+
+        row-gap: 0 !important;
+
+        & > div:nth-child(1), div:nth-child(2), div:nth-child(3) {
+            border-bottom: 2px solid cor-mix(15%);
+            // background-color: red;
+        }
+
+    }
+
+}

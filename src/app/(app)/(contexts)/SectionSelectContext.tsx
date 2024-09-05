@@ -1,3 +1,4 @@
+import useDynamicaState from "@/hooks/useDynamicState";
 import { usePathname } from "next/navigation";
 import { createContext, Dispatch, SetStateAction, useCallback, useContext, useEffect, useMemo, useState } from "react";
 
@@ -29,7 +30,7 @@ export const SectionSelectProvider = ({ children }: { children: React.ReactNode 
 
     const path = usePathname().slice(1,)
     
-    const [previousPath, setPreviousPath] = useState<string>()
+    const [previousPath, setPreviousPath] = useState<string>(path)
 
     const sections = useMemo(() => {
 
@@ -39,11 +40,17 @@ export const SectionSelectProvider = ({ children }: { children: React.ReactNode 
             
     }, [path])    
 
-    const [section, setSection] = useState(sections[0])
+    const [section, setSection] = useDynamicaState({
+        initialState: sections[0],
+        dependency: path
+    })
+
+    // const [section, setSection] = useState(sections[0])
     
-    useEffect(() => {
-        setSection(sections[0])
-    }, [path])
+    // if (path !== previousPath) {
+    //     setPreviousPath(path)
+    //     setSection(sections[0])
+    // }
 
     return <SectionSelectContext.Provider
         value={{

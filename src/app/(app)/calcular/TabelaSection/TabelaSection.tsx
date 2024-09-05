@@ -13,6 +13,7 @@ import SelectFornecedor from '@/components/SelectFornecedor/SelectFornecedor'
 import { useModal } from '../../(contexts)/ModalContext'
 import ConfirmationDialog from '@/components/ConfirmationDialog/ConfirmationDialog'
 import { useMediaQuery } from '../../(contexts)/MediaQueryContext'
+import { useSectionSelect } from '../../(contexts)/SectionSelectContext'
 
 export default function TabelaSection() {
 
@@ -24,7 +25,7 @@ export default function TabelaSection() {
         filterContext, 
         resetContext,
         pedidoContext: {pedidoData: {quantidadeProdutos}},
-        calcularSection,
+        // calcularSection,
         setCalcularSection
     } = useCalcular()
     const {searchParam, setSearchParam, searchField, setSearchFieldCapitalized} = filterContext
@@ -36,6 +37,7 @@ export default function TabelaSection() {
     , [searchParam, tabela, searchField])
 
     const { setModal, clearModal } = useModal()
+    const { section } = useSectionSelect()
     const { matches: isMobile } = useMediaQuery()
 
     const handleSaveClick = () => {
@@ -55,10 +57,10 @@ export default function TabelaSection() {
     }
 
     return (
-        (!isMobile || calcularSection === 'Tabela')&&
+        (!isMobile || section === 'Tabela')&&
         <section 
             className={style.tabelaSection} 
-            data-active={(calcularSection === 'Tabela')}
+            data-active={(section === 'Tabela')}
 
             // drag='x'
             // dragConstraints={{ left: 0, right: 0 }}

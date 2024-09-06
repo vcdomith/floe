@@ -5,7 +5,7 @@ import { useMemo } from "react";
 import { useModal } from "@/app/(app)/(contexts)/ModalContext";
 import isEqual from "@/utils/isEqual";
 
-interface UseEditProdutoReturn {
+interface UseEditProduto {
     
     produtoEdit: ProdutoCadastro
     controlledInputs: IProdutoContext
@@ -14,10 +14,11 @@ interface UseEditProdutoReturn {
     displayControl: IDisplayControl
     valid: boolean
     updateTabela: (id: number, updatedProduto: ProdutoCadastro) => void
+    removeProduto: (id: number) => void
 
 }
 
-export default function useEditProduto( produto: ProdutoCadastro ) {
+export default function useEditProduto( produto: ProdutoCadastro ): UseEditProduto  {
 
     const { produtoData, handleProdutoChange, resetForm } = useProduto(produto)
     const {
@@ -43,6 +44,7 @@ export default function useEditProduto( produto: ProdutoCadastro ) {
         fornecedorContext: {fornecedorData}, 
         pedidoContext: {pedidoData},
         updateProdutoTabela,
+        removeProduto
     } = useCalcular()
 
     const { clearModal } = useModal()
@@ -126,6 +128,7 @@ export default function useEditProduto( produto: ProdutoCadastro ) {
         displayControl,
         valid,
         updateTabela,
-    } as UseEditProdutoReturn
+        removeProduto
+    }
 
 }

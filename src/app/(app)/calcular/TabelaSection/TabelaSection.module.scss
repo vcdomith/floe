@@ -272,6 +272,7 @@
     .tabelaSection {
 
         border-left: none;
+        gap: 0.5rem;
 
         .content {
 
@@ -280,13 +281,17 @@
 
             .tabela {
 
+                border: none;
+
                 .tabelaBody {
 
-                    grid-template-rows: repeat(auto-fill, 7.5rem);
+                    grid-template-rows: repeat(auto-fill, 9rem);
                     gap: 0.5rem;
                     
                     min-width: calc(3*(67px + 0.5rem) + 0.5rem);
                     padding: 0.5rem;
+
+                    background-color: cor-mix(5%);
 
                 }
 

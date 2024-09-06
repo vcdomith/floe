@@ -131,7 +131,8 @@ export default function TabelaSection() {
                     <path d="M462 433L250.5 67L144.75 250L39 433H462Z" stroke="black" strokeWidth="40" strokeLinejoin="bevel"/>
                     <path d="M250 198V380" stroke="black" strokeWidth="40"/>
                 </svg>
-                <p>É preciso cadastrar {quantidadeProdutos} itens para cadastrar pedido (faltam {parseInt(quantidadeProdutos) - tabela.length})</p>
+                {/* <p>É preciso cadastrar {quantidadeProdutos} itens para cadastrar pedido (faltam {parseInt(quantidadeProdutos) - tabela.length})</p> */}
+                <p>{tabela.length} / {quantidadeProdutos} cadastrados</p>
             </span>
             }
             <button 
@@ -139,7 +140,10 @@ export default function TabelaSection() {
                 disabled={!tabelaValid}
                 // onClick={() => cadastrarPedidoDB()}
                 onClick={() => handleSaveClick()}
-            >Cadastrar Pedido</button>
+            >{isMobile
+                ? 'Cadastrar'
+                : 'Cadastrar Pedido'
+            }</button>
         </span>
 
     </section>

@@ -10,6 +10,7 @@ import { useNotification } from "../../(contexts)/NotificationContext";
 import capitalize from "@/utils/capitalize";
 import { useEffect } from "react";
 import { useMediaQuery } from "../../(contexts)/MediaQueryContext";
+import { useSectionSelect } from "../../(contexts)/SectionSelectContext";
 
 interface FatoresSectionProps {
 
@@ -26,7 +27,7 @@ export default function FatoresSection({ fornecedores }: FatoresSectionProps) {
         submitForm, 
         tabelaValid,
         updateFatoresTabela,
-        calcularSection,
+        // calcularSection: section,
         setCalcularSection
     } = useCalcular()
     const {fornecedorData, fornecedorDiff, rollbackFornecedor, updateFornecedorControl} = fornecedorContext
@@ -34,6 +35,7 @@ export default function FatoresSection({ fornecedores }: FatoresSectionProps) {
 
     const {addNotification} = useNotification()
 
+    const { section, setSection } = useSectionSelect()
     const {matches: isMobile} = useMediaQuery()
 
     useEffect(() => {
@@ -42,7 +44,7 @@ export default function FatoresSection({ fornecedores }: FatoresSectionProps) {
 
             if (e.key === 'Alt') {
                 e.preventDefault()
-                setCalcularSection((prev) => {
+                setSection((prev) => {
                     return (prev === 'Fatores')
                         ? 'Tabela' 
                         : 'Fatores'
@@ -58,10 +60,10 @@ export default function FatoresSection({ fornecedores }: FatoresSectionProps) {
     }, [])
 
     return (
-        (!isMobile || calcularSection === 'Fatores')&&
+        (!isMobile || section === 'Fatores')&&
         <section 
             className={style.fatores} 
-            data-active={(calcularSection === 'Fatores')}
+            data-active={(section === 'Fatores')}
 
             // drag='x'
             // dragConstraints={{ left: 0, right: 0, top: 0, bottom: 0 }}

@@ -65,28 +65,38 @@ function TabelaRow({produto, setTabela}: TabelaRowProps, ref) {
             layoutScroll
         >
                 <div>
+                    <label className={style.label}>tipo</label>
                     <p className={style.st} data-st={st}>{ st ? 'ST' : '' }</p>
                 </div>
                 {/* <div>{ codigo }</div> */}
                 <div className={style.composto}>
+                    <label className={style.label}>código</label>
                     <p className={style.main}>{ codigo }</p>      
                     {ncm !== ''&&
                     <p className={style.second}>{ ncm || '_'.repeat(codigo.length) }</p>
                     }
                 </div>
                 <div className={style.composto}>
+                    <label className={style.label}>unitário</label>
                     <p className={style.main}>{ unitario }</p>
                     {(composto?.every(item => item !== ''))&&
                     <p className={style.second}>{ `(${composto[0]} + ${composto[1]})` }</p>
                     }
                 </div>
-                <div>{ tabela1.toFixed(2) }</div>
+                <div>
+                    <label className={style.label}>tabela1</label>
+                    <p>{ tabela1.toFixed(2) }</p>
+                </div>
                 {/* <div>{ tabela2 }</div> */}
                 <div className={style.composto}>
+                    <label className={style.label}>tabela2</label>
                     <p className={style.main}>{ tabela2.toFixed(2) }</p>      
                     <p className={style.second}>{ unitarioNota }</p>
                 </div>
-                <div>{ tabela3.toFixed(2) }</div>
+                <div>
+                    <label className={style.label}>tabela3</label>
+                    <p>{ tabela3.toFixed(2) }</p>
+                </div>
                 <div>
                     <span className={style.tools}>
                         

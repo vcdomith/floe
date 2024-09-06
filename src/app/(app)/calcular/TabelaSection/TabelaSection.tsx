@@ -13,6 +13,7 @@ import SelectFornecedor from '@/components/SelectFornecedor/SelectFornecedor'
 import { useModal } from '../../(contexts)/ModalContext'
 import ConfirmationDialog from '@/components/ConfirmationDialog/ConfirmationDialog'
 import { useMediaQuery } from '../../(contexts)/MediaQueryContext'
+import { useSectionSelect } from '../../(contexts)/SectionSelectContext'
 
 export default function TabelaSection() {
 
@@ -24,7 +25,7 @@ export default function TabelaSection() {
         filterContext, 
         resetContext,
         pedidoContext: {pedidoData: {quantidadeProdutos}},
-        calcularSection,
+        // calcularSection,
         setCalcularSection
     } = useCalcular()
     const {searchParam, setSearchParam, searchField, setSearchFieldCapitalized} = filterContext
@@ -36,6 +37,7 @@ export default function TabelaSection() {
     , [searchParam, tabela, searchField])
 
     const { setModal, clearModal } = useModal()
+    const { section } = useSectionSelect()
     const { matches: isMobile } = useMediaQuery()
 
     const handleSaveClick = () => {
@@ -55,10 +57,10 @@ export default function TabelaSection() {
     }
 
     return (
-        (!isMobile || calcularSection === 'Tabela')&&
+        (!isMobile || section === 'Tabela')&&
         <section 
             className={style.tabelaSection} 
-            data-active={(calcularSection === 'Tabela')}
+            data-active={(section === 'Tabela')}
 
             // drag='x'
             // dragConstraints={{ left: 0, right: 0 }}
@@ -129,7 +131,8 @@ export default function TabelaSection() {
                     <path d="M462 433L250.5 67L144.75 250L39 433H462Z" stroke="black" strokeWidth="40" strokeLinejoin="bevel"/>
                     <path d="M250 198V380" stroke="black" strokeWidth="40"/>
                 </svg>
-                <p>É preciso cadastrar {quantidadeProdutos} itens para cadastrar pedido (faltam {parseInt(quantidadeProdutos) - tabela.length})</p>
+                {/* <p>É preciso cadastrar {quantidadeProdutos} itens para cadastrar pedido (faltam {parseInt(quantidadeProdutos) - tabela.length})</p> */}
+                <p>{tabela.length} / {quantidadeProdutos} cadastrados</p>
             </span>
             }
             <button 
@@ -137,7 +140,10 @@ export default function TabelaSection() {
                 disabled={!tabelaValid}
                 // onClick={() => cadastrarPedidoDB()}
                 onClick={() => handleSaveClick()}
-            >Cadastrar Pedido</button>
+            >{isMobile
+                ? 'Cadastrar'
+                : 'Cadastrar Pedido'
+            }</button>
         </span>
 
     </section>

@@ -69,3 +69,11 @@
     }
 
 }
+
+@media (width <= 440px) {
+
+    .header {
+        display: none;
+    }
+
+}

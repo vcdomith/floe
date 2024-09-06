@@ -7,16 +7,18 @@ import { usePathname } from "next/navigation";
 import { sectionsByPath } from "./(sectionsByPath)/sectionsByPath";
 import { toPath } from "lodash";
 import Logos from "../(svg)/Logos";
+import { useSectionSelect } from "../(contexts)/SectionSelectContext";
 
 export default function SectionSelect() {
 
-    const sections = useMemo(() => ['Fatores', 'Tabela'], [])
-    const {
-        calcularSection: section, 
-        setCalcularSection: setSection ,
-    } = useCalcular()
+    // const sections = useMemo(() => ['Fatores', 'Tabela'], [])
+    // const {
+    //     calcularSection: section, 
+    //     setCalcularSection: setSection ,
+    // } = useCalcular()
 
-    const path = usePathname().slice(1,)
+    // const path = usePathname().slice(1,)
+    const { path, sections, section, setSection } = useSectionSelect()
 
     return (
         <span className={style.select}>
@@ -25,10 +27,10 @@ export default function SectionSelect() {
                 styleName={style.logo}
             />
             <SelectFornecedor 
-                fornecedoresControle={(sectionsByPath[path as keyof typeof sectionsByPath])} 
+                fornecedoresControle={sections} 
                 // fornecedoresControle={sections} 
                 fornecedor={section} 
-                setFornecedor={setSection as Dispatch<SetStateAction<string>>}                
+                setFornecedor={setSection}                
                 omitSearch
             />
         </span>

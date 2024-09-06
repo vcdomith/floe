@@ -12,6 +12,7 @@ import { IProdutoContext } from '@/hooks/useProduto'
 import ProdutoDetalhes from '@/components/ProdutoDetalhes/ProdutoDetalhes'
 import ConfirmationDialog from '@/components/ConfirmationDialog/ConfirmationDialog'
 import { useNotification } from '@/app/(app)/(contexts)/NotificationContext'
+import { useMediaQuery } from '@/app/(app)/(contexts)/MediaQueryContext'
 
 interface TabelaRowProps {
 
@@ -29,6 +30,7 @@ function TabelaRow({produto, setTabela}: TabelaRowProps, ref) {
     const { fornecedorContext, produtoContext, removeProduto, calcularSection } = useCalcular()
     const {addNotification} = useNotification()
     const { handleProdutoChange } = produtoContext
+    const { matches: isMobile } = useMediaQuery()
 
     const { setModal, clearModal } = useModal()
 
@@ -55,6 +57,14 @@ function TabelaRow({produto, setTabela}: TabelaRowProps, ref) {
 
         <motion.span 
             className={style.row}
+            onClick={() => {
+                if(isMobile) return setModal( 
+                    <ProdutoDetalhes 
+                        produto={produto}
+                    /> 
+                )
+                return
+            }}
 
             initial={{ opacity: 0, x: -10 }}
             animate={{ opacity: 1, x: 0 }}
@@ -84,17 +94,17 @@ function TabelaRow({produto, setTabela}: TabelaRowProps, ref) {
                     }
                 </div>
                 <div>
-                    <label className={style.label}>tabela1</label>
+                    <label className={style.label}>tabela 1</label>
                     <p>{ tabela1.toFixed(2) }</p>
                 </div>
                 {/* <div>{ tabela2 }</div> */}
                 <div className={style.composto}>
-                    <label className={style.label}>tabela2</label>
+                    <label className={style.label}>tabela 2</label>
                     <p className={style.main}>{ tabela2.toFixed(2) }</p>      
                     <p className={style.second}>{ unitarioNota }</p>
                 </div>
                 <div>
-                    <label className={style.label}>tabela3</label>
+                    <label className={style.label}>tabela 3</label>
                     <p>{ tabela3.toFixed(2) }</p>
                 </div>
                 <div>
@@ -129,6 +139,18 @@ const SvgExcluir = () => {
         </svg>
     )
 }
+// const SvgExcluir = () => {
+//     return(
+//         <svg width="50" height="50" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+//         <path d="M130 193L130 400L370 400L370 193" stroke="black" strokeWidth="40"/>
+//         <path d="M71 139L430 139" stroke="black" strokeWidth="40"/>
+//         <path d="M174 99L326 99" stroke="black" strokeWidth="40"/>
+//         <path d="M207 193L207 350" stroke="black" strokeWidth="40"/>
+//         <path d="M291 193L291 350" stroke="black" strokeWidth="40"/>
+//         </svg>
+ 
+//     )
+// }
 const SvgDetalhes = () => {
     return(
         <svg width="50" height="50" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">

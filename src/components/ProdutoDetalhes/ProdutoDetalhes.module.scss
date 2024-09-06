@@ -490,6 +490,59 @@
 
         }
 
+        .delete {
+
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            margin-right: auto;
+
+            background-color: cor-mix(5%);
+            border-color: cor-mix(10%);
+
+            color: cor-mix(40%);
+
+            transition: border-color 400ms ease,
+                        background-color 400ms ease,
+                        color 400ms ease,
+            ;
+
+            &:hover {
+                background-color: cor-mix(10%);
+                border-color: cor-mix(50%);
+                color: cor-mix(80%);
+
+                svg path {
+                    stroke: cor-mix(80%);
+                }
+
+                p {
+                    color: cor-mix(80%);
+                }
+            }
+
+            svg {
+                
+                width: 20px;
+                height: 20px;
+
+                path {
+
+                    stroke: cor-mix(50%);
+
+                }
+
+            }
+
+            p {
+
+                margin: 0; 
+                color: cor-mix(50%);
+
+            }
+
+        }
+
         .update {
 
             background-color: cor-mix(70%);

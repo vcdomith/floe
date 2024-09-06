@@ -15,6 +15,8 @@ import { UseFornecedor } from "@/hooks/useFornecedor"
 import { useNotification } from "@/app/(app)/(contexts)/NotificationContext"
 import { getTabelasObject } from "@/utils/calculoTabelas"
 import { useModal } from "@/app/(app)/(contexts)/ModalContext"
+import ConfirmationDialog from "../ConfirmationDialog/ConfirmationDialog"
+import { useMediaQuery } from "@/app/(app)/(contexts)/MediaQueryContext"
 
 const NUMBER_INPUT_PLACEHOLDER = '_'.repeat(50)
 const PRESERVE_ST_STATE = false
@@ -75,6 +77,7 @@ export const ProdutoDetalhes = ({ produto }:
         displayControl, 
         valid,
         updateTabela,
+        removeProduto
     } = useEditProduto(produto)
 
     const {
@@ -95,7 +98,8 @@ export const ProdutoDetalhes = ({ produto }:
     } = controlledInputs
 
     const {addNotification} = useNotification()
-    const {clearModal} = useModal()
+    const {setModal, clearModal} = useModal()
+    const { matches: isMobile } = useMediaQuery()
 
     const tabelas: [string, number][] = useMemo(() => Object.entries(getTabelasObject(produtoEdit)), [produtoEdit])
 
@@ -153,6 +157,32 @@ export const ProdutoDetalhes = ({ produto }:
             ...prev,
             [tab]: !prev[tab]
         }))
+
+    }
+
+    const handleDelete = (id: number) => {
+
+        removeProduto(id)
+        addNotification({
+            tipo: 'sucesso',
+            mensagem: `Produto ${produto.codigo} excluído com sucesso!`
+        })
+        clearModal()
+
+        // setModal(
+        //     <ConfirmationDialog 
+        //         title={`Confirme a exclusão do produto ${produto.codigo}:`}
+        //         message='Aviso: o produto será excluído permanentemente!' 
+        //         cancelHandler={clearModal} 
+        //         confirmHandler={() => {
+        //             addNotification({
+        //                 tipo: 'sucesso',
+        //                 mensagem: `Produto ${produto.codigo} excluído com sucesso!`,
+        //             })
+        //             removeProduto(id)
+        //         }}                
+        //     />
+        // )
 
     }
 
@@ -507,12 +537,24 @@ export const ProdutoDetalhes = ({ produto }:
             </section>
 
             <span className={style.buttons}>
+
+                <button 
+                    className={style.delete}
+                    onClick={() => handleDelete(produto.id)}
+                >
+                    <SvgExcluir/>
+                    {!isMobile&&
+                    <p>Excluir</p>
+                    }
+                </button>
+
                 <button 
                     className={style.discard}
                     onClick={() => resetProduto(PRESERVE_ST_STATE)}
                 >
                     Descartar
                 </button>
+
                 <button 
                     className={style.update}
                     disabled={!valid}
@@ -526,6 +568,7 @@ export const ProdutoDetalhes = ({ produto }:
                 >
                     Atualizar
                 </button>
+
             </span>
 
         </div>
@@ -555,4 +598,17 @@ const ExpandButton = (
         </div>
     )
 
+}
+
+const SvgExcluir = () => {
+    return(
+        <svg width="50" height="50" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M130 193L130 400L370 400L370 193" stroke="black" strokeWidth="40"/>
+        <path d="M71 139L430 139" stroke="black" strokeWidth="40"/>
+        <path d="M174 99L326 99" stroke="black" strokeWidth="40"/>
+        <path d="M207 193L207 350" stroke="black" strokeWidth="40"/>
+        <path d="M291 193L291 350" stroke="black" strokeWidth="40"/>
+        </svg>
+ 
+    )
 }

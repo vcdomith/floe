@@ -7,7 +7,6 @@ export default function FornecedorNotFound({ params }: { params: { fornecedor : 
     return (
         <div>
             {/* {`Fornecedor ${fornecedor} não existe!`} */}
-            {`Fornecedor não existe!`}
             <Link href='/fornecedores' prefetch>Voltar para fornecedores</Link>
         </div>
     )

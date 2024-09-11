@@ -9,6 +9,8 @@ import { toPath } from "lodash";
 import Logos from "../(svg)/Logos";
 import { useSectionSelect } from "../(contexts)/SectionSelectContext";
 
+const VALID_ROUTES = ['configurar', 'calcular', 'tabela', 'cadastros']
+
 export default function SectionSelect() {
 
     // const sections = useMemo(() => ['Fatores', 'Tabela'], [])
@@ -84,7 +86,11 @@ const Logo = (
         
     }
 
-    const { Svg, Titulo } = SvgLogos[route as keyof SvgLogos]
+    let index = (VALID_ROUTES.includes(route)) 
+        ? route
+        : 'configurar'
+
+    const { Svg, Titulo } = SvgLogos[index as keyof SvgLogos]
 
     return (
         <span 

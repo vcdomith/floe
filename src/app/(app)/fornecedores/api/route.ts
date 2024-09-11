@@ -4,7 +4,7 @@ export async function POST(resquest: Request) {
 
     try {
 
-        revalidatePath('/calcular')
+        revalidatePath('/configurar_new')
 
     } catch(error) {
         
@@ -25,7 +25,7 @@ export async function GET(req: Request) {
     try {
 
         console.log(req);
-        revalidatePath('/calcular')
+        revalidatePath('/configurar_new')
 
     } catch (error) {
 

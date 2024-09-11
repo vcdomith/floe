@@ -1,0 +1,304 @@
+@use '../../../globalStyle.module.scss' as *;
+
+.detalhe {
+
+    display: flex;
+    flex-direction: column;
+    flex: 5;
+    flex-shrink: 0;
+    // border: 2px solid cor-mix(50%);
+    // border-radius: 1rem;
+    overflow: hidden;
+
+    border-left: 1px solid;
+    border-image: linear-gradient(0deg , $cor-secundaria, cor-mix(40%)) 5;
+
+    .content {
+
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+
+        width: 100%;
+        height: 100%;
+        box-sizing: border-box;
+        padding: 1rem;
+
+        border-top: 1px solid;
+        border-image: linear-gradient(to left , 
+        $cor-secundaria, cor-mix(40%)) 27;
+
+        overflow-y: hidden;
+     
+        .options {
+
+            display: flex;
+            gap: 0.5rem;
+            place-self: flex-end;
+
+            display: flex;
+
+            .search {
+
+                // max-height: 33.2px;
+                box-sizing: border-box;
+                height: 33.2px;
+                padding: 0.25rem;
+                border-color: cor-mix(30%);
+                border-radius: 0.5rem;
+
+                svg {
+
+                    fill: cor-mix(60%);
+
+                }
+
+                & > div input {
+
+                    width: 75px;
+                    padding-left: 0.25rem;
+
+                    font-size: 1rem;
+                    color: cor-mix(80%);
+                    
+                    &::placeholder {
+                        
+                        font-size: 1rem;
+
+                    }
+
+                }
+
+            }
+
+            & > div {
+
+                width: 110px;
+
+                & > div {
+
+                    width: 113.2px;
+
+                }
+
+            }
+
+        }
+
+        .tabela {
+
+            display: flex;
+            flex-direction: column;
+
+            border: 2px solid cor-mix(20%);
+            // background-color: lighten($cor-secundaria, 3%);
+            border-radius: 0.5rem;
+            box-sizing: border-box;
+
+            height: 100%;
+
+            overflow-y: hidden;
+            overflow-x: scroll;
+
+            .tabelaBody {
+
+                display: grid;
+                grid-template-rows: repeat(auto-fill, 3.5rem);
+                // display: flex;
+                // flex-direction: column;
+
+                box-sizing: border-box;
+                height: 100%;
+                // width: max-content;
+                width: 100%;
+                max-width: 100%;
+                // min-width: max-content;
+                min-width: calc( 7 * calc(75px + 0.5rem) + 0.5rem );
+
+
+                overflow-y: scroll;
+                overflow-x: hidden;
+
+                @include thin-scrollbar;
+
+                & > span {
+
+                    box-sizing: border-box;
+                    // display: flex;
+                    align-items: center;
+                    gap: 0.5rem;
+                    padding: 0 0.5rem;
+                    // margin-bottom: 0.5rem;
+                    // min-height: 3rem;
+                    height: clamp(3.5rem, 3.5rem, 3.5rem);
+                    align-items: center;
+
+                    & > div {
+
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: center;
+                        height: 100%;
+                        // width: clamp(50px, 50px, 50px);
+                        flex: 4;
+
+                        &:first-child {
+                            flex: 1;
+                        }
+                        
+                        &:last-child {
+
+                            flex: 2;
+
+                        }
+
+                        &:not(:last-child) {
+
+                            border-right: 2px solid cor-mix(5%);
+
+                        }
+
+                    }
+
+
+                }
+
+            }
+
+            .empty {
+
+                display: flex;
+                justify-content: center;
+                align-items: center;
+
+                width: 100%;
+                height: 100%;
+
+
+            }
+
+        }
+
+    }
+
+    .footer {
+
+        place-self: flex-end;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        gap: 0.5rem;
+
+        width: 100%;
+        height: 28.8px;
+
+        .message {
+
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+
+            svg {
+        
+                path {
+
+                    // stroke: $cor-primaria;
+                    stroke: darken(saturate(cor-mix(20%), 40%), 20%);
+
+                }
+
+            }
+
+            p {
+                display: flex;
+                align-items: center;
+                margin: 0;
+                font-size: 0.9rem;
+
+                color: darken(saturate(cor-mix(20%), 40%), 20%);
+            }
+
+        }
+
+        .submit {
+        
+            outline: none;
+            border: none;
+            padding: 0.25rem 0.5rem;
+            // margin: 0 1rem;
+        
+            // width: 20%;
+            width: fit-content;
+            // width: calc(100% - 2rem);
+            font-size: 1.1rem;
+            background-color: cor-mix(75%);
+            color: cor-mix(0%);
+            border-radius: 0.5rem;
+    
+            cursor: pointer;
+        
+            transition: background-color 400ms ease;
+        
+            &:hover {
+        
+                background-color: cor-mix(90%);
+        
+            }
+    
+            &:disabled {
+    
+                background-color: cor-mix(20%);
+                cursor: default;
+    
+            }
+        
+        }
+
+    }
+
+
+}
+
+@media (width <= 700px) {
+    
+    .tabelaSection[data-active="false"]{
+        display: none;
+    }
+
+}
+
+@media (width <= 440px) {
+
+    .detalhe {
+
+        border-left: none;
+        gap: 0.5rem;
+
+        .content {
+
+            padding: 0;
+            border-top: none;
+
+            .tabela {
+
+                border: none;
+
+                .tabelaBody {
+
+                    grid-template-rows: repeat(auto-fill, 9rem);
+                    gap: 0.5rem;
+                    
+                    min-width: calc(3*(67px + 0.5rem) + 0.5rem);
+                    padding: 0.5rem;
+
+                    background-color: cor-mix(5%);
+
+                }
+
+            }
+
+        }
+
+    }
+
+} 

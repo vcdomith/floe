@@ -19,16 +19,13 @@ import GlobalProvider from "./(contexts)/GlobalProvider";
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
 
-    const path = usePathname()
-
-    const MainLogo = Logos.SvgTabela
 
     return (
         <GlobalProvider>
-            <Nav pathname={path} />
+            <Nav />
             <SectionSelect />
             <Container>
-                <Logo route={path}/>
+                {/* <Logo route={path}/> */}
                 {children}
                 <Notifications />
                 <Modal />

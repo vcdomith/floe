@@ -240,23 +240,22 @@ export default function Home() {
 
   }
 
-  const handleSave = () => {
+  // const handleSave = () => {
 
-    
-    const cadastro: ICadastro = {
-      id: new Date().getTime(),
-      produtos: controleProdutos,
-      fornecedor: null,
-      created_at: new Date().toLocaleString(),
-    }
-    const cadastroString = JSON.stringify(cadastro)
+  //   const cadastro: ICadastro = {
+  //     id: new Date().getTime(),
+  //     produtos: controleProdutos,
+  //     fornecedor: null,
+  //     created_at: new Date().toLocaleString(),
+  //   }
+  //   const cadastroString = JSON.stringify(cadastro)
 
-    const keyToSave = cadastro.id.toString()
-    localStorage.setItem(keyToSave, cadastroString)
+  //   const keyToSave = cadastro.id.toString()
+  //   localStorage.setItem(keyToSave, cadastroString)
 
-    console.log('Cadastro realizado com sucesso!');
+  //   console.log('Cadastro realizado com sucesso!');
 
-  }
+  // }
 
   // searchParams reset
 
@@ -302,34 +301,34 @@ export default function Home() {
 
   // }, [controleProdutos, searchParam, sorted])
 
-  async function handleSaveDB() {
+  // async function handleSaveDB() {
 
-    if (controleProdutos.length === 0) {
-      console.log('Não é possível fazer um cadastro vazio!');
-      return
-    }
+  //   if (controleProdutos.length === 0) {
+  //     console.log('Não é possível fazer um cadastro vazio!');
+  //     return
+  //   }
 
-    try {
+  //   try {
 
-      let { data: cadastros, error } = await supabase
-        .from('cadastros')
-        .insert([{ produtos: controleProdutos }])
+  //     let { data: cadastros, error } = await supabase
+  //       .from('cadastros')
+  //       .insert([{ produtos: controleProdutos }])
       
-      console.log('Cadastro realizado com sucesso!', cadastros);
+  //     console.log('Cadastro realizado com sucesso!', cadastros);
 
-      // let { data: cadastros, error } = await supabase
-      //   .from('cadastros')
-      //   .select('produtos')
+  //     // let { data: cadastros, error } = await supabase
+  //     //   .from('cadastros')
+  //     //   .select('produtos')
 
-      // console.log(cadastros);
+  //     // console.log(cadastros);
 
-    } catch(error) {
+  //   } catch(error) {
 
-      console.error(error)
+  //     console.error(error)
 
-    }
+  //   }
     
-  }
+  // }
   
   async function handleReadDB() {
 
@@ -620,7 +619,7 @@ export default function Home() {
         {controleProdutos.length > 0 &&
         <button
           className={page.botao}
-          onClick={() => handleSaveDB()}
+          // onClick={() => handleSaveDB()}
           >
           Salvar Dados
         </button>

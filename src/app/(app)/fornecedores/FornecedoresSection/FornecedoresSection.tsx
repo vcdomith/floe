@@ -5,17 +5,26 @@ import capitalize from '@/utils/capitalize'
 import { svgsUtil } from '@/components/SvgArray/SvgUtil'
 import Search from '@/components/Search/Search'
 import { usePathname } from 'next/navigation'
+import { forwardRef, Suspense, useMemo, useState } from 'react'
+import { motion, LayoutGroup, AnimatePresence } from 'framer-motion'
+import LogoSvg from '@/components/SvgArray/LogoSvg'
 
 interface FatoresSectionProps {
 
     fornecedores: { id: number, nome: string | null }[] | undefined
-    path: string[]
 
 }
 
-export default function FornecedoresSection({ fornecedores, path } : FatoresSectionProps) {
+export default function FornecedoresSection({ fornecedores } : FatoresSectionProps) {
 
-    const selectedPath = (path !== undefined) ? path[0] : undefined
+    const path = usePathname().slice(1,).split('/')[1].replaceAll('%20', ' ')
+    console.log(path);
+
+    const [searchParam, setSearchParam] = useState('')
+
+    const fornecedoresDisplay = useMemo(() => 
+        fornecedores?.filter( fornecedor => fornecedor.nome?.includes(searchParam.toLowerCase()))
+    , [searchParam])
 
     return (
         <section className={style.fornecedores}>
@@ -30,41 +39,93 @@ export default function FornecedoresSection({ fornecedores, path } : FatoresSect
                 </div>
 
                 <button className={style.novo}>
-                    + Novo Fornecedor
+                    Novo Fornecedor
                 </button>
 
-                <input type="text" placeholder='buscar' />
+                {/* <input type="text" placeholder='buscar' /> */}
+
+                <Search 
+                    className={style.search} 
+                    searchParam={searchParam} 
+                    setSearchParam={setSearchParam} 
+                    textInput
+                />
 
             </header>
-            {/* <Search 
-                className={style.search} 
-                searchParam={searchParam} 
-                setSearchParam={setSearchParam} 
-                textInput={(searchField.toLowerCase() === 'codigo')}
-            /> */}
 
             <div className={style.content}>
 
-                <div className={style.fornecedoresContainer}>
+                <LayoutGroup>
+                <motion.div 
+                    className={style.fornecedoresContainer} 
+
+                    layout 
+                    layoutRoot
+                >
+                {/* <AnimatePresence mode='popLayout'> */}
                 {
                 fornecedores&&
-                (fornecedores.map( fornecedor => 
-                    <Link 
-                        className={style.fornecedor}
-                        data-selected={selectedPath === fornecedor.nome}
-                        key={fornecedor.id} 
-                        href={`/fornecedores/${fornecedor.nome}`} 
-                        prefetch
-                    >
-                        {svgsUtil.transporte}
-                        <p>{fornecedor.id}</p>
-                        <p>{fornecedor.nome&& capitalize(fornecedor.nome)}</p>
-                    </Link>
+                (fornecedoresDisplay?.map( fornecedor =>
+                    <FornecedorLink 
+                        key={fornecedor.id}
+                        fornecedor={fornecedor}
+                        path={path}
+                    /> 
+                    // <Link 
+                    //     className={style.fornecedor}
+                    //     data-selected={path === fornecedor.nome}
+                    //     key={fornecedor.id} 
+                    //     href={`/fornecedores/${fornecedor.nome}`} 
+                    //     prefetch
+                    // >
+                    //     {svgsUtil.transporte}
+                    //     <p>{fornecedor.id}</p>
+                    //     <p>{fornecedor.nome&& capitalize(fornecedor.nome)}</p>
+                    // </Link>
                 ))
                 }
-                </div>
+                {/* </AnimatePresence> */}
+                </motion.div>
+                </LayoutGroup>
+
             </div>
         </section>
     )
 
 }
+
+interface FornecedorLinkProps {
+    fornecedor: { id: number , nome: string | null}
+    path: string
+    key: string | number
+}
+
+const FornecedorLink = forwardRef<HTMLDivElement, FornecedorLinkProps>(function FornecedorLink({ fornecedor, path, key }: FornecedorLinkProps, ref) {
+
+    return (
+        <motion.div
+            key={key}
+            ref={ref}
+
+            initial={{ opacity: 0, x: -10 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: 10 }}
+
+            layout='position'
+            layoutScroll
+        >
+            <Link 
+                className={style.fornecedor}
+                data-selected={path === fornecedor.nome}
+                key={fornecedor.id} 
+                href={`/fornecedores/${fornecedor.nome}`} 
+                prefetch
+            >
+                {svgsUtil.transporte}
+                <p>{fornecedor.id}</p>
+                <p>{fornecedor.nome&& capitalize(fornecedor.nome)}</p>
+            </Link>
+        </motion.div>
+    )
+
+}) 

@@ -1,9 +1,9 @@
 import { dbConnect } from '@/utils/db/supabase'
-import style from './configurar.module.scss'
-import FornecedoresSection from '../FornecedoresSection/FornecedoresSection'
-import DetalheSection from '../DetalheSection/DetalheSection'
+import style from './fornecedores.module.scss'
+import FornecedoresSection from './FornecedoresSection/FornecedoresSection'
+import DetalheSection from './DetalheSection/DetalheSection'
 
-export default async function Configurar({ children, params }:{ children: React.ReactNode, params: { fornecedor: string[] } }){
+export default async function Configurar({ children }:{ children: React.ReactNode }){
 
     const supabase = dbConnect()
     const { data: fornecedores, error } = await supabase.from('fornecedores').select('id,nome')
@@ -14,7 +14,6 @@ export default async function Configurar({ children, params }:{ children: React.
         >
             <FornecedoresSection 
                 fornecedores={fornecedores?? undefined} 
-                path={params.fornecedor}
             />
             <DetalheSection>
                 {children}

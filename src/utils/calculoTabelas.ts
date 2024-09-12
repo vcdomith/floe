@@ -42,7 +42,7 @@ function calcularTabela(valor: number, args: number[]): number {
 
 }
 
-export const getTabelas = (produto: IProduto): number[] => {
+export const getTabelas = (produto: ProdutoCadastro | IProduto): number[] => {
 
     // const {fatores, unitario} = controleProdutos[index]
     const { fatores, unitario } = produto

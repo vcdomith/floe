@@ -11,34 +11,43 @@ export async function generateStaticParams() {
 
     const fornecedoresParams = fornecedores
         ?.map( ({ nome }) => ({
-        fornecedor: [nome?.replace(/ /g, '%20')]
+        fornecedor: nome?.replace(/ /g, '%20')
     }))
+    
+    const a = (fornecedoresParams !== undefined)
+        ? fornecedores!
+        .map( ({ nome }) => ({
+        fornecedor: nome?.replaceAll(/ /g, '%20')
+    }))
+        : [{
+            fornecedor: ''
+        }]
 
-    fornecedoresParams?.push({
-        fornecedor: ['']
-    })
+    console.log(a);
+    return a
 
-    return fornecedoresParams
+    // fornecedoresParams?.push({
+    //     fornecedor: ['']
+    // })
+
+    // return fornecedoresParams
 
 }
 
 export default async function Fornecedor( { params }: { params: { fornecedor: string }}) {
 
     const { fornecedor: fornecedorParam } = params 
+    // console.log(fornecedorParam);
 
     const supabase = dbConnect()
     const { data: fornecedor, error } = await supabase
         .from('fornecedores')
         .select('*')
-        .eq('nome', fornecedorParam[0].replaceAll('%20', ' '))
-
-    // if( params.fornecedor !== undefined && params.fornecedor.length >= 2) redirect(`/fornecedores/${params.fornecedor[0]}`)
-
-    // notFound()
+        .eq('nome', fornecedorParam.replaceAll('%20', ' '))
 
     return (
         <div>
-            {(fornecedorParam !== null)
+            {(fornecedorParam !== undefined)
             // ? `Fornecedor ${capitalize(JSON.stringify(fornecedor[0]) ?? '')}`
             ? (
                 <div>

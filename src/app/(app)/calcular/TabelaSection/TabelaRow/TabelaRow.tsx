@@ -1,3 +1,4 @@
+'use client'
 import { getTabelasObject } from '@/utils/calculoTabelas'
 import { FatoresContext, ProdutoCadastro, useCalcular } from '../../context/CalcularContext'
 import style from './TabelaRow.module.scss'
@@ -17,21 +18,19 @@ import { useMediaQuery } from '@/app/(app)/(contexts)/MediaQueryContext'
 interface TabelaRowProps {
 
     produto: ProdutoCadastro
-    setTabela: Dispatch<SetStateAction<ProdutoCadastro[]>>
 
 }
 
 const TabelaRow = forwardRef<HTMLSpanElement, TabelaRowProps>(
-function TabelaRow({produto, setTabela}: TabelaRowProps, ref) {
+function TabelaRow({produto}: TabelaRowProps, ref) {
 
-    const {id, codigo, ncm, st, unitario, unitarioNota, composto, fatores } = produto
+    const {id, codigo, ncm, st, unitario, unitarioNota, composto } = produto
     const {tabela1, tabela2, tabela3} = useMemo(() => getTabelasObject(produto), [produto])
 
-    const { fornecedorContext, produtoContext, removeProduto, calcularSection } = useCalcular()
-    const {addNotification} = useNotification()
-    const { handleProdutoChange } = produtoContext
-    const { matches: isMobile } = useMediaQuery()
+    const { removeProduto } = useCalcular()
+    const { addNotification } = useNotification()
 
+    const { matches: isMobile } = useMediaQuery()
     const { setModal, clearModal } = useModal()
 
     const handleClick = (id: number) => {

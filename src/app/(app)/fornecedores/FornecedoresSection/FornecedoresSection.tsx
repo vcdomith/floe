@@ -55,13 +55,13 @@ export default function FornecedoresSection({ fornecedores } : FatoresSectionPro
 
             <div className={style.content}>
 
-                <LayoutGroup>
                 <motion.div 
                     className={style.fornecedoresContainer} 
-
+                    
                     layout 
                     layoutRoot
-                >
+                    >
+                    <LayoutGroup>
                 {/* <AnimatePresence mode='popLayout'> */}
                 {
                 fornecedores&&
@@ -85,8 +85,8 @@ export default function FornecedoresSection({ fornecedores } : FatoresSectionPro
                 ))
                 }
                 {/* </AnimatePresence> */}
-                </motion.div>
                 </LayoutGroup>
+                </motion.div>
 
             </div>
         </section>

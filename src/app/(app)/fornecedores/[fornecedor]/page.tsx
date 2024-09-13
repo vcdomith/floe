@@ -13,46 +13,27 @@ export async function generateStaticParams() {
         ?.map( ({ nome }) => ({
         fornecedor: nome
     })) || [{ fornecedor: '' }]
-    // const fornecedoresParams = fornecedores
-    //     ?.map( ({ nome }) => ({
-    //     fornecedor: nome?.replaceAll(' ', '%20')
-    // }))
-    // const fornecedoresParams = fornecedores
-    //     ?.map( ({ nome }) => ({
-    //     fornecedor: encodeURIComponent(nome || '')
-    // })) || [{ fornecedor: ''}]
+
     console.log(fornecedoresParams);
 
-    // const a = (fornecedoresParams !== undefined)
-    //     ? fornecedores!
-    //     .map( ({ nome }) => ({
-    //     fornecedor: nome?.replaceAll(' ', '%20')
-    // }))
-    //     : [{
-    //         fornecedor: ''
-    //     }]
-
-    // console.log(a);
     return fornecedoresParams
-
-    // fornecedoresParams?.push({
-    //     fornecedor: ['']
-    // })
-
-    // return fornecedoresParams
 
 }
 
 export default async function Fornecedor( { params }: { params: { fornecedor: string }}) {
 
     const { fornecedor: fornecedorParam } = params 
-    console.log(fornecedorParam.replaceAll('%20', ' '));
 
     const supabase = dbConnect()
     const { data: fornecedor, error } = await supabase
         .from('fornecedores')
         .select('*')
-        .eq('nome', encodeURIComponent(fornecedorParam || ''))
+        .eq('nome', fornecedorParam.replaceAll('%20', ' '))
+
+    if (error) {
+        console.error('Error fetching data', error)
+        return <p>{JSON.stringify(error)}</p>
+    }
 
     return (
         <div>

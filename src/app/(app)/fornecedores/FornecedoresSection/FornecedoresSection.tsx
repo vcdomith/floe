@@ -17,7 +17,7 @@ interface FatoresSectionProps {
 
 export default function FornecedoresSection({ fornecedores } : FatoresSectionProps) {
 
-    const path = usePathname().slice(1,).split('/')[1].replaceAll('%20', ' ')
+    const path = usePathname().slice(1,).split('/')[1]?.replaceAll('%20', ' ')
     console.log(path);
 
     const [searchParam, setSearchParam] = useState('')

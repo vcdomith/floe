@@ -2,7 +2,7 @@
 import { motion, AnimatePresence } from 'framer-motion'
 import TableHeader from '../../calcular/TabelaSection/TabelaHeader/TabelaHeader'
 import style from './PedidoDetalheSection.module.scss'
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import useFilter, { SearchFieldKeys } from '@/hooks/useFilter'
 import SelectFornecedor from '@/components/SelectFornecedor/SelectFornecedor'
 import Search from '@/components/Search/Search'
@@ -11,6 +11,10 @@ export default function PedidoDetalheSection({ children }: { children: React.Rea
 
     const { searchParam, setSearchParam, searchField, setSearchFieldCapitalized } = useFilter()
     const fieldKeys: SearchFieldKeys[] = ['unitario', 'codigo']
+
+    // const pedidoDisplay = useMemo(() => 
+        
+    // , [])
 
     return (
         // <section>

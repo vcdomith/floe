@@ -7,6 +7,7 @@ import { useMemo, useState } from 'react'
 import Link from 'next/link'
 import { svgsUtil } from '@/components/SvgArray/SvgUtil'
 import capitalize from '@/utils/capitalize'
+import { usePathname } from 'next/navigation'
 
 interface PedidosListaSectionProps {
     pedidos: ICadastro[]
@@ -14,13 +15,16 @@ interface PedidosListaSectionProps {
 
 export default function PedidosListaSection({ pedidos }: PedidosListaSectionProps) {
 
+    const path = usePathname().slice(1,).split('/')[1]
+    console.log(path);
+
     const [searchParam, setSearchParam] = useState('')
 
     const pedidosDisplay = useMemo(() => 
         pedidos?.filter( pedido => pedido.fornecedor?.includes(searchParam.toLowerCase()))
     , [searchParam])
 
-    console.table(pedidos);
+    // console.table(pedidos);
 
     return (
 
@@ -64,6 +68,7 @@ export default function PedidosListaSection({ pedidos }: PedidosListaSectionProp
                             className={style.pedido}
                             key={pedido.id} 
                             href={`/pedidos/${pedido.id}`}
+                            data-selected={ path === pedido.id.toString() }
                         >
                             {svgsUtil.unitarioNota}
                             <p>{pedido.id}</p>

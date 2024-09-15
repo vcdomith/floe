@@ -17,7 +17,7 @@ export async function generateStaticParams() {
     const test = fornecedoresParams.some(
         fornecedor => fornecedor.fornecedor.includes('%20')
     )
-    console.log(fornecedoresParams, test);
+    // console.log(fornecedoresParams, test);
 
     return fornecedoresParams
 

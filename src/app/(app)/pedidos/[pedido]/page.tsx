@@ -3,7 +3,7 @@ import TabelaRow from "../../calcular/TabelaSection/TabelaRow/TabelaRow"
 import { SetStateAction, useMemo } from "react"
 import { ProdutoCadastro } from "../../calcular/context/CalcularContext"
 
-export default async function Pedido({ params, searchParam, searchField }: { params: { pedido: number }, searchParam: string, searchField: string }) {
+export default async function Pedido({ params }: { params: { pedido: number } }) {
 
     const supabase = dbConnect()
     const { data: pedidos, error } = await supabase

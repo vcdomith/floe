@@ -1,33 +1,30 @@
 import { dbConnect } from "@/utils/db/supabase"
 import TabelaRow from "../../calcular/TabelaSection/TabelaRow/TabelaRow"
-import { SetStateAction, useMemo } from "react"
-import { ProdutoCadastro } from "../../calcular/context/CalcularContext"
+import PedidoRows from "./PedidoRows"
 
-export default async function Pedido({ params }: { params: { pedido: number } }) {
+export const dynamicParams = false
+
+export async function generateStaticParams() {
 
     const supabase = dbConnect()
     const { data: pedidos, error } = await supabase
         .from('cadastros')
+        .select('id')
+
+    return pedidos?.map( ({ id }) => ({
+        pedido: id.toString()
+    })) || { pedido: '' }
+
+}
+
+export default async function Pedido({ params }: { params: { pedido: number }}) {
+
+    const supabase = dbConnect()
+    const { data: pedido, error } = await supabase
+        .from('cadastros')
         .select('*')
         .eq('id', params.pedido)
-
-    // const pedidosDisplay = useMemo(() => 
-    //     pedidos?.filter( pedido => (pedido[searchField as keyof typeof pedido] as string).includes(searchParam))
-    // , [searchParam, searchField])
-
-    // const pedidosDisplay = pedidos?.filter( pedido => (pedido[searchField as keyof typeof pedido] as string).includes(searchParam))
-
-
-    return (
-        <>
-        {pedidos?.map( pedido => 
-            pedido.produtos.map( produto => 
-                <TabelaRow
-                    key={pedido.id} 
-                    produto={produto} 
-                />
-            ))}
-        </>
-    )
+    
+    return pedido&& <PedidoRows produtos={pedido[0].produtos} />
 
 }

@@ -3,6 +3,9 @@ import style from './pedidos.module.scss';
 import PedidosListaSection from './PedidosListaSection/PedidosListaSection';
 import TabelaSection from '../calcular/TabelaSection/TabelaSection';
 import PedidoDetalheSection from './PedidoDetalheSection/PedidoDetalheSection';
+import { FilterContext, FilterProvider } from '../(contexts)/FilterContext';
+import { ICadastro } from '@/interfaces/ICadastro';
+import PedidosContextWrapper from './PedidosContextWrapper/PedidosContextWrapper';
 
 export default async function PedidosLayout({ children }: { children: React.ReactNode }) {
 
@@ -14,12 +17,18 @@ export default async function PedidosLayout({ children }: { children: React.Reac
 
     return (
         <main className={style.main}>
-            <PedidosListaSection pedidos={(pedidos !== null) ? pedidos : []}/>
+
+            <PedidosContextWrapper pedidos={pedidos}>
+                {children}
+            </PedidosContextWrapper>
+            {/* <PedidosListaSection pedidos={(pedidos !== null) ? pedidos : []}/>
+           
             <PedidoDetalheSection>
                 {children}
-            </PedidoDetalheSection>
+            </PedidoDetalheSection> */}
+            
         </main>
     )
 
-
 }
+

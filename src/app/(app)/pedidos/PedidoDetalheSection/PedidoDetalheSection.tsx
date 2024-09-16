@@ -2,36 +2,19 @@
 import { motion, AnimatePresence } from 'framer-motion'
 import TableHeader from '../../calcular/TabelaSection/TabelaHeader/TabelaHeader'
 import style from './PedidoDetalheSection.module.scss'
-import { useMemo, useState } from 'react'
-import useFilter, { SearchFieldKeys } from '@/hooks/useFilter'
+import { SearchFieldKeys } from '@/hooks/useFilter'
 import SelectFornecedor from '@/components/SelectFornecedor/SelectFornecedor'
 import Search from '@/components/Search/Search'
+import { usePedidos } from '../context/PedidosContext'
 
-export default function PedidoDetalheSection({ children }: { children: React.ReactNode }) {
+export default function PedidoDetalheSection(
+    { children }: { children: React.ReactNode }
+) {
 
-    const { searchParam, setSearchParam, searchField, setSearchFieldCapitalized } = useFilter()
+    const { searchParam, setSearchParam, searchField, setSearchFieldCapitalized } = usePedidos()
     const fieldKeys: SearchFieldKeys[] = ['unitario', 'codigo']
 
-    // const pedidoDisplay = useMemo(() => 
-        
-    // , [])
-
     return (
-        // <section>
-
-        //     <div className={style.tabela}>
-
-        //     <TableHeader />
-        //     {/* <AnimatePresence mode='popLayout'> */}
-        //     <div 
-        //         className={style.tabelaBody} 
-        //     >
-        //     {children}
-        //     </div>
-        //     {/* </AnimatePresence> */}
-
-        //     </div>
-        // </section>
         <section 
             className={style.tabelaSection} 
        

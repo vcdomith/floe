@@ -3,7 +3,7 @@ import { ICadastro } from '@/interfaces/ICadastro'
 import style from './PedidosListaSection.module.scss'
 import Search from '@/components/Search/Search'
 import { LayoutGroup, motion } from 'framer-motion'
-import { useMemo, useState } from 'react'
+import { forwardRef, useMemo, useState } from 'react'
 import Link from 'next/link'
 import { svgsUtil } from '@/components/SvgArray/SvgUtil'
 import capitalize from '@/utils/capitalize'
@@ -16,7 +16,6 @@ interface PedidosListaSectionProps {
 export default function PedidosListaSection({ pedidos }: PedidosListaSectionProps) {
 
     const path = usePathname().slice(1,).split('/')[1]
-    console.log(path);
 
     const [searchParam, setSearchParam] = useState('')
 
@@ -24,7 +23,6 @@ export default function PedidosListaSection({ pedidos }: PedidosListaSectionProp
         pedidos?.filter( pedido => pedido.fornecedor?.includes(searchParam.toLowerCase()))
     , [searchParam])
 
-    // console.table(pedidos);
 
     return (
 
@@ -33,9 +31,9 @@ export default function PedidosListaSection({ pedidos }: PedidosListaSectionProp
             <header className={style.header}>
 
             <div className={style.title}>
-                    <h3>Fornecedores</h3>
+                    <h3>Pedidos:</h3>
                     <p>
-                        Selecione um fornecedor para conferir suas fatores e configurações:
+                        Selecione um pedido para conferir seus produtos e fatores:
                     </p>
                 </div>
 
@@ -63,20 +61,13 @@ export default function PedidosListaSection({ pedidos }: PedidosListaSectionProp
                     >
                     <LayoutGroup>
                     {
+                    pedidosDisplay&&
                     (pedidosDisplay.map( pedido => 
-                        <Link 
-                            className={style.pedido}
-                            key={pedido.id} 
-                            href={`/pedidos/${pedido.id}`}
-                            data-selected={ path === pedido.id.toString() }
-                        >
-                            {svgsUtil.unitarioNota}
-                            <p>{pedido.id}</p>
-                            <p>{pedido.fornecedor&& capitalize(pedido.fornecedor)}</p>
-                            <p>{new Date(pedido.created_at).toLocaleString().split(',')[0]}</p>
-                            <p>{`as ${new Date(pedido.created_at).toLocaleString().split(',')[1]}h`}</p>
-                            <p>{`${pedido.produtos.length} produtos`}</p>
-                        </Link>
+                        <PedidoLink 
+                            key={pedido.id.toString()}
+                            pedido={pedido}
+                            path={path}
+                        />
                     ))
                     }
                     </LayoutGroup>
@@ -89,3 +80,47 @@ export default function PedidosListaSection({ pedidos }: PedidosListaSectionProp
     )
 
 }
+
+interface PedidoLinkProps {
+    pedido: ICadastro
+    path: string
+    key: string
+}
+
+const PedidoLink = forwardRef<HTMLDivElement, PedidoLinkProps>(function FornecedorLink({ pedido, path, key }: PedidoLinkProps, ref) {
+
+    return (
+        <motion.div
+            key={key}
+            ref={ref}
+
+            initial={{ opacity: 0, x: -10 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: 10 }}
+
+            layout='position'
+            layoutScroll
+        >
+            <Link 
+                className={style.pedido}
+                key={pedido.id} 
+                href={`/pedidos/${pedido.id}`}
+                data-selected={ path === pedido.id.toString() }
+            >
+                {svgsUtil.unitarioNota}
+                <p className={style.id}>{pedido.id}</p>
+                <p>{pedido.fornecedor&& capitalize(pedido.fornecedor)}</p>
+                <span className={style.composto}>
+                    <p className={style.data}>
+                        {new Date(pedido.created_at).toLocaleString().split(',')[0]}
+                    </p>
+                    <p className={style.horas}>
+                        {`as ${new Date(pedido.created_at).toLocaleString().split(',')[1]}h`}
+                    </p>
+                </span>
+                {/* <p>{`${pedido.produtos.length} produtos`}</p> */}
+            </Link>
+        </motion.div>
+    )
+
+}) 

@@ -183,6 +183,7 @@ $cor-destaque: darken(saturate(cor-mix(70%), 50%), 10%);
             .pedido {
     
                 display: flex;
+                justify-content: space-between;
                 align-items: center;
     
                 gap: 0.5rem;
@@ -253,6 +254,34 @@ $cor-destaque: darken(saturate(cor-mix(70%), 50%), 10%);
                     color: cor-mix(80%);
     
                     transition: color 400ms ease;
+
+                }
+
+                .id {
+
+                    font-size: 1.1rem;
+
+                }
+
+                .composto {
+
+                    display: flex;
+                    flex-direction: column;
+
+                    margin-left: auto;
+
+                    .data {
+
+                        font-size: 1rem;
+
+                    }
+
+                    .horas {
+
+                        font-weight: 500;
+                        font-size: 0.8rem;
+
+                    }
 
                 }
     

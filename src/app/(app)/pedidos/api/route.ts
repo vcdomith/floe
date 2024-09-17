@@ -4,7 +4,7 @@ export async function POST(resquest: Request) {
 
     try {
 
-        revalidatePath('/fornecedores')
+        revalidatePath('/pedidos')
 
     } catch(error) {
         
@@ -25,7 +25,7 @@ export async function GET(req: Request) {
     try {
 
         console.log(req);
-        revalidatePath('/fornecedores')
+        revalidatePath('/pedidos')
 
     } catch (error) {
 

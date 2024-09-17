@@ -14,6 +14,7 @@ export default async function PedidosLayout({ children }: { children: React.Reac
         .from('cadastros')
         .select('*')
         .order('id', { ascending: false })
+        .range(0, 9)
 
     return (
         <main className={style.main}>

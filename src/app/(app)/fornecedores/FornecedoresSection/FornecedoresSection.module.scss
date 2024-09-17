@@ -51,6 +51,11 @@ $cor-destaque: darken(saturate(cor-mix(70%), 50%), 10%);
 
         .novo {
 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.1rem;
+
             font-family: $fonte-body;
 
             height: 30px;
@@ -83,6 +88,20 @@ $cor-destaque: darken(saturate(cor-mix(70%), 50%), 10%);
                 color: cor-mix(0%);
 
                 cursor: default;
+
+            }
+
+            svg {
+
+                width: 20px;
+                height: 20px;
+
+                path {
+
+                    stroke: cor-mix(70%);
+                    stroke-width: 50;
+
+                }
 
             }
 
@@ -256,6 +275,39 @@ $cor-destaque: darken(saturate(cor-mix(70%), 50%), 10%);
 
                 }
     
+            }
+
+            .noMatch {
+
+                display: flex;
+                width: 100%;
+                justify-content: center;
+                align-items: center;
+                gap: 0.5rem;
+                padding: 0.5rem;
+
+                svg {
+
+                    width: 35px;
+                    min-width: 35px;
+                    // max-width: 35px;
+                    height: 35px;
+
+                    path, circle, line, ellipse {
+                        stroke: cor-mix(80%);
+                    }
+
+                }
+
+                p {
+
+                    text-wrap: pretty;
+                    max-width: 250px;
+                    color: cor-mix(80%);
+                    margin: 0;
+
+                }
+
             }
         }
 

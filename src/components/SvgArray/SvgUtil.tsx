@@ -6,6 +6,7 @@ interface SvgUtilItems extends
     Record<keyof Omit<ProdutoCadastro, 'fatores' | 'id' >, React.ReactNode> {
     produto: React.ReactNode
     produto3D: React.ReactNode
+    plus: React.ReactNode
 }
 
 // export const SvgUtil = ({ svg } : { svg: keyof SvgUtilItems } ) => {
@@ -146,6 +147,17 @@ const SvgProduto = () => {
     )
 }
 
+function SvgPlus() {
+
+    return (
+        <svg width="40" height="40" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M393 249L107 249" stroke="black" strokeWidth="40"/>
+        <path d="M250 106L250 392" stroke="black" strokeWidth="40"/>
+        </svg>
+    )
+
+}
+
 export const svgsUtil: SvgUtilItems = {
     base: <SvgDefault />,
     fatorBaseNormal: <SvgDefault />,
@@ -161,5 +173,6 @@ export const svgsUtil: SvgUtilItems = {
     composto: <SvgComposto />,
 
     produto: <SvgProduto/>,
-    produto3D: <SvgProduto_3D/>
+    produto3D: <SvgProduto_3D/>,
+    plus: <SvgPlus />,
 }

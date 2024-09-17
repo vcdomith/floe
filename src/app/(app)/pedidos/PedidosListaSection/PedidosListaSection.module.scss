@@ -51,9 +51,14 @@ $cor-destaque: darken(saturate(cor-mix(70%), 50%), 10%);
 
         .novo {
 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.1rem;
+
             font-family: $fonte-body;
 
-            height: 30px;
+            height: calc(30px - 4px);
             padding: 0 0.5rem;
 
             outline: none;
@@ -63,6 +68,7 @@ $cor-destaque: darken(saturate(cor-mix(70%), 50%), 10%);
             color: cor-mix(70%);
             font-size: 1rem;
             font-weight: bold;
+            text-decoration: none;
 
             background-color: cor-mix(5%);
             
@@ -83,6 +89,20 @@ $cor-destaque: darken(saturate(cor-mix(70%), 50%), 10%);
                 color: cor-mix(0%);
 
                 cursor: default;
+
+            }
+
+            svg {
+
+                width: 20px;
+                height: 20px;
+
+                path {
+
+                    stroke: cor-mix(70%);
+                    stroke-width: 50;
+
+                }
 
             }
 
@@ -197,7 +217,8 @@ $cor-destaque: darken(saturate(cor-mix(70%), 50%), 10%);
                 text-decoration: none;
     
                 transition: background-color 400ms ease,
-                            border-color 400ms ease;
+                            border-color 400ms ease,
+                            outline 400ms ease;
 
                 &:hover {
 
@@ -208,7 +229,7 @@ $cor-destaque: darken(saturate(cor-mix(70%), 50%), 10%);
 
                 &[data-selected="true"] {
 
-                    background-color: cor-mix(7.5%);
+                    background-color: cor-mix(0%);
                     // background: linear-gradient(
                     //     to right, 
                     //     mix(mix($cor-destaque, $cor-primaria, 80%), $cor-secundaria, 10%),
@@ -216,15 +237,22 @@ $cor-destaque: darken(saturate(cor-mix(70%), 50%), 10%);
                     //     mix(mix($cor-destaque, $cor-primaria, 80%), $cor-secundaria, 10%),
                     // );
                     // background-color: mix(mix($cor-destaque, $cor-primaria, 80%), $cor-secundaria, 10%);
-                    border-color: cor-mix(27.5%);
-                    // border-color: mix($cor-destaque, $cor-secundaria, 60%);
+                    // border-color: cor-mix(27.5%);
+                    border-color: mix($cor-destaque, $cor-secundaria, 60%);
+                    outline: 1px solid mix($cor-destaque, $cor-secundaria, 60%);
                     // border-color: mix(mix($cor-destaque, $cor-primaria, 80%), $cor-secundaria, 80%);
                  
-                    svg path {
-                        stroke: cor-mix(80%);
-                        // stroke: mix($cor-destaque, $cor-secundaria, 60%);
-                        // stroke: mix(mix($cor-destaque, $cor-primaria, 80%), $cor-secundaria, 80%);
-                    }
+                    svg {
+
+                        border-color: mix($cor-destaque, $cor-secundaria, 60%);
+
+                        path {
+                            stroke: cor-mix(80%);
+    
+                            // stroke: mix($cor-destaque, $cor-secundaria, 60%);
+                            // stroke: mix(mix($cor-destaque, $cor-primaria, 80%), $cor-secundaria, 80%);
+                        }
+                    } 
 
                     p {
                         color: cor-mix(80%);
@@ -259,13 +287,25 @@ $cor-destaque: darken(saturate(cor-mix(70%), 50%), 10%);
 
                 .id {
 
+                    display: flex;
                     font-size: 1.1rem;
+                    height: 100%;
+
+                    padding-right: 0.5rem;
+                    border-right: 2px solid cor-mix(30%);
+
+                }
+
+                .fornecedor {
+
+                    
 
                 }
 
                 .composto {
 
                     display: flex;
+                    justify-content: flex-end;
                     flex-direction: column;
 
                     margin-left: auto;
@@ -278,6 +318,9 @@ $cor-destaque: darken(saturate(cor-mix(70%), 50%), 10%);
 
                     .horas {
 
+                        display: flex;
+                        justify-content: flex-end;
+
                         font-weight: 500;
                         font-size: 0.8rem;
 
@@ -286,6 +329,38 @@ $cor-destaque: darken(saturate(cor-mix(70%), 50%), 10%);
                 }
     
             }
+
+            .noMatch {
+
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                gap: 0.5rem;
+                padding: 0.5rem;
+
+                & > svg {
+
+                    width: 35px;
+                    min-width: 35px;
+                    max-width: 35px;
+                    height: 35px;
+
+                    path, circle, line, ellipse {
+                        stroke: cor-mix(80%);
+                    }
+
+                }
+
+                p {
+
+                    text-wrap: pretty;
+                    color: cor-mix(80%);
+                    margin: 0;
+
+                }
+
+            }
+
         }
 
 

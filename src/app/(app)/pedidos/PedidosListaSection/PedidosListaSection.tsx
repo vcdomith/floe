@@ -8,6 +8,8 @@ import Link from 'next/link'
 import { svgsUtil } from '@/components/SvgArray/SvgUtil'
 import capitalize from '@/utils/capitalize'
 import { usePathname } from 'next/navigation'
+import { useBackgroundSync } from '../../(contexts)/BackgroundSyncContext'
+import Highlight from '@/components/Highlight/Highlight'
 
 interface PedidosListaSectionProps {
     pedidos: ICadastro[]
@@ -23,7 +25,6 @@ export default function PedidosListaSection({ pedidos }: PedidosListaSectionProp
         pedidos?.filter( pedido => pedido.fornecedor?.includes(searchParam.toLowerCase()))
     , [searchParam])
 
-
     return (
 
         <section className={style.pedidos}>
@@ -37,11 +38,18 @@ export default function PedidosListaSection({ pedidos }: PedidosListaSectionProp
                     </p>
                 </div>
 
-                <button className={style.novo}>
-                    Novo Fornecedor
-                </button>
+                <Link 
+                    className={style.novo}
+                    href={'/calcular'}
+                    prefetch
+                >
+                    {svgsUtil.plus}
+                    Cadastrar Pedido
+                </Link>
 
-                {/* <input type="text" placeholder='buscar' /> */}
+                {/* 
+                    <input type="text" placeholder='buscar' /> */
+                }
 
                 <Search 
                     className={style.search} 
@@ -56,12 +64,14 @@ export default function PedidosListaSection({ pedidos }: PedidosListaSectionProp
 
                     <motion.div 
                         className={style.pedidosContainer}
+                        initial={false}
                         layout
                         layoutRoot
                     >
                     <LayoutGroup>
                     {
-                    pedidosDisplay&&
+                    (pedidosDisplay.length > 0)
+                    ?
                     (pedidosDisplay.map( pedido => 
                         <PedidoLink 
                             key={pedido.id.toString()}
@@ -69,6 +79,21 @@ export default function PedidosListaSection({ pedidos }: PedidosListaSectionProp
                             path={path}
                         />
                     ))
+                    :
+                    <motion.div
+                        className={style.noMatch}
+
+                        initial={{ opacity: 0, x: -10 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        exit={{ opacity: 0, x: 10 }}
+                        transition={{ duration: 0.2 }}
+            
+                        layout='position'
+                        layoutScroll
+                    >
+                        {svgsUtil.unitarioNota}
+                        <p>Nenhum <Highlight>pedido</Highlight> corresponde à pesquisa</p>
+                    </motion.div>
                     }
                     </LayoutGroup>
                     </motion.div>
@@ -97,6 +122,7 @@ const PedidoLink = forwardRef<HTMLDivElement, PedidoLinkProps>(function Forneced
             initial={{ opacity: 0, x: -10 }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: 10 }}
+            transition={{ duration: 0.2 }}
 
             layout='position'
             layoutScroll
@@ -109,7 +135,7 @@ const PedidoLink = forwardRef<HTMLDivElement, PedidoLinkProps>(function Forneced
             >
                 {svgsUtil.unitarioNota}
                 <p className={style.id}>{pedido.id}</p>
-                <p>{pedido.fornecedor&& capitalize(pedido.fornecedor)}</p>
+                <p className={style.fornecedor}>{pedido.fornecedor&& capitalize(pedido.fornecedor)}</p>
                 <span className={style.composto}>
                     <p className={style.data}>
                         {new Date(pedido.created_at).toLocaleString().split(',')[0]}

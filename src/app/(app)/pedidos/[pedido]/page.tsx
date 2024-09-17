@@ -24,7 +24,9 @@ export default async function Pedido({ params }: { params: { pedido: number }}) 
         .from('cadastros')
         .select('*')
         .eq('id', params.pedido)
+        .limit(1)
+        .single()
     
-    return pedido&& <PedidoRows produtos={pedido[0].produtos} />
+    return pedido&& <PedidoRows produtos={pedido.produtos} />
 
 }

@@ -8,6 +8,7 @@ import { usePathname } from 'next/navigation'
 import { forwardRef, Suspense, useMemo, useState } from 'react'
 import { motion, LayoutGroup, AnimatePresence } from 'framer-motion'
 import LogoSvg from '@/components/SvgArray/LogoSvg'
+import Highlight from '@/components/Highlight/Highlight'
 
 interface FatoresSectionProps {
 
@@ -39,6 +40,7 @@ export default function FornecedoresSection({ fornecedores } : FatoresSectionPro
                 </div>
 
                 <button className={style.novo}>
+                    {svgsUtil.plus}
                     Novo Fornecedor
                 </button>
 
@@ -64,7 +66,8 @@ export default function FornecedoresSection({ fornecedores } : FatoresSectionPro
                     <LayoutGroup>
                 {/* <AnimatePresence mode='popLayout'> */}
                 {
-                fornecedores&&
+                (fornecedoresDisplay && fornecedoresDisplay.length > 0)
+                ?
                 (fornecedoresDisplay?.map( fornecedor =>
                     <FornecedorLink 
                         key={fornecedor.id}
@@ -83,6 +86,21 @@ export default function FornecedoresSection({ fornecedores } : FatoresSectionPro
                     //     <p>{fornecedor.nome&& capitalize(fornecedor.nome)}</p>
                     // </Link>
                 ))
+                :
+                <motion.div
+                    className={style.noMatch}
+
+                    initial={{ opacity: 0, x: -10 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: 10 }}
+                    transition={{ duration: 0.2 }}
+        
+                    layout='position'
+                    layoutScroll
+                >
+                    {svgsUtil.transporte}
+                    <p>Nenhum <Highlight>fornecedor</Highlight> corresponde à pesquisa</p>
+                </motion.div>
                 }
                 {/* </AnimatePresence> */}
                 </LayoutGroup>

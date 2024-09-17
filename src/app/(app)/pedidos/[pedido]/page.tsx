@@ -10,10 +10,16 @@ export async function generateStaticParams() {
     const { data: pedidos, error } = await supabase
         .from('cadastros')
         .select('id')
+        .order('id', { ascending: false })
+        .range(0, 9)
 
-    return pedidos?.map( ({ id }) => ({
+    const pedidosParam = pedidos
+        ?.map( ({ id }) => ({
         pedido: id.toString()
-    })) || { pedido: '' }
+    })) || [{ pedido: '' }]
+
+    console.log(pedidosParam);
+    return pedidosParam
 
 }
 

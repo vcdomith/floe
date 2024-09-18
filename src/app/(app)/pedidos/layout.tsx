@@ -10,16 +10,19 @@ import PedidosContextWrapper from './PedidosContextWrapper/PedidosContextWrapper
 export default async function PedidosLayout({ children }: { children: React.ReactNode }) {
 
     const supabase = dbConnect()
-    const { data: pedidos, error } = await supabase
+    const { data: pedidos, count: pedidosLength, error } = await supabase
         .from('cadastros')
-        .select('*')
-        .order('id', { ascending: false })
+        .select('*', { count: 'estimated' })
+        .order('created_at', { ascending: false })
         .range(0, 9)
 
     return (
         <main className={style.main}>
 
-            <PedidosContextWrapper pedidos={pedidos}>
+            <PedidosContextWrapper 
+                pedidos={pedidos} 
+                pedidosLength={pedidosLength?? 0}
+            >
                 {children}
             </PedidosContextWrapper>
             {/* <PedidosListaSection pedidos={(pedidos !== null) ? pedidos : []}/>

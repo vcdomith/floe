@@ -6,12 +6,24 @@ import PedidosListaSection from "../PedidosListaSection/PedidosListaSection"
 import { PedidosProvider } from "../context/PedidosContext"
 import { usePathname } from "next/navigation"
 
-export default function PedidosContextWrapper({ pedidos, children }: { pedidos: (ICadastro[] | null), children: React.ReactNode }) {
+interface IPedidoContextWrapperProps {
+
+    children: React.ReactNode
+    pedidos: (ICadastro[] | null)
+    pedidosLength: number
+
+}
+
+export default function PedidosContextWrapper(
+    { children, pedidos, pedidosLength }: IPedidoContextWrapperProps) {
 
     return (
         <PedidosProvider>
 
-            <PedidosListaSection pedidos={(pedidos !== null) ? pedidos : []}/>
+            <PedidosListaSection 
+                pedidos={(pedidos !== null) ? pedidos : []}
+                pedidosLength={pedidosLength}
+            />
                 
             <PedidoDetalheSection>
                 {children}

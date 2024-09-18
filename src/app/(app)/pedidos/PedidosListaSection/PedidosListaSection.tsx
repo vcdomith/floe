@@ -3,27 +3,48 @@ import { ICadastro } from '@/interfaces/ICadastro'
 import style from './PedidosListaSection.module.scss'
 import Search from '@/components/Search/Search'
 import { LayoutGroup, motion } from 'framer-motion'
-import { forwardRef, useMemo, useState } from 'react'
+import { forwardRef, Suspense, useMemo, useState } from 'react'
 import Link from 'next/link'
 import { svgsUtil } from '@/components/SvgArray/SvgUtil'
 import capitalize from '@/utils/capitalize'
 import { usePathname } from 'next/navigation'
 import { useBackgroundSync } from '../../(contexts)/BackgroundSyncContext'
 import Highlight from '@/components/Highlight/Highlight'
+import LogoSvg from '@/components/SvgArray/LogoSvg'
 
 interface PedidosListaSectionProps {
     pedidos: ICadastro[]
+    pedidosLength: number
 }
 
-export default function PedidosListaSection({ pedidos }: PedidosListaSectionProps) {
+export default function PedidosListaSection({ pedidos: pedidosInitial, pedidosLength }: PedidosListaSectionProps) {
 
     const path = usePathname().slice(1,).split('/')[1]
+
+    const [pedidos, setPedidos] = useState(pedidosInitial)
+    const [loading, setLoading] = useState(false)
+    const [offset, setOffset] = useState(10)
 
     const [searchParam, setSearchParam] = useState('')
 
     const pedidosDisplay = useMemo(() => 
         pedidos?.filter( pedido => pedido.fornecedor?.includes(searchParam.toLowerCase()))
-    , [searchParam])
+    , [pedidos, searchParam])
+
+    const handleLoadMore = async () => {
+
+        setLoading(true)
+
+        const res = await fetch(`/pedidos/api/loadMore?offset=${offset}`)
+        const pedidosExtra = await res.json()
+        
+        if(pedidosExtra) console.log(pedidosExtra);
+
+        setPedidos( prev => [...prev, ...pedidosExtra] )
+        setOffset( prev => prev + 10 )
+        setLoading(false)
+
+    }
 
     return (
 
@@ -44,7 +65,7 @@ export default function PedidosListaSection({ pedidos }: PedidosListaSectionProp
                     prefetch
                 >
                     {svgsUtil.plus}
-                    Cadastrar Pedido
+                    Calcular Pedido
                 </Link>
 
                 {/* 
@@ -95,6 +116,26 @@ export default function PedidosListaSection({ pedidos }: PedidosListaSectionProp
                         <p>Nenhum <Highlight>pedido</Highlight> corresponde à pesquisa</p>
                     </motion.div>
                     }
+
+                    {
+                    (pedidosDisplay.length === pedidos.length)&& 
+                    pedidosDisplay.length < pedidosLength&&
+                    <button
+                        className={style.load}
+                        onClick={() => handleLoadMore()}
+                        disabled={loading}
+                    >{
+                    (loading)
+                        ?
+                            <>
+                            <LogoSvg loop/>
+                            Carregando...
+                            </>
+                        : 
+                            'Carregar Mais'
+                    }</button>
+                    }
+
                     </LayoutGroup>
                     </motion.div>
 

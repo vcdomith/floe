@@ -1,8 +1,12 @@
 import { dbConnect } from "@/utils/db/supabase"
 import TabelaRow from "../../calcular/TabelaSection/TabelaRow/TabelaRow"
 import PedidoRows from "./PedidoRows"
+import { svgsUtil } from "@/components/SvgArray/SvgUtil"
+import Highlight from "@/components/Highlight/Highlight"
 
-export const dynamicParams = false
+import style from './pedido.module.scss'
+
+export const dynamicParams = true
 
 export async function generateStaticParams() {
 
@@ -18,7 +22,7 @@ export async function generateStaticParams() {
         pedido: id.toString()
     })) || [{ pedido: '' }]
 
-    console.log(pedidosParam);
+    // console.log(pedidosParam);
     return pedidosParam
 
 }
@@ -32,7 +36,16 @@ export default async function Pedido({ params }: { params: { pedido: number }}) 
         .eq('id', params.pedido)
         .limit(1)
         .single()
-    
-    return pedido&& <PedidoRows produtos={pedido.produtos} />
+
+    return pedido
+        ? 
+            <PedidoRows produtos={pedido.produtos} />
+        : 
+            <div
+                className={style.noMatch}
+            >
+                {svgsUtil.unitarioNota}
+                <p>Nenhum <Highlight>pedido</Highlight> com id <Highlight>{params.pedido}</Highlight> existe</p>
+            </div>
 
 }

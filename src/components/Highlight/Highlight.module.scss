@@ -1,0 +1,66 @@
+@use '../../app/globalStyle.module.scss' as *;
+
+$cor-destaque: darken(saturate(cor-mix(70%), 50%), 10%);
+
+
+// .highlight {
+
+//     position: relative;
+
+//     & > svg {
+
+//         position: absolute;
+
+//         width: 20px;
+//         height: 20px;
+
+//         path {
+//             fill: mix($cor-destaque, $cor-secundaria, 60%);
+//         }
+
+//         &:nth-child(1) {
+
+//             top: -0.8rem;
+//             left: -0.8rem;
+
+//         }
+//         &:nth-child(2) {
+
+//             width: 15px;
+//             height: 15px;
+//             rotate: 45deg;
+
+//             top: -1rem;
+//             left: -1.2rem;
+
+//         }
+//         &:nth-child(3) {
+
+//             top: 0.7rem;
+//             right: -1.1rem;
+//             scale: 0.9;
+//             rotate: 33deg;
+
+//         }
+
+//     }
+
+// }
+
+.highlight {
+
+    background-color: mix($cor-destaque, $cor-secundaria, 10%);
+    border: 2px solid mix($cor-destaque, $cor-secundaria, 20%);
+    // color: $cor-secundaria;
+    padding: 0.1rem 0.15rem;
+    border-radius: 0.2rem;
+
+    color: mix($cor-destaque, $cor-secundaria, 80%);
+    display: inline;
+    line-height: inherit;
+    line-height: 1.3;
+    
+    // text-decoration: mix($cor-destaque, $cor-secundaria, 60%) underline;
+    // text-underline-offset: 0.3rem;
+
+}

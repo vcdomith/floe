@@ -16,7 +16,7 @@ export default async function Calcular() {
         <main
             className={style.main}
         >
-            <FatoresSection fornecedores={fornecedores} />
+            <FatoresSection fornecedores={(fornecedores !== null) ? fornecedores : []} />
             <TabelaSection />
         </main>
     )

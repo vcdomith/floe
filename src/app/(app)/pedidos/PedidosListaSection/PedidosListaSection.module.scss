@@ -1,0 +1,482 @@
+@use '../../../globalStyle.module.scss' as *;
+
+$cor-destaque: darken(saturate(cor-mix(70%), 50%), 10%);
+
+.pedidos {
+
+    display: flex;
+    flex-direction: column;
+    // gap: 0.5rem;
+
+    flex: 2;
+    flex-shrink: 0;
+    // border: 2px solid cor-mix(50%);
+    // border-right: 2px solid;
+    // border-image: linear-gradient(0deg , $cor-secundaria, cor-mix(40%)) 5;
+
+    // border-radius: 1rem;
+    // margin-right: 2rem;
+
+    // margin-top: 4rem;
+
+    .header {
+
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        padding: 1rem;
+        padding-top: 0;
+
+        border-top: 1px solid;
+        border-image: linear-gradient(to right , $cor-secundaria, cor-mix(40%)) 27;
+
+        .title {
+
+            h3 {
+
+                border-bottom: 2px solid;
+                border-image: linear-gradient(to left , $cor-secundaria, cor-mix(40%)) 27;
+                padding-bottom: 0.5rem;
+                margin-bottom: 0.5rem;
+
+            }
+
+            p {
+
+                margin: 0;
+
+            }
+
+        }
+
+        .novo {
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.1rem;
+
+            font-family: $fonte-body;
+
+            height: calc(30px - 4px);
+            padding: 0 0.5rem;
+
+            outline: none;
+            border: 2px solid cor-mix(20%);
+            border-radius: 0.5rem;
+
+            color: cor-mix(70%);
+            font-size: 1rem;
+            font-weight: bold;
+            text-decoration: none;
+
+            background-color: cor-mix(5%);
+            
+            transition: background-color 400ms ease;
+
+            cursor: pointer;
+
+            &:hover {
+
+                background-color: cor-mix(10%);
+
+            }
+
+            &:disabled {
+
+                background-color: cor-mix(20%);
+                border-color: cor-mix(30%);
+                color: cor-mix(0%);
+
+                cursor: default;
+
+            }
+
+            svg {
+
+                width: 20px;
+                height: 20px;
+
+                path {
+
+                    stroke: cor-mix(70%);
+                    stroke-width: 50;
+
+                }
+
+            }
+
+        }
+
+        .search {
+
+            // max-height: 33.2px;
+            display: flex;
+            justify-self: flex-start;
+            width: 100%;
+            box-sizing: border-box;
+            height: 30px;
+            padding: 0.25rem;
+            border-color: cor-mix(30%);
+            border-radius: 0.5rem;
+
+            svg {
+
+                fill: cor-mix(60%);
+
+            }
+
+            & > div {
+
+                width: 100%;
+
+                input {
+
+                    width: 100%;
+                    flex: 1;
+                    padding-left: 0.25rem;
+    
+                    font-size: 1rem;
+                    color: cor-mix(80%);
+                    
+                    &::placeholder {
+                        
+                        font-size: 1rem;
+    
+                    }
+    
+                }
+
+            }
+
+        }
+
+    }
+
+    .content {
+
+        width: 100%;
+        height: 100%;
+        box-sizing: border-box;
+        padding: 1rem;
+        background-color: cor-mix(3%);
+        
+        border-top: 1px solid;
+        border-image: linear-gradient(to right , $cor-secundaria, cor-mix(40%)) 27;
+        
+        overflow-y: scroll;
+
+        /* width */
+        &::-webkit-scrollbar {
+            width: 0.15rem;
+        }
+        
+        /* Track */
+        &::-webkit-scrollbar-track {
+            background: cor-mix(3%);
+        }
+        
+        /* Handle */
+        &::-webkit-scrollbar-thumb {
+            background: linear-gradient(0deg, $cor-secundaria, cor-mix(50%) 50%, $cor-secundaria);
+        }
+
+        /* Handle on hover */
+        &::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(0deg, $cor-secundaria, cor-mix(80%) 50%, $cor-secundaria);
+            cursor: pointer;
+        // background: linear-gradient(90deg, #521843, #421236);
+        }
+
+        // padding: 1rem;
+
+        & > :first-child h3 {
+            margin-top: 0;
+        }
+
+        .pedidosContainer {
+
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+
+            .pedido {
+    
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+    
+                gap: 0.5rem;
+                padding: 0 0.5rem;
+
+                min-height: calc(50px - 0.2rem);
+    
+                border: 2px solid cor-mix(20%);
+                background-color: cor-mix(0%);
+                border-radius: 0.5rem;
+                text-decoration: none;
+    
+                transition: background-color 400ms ease,
+                            border-color 400ms ease,
+                            outline 400ms ease;
+
+                &:hover {
+
+                    background-color: cor-mix(3%);
+                    border-color: cor-mix(23%);
+
+                }
+
+                &[data-selected="true"] {
+
+                    background-color: cor-mix(0%);
+                    // background: linear-gradient(
+                    //     to right, 
+                    //     mix(mix($cor-destaque, $cor-primaria, 80%), $cor-secundaria, 10%),
+                    //     cor-mix(20%) 50%,
+                    //     mix(mix($cor-destaque, $cor-primaria, 80%), $cor-secundaria, 10%),
+                    // );
+                    // background-color: mix(mix($cor-destaque, $cor-primaria, 80%), $cor-secundaria, 10%);
+                    // border-color: cor-mix(27.5%);
+                    border-color: mix($cor-destaque, $cor-secundaria, 60%);
+                    outline: 1px solid mix($cor-destaque, $cor-secundaria, 60%);
+                    // border-color: mix(mix($cor-destaque, $cor-primaria, 80%), $cor-secundaria, 80%);
+                 
+                    svg {
+
+                        border-color: mix($cor-destaque, $cor-secundaria, 60%);
+
+                        path {
+                            stroke: cor-mix(80%);
+    
+                            // stroke: mix($cor-destaque, $cor-secundaria, 60%);
+                            // stroke: mix(mix($cor-destaque, $cor-primaria, 80%), $cor-secundaria, 80%);
+                        }
+                    } 
+
+                    p {
+                        color: cor-mix(80%);
+                        // color: mix($cor-destaque, $cor-secundaria, 60%);
+                        // color: mix(mix($cor-destaque, $cor-primaria, 80%), $cor-secundaria, 80%);
+                    }
+
+                }
+
+                svg {
+    
+                    width: 30px;
+                    height: 30px;
+            
+                    path, circle, line, ellipse {
+                        stroke: cor-mix(80%);
+                    }
+            
+                }
+
+                p {
+    
+                    margin: 0;
+                    text-decoration: none;
+
+                    font-weight: 600;
+                    color: cor-mix(80%);
+    
+                    transition: color 400ms ease;
+
+                }
+
+                .id {
+
+                    display: flex;
+                    font-size: 1.1rem;
+                    height: 100%;
+
+                    padding-right: 0.5rem;
+                    border-right: 2px solid cor-mix(30%);
+
+                }
+
+                .fornecedor {
+
+                    
+
+                }
+
+                .composto {
+
+                    display: flex;
+                    justify-content: flex-end;
+                    flex-direction: column;
+
+                    margin-left: auto;
+
+                    .data {
+
+                        font-size: 1rem;
+
+                    }
+
+                    .horas {
+
+                        display: flex;
+                        justify-content: flex-end;
+
+                        font-weight: 500;
+                        font-size: 0.8rem;
+
+                    }
+
+                }
+    
+            }
+
+            .noMatch {
+
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                gap: 0.5rem;
+                padding: 0.5rem;
+
+                & > svg {
+
+                    width: 35px;
+                    min-width: 35px;
+                    max-width: 35px;
+                    height: 35px;
+
+                    path, circle, line, ellipse {
+                        stroke: cor-mix(80%);
+                    }
+
+                }
+
+                p {
+
+                    text-wrap: pretty;
+                    color: cor-mix(80%);
+                    margin: 0;
+
+                }
+
+            }
+
+            .load {
+
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                gap: 0.1rem;
+    
+                font-family: $fonte-body;
+    
+                height: 30px;
+                padding: 0 0.5rem;
+    
+                outline: none;
+                border: 2px solid cor-mix(20%);
+                border-radius: 0.5rem;
+    
+                color: cor-mix(70%);
+                font-size: 1rem;
+                font-weight: bold;
+                text-decoration: none;
+    
+                background-color: cor-mix(5%);
+                
+                transition: background-color 400ms ease;
+    
+                cursor: pointer;
+    
+                &:hover {
+    
+                    background-color: cor-mix(10%);
+    
+                }
+    
+                &:disabled {
+                    
+                    background-color: cor-mix(20%);
+                    border-color: cor-mix(30%);
+                    color: cor-mix(70%);
+    
+                    cursor: default;
+    
+                }
+    
+                svg {
+    
+                    width: 20px;
+                    height: 20px;
+    
+                    path {
+    
+                        stroke: cor-mix(70%);
+                        stroke-width: 50;
+    
+                    }
+    
+                }
+    
+            }
+
+        }
+
+
+        .title {
+
+            h3 {
+
+                border-bottom: 2px solid;
+                border-image: linear-gradient(to left , $cor-secundaria, cor-mix(40%)) 27;
+                padding-bottom: 0.5rem;
+
+            }
+
+        }
+
+    }
+
+}
+
+
+@media (width <= 900px) {
+
+    .fatores {
+
+        min-width: 280px;
+        margin-top: 0;
+
+        .content {
+            border-top: none;
+        }
+
+    }
+
+}
+
+@media (width <= 700px) {
+
+    .fatores {
+        min-width: 0;
+    }
+
+    .fatores[data-active="false"]{
+        display: none;
+    }
+
+} 
+
+@media (width <= 440px) {
+
+    .fatores {
+
+        .content {
+    
+            padding: 0;
+    
+        }
+    }
+
+
+}

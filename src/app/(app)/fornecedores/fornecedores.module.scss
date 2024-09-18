@@ -1,0 +1,19 @@
+@use '../../globalStyle.module.scss' as *;
+
+.main {
+
+    display: flex;
+    width: 100%;
+    height: calc(100dvh - 6rem);
+
+    overflow: hidden;
+
+}
+
+@media (width <= 900px) {
+
+    .main {
+        height: calc(100dvh - 7rem);
+    }
+
+}

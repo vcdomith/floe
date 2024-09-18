@@ -102,7 +102,10 @@ export default function TabelaSection() {
                 // <LayoutGroup>
                 // {
                     tabelaFilter.map((produto) => 
-                        <TabelaRow produto={produto} setTabela={setTabela} key={produto.id} />
+                        <TabelaRow 
+                            key={produto.id}
+                            produto={produto} 
+                        />
                     )   
                 // }
                 // </LayoutGroup>

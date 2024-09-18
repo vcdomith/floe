@@ -1,0 +1,49 @@
+@use '../../globalStyle.module.scss' as *;
+
+.main {
+
+    display: flex;
+    width: 100%;
+    height: calc(100dvh - 6rem);
+
+    overflow: hidden;
+
+    .placeholderSection {
+
+        display: flex;
+        flex-direction: column;
+        flex: 5;
+        flex-shrink: 0;
+        // border: 2px solid cor-mix(50%);
+        // border-radius: 1rem;
+        overflow: hidden;
+
+        border-left: 1px solid;
+        border-image: linear-gradient(0deg , $cor-secundaria, cor-mix(40%)) 5;
+
+        .content {
+
+            width: 100%;
+            height: 100%;
+            box-sizing: border-box;
+            padding: 1rem;
+            background-color: cor-mix(3%);
+            
+            border-top: 1px solid;
+            border-image: linear-gradient(to right , $cor-secundaria, cor-mix(40%)) 27;
+            
+            overflow-y: scroll;
+
+        }
+
+    }
+
+}
+
+@media (width <= 900px) {
+
+    .main {
+        height: calc(100dvh - 7rem);
+    }
+
+}

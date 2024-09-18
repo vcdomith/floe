@@ -1,11 +1,10 @@
-import { request } from "http";
 import { revalidatePath } from "next/cache";
 
 export async function POST(resquest: Request) {
 
     try {
 
-        revalidatePath('/calcular')
+        revalidatePath('/pedidos')
 
     } catch(error) {
         
@@ -26,7 +25,7 @@ export async function GET(req: Request) {
     try {
 
         console.log(req);
-        revalidatePath('/calcular')
+        revalidatePath('/pedidos')
 
     } catch (error) {
 

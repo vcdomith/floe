@@ -5,7 +5,7 @@ import useProduto, { UseProduto } from "@/hooks/useProduto";
 import { IFornecedor } from "@/interfaces/IFornecedor";
 import { Dispatch, SetStateAction, createContext, useContext, useEffect, useMemo, useState } from "react";
 import { useNotification } from "../../(contexts)/NotificationContext";
-import useFilter, { useFilterReturn } from "@/hooks/useFilter";
+import useFilter, { UseFilter } from "@/hooks/useFilter";
 import { dbConnect } from "@/utils/db/supabase";
 
 
@@ -25,7 +25,7 @@ export interface CalcularContext {
     updateProdutoTabela: (id: number, updatedProduto: ProdutoCadastro) => void
     updateFatoresTabela: () => void
     cadastrarPedidoDB: () => Promise<void>
-    filterContext: useFilterReturn
+    filterContext: UseFilter
     
     submitForm: () => void
     resetContext: () => void

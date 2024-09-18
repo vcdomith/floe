@@ -16,6 +16,7 @@ import { IFatores } from "@/interfaces/IFatores"
 import { IFator } from "@/interfaces/IFator"
 import { AnimatePresence, motion } from "framer-motion"
 import { getTabelas } from "@/utils/calculoTabelas"
+import { FatoresContext, ProdutoCadastro } from "../../calcular/context/CalcularContext"
 
 interface CadastroProps {
     cadastro: ICadastro
@@ -33,7 +34,7 @@ const Cadastro = ({ cadastro }: CadastroProps) => {
 
     const [ref, setRef] = useState<HTMLDivElement | null>(null)
     const [coordinates, setCoordinates] = useState({ x: 0, y: 0 })
-    const [fatores, setFatores] = useState<IFatores | null>(cadastro.produtos[1].fatores)
+    const [fatores, setFatores] = useState<FatoresContext | null>(cadastro.produtos[1].fatores)
 
     // States that renders table values
     const [produtos, setProdutos] = useState(cadastro.produtos)
@@ -352,9 +353,9 @@ export default Cadastro
 
 interface ProdutoProps {
 
-    produto: IProduto
+    produto: ProdutoCadastro
     setCoordinates: ({ x, y }: { x: number, y: number }) => void
-    setFatores: (fatores: (IFatores | null)) => void
+    setFatores: (fatores: (FatoresContext | null)) => void
 
 }
 

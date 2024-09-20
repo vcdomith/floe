@@ -8,9 +8,30 @@ import { useCalcular } from "../context/CalcularContext";
 import style from './FatoresSection.module.scss'
 import { useNotification } from "../../(contexts)/NotificationContext";
 import capitalize from "@/utils/capitalize";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useMediaQuery } from "../../(contexts)/MediaQueryContext";
 import { useSectionSelect } from "../../(contexts)/SectionSelectContext";
+
+interface NfeData {
+
+    fornecedor: string
+    cnpj: string
+    valorSt: string
+    valorTotalProdutos: string
+
+}
+
+interface NfeProduto {
+
+    codigo: string
+    ean: string
+    descricao: string
+    ncm: string
+    cst: string
+    unitario: string
+    ipi: string
+
+}
 
 interface FatoresSectionProps {
 
@@ -26,6 +47,7 @@ export default function FatoresSection({ fornecedores }: FatoresSectionProps) {
         produtoIsValid, 
         submitForm, 
         tabelaValid,
+        setTabela,
         updateFatoresTabela,
         // calcularSection: section,
         setCalcularSection
@@ -37,6 +59,73 @@ export default function FatoresSection({ fornecedores }: FatoresSectionProps) {
 
     const { section, setSection } = useSectionSelect()
     const {matches: isMobile} = useMediaQuery()
+
+    const parseXml = (res: string): {fornecedor: NfeData, produtos: NfeProduto[]} => {
+   
+        const parser = new DOMParser()
+        const xml = parser.parseFromString(res, 'application/xml')
+
+        const fornecedor = xml.querySelector('emit > xNome')?.textContent
+        const cnpj = xml.querySelector('emit > CNPJ')?.textContent
+        const itens = xml.querySelectorAll('infNFe > det')
+        const valorSt = xml.querySelector('vST')?.textContent
+        const valorTotalProdutos = xml.querySelector('ICMSTot > vProd')?.textContent
+
+        const fornecedorDataExtraido: NfeData = {
+            fornecedor: fornecedor || '',
+            cnpj: cnpj || "",
+            valorSt: valorSt || "",
+            valorTotalProdutos: valorTotalProdutos || ""
+        }
+
+        const produtosExtraidos: NfeProduto[] = []
+        itens.forEach( item => {
+
+            const codigo = item.querySelector('cProd')?.textContent || ''
+            const ean = item.querySelector('cEAN')?.textContent || ''
+            const descricao = item.querySelector('xProd')?.textContent || ''
+            const ncm = item.querySelector('NCM')?.textContent || ''
+            const cst = item.querySelector('CST')?.textContent || ''
+            const unitario = item.querySelector('vUnCom')?.textContent || ''
+            const ipi = item.querySelector('pIPI')?.textContent || ''
+
+            const produto = {
+                codigo: codigo,
+                ean: ean,
+                descricao: descricao,
+                ncm: ncm,
+                cst: cst,
+                unitario: unitario,
+                ipi: ipi,
+            }
+
+            produtosExtraidos.push(produto)
+
+        })
+
+        return {
+            fornecedor: fornecedorDataExtraido,
+            produtos: produtosExtraidos
+        }
+
+    }
+
+    const [chave, setChave] = useState('')
+
+    const handleImportNFe = async (chave: string) => {
+
+        if (chave.length < 44) {
+            console.log('Chave nfe tem 44 digitos');
+            return
+        }
+
+        const res = await fetch(`/xml/api/getNFe?chave=${chave}`)
+        const cert = await res.json()
+
+        const extractData = parseXml(cert)
+        console.log(extractData);
+
+    }
 
     useEffect(() => {
 
@@ -75,6 +164,14 @@ export default function FatoresSection({ fornecedores }: FatoresSectionProps) {
         >
             <div className={style.content}>
     
+                {/* Seção teste importar dados nfe */}
+                {/* <div className={style.title}>
+                    <h3>Importar Nfe</h3>
+                    <p>Forneça a chave de acesso da Nfe com 44 dígitos para importar os valores da n:</p>
+                    <input type="text" minLength={44} maxLength={44} onChange={(e) => setChave(e.target.value)}/>
+                    <button onClick={() => handleImportNFe(chave)}>Get cert</button>
+                </div> */}
+
                 <div className={style.title}>
                     <h3>Fornecedor</h3>
                     <AnimatePresence initial={false}>

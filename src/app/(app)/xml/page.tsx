@@ -4,8 +4,10 @@ import { ChangeEvent, useRef, useState } from "react"
 
 interface NfeData {
 
-    fornecedor: string | null
-    cnpj: string | null
+    fornecedor: string
+    cnpj: string
+    valorSt: string
+    valorTotalProdutos: string
 
 }
 
@@ -17,17 +19,22 @@ interface NfeProduto {
     ncm: string
     cst: string
     unitario: string
+    ipi: string
 
 }
+
 
 export default function XML() {
 
     const [NfeData, setNfeData] = useState<NfeData>({
         fornecedor: '',
         cnpj: '',
+        valorSt: '', 
+        valorTotalProdutos: '',
     })
     const [produtos, setProdutos] = useState<NfeProduto[]>([])
     const [XML, setXML] = useState<Document | null>(null)
+    const [chave, setChave] = useState('')
 
     const NfeXMLParser = (file: File) => {
 
@@ -74,6 +81,8 @@ export default function XML() {
                 const fornecedor = xml.querySelector('emit > xNome')?.textContent
                 const cnpj = xml.querySelector('emit > CNPJ')?.textContent
                 const itens = xml.querySelectorAll('infNFe > det')
+                const valorSt = xml.querySelector('vST')?.textContent
+                const valorTotalProdutos = xml.querySelector('ICMSTot > vProd')?.textContent
                 console.log(fornecedor, cnpj);
                 console.log(itens);
 
@@ -86,6 +95,7 @@ export default function XML() {
                     const ncm = item.querySelector('NCM')?.textContent || ''
                     const cst = item.querySelector('CST')?.textContent || ''
                     const unitario = item.querySelector('vUnCom')?.textContent || ''
+                    const ipi = item.querySelector('pIPI')?.textContent || ''
 
                     // const produto: NfeProduto = {
                     //     codigo: item.querySelector('cProd')?.textContent || '',
@@ -103,6 +113,7 @@ export default function XML() {
                         ncm: ncm,
                         cst: cst,
                         unitario: unitario,
+                        ipi: ipi,
                     }
 
                     itensExtraidos.push(produto)
@@ -112,6 +123,8 @@ export default function XML() {
                 setNfeData({
                     fornecedor: fornecedor || '',
                     cnpj: cnpj || '',
+                    valorSt: valorSt || '',
+                    valorTotalProdutos: valorTotalProdutos || '',
                 })
 
                 setProdutos(itensExtraidos)
@@ -119,6 +132,72 @@ export default function XML() {
             }
             reader.readAsText(file)
         }
+
+    }
+
+    const parseXml = (res: string) => {
+   
+        const parser = new DOMParser()
+        const xml = parser.parseFromString(res, 'application/xml')
+        setXML(xml)
+
+        const fornecedor = xml.querySelector('emit > xNome')?.textContent
+        const cnpj = xml.querySelector('emit > CNPJ')?.textContent
+        const itens = xml.querySelectorAll('infNFe > det')
+        const valorSt = xml.querySelector('vST')?.textContent
+        const valorTotalProdutos = xml.querySelector('ICMSTot > vProd')?.textContent
+        console.log(fornecedor, cnpj);
+        console.log(itens);
+
+        const itensExtraidos: NfeProduto[] = []
+        itens.forEach( item => {
+
+            const codigo = item.querySelector('cProd')?.textContent || ''
+            const ean = item.querySelector('cEAN')?.textContent || ''
+            const descricao = item.querySelector('xProd')?.textContent || ''
+            const ncm = item.querySelector('NCM')?.textContent || ''
+            const cst = item.querySelector('CST')?.textContent || ''
+            const unitario = item.querySelector('vUnCom')?.textContent || ''
+            const ipi = item.querySelector('pIPI')?.textContent || ''
+
+            const produto = {
+                codigo: codigo,
+                ean: ean,
+                descricao: descricao,
+                ncm: ncm,
+                cst: cst,
+                unitario: unitario,
+                ipi: ipi,
+            }
+
+            itensExtraidos.push(produto)
+
+        })
+
+        setNfeData({
+            fornecedor: fornecedor || '',
+            cnpj: cnpj || '',
+            valorSt: valorSt || '',
+            valorTotalProdutos: valorTotalProdutos || '',
+        })
+
+        setProdutos(itensExtraidos)
+
+    }
+
+    const handleGetCert = async (chave: string) => {
+
+        if (chave.length < 44) {
+            console.log('Chave nfe tem 44 digitos');
+            return
+        }
+
+        const res = await fetch(`/xml/api/getNFe?chave=${chave}`)
+        const cert = await res.json()
+
+        parseXml(cert)
+
+        console.log(cert);
 
     }
 
@@ -133,15 +212,17 @@ export default function XML() {
                 id="file" 
                 onChange={(e) => handleChange(e)}
             />
+            <input type="text" minLength={44} maxLength={44} onChange={(e) => setChave(e.target.value)}/>
+            <button onClick={() => handleGetCert(chave)}>Get cert</button>
         </section>
         <section style={{ overflowY: 'scroll' }}>
             {Object.entries(NfeData).map( ([ key, value ]) =>
-                <>
-                    <h1 key={key}>{key}</h1>
-                    <h3>{value}</h3>
-                </>
+                    <span key={key} style={{ display: 'flex', gap: '0.5rem', alignItems: "center",}}>
+                        <Highlight>{key}:</Highlight>
+                        <p style={{ margin: 0 }}>{value}</p>
+                    </span>
             )}
-            <ul>
+            <ul style={{ overflowY: 'scroll'}}>
                 {produtos.map( (produto) => 
                     <li key={produto.codigo} style={{
                         display: 'flex',

@@ -24,6 +24,8 @@ interface NfeProduto {
 }
 
 
+const CH_CTE = '33240921570775000172570010000445011030675921'
+
 export default function XML() {
 
     const [NfeData, setNfeData] = useState<NfeData>({
@@ -201,6 +203,15 @@ export default function XML() {
 
     }
 
+    const handleCTeRequest = async (chave: string) => {
+
+        const res  = await fetch(`/xml/api/getCTe?chave=${chave}`)
+        const json = await res.json()
+
+        console.log(json);
+
+    }
+
     return (
         <main>
         <section>
@@ -214,6 +225,7 @@ export default function XML() {
             />
             <input type="text" minLength={44} maxLength={44} onChange={(e) => setChave(e.target.value)}/>
             <button onClick={() => handleGetCert(chave)}>Get cert</button>
+            <button onClick={() => handleCTeRequest(CH_CTE)}>Request CTe</button>
         </section>
         <section style={{ overflowY: 'scroll' }}>
             {Object.entries(NfeData).map( ([ key, value ]) =>

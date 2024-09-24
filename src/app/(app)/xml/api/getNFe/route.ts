@@ -1,6 +1,6 @@
 import { dbConnect } from "@/utils/db/supabase";
 import { NextRequest } from "next/server";
-import { DistribuicaoDFe } from "node-mde";
+import { DistribuicaoNFe } from "@vexta-systems/node-mde";
 import { Builder, Parser, parseString } from 'xml2js'
 
 const supabase = dbConnect()
@@ -29,7 +29,7 @@ async function parseAndBuildXml(xml: string) {
 
 }
 
-type codUF = "11" | "12" | "13" | "14" | "15" | "16" | "17" | "21" | "22" | "23" | "24" | "25" | "26" | "27" | "28" | "29" | "31" | "32" | "33" | "35" | "41" | "42" | "43" | "50" | "51" | "52" | "53"
+type COD_UF = "11" | "12" | "13" | "14" | "15" | "16" | "17" | "21" | "22" | "23" | "24" | "25" | "26" | "27" | "28" | "29" | "31" | "32" | "33" | "35" | "41" | "42" | "43" | "50" | "51" | "52" | "53"
 
 export async function GET(request: NextRequest) {
 
@@ -38,27 +38,24 @@ export async function GET(request: NextRequest) {
 
     const {data: cert, error} = await supabase
         .storage
-        // .listBuckets()
         .from('test')
         .download('cert/certificado.pfx')
-        // .list('')
-    
     
     const certBuffer = await blobToBuffer(cert!)
 
-    const distribuição = new DistribuicaoDFe({
+    const distribuição = new DistribuicaoNFe({
         pfx: certBuffer,
         passphrase: process.env.NFE_CERT_SECRET!,
         cnpj: '05079279000164',
-        cUFAutor: chNfe.slice(0,2) as codUF,
+        cUFAutor: chNfe.slice(0,2) as COD_UF,
         tpAmb: '1',
     })
-
+    
     const consulta = await distribuição.consultaChNFe(
         chNfe
     )
 
-    console.log(consulta);
+    // console.log(consulta.data.docZip[0].json);
 
     // const xml = parseAndBuildXml(consulta.data.docZip[0].xml)
 
@@ -79,7 +76,7 @@ export async function GET(request: NextRequest) {
     // })
 
     if (error) {
-        return new Response(JSON.stringify({ error: error.message}), {
+        return new Response(JSON.stringify({ error: error.message }), {
             status: 500
         })
     }

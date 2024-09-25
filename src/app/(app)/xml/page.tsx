@@ -209,6 +209,8 @@ export default function XML() {
         const json = await res.json()
 
         console.log(json);
+        
+        parseXml(json)
 
     }
 

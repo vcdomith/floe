@@ -11,6 +11,8 @@ import capitalize from "@/utils/capitalize";
 import { useEffect, useState } from "react";
 import { useMediaQuery } from "../../(contexts)/MediaQueryContext";
 import { useSectionSelect } from "../../(contexts)/SectionSelectContext";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 interface NfeData {
 
@@ -153,6 +155,7 @@ export default function FatoresSection({ fornecedores }: FatoresSectionProps) {
     const [chaveCTe, setChaveCTe] = useState('')
 
     const [dadosImportados, setDadosImportados] = useState<NFeDadosImportados>(INITAL_STATE_DADOS_IMPORTADOS)
+    const path = usePathname()
 
     const handleImportNFe = async (chave: string) => {
 
@@ -251,10 +254,10 @@ export default function FatoresSection({ fornecedores }: FatoresSectionProps) {
                     <button onClick={() => handleImportCTe(chaveCTe)}>Importar CTe</button>
 
                     <button>Gerar Tabela!</button>
-                    <div>
+                    {/* <div>
                         {JSON.stringify(dadosImportados.pedido)}
                         {`${JSON.stringify(dadosImportados.produtos.length)} produtos`}
-                    </div>
+                    </div> */}
                 </div>
 
                 <div className={style.title}>

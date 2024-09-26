@@ -33,7 +33,6 @@ export async function GET(request: NextRequest) {
 
     console.log(nsu);
 
-    //LA375383
     const distribuição = new DistribuicaoCTe({
         pfx: certBuffer,
         passphrase: process.env.NFE_CERT_SECRET!,
@@ -46,7 +45,7 @@ export async function GET(request: NextRequest) {
 
         //Consulta distribuicao.consultaNSU(0)
         const consultaMaxNsu = await distribuição.consultaNSU('0')
-        // console.log('consultaMaxNsu', consultaMaxNsu);
+        console.log('consultaMaxNsu', consultaMaxNsu);
 
         //Get maxNsu da resposta
         const maxNSU = consultaMaxNsu.data.maxNSU
@@ -87,11 +86,6 @@ export async function GET(request: NextRequest) {
         console.log('resCh', resCh );
 
         if (resCh.length > 0) {
-
-            // const nsuQuery = resCh[0].nsu
-            // console.log(nsuQuery);
-            // const consultaCTe = await distribuição.consultaNSU(nsuQuery)
-            // console.log(consultaCTe);
 
             return new Response(JSON.stringify(resCh[0].xml), {
                 status: 200,

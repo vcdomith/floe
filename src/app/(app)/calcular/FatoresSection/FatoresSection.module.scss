@@ -58,6 +58,57 @@
 
         .title {
 
+            .header {
+
+                display: flex;
+                gap: 0.5rem;
+
+                height: 30.4px;
+                width: 100%;
+
+                margin-bottom: 1rem;
+
+                a {
+
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    // border: 2px solid cor-mix(20%);
+                    border-radius: 0.5rem;
+
+                    transition: background-color 400ms ease;
+
+                    &:hover {
+
+                        background-color: cor-mix(5%);
+
+                    }
+
+
+                    svg {
+
+                        width: 30px;
+                        height: 30px;
+
+                        path {
+                            fill: cor-mix(80%);
+                        }
+
+                    }
+
+                }
+
+                h3 {
+
+                    margin: 0;
+                    padding-bottom: 0;
+
+                    width: 100%;
+
+                }
+
+            } 
+            
             h3 {
 
                 border-bottom: 2px solid;

@@ -13,6 +13,7 @@ import { useMediaQuery } from "../../(contexts)/MediaQueryContext";
 import { useSectionSelect } from "../../(contexts)/SectionSelectContext";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { svgsUtil } from "@/components/SvgArray/SvgUtil";
 
 interface NfeData {
 
@@ -243,25 +244,14 @@ export default function FatoresSection({ fornecedores }: FatoresSectionProps) {
             // }}
         >
             <div className={style.content}>
-    
-                {/* Seção teste importar dados nfe */}
-                <div className={style.title}>
-                    <h3>Importar NFe e CTe</h3>
-                    <p>Forneça a chave de acesso da Nfe com 44 dígitos para importar os valores da nota:</p>
-                    <input type="text" minLength={44} maxLength={44} onChange={(e) => setChaveNFe(e.target.value)}/>
-                    <button onClick={() => handleImportNFe(chaveNFe)}>Importar NFe</button>
-                    <input type="text" minLength={44} maxLength={44} onChange={(e) => setChaveCTe(e.target.value)}/>
-                    <button onClick={() => handleImportCTe(chaveCTe)}>Importar CTe</button>
-
-                    <button>Gerar Tabela!</button>
-                    {/* <div>
-                        {JSON.stringify(dadosImportados.pedido)}
-                        {`${JSON.stringify(dadosImportados.produtos.length)} produtos`}
-                    </div> */}
-                </div>
 
                 <div className={style.title}>
-                    <h3>Fornecedor</h3>
+                <span className={style.header}>
+                        <Link href={'/calcular'}>
+                            {svgsUtil.back}
+                        </Link>
+                        <h3>Fornecedor</h3>
+                    </span>
                     <AnimatePresence initial={false}>
                     {(fornecedorData.nome === '')&&
                     <motion.p

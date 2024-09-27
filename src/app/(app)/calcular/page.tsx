@@ -1,24 +1,32 @@
 
-import FatoresSection from './FatoresSection/FatoresSection'
-import TabelaSection from './TabelaSection/TabelaSection'
-import { dbConnect } from '@/utils/db/supabase'
-
+import Highlight from '@/components/Highlight/Highlight'
 import style from './calcular.module.scss'
+import { svgsUtil } from '@/components/SvgArray/SvgUtil'
+import Link from 'next/link'
 
 export default async function Calcular() {
-    
-    const supabase = dbConnect()
-    // const fornecedores = getFornecedores()
-    const { data: fornecedoresDB } = await supabase.from('fornecedores').select('nome')
-    const fornecedores: string[] | undefined = fornecedoresDB?.map( fornecedor => fornecedor.nome )
 
     return (
-        <main
-            className={style.main}
-        >
-            <FatoresSection fornecedores={(fornecedores !== null) ? fornecedores : []} />
-            <TabelaSection />
-        </main>
+        <section className={style.section}>
+
+            <div className={style.title}>
+                <h3>Calcular Preços:</h3>
+                <p>Selecione um método para calcular a tabela:</p>
+            </div>
+
+            <Link href={'/calcular/chave'} prefetch>
+                {svgsUtil.codigo}
+                <p>Importar valores pelas chaves NFe e CTe</p>
+            </Link>
+            <Link href={'/calcular/xml'} prefetch>
+                {svgsUtil.composto}
+                <p>Importar valores por arquivo XML da NFe e CTe</p>
+            </Link>
+            <Link href={'/calcular/manual'} prefetch>
+                {svgsUtil.ncm}
+                <p>Calcular tabela manualmente</p>
+            </Link>
+        </section>
     )
 
 

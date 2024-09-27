@@ -7,6 +7,7 @@ interface SvgUtilItems extends
     produto: React.ReactNode
     produto3D: React.ReactNode
     plus: React.ReactNode
+    back: React.ReactNode
 }
 
 // export const SvgUtil = ({ svg } : { svg: keyof SvgUtilItems } ) => {
@@ -43,7 +44,7 @@ const SvgProduto_3D = () => {
 
 const SvgCodigo = () => {
     return(
-        <svg width="500" height="500" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg width="50" height="50" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M407 365.704C329.979 303.655 330.739 417.926 253.718 355.876C176.698 293.826 169.448 418.269 92 355.876" stroke="black" strokeWidth="40"/>
         <path d="M33 413V87C33 64.9086 50.9086 47 73 47H419.26C446.178 47 468 68.8345 468 95.7688V404.231C468 431.165 446.169 453 419.251 453H355.285H73C50.9086 453 33 435.091 33 413Z" stroke="black" strokeWidth="40"/>
         <line x1="117" y1="102" x2="117" y2="289" stroke="black" strokeWidth="40"/>
@@ -56,7 +57,7 @@ const SvgCodigo = () => {
 }
 const SvgNCM = () => {
     return(
-        <svg width="500" height="500" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg width="50" height="50" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M481 414.43C367.303 350.586 368.425 478.274 254.727 414.43C141.03 350.586 130.327 478.628 16 414.43" stroke="black" strokeWidth="40"/>
         <rect x="34" y="87" width="160" height="226" rx="33.5" stroke="black" strokeWidth="40"/>
         <rect x="250" y="87" width="80" height="226" rx="33.5" stroke="black" strokeWidth="40"/>
@@ -139,7 +140,7 @@ const SvgDefault = () => {
 
 const SvgProduto = () => {
     return(
-        <svg width="500" height="500" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg width="50" height="50" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M449 135L250 20L51 135V365L250 480L449 365V135Z" stroke="black" strokeWidth="40" strokeLinejoin="round"/>
         <path d="M250 250.649C327.714 205.876 371.286 180.773 449 136M250 250.649C172.286 205.876 128.714 180.773 51 136M250 250.649V473" stroke="black" strokeWidth="40"/>
         <path d="M149 69C227.105 113.841 270.895 138.981 349 183.822C349 183.822 349 268.648 349 323" stroke="black" strokeWidth="40"/>
@@ -154,6 +155,14 @@ function SvgPlus() {
         <path d="M393 249L107 249" stroke="black" strokeWidth="40"/>
         <path d="M250 106L250 392" stroke="black" strokeWidth="40"/>
         </svg>
+    )
+
+}
+
+function SvgBack() {
+
+    return (
+        <svg fill="#000000" width="800px" height="800px" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><path d="M14.19 16.005l7.869 7.868-2.129 2.129-9.996-9.997L19.937 6.002l2.127 2.129z"/></svg>
     )
 
 }
@@ -175,4 +184,5 @@ export const svgsUtil: SvgUtilItems = {
     produto: <SvgProduto/>,
     produto3D: <SvgProduto_3D/>,
     plus: <SvgPlus />,
+    back: <SvgBack />,
 }

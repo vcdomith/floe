@@ -1,21 +1,68 @@
 @use '../../globalStyle.module.scss' as *;
 
-.main {
+.section {
 
-    // position: fixed;
     display: flex;
-    width: 100%;
-    height: calc(100dvh - 6rem);
-    // gap: 1rem;
+    flex-direction: column;
 
-    overflow: hidden;
+    max-width: 350px;
 
-}
+    gap: 1rem;
+    padding: 0 1rem;
 
-@media (width <= 900px) {
+    border-top: 1px solid;
+    border-image: linear-gradient(to right , $cor-secundaria, cor-mix(40%)) 27;
 
-    .main {
-        height: calc(100dvh - 7rem);
+    .title {
+
+        h3 {
+
+            border-bottom: 2px solid;
+            border-image: linear-gradient(to left , $cor-secundaria, cor-mix(40%)) 27;
+            padding-bottom: 0.5rem;
+
+        }
+
+    }
+
+    a {
+
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+
+        text-decoration: none;
+
+        padding: 0.5rem;
+        border: 2px solid cor-mix(20%);
+        border-radius: 0.5rem;
+        background-color: cor-mix(5%);
+
+        svg {
+
+            min-width: 30px;
+            max-width: 30px;
+
+            min-height: 30px;
+            max-height: 30px;
+            // height: 50px;
+
+            path, circle, line, rect {
+                stroke: cor-mix(60%);
+            }
+
+        }
+
+        p {
+
+            margin: 0;
+
+            color: cor-mix(70%);
+            font-size: 1rem;
+            font-weight: 600;
+
+        }
+
     }
 
 }

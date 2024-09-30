@@ -2,7 +2,9 @@
 import Link from 'next/link'
 import style from './ImportarChaveSection.module.scss'
 import { svgsUtil } from '@/components/SvgArray/SvgUtil'
-import { useState } from 'react'
+import { ChangeEvent, useState } from 'react'
+import NumberInput from '@/components/FatoresTable/FatoresTableBody/NumberInput/NumberInput'
+import Highlight from '@/components/Highlight/Highlight'
 
 interface NfeData {
 
@@ -130,6 +132,8 @@ export default function ImportarChaveSection() {
 
     const handleImportNFe = async (chave: string) => {
 
+        // const innerChave = chave
+
         if (chave.length < 44) {
             console.log('Chave nfe tem 44 digitos');
             return
@@ -146,6 +150,7 @@ export default function ImportarChaveSection() {
         setDadosImportados(extractData)
         console.log(extractData);
         console.log(dadosImportados);
+        
 
     }
 
@@ -164,10 +169,15 @@ export default function ImportarChaveSection() {
                     </span>
                     <p>Forneça a chave de acesso da Nfe com 44 dígitos para importar os valores da nota:</p>
 
-                    <input type="text" minLength={44} maxLength={44} value={chaveNFe} onChange={(e) => setChaveNFe(e.target.value)}/>
+                    <ImportCard 
+                        document={'NFe'} 
+                        value={chaveNFe} 
+                        setValue={setChaveNFe} 
+                        handleClick={() => handleImportNFe(chaveNFe)} />
+                    {/* <input type="text" minLength={44} maxLength={44} value={chaveNFe} onChange={(e) => setChaveNFe(e.target.value)}/>
                     <button 
                         onClick={() => handleImportNFe(chaveNFe)}
-                    >Importar NFe</button>
+                    >Importar NFe</button> */}
 
                     <input type="text" minLength={44} maxLength={44} value={chaveCTe} onChange={(e) => setChaveCTe(e.target.value)}/>
                     <button 
@@ -182,6 +192,108 @@ export default function ImportarChaveSection() {
 
         </section>
 
+    )
+
+}
+
+interface ImportCardProps {
+
+    document: 'NFe' | 'CTe'
+    value: string
+    setValue: (value: string) => void
+    handleClick: () => void
+
+}
+
+interface NFeValue {
+    1: string,
+    2: string,
+    3: string,
+    4: string,
+    5: string,
+    6: string,
+    7: string,
+    8: string,
+    9: string,
+    10: string,
+    11: string,
+}
+
+const ImportCard = ( {document, value, setValue, handleClick}: ImportCardProps ) => {
+
+    const [nfeValue, setNfeValue] = useState<NFeValue>({
+        1: '____',
+        2: '____',
+        3: '____',
+        4: '____',
+        5: '____',
+        6: '____',
+        7: '____',
+        8: '____',
+        9: '____',
+        10: '____',
+        11: '____',
+    })
+
+    function nfeValueReductor(nfe: NFeValue) {
+
+        return Object.values(nfe)
+            .map( (value: string) => value.replaceAll('_', '') )
+            .join('')
+
+    }
+
+    const handleNFeChange = (e: ChangeEvent<HTMLInputElement>) => {
+
+        setNfeValue( prev => {
+
+            console.log(nfeValueReductor(prev));
+
+            return {
+                ...prev,
+                [Math.floor(nfeValueReductor(prev).length / 4) + 1]: prev
+            }
+            
+        })
+
+    }
+
+    return (
+        <div className={style.importCard}>
+
+            <span className={style.badge}>
+                {svgsUtil.unitarioNota}
+                <p>Importar valores da NFe através da chave</p>
+                <button onClick={() => handleClick()}>Importar {document}</button>
+            </span>
+
+            <span className={style.input}>
+                {/* <input 
+                    type="text" 
+                    minLength={44} 
+                    maxLength={44}
+                    value={value}
+                    onChange={(e) => setValue(e.target.value)}
+                /> */}
+                <div>
+                    <input type="text" onChange={e => handleNFeChange(e)} />
+                    <span>
+                        {Object.entries(nfeValue).map(([key, value]) => 
+                            // <div key={key}>{value}</div>
+                            <Highlight key={key} >{value}</Highlight>
+                        )}
+                    </span>
+                </div>
+                {JSON.stringify(nfeValueReductor(nfeValue).length)}
+                {/* <NumberInput 
+                    placeholder={'____ ____ ____ ____ ____ ____ ____ ____ ____ ____ ____'} 
+                    valor={value} 
+                    setValor={setValue}
+                    minLength={44}
+                    maxLength={44}
+                    /> */}
+            </span>
+        </div>
     )
 
 }

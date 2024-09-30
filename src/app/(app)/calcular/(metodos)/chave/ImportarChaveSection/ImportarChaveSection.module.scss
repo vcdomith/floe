@@ -107,6 +107,86 @@
 
         }
 
+        .importCard {
+
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+
+            border: 2px solid cor-mix(20%);
+            border-radius: 0.5rem;
+            background-color: cor-mix(5%);
+
+            padding: 0.5rem;
+
+            .badge {
+
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+
+                svg {
+
+                    min-width: 35px;
+                    max-width: 35px;
+
+                    min-height: 35px;
+                    max-height: 35px;
+
+                    path, line, circle {
+                        stroke: cor-mix(60%);
+                    }
+
+                }
+
+                p {
+
+                    color: cor-mix(80%);
+
+                }
+
+            }
+
+            .input {
+
+                display: flex;
+                gap: 0.5rem;
+
+                div {
+
+                    width: 100%;
+                    
+                    input {
+                        
+                        outline: none;
+                        padding: 0.5rem;
+                        padding-bottom: 0.7rem;
+                        height: 20px;
+                        
+                        background-color: cor-mix(0%);
+                        border: 2px solid cor-mix(20%);
+                        border-radius: 0.5rem;
+
+                        font-size: 1rem;
+                        color: cor-mix(80%);
+
+                        &::placeholder {
+
+                            position: absolute;
+
+                            color: cor-mix(20%);
+                            font-size: 1.2rem;
+                            top: 0.7rem;
+
+                        }
+
+                    }
+                }
+
+
+            }
+
+        }
 
     }
 

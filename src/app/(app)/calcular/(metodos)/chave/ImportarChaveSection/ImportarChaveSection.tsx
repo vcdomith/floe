@@ -2,9 +2,10 @@
 import Link from 'next/link'
 import style from './ImportarChaveSection.module.scss'
 import { svgsUtil } from '@/components/SvgArray/SvgUtil'
-import { ChangeEvent, useState } from 'react'
+import { ChangeEvent, KeyboardEvent, MouseEvent, useMemo, useRef, useState } from 'react'
 import NumberInput from '@/components/FatoresTable/FatoresTableBody/NumberInput/NumberInput'
 import Highlight from '@/components/Highlight/Highlight'
+import { m } from 'framer-motion'
 
 interface NfeData {
 
@@ -170,19 +171,28 @@ export default function ImportarChaveSection() {
                     <p>Forneça a chave de acesso da Nfe com 44 dígitos para importar os valores da nota:</p>
 
                     <ImportCard 
+                        document={'CTe'} 
+                        value={chaveCTe} 
+                        setValue={setChaveCTe} 
+                        handleClick={() => handleImportNFe(chaveNFe)} 
+                    />
+
+                    <ImportCard 
                         document={'NFe'} 
                         value={chaveNFe} 
                         setValue={setChaveNFe} 
-                        handleClick={() => handleImportNFe(chaveNFe)} />
+                        handleClick={() => handleImportNFe(chaveNFe)} 
+                    />
+
                     {/* <input type="text" minLength={44} maxLength={44} value={chaveNFe} onChange={(e) => setChaveNFe(e.target.value)}/>
                     <button 
                         onClick={() => handleImportNFe(chaveNFe)}
                     >Importar NFe</button> */}
 
-                    <input type="text" minLength={44} maxLength={44} value={chaveCTe} onChange={(e) => setChaveCTe(e.target.value)}/>
+                    {/* <input type="text" pattern={'[0-9]*'} minLength={44} maxLength={44} value={chaveCTe} onChange={(e) => setChaveCTe(e.target.value)}/>
                     <button 
                         // onClick={() => handleImportCTe(chaveCTe)}
-                    >Importar CTe</button>
+                    >Importar CTe</button> */}
 
                     <button>Gerar Tabela!</button>
 
@@ -205,58 +215,99 @@ interface ImportCardProps {
 
 }
 
-interface NFeValue {
-    1: string,
-    2: string,
-    3: string,
-    4: string,
-    5: string,
-    6: string,
-    7: string,
-    8: string,
-    9: string,
-    10: string,
-    11: string,
+interface Caret {
+    start: number,
+    end: number,
+    direction: 'none' | 'foward' | 'backward'
+}
+
+const CARET_INITIAL_STATE: Caret = {
+    start: -1,
+    end: -1,
+    direction: 'none'
 }
 
 const ImportCard = ( {document, value, setValue, handleClick}: ImportCardProps ) => {
 
-    const [nfeValue, setNfeValue] = useState<NFeValue>({
-        1: '____',
-        2: '____',
-        3: '____',
-        4: '____',
-        5: '____',
-        6: '____',
-        7: '____',
-        8: '____',
-        9: '____',
-        10: '____',
-        11: '____',
-    })
+    const chaveFixedLength = useMemo(() => {
+        let newString = value
+        while (newString.length < 44) {
+            newString += '_'
+        }
+        return newString
+    }, [value])
 
-    function nfeValueReductor(nfe: NFeValue) {
+    const valid = useMemo(() => {
+        return value.length === 44
+    }, [value])
 
-        return Object.values(nfe)
-            .map( (value: string) => value.replaceAll('_', '') )
-            .join('')
+    const splitChave = useMemo(() => {
+        return chaveFixedLength.match(/.{1,4}/g)
+    }, [chaveFixedLength])
+
+    const [caret, setCaret] = useState(CARET_INITIAL_STATE)
+
+    const inputRef = useRef<HTMLInputElement>(null)
+
+    const handleCaretEvent = () => {
+        if (inputRef.current) {
+
+            const start = inputRef.current?.selectionStart!
+            const end = inputRef.current?.selectionEnd!
+            const direction = (inputRef.current?.selectionDirection! as 'none' | 'foward' | 'backward')
+            console.log({ start, end, direction });
+
+            setCaret({ start, end, direction })
+
+        }
+    }
+
+    const resetCaret = () => {
+        setCaret(CARET_INITIAL_STATE)
+    }
+
+    const handleInputChange = (e: 
+        ChangeEvent<HTMLInputElement> ) => {
+
+        if (/^[0-9]*$/.test(e.target.value)) {
+            setValue(e.target.value)
+            handleCaretEvent()
+        }
 
     }
 
-    const handleNFeChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const handleDigitClick = (index: number) => {
 
-        setNfeValue( prev => {
+        if (inputRef.current) {
 
-            console.log(nfeValueReductor(prev));
-
-            return {
-                ...prev,
-                [Math.floor(nfeValueReductor(prev).length / 4) + 1]: prev
+            if (index <= value.length) {
+                    
+                inputRef.current.focus()
+                inputRef.current.setSelectionRange((index + 1), (index + 1))
+    
+                setCaret({
+                    start: index,
+                    end: index,
+                    direction: 'foward',
+                })
+    
+                return
             }
-            
-        })
+    
+            inputRef.current.focus()
+            inputRef.current.setSelectionRange(value.length + 1, value.length + 1)
 
+            setCaret({
+                start: value.length,
+                end: value.length,
+                direction: 'foward',
+            })
+        }
+
+        
     }
+
+    const selection = useMemo(() => caret.end !== caret.start,[caret])
 
     return (
         <div className={style.importCard}>
@@ -264,7 +315,7 @@ const ImportCard = ( {document, value, setValue, handleClick}: ImportCardProps )
             <span className={style.badge}>
                 {svgsUtil.unitarioNota}
                 <p>Importar valores da NFe através da chave</p>
-                <button onClick={() => handleClick()}>Importar {document}</button>
+                {/* <button onClick={() => handleClick()}>Importar {document}</button> */}
             </span>
 
             <span className={style.input}>
@@ -275,24 +326,54 @@ const ImportCard = ( {document, value, setValue, handleClick}: ImportCardProps )
                     value={value}
                     onChange={(e) => setValue(e.target.value)}
                 /> */}
-                <div>
-                    <input type="text" onChange={e => handleNFeChange(e)} />
-                    <span>
-                        {Object.entries(nfeValue).map(([key, value]) => 
-                            // <div key={key}>{value}</div>
-                            <Highlight key={key} >{value}</Highlight>
+                <div className={style.format}>
+                    <input 
+                        className={style.input}
+                        type="text" 
+                        minLength={44} 
+                        maxLength={44}
+                        value={value}
+                        onChange={(e) => handleInputChange(e)}
+                        onClick={() => handleCaretEvent()}
+                        onKeyUp={() => handleCaretEvent()}
+                        onBlur={() => resetCaret()}
+
+                        ref={inputRef}
+                        // disabled={valid}
+                    />
+                    <span className={style.segments}>
+                        {splitChave?.map( (segment, indexSegment) => 
+                            <span className={style.segment} key={indexSegment}>
+                                {segment.split('').map( (digit, indexDigit) => {
+
+                                    const digitIndex = (indexSegment * 4) + indexDigit
+ 
+                                    return (
+                                        <div 
+                                        key={indexDigit}
+                                        className={style.digit}
+                                        data-active={
+                                            selection 
+                                                ? (digitIndex >= caret.start && digitIndex < caret.end )
+                                                : (digitIndex === caret.end)
+                                        }
+                                        data-caret={selection ? false : digitIndex === caret.end}
+                                        onClick={() => handleDigitClick(digitIndex)}
+                                    >{digit}</div>
+                                    )
+                                })}
+                            </span>
                         )}
+                        {/* <button>{'>'}</button> */}
                     </span>
                 </div>
-                {JSON.stringify(nfeValueReductor(nfeValue).length)}
-                {/* <NumberInput 
-                    placeholder={'____ ____ ____ ____ ____ ____ ____ ____ ____ ____ ____'} 
-                    valor={value} 
-                    setValor={setValue}
-                    minLength={44}
-                    maxLength={44}
-                    /> */}
             </span>
+
+            <button 
+                className={style.button}
+                disabled={!valid}
+            >Importar NFe</button>
+
         </div>
     )
 

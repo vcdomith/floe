@@ -75,30 +75,6 @@ export interface IDisplayControl {
 
 }
 
-const INITIAL_STATE_DIFF_CONTROL: DifferenceControl = {
-    nome: false,
-    fatorBase: false,
-    fatorBaseNormal: false,
-    fatorBaseST: false,
-    usaTransporte: false,
-    usaSt: false,
-    usaDesconto: false,
-    usaIpi: false,
-    usaIpiUniversal: false,
-    usaUnitarioPedido: false,
-    usaComposto: false,
-    usaNcm: false,
-    quantidadeProdutos: false,
-    fatorTransportePedido: false,
-    valorFrete: false,
-    fatorFrete: false,
-    valorTotalProdutos: false,
-    fatorSTPedido: false,
-    valorST: false,
-    multiploST: false,
-    valorTotalProdutosST: false
-}
-
 export interface DifferenceControl extends Record<keyof IFornecedor, boolean>, Record<keyof IFatoresPedido, boolean> {}
 
 export const CalcularContext = createContext<CalcularContext | undefined>(undefined)
@@ -137,10 +113,7 @@ export const CalcularProvider = ({ children }: { children: React.ReactNode }) =>
 
     const {
         tabela,
-        setTabela,
         adicionarProduto,
-        removeProduto,
-        updateProdutoTabela,
         updateFatoresTabela: updateFatoresTabelaInner,
         resetTabela,
     } = tabelaContext

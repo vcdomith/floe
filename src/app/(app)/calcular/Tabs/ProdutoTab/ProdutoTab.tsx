@@ -26,12 +26,7 @@ interface ProdutoConfigElements {
 const PRODUTO_CONFIG_MAP: Record<keyof IProdutoDisplayControl, ProdutoConfigElements> = {
     st: {
         title: 'Produto com ST?',
-        description: 'Produto usa Subst. Trib.',
-        // input: 
-        //     <CheckBox 
-        //         checked={st}
-        //         setChecked={handleProdutoChange('st')}
-        //     />,
+        description: 'Produto usa Subst. Trib.', 
     },
     codigo: {
         title: 'Código',

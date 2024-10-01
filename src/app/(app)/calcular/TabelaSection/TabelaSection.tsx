@@ -18,17 +18,16 @@ import { useSectionSelect } from '../../(contexts)/SectionSelectContext'
 export default function TabelaSection() {
 
     const {
-        tabela, 
-        setTabela, 
+        tabelaContext,
         tabelaValid,
         cadastrarPedidoDB, 
         filterContext, 
         resetContext,
         pedidoContext: {pedidoData: {quantidadeProdutos}},
-        // calcularSection,
-        setCalcularSection
     } = useCalcular()
     const {searchParam, setSearchParam, searchField, setSearchFieldCapitalized} = filterContext
+
+    const { tabela } = tabelaContext
 
     const fieldKeys: SearchFieldKeys[] = ['unitario', 'codigo']
 

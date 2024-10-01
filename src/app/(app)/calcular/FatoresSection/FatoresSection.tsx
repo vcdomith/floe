@@ -28,10 +28,7 @@ export default function FatoresSection({ fornecedores }: FatoresSectionProps) {
         produtoIsValid, 
         submitForm, 
         tabelaValid,
-        setTabela,
         updateFatoresTabela,
-        // calcularSection: section,
-        setCalcularSection
     } = useCalcular()
     const {fornecedorData, fornecedorDiff, rollbackFornecedor, updateFornecedorControl} = fornecedorContext
     const {pedidoData, pedidoDiff, rollbackPedido, updatePedidoControl} = pedidoContext

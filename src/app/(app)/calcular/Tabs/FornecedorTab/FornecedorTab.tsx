@@ -2,7 +2,7 @@
 
 import SelectFornecedor from "@/components/SelectFornecedor/SelectFornecedor";
 import capitalize from "@/utils/capitalize";
-import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 
 import style from './FornecedorTab.module.scss'
 import { motion, AnimatePresence } from "framer-motion";
@@ -40,7 +40,7 @@ export default function FornecedorTab({ fornecedorCtx, fornecedores, svg, titulo
 
     const { 
         fornecedorContext,
-        tabela, 
+        tabelaContext: { tabela }, 
         resetContext
     } = useCalcular()
 

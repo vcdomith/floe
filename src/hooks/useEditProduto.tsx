@@ -41,10 +41,9 @@ export default function useEditProduto( produto: ProdutoCadastro ): UseEditProdu
 
     const { 
         getDisplayControl, 
-        fornecedorContext: {fornecedorData}, 
-        pedidoContext: {pedidoData},
-        updateProdutoTabela,
-        removeProduto
+        fornecedorContext: { fornecedorData }, 
+        pedidoContext: { pedidoData },
+        tabelaContext: { updateProdutoTabela, removeProduto }
     } = useCalcular()
 
     const { clearModal } = useModal()

@@ -1,6 +1,6 @@
 'use client'
 import { getTabelasObject } from '@/utils/calculoTabelas'
-import { FatoresContext, ProdutoCadastro, useCalcular } from '../../context/CalcularContext'
+import { ProdutoCadastro, useCalcular } from '../../context/CalcularContext'
 import style from './TabelaRow.module.scss'
 import { Dispatch, SetStateAction, forwardRef, useMemo } from 'react'
 import {AnimatePresence, motion} from 'framer-motion'
@@ -27,7 +27,7 @@ function TabelaRow({produto}: TabelaRowProps, ref) {
     const {id, codigo, ncm, st, unitario, unitarioNota, composto } = produto
     const {tabela1, tabela2, tabela3} = useMemo(() => getTabelasObject(produto), [produto])
 
-    const { removeProduto } = useCalcular()
+    const { tabelaContext: { removeProduto } } = useCalcular()
     const { addNotification } = useNotification()
 
     const { matches: isMobile } = useMediaQuery()

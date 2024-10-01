@@ -7,6 +7,7 @@ import { Dispatch, SetStateAction, createContext, useContext, useEffect, useMemo
 import { useNotification } from "../../(contexts)/NotificationContext";
 import useFilter, { UseFilter } from "@/hooks/useFilter";
 import { dbConnect } from "@/utils/db/supabase";
+import useTabela, { UseTabela } from "@/hooks/useTabela";
 
 
 export interface CalcularContext {
@@ -19,10 +20,7 @@ export interface CalcularContext {
     produtoIsValid: boolean
 
     tabelaValid: boolean
-    tabela: ProdutoCadastro[]
-    setTabela: Dispatch<SetStateAction<ProdutoCadastro[]>>
-    removeProduto: (id: number) => void
-    updateProdutoTabela: (id: number, updatedProduto: ProdutoCadastro) => void
+    tabelaContext: UseTabela
     updateFatoresTabela: () => void
     cadastrarPedidoDB: () => Promise<void>
     filterContext: UseFilter
@@ -114,7 +112,7 @@ export const useCalcular = () => {
 
 export const CalcularProvider = ({ children }: { children: React.ReactNode }) => {
 
-    const {notifications, addNotification} = useNotification()
+    const {addNotification} = useNotification()
 
     const supabase = dbConnect()
 
@@ -122,6 +120,7 @@ export const CalcularProvider = ({ children }: { children: React.ReactNode }) =>
     const pedidoContext = usePedido()
     const produtoContext = useProduto()
     const filterContext = useFilter()
+    const tabelaContext = useTabela()
 
     // TABELA CONTEXT _ TODO
     const [calcularSection, setCalcularSection] = useState<'Fatores' | 'Tabela'>('Fatores')
@@ -131,94 +130,22 @@ export const CalcularProvider = ({ children }: { children: React.ReactNode }) =>
     const {produtoData, resetForm, codigoInputRef} = produtoContext
     const { setSearchParam } = filterContext
 
-    // const fornecedorValid = isEqual(fornecedorData, fornecedorControl)
-    // console.log('fornecedorValid', fornecedorValid);
-    // console.log(getDifferentKeys(fornecedorData, fornecedorControl));
-
-    // const pedidoValid = isEqual(pedidoData, pedidoControl)
-    // console.log('pedidoValid', pedidoValid);
-    // console.log(getDifferentKeys(pedidoData, pedidoControl));
-
     type ControlledInputDataKeys = keyof typeof controlledInputData;
     const controlledInputData = useMemo(() => {
         return {...fornecedorData, ...pedidoData, ...produtoData}
     }, [fornecedorData, pedidoData, produtoData])
 
-    const [tabela, setTabela] = useState<ProdutoCadastro[]>([])
+    const {
+        tabela,
+        setTabela,
+        adicionarProduto,
+        removeProduto,
+        updateProdutoTabela,
+        updateFatoresTabela: updateFatoresTabelaInner,
+        resetTabela,
+    } = tabelaContext
 
-    const adicionarProduto = (produto: ProdutoCadastro) => {
-        setTabela( prev => ([...prev, produto]) )
-    }
-
-    const removeProduto = (id: number) => {
-        setTabela(prev => {
-            const updated = [...prev]
-            const removed = updated.filter( produto => produto.id !== id )
-            return removed
-        })
-    }
-
-    const updateProdutoTabela = (id: number, updatedProduto: ProdutoCadastro) => {
-        setTabela((prev) => {
-            const newTabela = [...prev]
-            const index = newTabela.indexOf(newTabela.filter( produto => produto.id === id )[0])
-            newTabela[index] = updatedProduto
-            return newTabela
-        })
-    }
-
-    const updateFatoresTabela = () => {
-
-        setTabela((prev) => {
-
-            //Exemplo errado de como atualizar um objeto mais complexo no React, abaixo está a maneira correta de lidar com tais objetos
-
-            // const newTabela = [...prev]
-            // newTabela.map( produto => {
-            //     const newFatores = {
-            //         base: fornecedorData.fatorBase || '1',
-            //         fatorBaseNormal: (!produto.st) ? fornecedorData.fatorBaseNormal : '1',
-            //         fatorBaseST: (produto.st) ? fornecedorData.fatorBaseST : '1',
-            
-            //         transporte: (produto.st) 
-            //             ? pedidoData.fatorTransportePedido || '1'
-            //             : '1',
-            //         st: (produto.st) 
-            //             ? pedidoData.fatorSTPedido || '1'
-            //             : '1',
-            //     }
-            //     produto.fatores = {...produto.fatores, ...newFatores}
-            // })
-            // return newTabela
-
-            const newTabela = prev.map( produto => {
-
-                const newFatores = {
-                    base: fornecedorData.fatorBase || '1',
-                    fatorBaseNormal: (!produto.st) ? fornecedorData.fatorBaseNormal : '1',
-                    fatorBaseST: (produto.st) ? fornecedorData.fatorBaseST : '1',
-            
-                    transporte: (produto.st) 
-                        ? pedidoData.fatorTransportePedido || '1'
-                        : '1',
-                    st: (produto.st) 
-                        ? pedidoData.fatorSTPedido || '1'
-                        : '1',
-                }
-
-                return {
-                    ...produto,
-                    fatores: {
-                        ...produto.fatores,
-                        ...newFatores,
-                    },
-                }
-            })
-            
-            return newTabela
-        })
-
-    }
+    const updateFatoresTabela = () => updateFatoresTabelaInner(fornecedorData, pedidoData)
 
     const resetContext = () => {
 
@@ -229,7 +156,7 @@ export const CalcularProvider = ({ children }: { children: React.ReactNode }) =>
         resetPedidoControl()
 
         resetForm()
-        setTabela([])
+        resetTabela()
     }
 
     type DisplayControlKeys = typeof displayControl;
@@ -372,6 +299,7 @@ export const CalcularProvider = ({ children }: { children: React.ReactNode }) =>
 
     }
 
+    // Transformar em API Handler
     const cadastrarPedidoDB = async () => {
 
         if (tabela.length === 0) {
@@ -390,6 +318,7 @@ export const CalcularProvider = ({ children }: { children: React.ReactNode }) =>
 
         try {
             
+            // TODO transformar em API Handler
             const { data , error } = await supabase
                 .from('cadastros')
                 .insert({
@@ -422,11 +351,8 @@ export const CalcularProvider = ({ children }: { children: React.ReactNode }) =>
             displayControl,
             produtoIsValid,
 
-            tabela,
             tabelaValid,
-            setTabela,
-            removeProduto,
-            updateProdutoTabela,
+            tabelaContext,
             updateFatoresTabela,
             cadastrarPedidoDB,
             filterContext,

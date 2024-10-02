@@ -2,33 +2,12 @@
 import Link from 'next/link'
 import style from './ImportarChaveSection.module.scss'
 import { svgsUtil } from '@/components/SvgArray/SvgUtil'
-import { ChangeEvent, KeyboardEvent, MouseEvent, useMemo, useRef, useState } from 'react'
-import NumberInput from '@/components/FatoresTable/FatoresTableBody/NumberInput/NumberInput'
-import Highlight from '@/components/Highlight/Highlight'
-import { m } from 'framer-motion'
 import ImportCard from './ImportCard/ImportCard'
-import { useNotification } from '@/app/(app)/(contexts)/NotificationContext'
-import { NextResponse } from 'next/server'
 import { useImportarChave } from '../context/ImportChaveContext'
 
 export default function ImportarChaveSection() {
 
-    const { 
-
-        chaveNFe,
-        setChaveNFe, 
-        NFeLoading, 
-        importNFe,
-        NFeImportado,
-        
-        chaveCTe, 
-        setChaveCTe, 
-        CTeLoading,
-        importCTe, 
-        CTeImportado,
-
-    } = useImportarChave()
-
+    const {documentos} = useImportarChave()
 
     return (
 
@@ -50,21 +29,11 @@ export default function ImportarChaveSection() {
             <div className={style.content}>    
 
                 <ImportCard 
-                    document={'CTe'} 
-                    value={chaveCTe} 
-                    setValue={setChaveCTe} 
-                    submitAction={() => importCTe(chaveCTe)}
-                    loading={CTeLoading}
-                    imported={CTeImportado}
+                    documento={documentos.cte}     
                 />
                 
                 <ImportCard 
-                    document={'NFe'} 
-                    value={chaveNFe} 
-                    setValue={setChaveNFe} 
-                    submitAction={() => importNFe(chaveNFe)}
-                    loading={NFeLoading}
-                    imported={NFeImportado}
+                    documento={documentos.cte}
                 />
 
             </div>

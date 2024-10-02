@@ -1,21 +1,22 @@
 import useImportDocument, { DadosImportados, DocumentoImportado } from "@/hooks/useImportDocument";
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useMemo, useState } from "react";
 
 interface ImportarChaveContext {
 
-    chaveNFe: string
-    setChaveNFe: (chave: string) => void
-    NFeLoading: boolean
-    importNFe: (chave: string) => void
-    NFeImportado: DocumentoImportado | undefined
-    
-    chaveCTe: string
-    setChaveCTe: (chave: string) => void
-    CTeLoading: boolean
-    importCTe: (chave: string) => void
-    CTeImportado: DocumentoImportado | undefined
+    documentos: Record<'nfe' | 'cte', DocumentoData>
     
     dadosImportados: DadosImportados
+
+}
+
+export interface DocumentoData {
+
+    documento: string
+    chave: string
+    setChave: (chave: string) => void
+    loading: boolean
+    importarDocumento: (chave: string) => void
+    importado: DocumentoImportado | undefined
 
 }
 
@@ -31,9 +32,7 @@ export const useImportarChave = () => {
 export const ImportarChaveProvider = ({ children }: { children: React.ReactNode }) => {
 
     const [chaveNFe, setChaveNFe] = useState('')
-    
     const [chaveCTe, setChaveCTe] = useState('')
-    
     const ImportDocumentContext = useImportDocument()
     const { 
         NFeLoading, 
@@ -43,7 +42,27 @@ export const ImportarChaveProvider = ({ children }: { children: React.ReactNode 
         importCTe, 
         importNFe, 
         dadosImportados 
-    } = ImportDocumentContext    
+    } = ImportDocumentContext 
+
+    const documentos: Record<'nfe' | 'cte', DocumentoData> = useMemo(() => ({
+        nfe: {
+            documento: 'NFe',
+            chave: chaveNFe,
+            setChave: setChaveNFe,
+            loading: NFeLoading,
+            importarDocumento: importNFe,
+            importado: NFeImportado,
+        } ,
+        cte: {
+            documento: 'CTe',
+            chave: chaveCTe,
+            setChave: setChaveCTe,
+            loading: CTeLoading,
+            importarDocumento: importCTe,
+            importado: CTeImportado,
+        }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }), [ImportDocumentContext, chaveNFe, chaveCTe])
 
     // const gerarTabela = () => {
 
@@ -56,17 +75,7 @@ export const ImportarChaveProvider = ({ children }: { children: React.ReactNode 
     return <ImportarChaveContext.Provider
         value={{
 
-            chaveNFe,
-            setChaveNFe,
-            NFeLoading,
-            importNFe,
-            NFeImportado,
-
-            chaveCTe,
-            setChaveCTe,
-            CTeLoading,
-            importCTe, 
-            CTeImportado,
+            documentos,
 
             dadosImportados 
 

@@ -5,15 +5,11 @@ import Highlight from '@/components/Highlight/Highlight'
 import LogoSvg from '@/components/SvgArray/LogoSvg'
 import { useNotification } from '@/app/(app)/(contexts)/NotificationContext'
 import { DocumentoImportado } from '@/hooks/useImportDocument'
+import { DocumentoData } from '../../context/ImportChaveContext'
 
 interface ImportCardProps {
 
-    document: 'NFe' | 'CTe'
-    value: string
-    setValue: (value: string) => void
-    submitAction: () => void
-    loading: boolean
-    imported: DocumentoImportado | undefined
+    documento: DocumentoData
 
 }
 
@@ -30,19 +26,29 @@ const CARET_INITIAL_STATE: Caret = {
     direction: 'none'
 }
 
-export default function ImportCard( {document, value, setValue, submitAction, loading, imported}: ImportCardProps ){
+export default function ImportCard( { documento }: ImportCardProps ){
+
+    const {
+        documento: documentoNome,
+        chave,
+        setChave,
+        loading,
+        importarDocumento,
+        importado
+        
+    } = documento
 
     const chaveFixedLength = useMemo(() => {
-        let newString = value
+        let newString = chave
         while (newString.length < 44) {
             newString += '_'
         }
         return newString
-    }, [value])
+    }, [chave])
 
     const valid = useMemo(() => {
-        return value.length === 44
-    }, [value])
+        return chave.length === 44
+    }, [chave])
 
     const splitChave = useMemo(() => {
         return chaveFixedLength.match(/.{1,4}/g)
@@ -73,7 +79,7 @@ export default function ImportCard( {document, value, setValue, submitAction, lo
         ChangeEvent<HTMLInputElement> ) => {
 
         if (/^[0-9]*$/.test(e.target.value)) {
-            setValue(e.target.value)
+            setChave(e.target.value)
             handleCaretEvent()
         }
 
@@ -83,7 +89,7 @@ export default function ImportCard( {document, value, setValue, submitAction, lo
 
         if (inputRef.current) {
 
-            if (index <= value.length) {
+            if (index <= chave.length) {
                     
                 inputRef.current.focus()
                 inputRef.current.setSelectionRange((index + 1), (index + 1))
@@ -98,11 +104,11 @@ export default function ImportCard( {document, value, setValue, submitAction, lo
             }
     
             inputRef.current.focus()
-            inputRef.current.setSelectionRange(value.length + 1, value.length + 1)
+            inputRef.current.setSelectionRange(chave.length + 1, chave.length + 1)
 
             setCaret({
-                start: value.length,
-                end: value.length,
+                start: chave.length,
+                end: chave.length,
                 direction: 'foward',
             })
         }
@@ -116,7 +122,7 @@ export default function ImportCard( {document, value, setValue, submitAction, lo
 
         e.preventDefault()
 
-        submitAction()
+        importarDocumento(chave)
 
     }
 
@@ -128,7 +134,7 @@ export default function ImportCard( {document, value, setValue, submitAction, lo
 
             <span className={style.badge}>
                 {svgsUtil.unitarioNota}
-                <p>Importar valores da <Highlight>{document}</Highlight> através da chave de acesso:</p>
+                <p>Importar valores da <Highlight>{documentoNome}</Highlight> através da chave de acesso:</p>
                 {/* <button onClick={() => handleClick()}>Importar {document}</button> */}
             </span>
 
@@ -141,7 +147,7 @@ export default function ImportCard( {document, value, setValue, submitAction, lo
                         required
                         minLength={44} 
                         maxLength={44}
-                        value={value}
+                        value={chave}
                         onChange={(e) => handleInputChange(e)}
                         onClick={() => handleCaretEvent()}
                         onKeyUp={() => handleCaretEvent()}
@@ -160,7 +166,7 @@ export default function ImportCard( {document, value, setValue, submitAction, lo
                                     return (
                                         <div 
                                         key={indexDigit}
-                                        className={`${style.digit} ${style[document]}`}
+                                        className={`${style.digit} ${style[documentoNome]}`}
                                         data-active={
                                             selection 
                                                 ? (digitIndex >= caret.start && digitIndex < caret.end )
@@ -188,14 +194,14 @@ export default function ImportCard( {document, value, setValue, submitAction, lo
                 }
             </button>
 
-            {imported&&
-            <span className={style.imported}>
+            {importado&&
+            <span className={style.importado}>
                 {svgsUtil.unitarioNota}
                 <div>
-                    <h3>{imported.fornecedor}</h3>
-                    <p>{imported.numero}</p>
-                    <p>{imported.data.toLocaleString()}</p>
-                    <p>{imported.chave}</p>
+                    <h3>{importado.fornecedor}</h3>
+                    <p>{importado.numero}</p>
+                    <p>{importado.data.toLocaleString()}</p>
+                    <p>{importado.chave}</p>
                 </div>
             </span>
             }

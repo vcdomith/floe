@@ -22,14 +22,18 @@ interface FatoresSectionProps {
 
 export default function FatoresSection({ fornecedores }: FatoresSectionProps) {
 
+    const { 
+        context, 
+        submitForm 
+    } = useCalcular()
     const {
         fornecedorContext,
         pedidoContext,  
-        produtoIsValid, 
-        submitForm, 
+        produtoValid,  
         tabelaValid,
-        updateFatoresTabela,
-    } = useCalcular()
+        tabelaContext: { updateFatoresTabela },
+    } = context
+
     const {fornecedorData, fornecedorDiff, rollbackFornecedor, updateFornecedorControl} = fornecedorContext
     const {pedidoData, pedidoDiff, rollbackPedido, updatePedidoControl} = pedidoContext
 
@@ -177,7 +181,7 @@ export default function FatoresSection({ fornecedores }: FatoresSectionProps) {
                 className={style.submit} 
                 onClick={() => submitForm()} 
                 disabled={(fornecedorDiff.length === 0 && pedidoDiff.length === 0) 
-                    ? (tabelaValid)|| !produtoIsValid
+                    ? (tabelaValid)|| !produtoValid
                     : true
                 }
             >

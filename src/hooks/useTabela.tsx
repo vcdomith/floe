@@ -3,6 +3,7 @@ import { Dispatch, SetStateAction, useState } from "react"
 import { UseFornecedor } from "./useFornecedor"
 import { IFornecedor } from "@/interfaces/IFornecedor"
 import { IFatoresPedido } from "./usePedido"
+import { ContextControl } from "./useContextControl"
 
 export interface UseTabela {
 
@@ -11,12 +12,17 @@ export interface UseTabela {
     adicionarProduto: (produto: ProdutoCadastro) => void
     removeProduto: (id: number) => void
     updateProdutoTabela: (id: number, updatedProduto: ProdutoCadastro) => void
-    updateFatoresTabela: (fornecedorData: IFornecedor, pedidoData: IFatoresPedido) => void
+    updateFatoresTabela: () => void
     resetTabela: () => void
 
 }
 
-export default function useTabela(): UseTabela {
+export default function useTabela(ctx: ContextControl): UseTabela {
+
+    const { 
+        fornecedorCtx: { fornecedorData }, 
+        pedidoCtx: { pedidoData },
+    } = ctx
 
     const [tabela, setTabela] = useState<ProdutoCadastro[]>([])
 
@@ -41,7 +47,7 @@ export default function useTabela(): UseTabela {
         })
     }
 
-    const updateFatoresTabela = (fornecedorData: IFornecedor, pedidoData: IFatoresPedido) => {
+    const updateFatoresTabela = () => {
 
         setTabela((prev) => {
 

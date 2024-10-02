@@ -4,6 +4,7 @@ import { CalcularContext, ProdutoCadastro } from "@/app/(app)/calcular/context/C
 import { IFornecedor } from "@/interfaces/IFornecedor";
 import { IProdutoContext } from "./useProduto";
 import getDifferentKeys from "@/utils/differentKeys";
+import { UseSectionContext } from "./useSectionContext";
 
 export interface UsePedido {
 
@@ -13,7 +14,7 @@ export interface UsePedido {
     handlePedidoSubmit: (campo: ('transporte' | 'st'), fatorBase: string) => void
     resetPedido: () => void
 
-    getPedidoDisplayControl: (ctx: CalcularContext) => IPedidoDisplayControl
+    getPedidoDisplayControl: (ctx: UseSectionContext) => IPedidoDisplayControl
 
     pedidoDiff: (keyof IFatoresPedido)[]
     updatePedidoControl: (pedido: IFatoresPedido) => void
@@ -154,7 +155,7 @@ export default function usePedido( produto: (ProdutoCadastro | null) = null ): U
     const getPedidoDisplayControl = ({
         fornecedorContext: {fornecedorData},
          produtoContext: {produtoData}
-        }: CalcularContext): IPedidoDisplayControl => 
+        }: UseSectionContext): IPedidoDisplayControl => 
     (produtoData.st)
     ? {
         usaNcm: true,

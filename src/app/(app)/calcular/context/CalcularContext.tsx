@@ -1,36 +1,23 @@
 'use client'
-import useFornecedor, { UseFornecedor } from "@/hooks/useFornecedor";
-import usePedido, { IFatoresPedido, UsePedido } from "@/hooks/usePedido";
-import useProduto, { UseProduto } from "@/hooks/useProduto";
-import { IFornecedor } from "@/interfaces/IFornecedor";
-import { Dispatch, SetStateAction, createContext, useContext, useEffect, useMemo, useState } from "react";
+import { createContext, useContext, useMemo } from "react";
 import { useNotification } from "../../(contexts)/NotificationContext";
-import useFilter, { UseFilter } from "@/hooks/useFilter";
-import { dbConnect } from "@/utils/db/supabase";
-import useTabela, { UseTabela } from "@/hooks/useTabela";
-
+import useSectionContext, { UseSectionContext } from "@/hooks/useSectionContext";
+import { usePathname } from "next/navigation";
 
 export interface CalcularContext {
 
-    fornecedorContext: UseFornecedor
-    pedidoContext: UsePedido
-    produtoContext: UseProduto
-    getDisplayControl: (st: boolean) => IDisplayControl
-    displayControl: IDisplayControl 
-    produtoIsValid: boolean
-
-    tabelaValid: boolean
-    tabelaContext: UseTabela
-    updateFatoresTabela: () => void
-    cadastrarPedidoDB: () => Promise<void>
-    filterContext: UseFilter
+    context: UseSectionContext
+    contexts: Contexts
     
     submitForm: () => void
-    resetContext: () => void
+    cadastrarPedido: () => void
 
-    calcularSection: 'Fatores' | 'Tabela'
-    setCalcularSection : Dispatch<SetStateAction<"Fatores" | "Tabela">>
+}
 
+export interface Contexts {
+    chave: UseSectionContext;
+    xml: UseSectionContext;
+    manual: UseSectionContext;
 }
 
 export interface FatoresContext {
@@ -62,20 +49,7 @@ export interface ProdutoCadastro {
 
 }
 
-export interface IDisplayControl {
-
-    fatorTransportePedido: boolean
-    fatorSTPedido: boolean
-    ncm: boolean
-    desconto: boolean
-    ipi: boolean
-    unitarioPedido: boolean
-    unitarioNota: boolean
-    unitarioComposto: boolean
-
-}
-
-export interface DifferenceControl extends Record<keyof IFornecedor, boolean>, Record<keyof IFatoresPedido, boolean> {}
+// export interface DifferenceControl extends Record<keyof IFornecedor, boolean>, Record<keyof IFatoresPedido, boolean> {}
 
 export const CalcularContext = createContext<CalcularContext | undefined>(undefined)
 CalcularContext.displayName = 'Calcular'
@@ -89,139 +63,47 @@ export const useCalcular = () => {
 export const CalcularProvider = ({ children }: { children: React.ReactNode }) => {
 
     const {addNotification} = useNotification()
+    const path = usePathname().split('/')[2] as keyof Contexts | ''
 
-    const supabase = dbConnect()
+    const chaveContext = useSectionContext()
+    const xmlContext = useSectionContext()
+    const manualContext = useSectionContext()
 
-    const fornecedorContext = useFornecedor()
-    const pedidoContext = usePedido()
-    const produtoContext = useProduto()
-    const filterContext = useFilter()
-    const tabelaContext = useTabela()
+    const contexts = useMemo(() => ({
+        chave: chaveContext,
+        xml: xmlContext,
+        manual: manualContext,
+    }), [chaveContext, manualContext, xmlContext])
 
-    // TABELA CONTEXT _ TODO
-    const [calcularSection, setCalcularSection] = useState<'Fatores' | 'Tabela'>('Fatores')
-
-    const {fornecedorData, resetFornecedor, resetFornecedorControl} = fornecedorContext
-    const {pedidoData, resetPedido, resetPedidoControl} = pedidoContext
-    const {produtoData, resetForm, codigoInputRef} = produtoContext
-    const { setSearchParam } = filterContext
-
-    type ControlledInputDataKeys = keyof typeof controlledInputData;
-    const controlledInputData = useMemo(() => {
-        return {...fornecedorData, ...pedidoData, ...produtoData}
-    }, [fornecedorData, pedidoData, produtoData])
-
-    const {
-        tabela,
-        adicionarProduto,
-        updateFatoresTabela: updateFatoresTabelaInner,
-        resetTabela,
-    } = tabelaContext
-
-    const updateFatoresTabela = () => updateFatoresTabelaInner(fornecedorData, pedidoData)
-
-    const resetContext = () => {
-
-        resetFornecedor()
-        resetFornecedorControl()
-        
-        resetPedido()
-        resetPedidoControl()
-
-        resetForm()
-        resetTabela()
-    }
-
-    type DisplayControlKeys = typeof displayControl;
-    const getDisplayControl = (st: boolean = produtoData.st): IDisplayControl => (st)
-        ? {
-
-            fatorTransportePedido: fornecedorData.usaTransporte,
-            fatorSTPedido: fornecedorData.usaSt,
-            ncm: pedidoData.usaNcm,
-            desconto: fornecedorData.usaDesconto,
-            ipi: fornecedorData.usaIpi,
-
-            // unitarioNota: (fornecedorData.composto) ? true : fornecedorData.unitarioNota,
-            unitarioNota: true,
-            unitarioPedido: (fornecedorData.usaUnitarioPedido && !fornecedorData.usaComposto), 
-            unitarioComposto: (fornecedorData.usaUnitarioPedido && fornecedorData.usaComposto),
-
+    const context = useMemo(() => {
+        if(path === '') {
+            return contexts.manual
         }
-        : {
-
-            fatorTransportePedido: false,
-            fatorSTPedido: false,
-            ncm: pedidoData.usaNcm,
-            desconto: fornecedorData.usaDesconto,
-            ipi: fornecedorData.usaIpiUniversal,
-
-            // unitarioNota: (fornecedorData.usaComposto) ? true : fornecedorData.usaUnitarioPedido,
-            unitarioNota: true,
-            unitarioPedido: (fornecedorData.usaUnitarioPedido && !fornecedorData.usaComposto), 
-            unitarioComposto: (fornecedorData.usaUnitarioPedido && fornecedorData.usaComposto),
-
-        }
-                              
-    const displayControl = getDisplayControl()
-    const validKeys = Object.keys(displayControl)
-                        .filter( key => displayControl[key as keyof DisplayControlKeys] )
-
-    interface BaseCheck {
-        
-        quantidadeProdutos: string
-
-        codigo: string
-    
-        fatorBase: string
-        fatorBaseNormal: string
-        fatorBaseST: string 
-
-        [key: string]: any
-        
-    }
-
-    const produtoValuesToCheck = useMemo(() => {
-
-        const baseCheck: BaseCheck = {
-            
-            quantidadeProdutos: pedidoData.quantidadeProdutos,
-
-            codigo: produtoData.codigo,
-    
-            fatorBase: fornecedorData.fatorBase,
-            fatorBaseNormal: fornecedorData.fatorBaseNormal,
-            fatorBaseST: fornecedorData.fatorBaseST,   
-        }
-
-        validKeys.map((key) => {
-            baseCheck[key] = controlledInputData[key as ControlledInputDataKeys]
-        })
-
-        return baseCheck
-
-    }, [fornecedorData, produtoData, pedidoData, validKeys, controlledInputData])
-
-    const produtoIsValid = useMemo(() => {
-        return Object.values(produtoValuesToCheck).every( value => value !== '' )
-    }, [produtoValuesToCheck])
-
-    const tabelaValid = useMemo(() => {
-        return tabela.length === parseInt(pedidoData.quantidadeProdutos)
-    }, [tabela, pedidoData])
-
-    const unitario = useMemo(() => {
-
-        if (fornecedorData.usaComposto) 
-            return controlledInputData.unitarioComposto
-        else if (fornecedorData.usaUnitarioPedido) 
-            return controlledInputData.unitarioPedido
-        else 
-            return controlledInputData.unitarioNota
-
-    }, [fornecedorData, controlledInputData])
+        return contexts[path]
+    }, [contexts, path])
 
     const submitForm = () => {
+
+        const {
+            pedidoContext: { pedidoData },
+            produtoContext: { resetForm, codigoInputRef },
+            filterContext: { setSearchParam },
+            tabelaContext: { adicionarProduto },
+            produtoValid,
+            tabelaValid,
+            unitario,
+            controlledInputData,
+        } = context
+
+        if(!produtoValid) {
+            addNotification({tipo: 'erro', mensagem: 'Não foi possível adicionar o produto na tabela, preencha todos os dados!'}) 
+            return
+        } 
+        
+        if(tabelaValid) {
+            addNotification({tipo: 'erro', mensagem: `Não foi possível adicionar o produto na tabela, limite de ${pedidoData.quantidadeProdutos} produtos atingido!`}) 
+            return
+        } 
 
         let produto: ProdutoCadastro = {
             
@@ -255,16 +137,6 @@ export const CalcularProvider = ({ children }: { children: React.ReactNode }) =>
             }
         }
 
-        if(!produtoIsValid) {
-            addNotification({tipo: 'erro', mensagem: 'Não foi possível adicionar o produto na tabela, preencha todos os dados!'}) 
-            return
-        } 
-        
-        if(tabelaValid) {
-            addNotification({tipo: 'erro', mensagem: `Não foi possível adicionar o produto na tabela, limite de ${pedidoData.quantidadeProdutos} produtos atingido!`}) 
-            return
-        } 
-
         setSearchParam('')
         adicionarProduto(produto)
         resetForm()
@@ -272,8 +144,14 @@ export const CalcularProvider = ({ children }: { children: React.ReactNode }) =>
 
     }
 
-    // Transformar em API Handler
-    const cadastrarPedidoDB = async () => {
+    const cadastrarPedido = async () => {
+
+        const {
+            pedidoContext: { pedidoData },
+            fornecedorContext: { fornecedorData },
+            tabelaContext: { tabela },
+            setLoading
+        } = context        
 
         if (tabela.length === 0) {
             addNotification({
@@ -291,14 +169,30 @@ export const CalcularProvider = ({ children }: { children: React.ReactNode }) =>
 
         try {
             
-            // TODO transformar em API Handler
-            const { data , error } = await supabase
-                .from('cadastros')
-                .insert({
+            setLoading(true)
+
+            const response: Response = await fetch('/calcular/api/cadastrarPedido', {
+                method: 'POST',
+                headers: {
+                    "Content-Type": 'application/json'
+                },
+                body: JSON.stringify({
                     fornecedor: fornecedorData.nome,
                     produtos: tabela
                 })
+            })
 
+            const json: Response = await response.json()
+
+            if (!response.ok) {
+                addNotification({
+                    tipo: 'erro',
+                    mensagem: JSON.stringify(json)
+                })
+                return
+            }
+
+            setLoading(false)
             addNotification({
                 tipo: 'sucesso',
                 mensagem: 'Cadastro realizado com sucesso!'
@@ -306,6 +200,7 @@ export const CalcularProvider = ({ children }: { children: React.ReactNode }) =>
 
         } catch (error) {
             
+            setLoading(false)
             addNotification({
                 tipo: 'erro',
                 mensagem: JSON.stringify(error)
@@ -313,28 +208,16 @@ export const CalcularProvider = ({ children }: { children: React.ReactNode }) =>
 
         }
 
+        setLoading(false)
+
     }
 
     return <CalcularContext.Provider
         value={{
-            fornecedorContext,
-            pedidoContext,
-            produtoContext,
-            getDisplayControl,
-            displayControl,
-            produtoIsValid,
-
-            tabelaValid,
-            tabelaContext,
-            updateFatoresTabela,
-            cadastrarPedidoDB,
-            filterContext,
-
+            context,
+            contexts,
             submitForm,
-            resetContext,
-
-            calcularSection,
-            setCalcularSection,
+            cadastrarPedido,
         }}
     >
         {children}

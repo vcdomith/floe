@@ -35,19 +35,20 @@ export default function ImportarChaveSection() {
         <section className={style.chaveSection}>
             
             <div className={style.title}>
+
                 <span className={style.header}>
                     <Link href={'/calcular'}>
                         {svgsUtil.back}
                     </Link>
                     <h3>Importar NFe e CTe</h3>
                 </span>
+
                 <p>Forneça a chave de acesso da Nfe com 44 dígitos para importar os valores da nota:</p>
 
             </div>
 
             <div className={style.content}>    
 
-            
                 <ImportCard 
                     document={'CTe'} 
                     value={chaveCTe} 
@@ -65,14 +66,6 @@ export default function ImportarChaveSection() {
                     loading={NFeLoading}
                     imported={NFeImportado}
                 />
-                
-                {/* <ImportCard 
-                    document={'NFe'} 
-                    value={chaveNFe} 
-                    setValue={setChaveNFe} 
-                    submitAction={() => importNFe(chaveNFe)}
-                    loading={NFeLoading}
-                /> */}
 
             </div>
 

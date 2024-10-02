@@ -64,13 +64,12 @@ const PRODUTO_CONFIG_MAP: Record<keyof IProdutoDisplayControl, ProdutoConfigElem
 
 export default function ProdutoTab() {
 
-    const calcularContext = useCalcular()
+    const { context, submitForm } = useCalcular()
     const {
         produtoContext, 
         fornecedorContext, 
-        produtoIsValid, 
-        submitForm, 
-    } = calcularContext
+        produtoValid, 
+    } = context
     const {
         produtoData: {
             st,
@@ -99,7 +98,7 @@ export default function ProdutoTab() {
     const {fornecedorData: { fatorBase, usaUnitarioPedido }, handleFornecedorChange} = fornecedorContext
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    const produtoDisplayControl = useMemo(() => getProdutoDisplayControl(calcularContext), [calcularContext])
+    const produtoDisplayControl = useMemo(() => getProdutoDisplayControl(context), [context])
 
     const [displayProdutoTab, setDisplayProdutoTab] = useState(false)
 
@@ -108,7 +107,7 @@ export default function ProdutoTab() {
 
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-        produtoIsValid&& submitForm()
+        produtoValid&& submitForm()
     }
 
     const {stringToFloat, floatToString} = Converter

@@ -9,6 +9,8 @@ interface SvgUtilItems extends
     plus: React.ReactNode
     back: React.ReactNode
     import: React.ReactNode
+    detail: React.ReactNode
+    delete: React.ReactNode
 }
 
 // export const SvgUtil = ({ svg } : { svg: keyof SvgUtilItems } ) => {
@@ -183,6 +185,29 @@ function SvgImport() {
 
 }
 
+function SvgDetails() {
+
+    return ( 
+        <svg width="50" height="50" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M117 161H383" stroke="black" strokeWidth="40"/>
+            <path d="M117 250H383" stroke="black" strokeWidth="40"/>
+            <path d="M117 339H383" stroke="black" strokeWidth="40"/>
+        </svg>
+    )
+
+}
+
+function SvgDelete() {
+
+    return (
+        <svg width="50" height="50" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M156 345L346 155" stroke="black" strokeWidth="40"/>
+            <path d="M155 155L345 345" stroke="black" strokeWidth="40"/>
+        </svg>
+    )
+
+}
+
 export const svgsUtil: SvgUtilItems = {
     base: <SvgDefault />,
     fatorBaseNormal: <SvgDefault />,
@@ -202,4 +227,6 @@ export const svgsUtil: SvgUtilItems = {
     plus: <SvgPlus />,
     back: <SvgBack />,
     import: <SvgImport />,
+    detail: <SvgDetails />,
+    delete: <SvgDelete />,
 }

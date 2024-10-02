@@ -38,11 +38,13 @@ export default function FornecedorTab({ fornecedorCtx, fornecedores, svg, titulo
     const [fornecedorDb, setFornecedorDb] = useState<IFornecedor>()
     const [loadingFornecedor, setLoadingFornecedor] = useState(false)
 
+    const { context } = useCalcular()
+
     const { 
         fornecedorContext,
         tabelaContext: { tabela }, 
         resetContext
-    } = useCalcular()
+    } = context
 
     const {fornecedorData: {
         nome,

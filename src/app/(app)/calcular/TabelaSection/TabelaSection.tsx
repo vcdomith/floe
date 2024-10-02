@@ -1,6 +1,6 @@
 'use client'
 import { getTabelas, getTabelasObject } from '@/utils/calculoTabelas'
-import { ProdutoCadastro, useCalcular } from '../context/CalcularContext'
+import { Contexts, ProdutoCadastro, useCalcular } from '../context/CalcularContext'
 import TableHeader from './TabelaHeader/TabelaHeader'
 import TabelaRow from './TabelaRow/TabelaRow'
 import { motion, AnimatePresence, LayoutGroup } from 'framer-motion'
@@ -14,17 +14,19 @@ import { useModal } from '../../(contexts)/ModalContext'
 import ConfirmationDialog from '@/components/ConfirmationDialog/ConfirmationDialog'
 import { useMediaQuery } from '../../(contexts)/MediaQueryContext'
 import { useSectionSelect } from '../../(contexts)/SectionSelectContext'
+import { usePathname } from 'next/navigation'
 
 export default function TabelaSection() {
+
+    const { context, cadastrarPedido } = useCalcular()
 
     const {
         tabelaContext,
         tabelaValid,
-        cadastrarPedidoDB, 
         filterContext, 
         resetContext,
         pedidoContext: {pedidoData: {quantidadeProdutos}},
-    } = useCalcular()
+    } = context
     const {searchParam, setSearchParam, searchField, setSearchFieldCapitalized} = filterContext
 
     const { tabela } = tabelaContext
@@ -47,7 +49,7 @@ export default function TabelaSection() {
                 message='Atenção: O pedido será salvo permanentemente!'
                 cancelHandler={clearModal}
                 confirmHandler={() => {
-                    cadastrarPedidoDB()
+                    cadastrarPedido()
                     resetContext()
                 }}
             />

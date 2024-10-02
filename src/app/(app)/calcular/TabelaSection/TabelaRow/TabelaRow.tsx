@@ -27,7 +27,11 @@ function TabelaRow({produto}: TabelaRowProps, ref) {
     const {id, codigo, ncm, st, unitario, unitarioNota, composto } = produto
     const {tabela1, tabela2, tabela3} = useMemo(() => getTabelasObject(produto), [produto])
 
-    const { tabelaContext: { removeProduto } } = useCalcular()
+    const { 
+        context: {
+            tabelaContext: { removeProduto }
+        } 
+    } = useCalcular()
     const { addNotification } = useNotification()
 
     const { matches: isMobile } = useMediaQuery()
@@ -116,10 +120,10 @@ function TabelaRow({produto}: TabelaRowProps, ref) {
                                 /> 
                             )}
                         >
-                            <SvgDetalhes />
+                            {svgsUtil.detail}
                         </button>
         
-                        <button onClick={() => handleClick(id)}><SvgExcluir/></button>
+                        <button onClick={() => handleClick(id)}>{svgsUtil.delete}</button>
                     </span>
                 </div>
         </motion.span>
@@ -129,33 +133,3 @@ function TabelaRow({produto}: TabelaRowProps, ref) {
 })
 
 export default TabelaRow
-
-const SvgExcluir = () => {
-    return(
-        <svg width="50" height="50" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M156 345L346 155" stroke="black" strokeWidth="40"/>
-            <path d="M155 155L345 345" stroke="black" strokeWidth="40"/>
-        </svg>
-    )
-}
-// const SvgExcluir = () => {
-//     return(
-//         <svg width="50" height="50" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
-//         <path d="M130 193L130 400L370 400L370 193" stroke="black" strokeWidth="40"/>
-//         <path d="M71 139L430 139" stroke="black" strokeWidth="40"/>
-//         <path d="M174 99L326 99" stroke="black" strokeWidth="40"/>
-//         <path d="M207 193L207 350" stroke="black" strokeWidth="40"/>
-//         <path d="M291 193L291 350" stroke="black" strokeWidth="40"/>
-//         </svg>
- 
-//     )
-// }
-const SvgDetalhes = () => {
-    return(
-        <svg width="50" height="50" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M117 161H383" stroke="black" strokeWidth="40"/>
-            <path d="M117 250H383" stroke="black" strokeWidth="40"/>
-            <path d="M117 339H383" stroke="black" strokeWidth="40"/>
-        </svg>
-    )
-}

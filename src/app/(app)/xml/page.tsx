@@ -1,5 +1,6 @@
 'use client'
 import Highlight from "@/components/Highlight/Highlight"
+import { usePathname } from "next/navigation"
 import { ChangeEvent, useRef, useState } from "react"
 
 interface NfeData {
@@ -27,6 +28,9 @@ interface NfeProduto {
 const CH_CTE = '33240921570775000172570010000445011030675921'
 
 export default function XML() {
+
+    const path = usePathname()
+    console.log(path);
 
     const [NfeData, setNfeData] = useState<NfeData>({
         fornecedor: '',

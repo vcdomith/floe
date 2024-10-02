@@ -19,8 +19,8 @@ export default function PedidoTab() {
 
     const [displayPedido, setDisplayPedido] = useState(false)
 
-    const calcularContext = useCalcular()
-    const {fornecedorContext, pedidoContext} = calcularContext
+    const { context } = useCalcular()
+    const {fornecedorContext, pedidoContext} = context
     const {fornecedorData: { 
         fatorBase 
     }, handleFornecedorChange} = fornecedorContext 
@@ -46,7 +46,7 @@ export default function PedidoTab() {
     } = pedidoData
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    const pedidoDisplayControl = useMemo(() => getPedidoDisplayControl(calcularContext), [calcularContext])
+    const pedidoDisplayControl = useMemo(() => getPedidoDisplayControl(context), [context])
 
     const { refs, pedidoFormRef, transporteRefs, stRefs, assignRef } = usePedidoTabRefs()
 

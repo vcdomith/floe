@@ -32,6 +32,7 @@ export interface UseSectionContext {
 
     controlledInputData: ControlledInputData
     unitario: string
+    createProduto: (ctx: UseSectionContext) => void
 
 }
 
@@ -50,19 +51,16 @@ export default function useSectionContext(): UseSectionContext {
     const tabelaContext = useTabela(context)
 
     const contextControl = useContextControl(context)
-    const {controlledInputData, getDisplayControl, produtoValid} = useContextControl(context)
+    const {controlledInputData, produtoValid} = useContextControl(context)
     const {fornecedorData, resetFornecedor, resetFornecedorControl} = fornecedorContext
     const {pedidoData, resetPedido, resetPedidoControl} = pedidoContext
-    const {resetForm, codigoInputRef} = produtoContext
-    const {setSearchParam} = filterContext
+    const {resetForm} = produtoContext
 
     const [activeSection, setActiveSection] = useState<'Fatores' | 'Tabela'>('Fatores')
     const [loading, setLoading] = useState(false)
 
     const {
         tabela,
-        adicionarProduto,
-        updateFatoresTabela,
         resetTabela,
     } = tabelaContext
 
@@ -93,6 +91,38 @@ export default function useSectionContext(): UseSectionContext {
 
     }, [fornecedorData, controlledInputData])
 
+    const createProduto = (ctx: UseSectionContext) => ({
+            
+        id: new Date().getTime(),
+        codigo: controlledInputData.codigo,
+        ncm: controlledInputData.ncm || '',
+        st: controlledInputData.st,
+        unitario: unitario || '0',
+        unitarioNota: controlledInputData.unitarioNota || '0',
+        composto: [
+
+            controlledInputData.composto1 || '', 
+            controlledInputData.composto2 || '',
+
+        ],
+        fatores: {
+
+            base: controlledInputData.fatorBase || '1',
+            fatorBaseNormal: (!controlledInputData.st) ? controlledInputData.fatorBaseNormal : '1',
+            fatorBaseST: (controlledInputData.st) ? controlledInputData.fatorBaseST : '1',
+    
+            transporte: (controlledInputData.st) 
+                ? controlledInputData.fatorTransportePedido || '1'
+                : '1',
+            st: (controlledInputData.st) 
+                ? controlledInputData.fatorSTPedido || '1'
+                : '1',
+            ipi: controlledInputData.ipi || '1',
+            desconto: controlledInputData.desconto || '1',
+
+        }
+    })
+
     return {
 
         fornecedorContext,
@@ -113,6 +143,7 @@ export default function useSectionContext(): UseSectionContext {
 
         unitario,
         controlledInputData,
+        createProduto,
     }
 
 }

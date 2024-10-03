@@ -1,6 +1,6 @@
 import { useNotification } from "@/app/(app)/(contexts)/NotificationContext"
 import { CTeData, NFeData, NFeProduto, parseCTeXml, parseNFeXml } from "@/utils/parseXml"
-import { useState } from "react"
+import { useMemo, useState } from "react"
 
 interface PedidoData extends NFeData, CTeData {}
 
@@ -20,17 +20,22 @@ export interface DocumentoImportado {
 
 }
 
+export interface DocumentoData {
+
+    documento: string
+    chave: string
+    setChave: (chave: string) => void
+    loading: boolean
+    importarDocumento: (chave: string) => void
+    importado: DocumentoImportado | undefined
+
+}
+
 // type parseXmlReturn = DadosImportados | { valorFrete: string | null | undefined, chaveNFe: string | null | undefined} | null
 
-interface UseImportDocument {
+interface UseDocumento {
 
-    NFeLoading: boolean
-    NFeImportado: DocumentoImportado | undefined
-    CTeLoading: boolean
-    CTeImportado: DocumentoImportado | undefined
-
-    importNFe: (chave: string) => void
-    importCTe: (chave: string) => void
+    documentos: Record<'nfe' | 'cte', DocumentoData>
 
     dadosImportados: DadosImportados
 
@@ -53,7 +58,10 @@ const INITAL_STATE_DADOS_IMPORTADOS: DadosImportados = {
     produtos: []
 }
 
-export default function useImportDocument(): UseImportDocument {
+export default function useDocumento(): UseDocumento {
+
+    const [chaveNFe, setChaveNFe] = useState('')
+    const [chaveCTe, setChaveCTe] = useState('')
 
     const [dadosImportados, setDadosImportados] = useState<DadosImportados>(INITAL_STATE_DADOS_IMPORTADOS)
 
@@ -160,16 +168,28 @@ export default function useImportDocument(): UseImportDocument {
 
     }
 
+    const documentos: Record<'nfe' | 'cte', DocumentoData> = useMemo(() => ({
+        nfe: {
+            documento: 'NFe',
+            chave: chaveNFe,
+            setChave: setChaveNFe,
+            loading: NFeLoading,
+            importarDocumento: handleImportNFe,
+            importado: NFeImportado,
+        } ,
+        cte: {
+            documento: 'CTe',
+            chave: chaveCTe,
+            setChave: setChaveCTe,
+            loading: CTeLoading,
+            importarDocumento: handleImportCTe,
+            importado: CTeImportado,
+        }
+    }), [chaveNFe, NFeLoading, NFeImportado, chaveCTe, CTeLoading, CTeImportado])
 
     return {
 
-        NFeLoading,
-        NFeImportado,
-        CTeLoading,
-        CTeImportado,
-
-        importNFe: handleImportNFe,
-        importCTe: handleImportCTe,
+        documentos,
 
         dadosImportados
 

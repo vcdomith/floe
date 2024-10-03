@@ -3,11 +3,11 @@ import Link from 'next/link'
 import style from './ImportarChaveSection.module.scss'
 import { svgsUtil } from '@/components/SvgArray/SvgUtil'
 import ImportCard from './ImportCard/ImportCard'
-import { useImportarChave } from '../context/ImportChaveContext'
+import { useChave } from '../../../context/CalcularContext'
 
 export default function ImportarChaveSection() {
 
-    const {documentos} = useImportarChave()
+    const { chave: { documentos }, cadastrarPedido } = useChave()
 
     return (
 
@@ -16,7 +16,7 @@ export default function ImportarChaveSection() {
             <div className={style.title}>
 
                 <span className={style.header}>
-                    <Link href={'/calcular'}>
+                    <Link href={'/calcular'} prefetch>
                         {svgsUtil.back}
                     </Link>
                     <h3>Importar NFe e CTe</h3>
@@ -33,7 +33,7 @@ export default function ImportarChaveSection() {
                 />
                 
                 <ImportCard 
-                    documento={documentos.cte}
+                    documento={documentos.nfe}
                 />
 
             </div>

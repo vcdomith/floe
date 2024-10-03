@@ -1,4 +1,4 @@
-import { ImportarChaveProvider } from "../calcular/(metodos)/chave/context/ImportChaveContext";
+import { ChaveProvider, ImportarChaveProvider } from "../calcular/(metodos)/chave/context/ChaveContext";
 import { CalcularProvider } from "../calcular/context/CalcularContext";
 import { MediaQueryProvider } from "./MediaQueryContext";
 import { ModalProvider } from "./ModalContext";
@@ -10,13 +10,11 @@ export default function GlobalProvider({children}: {children: React.ReactNode}) 
         <MediaQueryProvider>
             <NotificationProvider>
                 <CalcularProvider>
-                    <ImportarChaveProvider>
                         <ModalProvider>
                             <SectionSelectProvider>
                             {children}
                             </SectionSelectProvider>
                         </ModalProvider>
-                    </ImportarChaveProvider>
                 </CalcularProvider>
             </NotificationProvider>
         </MediaQueryProvider>

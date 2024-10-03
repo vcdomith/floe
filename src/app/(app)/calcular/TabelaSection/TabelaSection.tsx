@@ -1,6 +1,6 @@
 'use client'
 import { getTabelas, getTabelasObject } from '@/utils/calculoTabelas'
-import { Contexts, ProdutoCadastro, useCalcular } from '../context/CalcularContext'
+import { Contexts, ProdutoCadastro, useCalcular, useManual } from '../context/CalcularContext'
 import TableHeader from './TabelaHeader/TabelaHeader'
 import TabelaRow from './TabelaRow/TabelaRow'
 import { motion, AnimatePresence, LayoutGroup } from 'framer-motion'
@@ -15,10 +15,11 @@ import ConfirmationDialog from '@/components/ConfirmationDialog/ConfirmationDial
 import { useMediaQuery } from '../../(contexts)/MediaQueryContext'
 import { useSectionSelect } from '../../(contexts)/SectionSelectContext'
 import { usePathname } from 'next/navigation'
+import { UseSectionContext } from '@/hooks/useSectionContext'
 
 export default function TabelaSection() {
 
-    const { context, cadastrarPedido } = useCalcular()
+    const { context: { context }, cadastrarPedido } = useCalcular()
 
     const {
         tabelaContext,

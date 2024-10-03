@@ -3,9 +3,7 @@ import style from './ImportCard.module.scss'
 import { svgsUtil } from '@/components/SvgArray/SvgUtil'
 import Highlight from '@/components/Highlight/Highlight'
 import LogoSvg from '@/components/SvgArray/LogoSvg'
-import { useNotification } from '@/app/(app)/(contexts)/NotificationContext'
-import { DocumentoImportado } from '@/hooks/useImportDocument'
-import { DocumentoData } from '../../context/ImportChaveContext'
+import { DocumentoData } from '@/hooks/useDocumento'
 
 interface ImportCardProps {
 
@@ -190,7 +188,7 @@ export default function ImportCard( { documento }: ImportCardProps ){
             >
                 {loading
                     ? <><LogoSvg loop />  Importando...</> 
-                    : `Importar ${document}`
+                    : `Importar ${documentoNome}`
                 }
             </button>
 

@@ -9,7 +9,7 @@ import styleProduto from './ProdutoTab.module.scss'
 import Config from "@/app/(app)/configurar/(Config)/Config"
 import NumberInput from "@/components/FatoresTable/FatoresTableBody/NumberInput/NumberInput"
 import CheckBox from "@/app/(app)/configurar/(CheckBox)/CheckBox"
-import { useCalcular } from "../../context/CalcularContext"
+import { useCalcular, useManual } from "../../context/CalcularContext"
 import Converter from "@/utils/typeConversion"
 import { IProdutoContext, IProdutoDisplayControl } from "@/hooks/useProduto"
 import { svgsUtil } from "@/components/SvgArray/SvgUtil"
@@ -64,7 +64,7 @@ const PRODUTO_CONFIG_MAP: Record<keyof IProdutoDisplayControl, ProdutoConfigElem
 
 export default function ProdutoTab() {
 
-    const { context, submitForm } = useCalcular()
+    const { manual: { context, submitForm } } = useManual()
     const {
         produtoContext, 
         fornecedorContext, 

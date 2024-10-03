@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import FornecedorTab from "../Tabs/FornecedorTab/FornecedorTab";
 import PedidoTab from "../Tabs/PedidoTab/PedidoTab";
 import ProdutoTab from "../Tabs/ProdutoTab/ProdutoTab";
-import { useCalcular } from "../context/CalcularContext";
+import { useCalcular, useManual } from "../context/CalcularContext";
 
 import style from './FatoresSection.module.scss'
 import { useNotification } from "../../(contexts)/NotificationContext";
@@ -23,9 +23,8 @@ interface FatoresSectionProps {
 export default function FatoresSection({ fornecedores }: FatoresSectionProps) {
 
     const { 
-        context, 
-        submitForm 
-    } = useCalcular()
+        manual: { context, submitForm } 
+    } = useManual()
     const {
         fornecedorContext,
         pedidoContext,  

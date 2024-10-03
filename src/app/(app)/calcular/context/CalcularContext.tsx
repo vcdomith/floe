@@ -9,7 +9,7 @@ import useXmlContext, { UseXmlContext } from "@/hooks/useXmlContext";
 
 export interface CalcularContext {
 
-    context:  UseChaveContext | UseXmlContext | UseManualContext
+    context:  UseChaveContext | UseXmlContext | UseManualContext | { context: UseSectionContext }
     contexts: Contexts
     
     submitForm: () => void
@@ -25,6 +25,7 @@ export interface Contexts {
     chave: UseChaveContext
     xml: UseXmlContext
     manual: UseManualContext
+    base: { context: UseSectionContext }
 }
 
 export interface FatoresContext {
@@ -95,20 +96,22 @@ export const CalcularProvider = ({ children }: { children: React.ReactNode }) =>
     const {addNotification} = useNotification()
     const path = usePathname().split('/')[2] as keyof Contexts | undefined
 
-    // const chaveContext = useSectionContext()
+    const baseContext = { context: useSectionContext() }
+
     const chaveContext = useChaveContext()
     const xmlContext = useXmlContext()
     const manualContext = useManualContext()
 
-    const contexts = useMemo(() => ({
+    const contexts: Contexts = useMemo(() => ({
         chave: chaveContext,
         xml: xmlContext,
         manual: manualContext,
+        base: baseContext,
     }), [chaveContext, manualContext, xmlContext])
 
     const context = useMemo(() => {
         if(path === undefined) {
-            return contexts.manual
+            return contexts.base
         }
         return contexts[path]
     }, [contexts, path])
@@ -177,69 +180,71 @@ export const CalcularProvider = ({ children }: { children: React.ReactNode }) =>
 
     const cadastrarPedido = async () => {
 
-        // const {
-        //     pedidoContext: { pedidoData },
-        //     fornecedorContext: { fornecedorData },
-        //     tabelaContext: { tabela },
-        //     setLoading
-        // } = context        
+        const { context: activeContext } = context
 
-        // if (tabela.length === 0) {
-        //     addNotification({
-        //         tipo: 'erro',
-        //         mensagem: 'Não é possível cadastrar um pedido vazio!'
-        //     })
-        // }
+        const {
+            pedidoContext: { pedidoData },
+            fornecedorContext: { fornecedorData },
+            tabelaContext: { tabela },
+            setLoading
+        } = activeContext        
 
-        // if (tabela.length !== parseInt(pedidoData.quantidadeProdutos)) {
-        //     addNotification({
-        //         tipo: 'erro',
-        //         mensagem: `Não é possível cadastrar o pedido, são necessários ${pedidoData.quantidadeProdutos} produtos!`
-        //     })
-        // }
+        if (tabela.length === 0) {
+            addNotification({
+                tipo: 'erro',
+                mensagem: 'Não é possível cadastrar um pedido vazio!'
+            })
+        }
 
-        // try {
+        if (tabela.length !== parseInt(pedidoData.quantidadeProdutos)) {
+            addNotification({
+                tipo: 'erro',
+                mensagem: `Não é possível cadastrar o pedido, são necessários ${pedidoData.quantidadeProdutos} produtos!`
+            })
+        }
+
+        try {
             
-        //     setLoading(true)
+            setLoading(true)
 
-        //     const response: Response = await fetch('/calcular/api/cadastrarPedido', {
-        //         method: 'POST',
-        //         headers: {
-        //             "Content-Type": 'application/json'
-        //         },
-        //         body: JSON.stringify({
-        //             fornecedor: fornecedorData.nome,
-        //             produtos: tabela
-        //         })
-        //     })
+            const response: Response = await fetch('/calcular/api/cadastrarPedido', {
+                method: 'POST',
+                headers: {
+                    "Content-Type": 'application/json'
+                },
+                body: JSON.stringify({
+                    fornecedor: fornecedorData.nome,
+                    produtos: tabela
+                })
+            })
 
-        //     const json: Response = await response.json()
+            const json: Response = await response.json()
 
-        //     if (!response.ok) {
-        //         addNotification({
-        //             tipo: 'erro',
-        //             mensagem: JSON.stringify(json)
-        //         })
-        //         return
-        //     }
+            if (!response.ok) {
+                addNotification({
+                    tipo: 'erro',
+                    mensagem: JSON.stringify(json)
+                })
+                return
+            }
 
-        //     setLoading(false)
-        //     addNotification({
-        //         tipo: 'sucesso',
-        //         mensagem: 'Cadastro realizado com sucesso!'
-        //     })
+            setLoading(false)
+            addNotification({
+                tipo: 'sucesso',
+                mensagem: 'Cadastro realizado com sucesso!'
+            })
 
-        // } catch (error) {
+        } catch (error) {
             
-        //     setLoading(false)
-        //     addNotification({
-        //         tipo: 'erro',
-        //         mensagem: JSON.stringify(error)
-        //     })
+            setLoading(false)
+            addNotification({
+                tipo: 'erro',
+                mensagem: JSON.stringify(error)
+            })
 
-        // }
+        }
 
-        // setLoading(false)
+        setLoading(false)
 
     }
 

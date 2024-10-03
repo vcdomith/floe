@@ -13,7 +13,7 @@ import { dbConnect } from "@/utils/db/supabase";
 import { IFornecedor } from "@/interfaces/IFornecedor";
 import LogoSvg from "@/components/SvgArray/LogoSvg";
 import useFornecedor from "@/hooks/useFornecedor";
-import { useCalcular } from "../../context/CalcularContext";
+import { useCalcular, useManual } from "../../context/CalcularContext";
 import { svgsUtil } from "@/components/SvgArray/SvgUtil";
 import { useModal } from "@/app/(app)/(contexts)/ModalContext";
 import ConfirmationDialog from "@/components/ConfirmationDialog/ConfirmationDialog";
@@ -38,7 +38,7 @@ export default function FornecedorTab({ fornecedorCtx, fornecedores, svg, titulo
     const [fornecedorDb, setFornecedorDb] = useState<IFornecedor>()
     const [loadingFornecedor, setLoadingFornecedor] = useState(false)
 
-    const { context } = useCalcular()
+    const { manual: { context } } = useManual()
 
     const { 
         fornecedorContext,

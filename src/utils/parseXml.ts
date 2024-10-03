@@ -26,6 +26,7 @@ export interface NFeProduto {
     ncm: string
     cst: string
     unitario: string
+    total: string
     ipi: string
 
 }
@@ -59,15 +60,17 @@ export const parseNFeXml = (res: string)  => {
         const ncm = item.querySelector('NCM')?.textContent || ''
         const cst = item.querySelector('CST')?.textContent || ''
         const unitario = item.querySelector('vUnCom')?.textContent || ''
+        const total = item.querySelector('vProd')?.textContent || ''
         const ipi = item.querySelector('pIPI')?.textContent || ''
 
-        const produto = {
+        const produto: NFeProduto = {
             codigo: codigo,
             ean: ean,
             descricao: descricao,
             ncm: ncm,
             cst: cst,
             unitario: unitario,
+            total: total,
             ipi: ipi,
         }
 

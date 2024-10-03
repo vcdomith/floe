@@ -8,16 +8,16 @@ export async function GET(request: NextRequest) {
     try {
         
         const searchParam = request.nextUrl.searchParams
-        const fornecedorQuery = searchParam.get('fornecedor')
+        const cnpjQuery = searchParam.get('fornecedor')
 
-        if (!fornecedorQuery) return new Response('No searchParam "fornecedor" was supplied', {
+        if (!cnpjQuery) return new Response('No searchParam "fornecedor" was supplied', {
             status: 400
         })
 
         const { data: fornecedor, error } = await supabase
             .from('fornecedores')
             .select('*')
-            .eq('nome', fornecedorQuery)
+            .eq('cnpj', cnpjQuery)
             .single()
 
         if (error) return new Response(JSON.stringify({ error: error.message }), { 

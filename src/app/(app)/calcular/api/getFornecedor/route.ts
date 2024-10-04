@@ -8,7 +8,7 @@ export async function GET(request: NextRequest) {
     try {
         
         const searchParam = request.nextUrl.searchParams
-        const cnpjQuery = searchParam.get('fornecedor')
+        const cnpjQuery = searchParam.get('cnpj')
 
         if (!cnpjQuery) return new Response('No searchParam "fornecedor" was supplied', {
             status: 400

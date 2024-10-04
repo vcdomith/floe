@@ -40,7 +40,7 @@ export default function useEditProduto( produto: ProdutoCadastro ): UseEditProdu
 
     } = produtoData
 
-    const { context } = useCalcular()
+    const { context : { context }} = useCalcular()
 
     const { 
         contextControl: { getDisplayControl }, 

@@ -24,7 +24,7 @@ export interface NFeProduto {
     ean: string
     descricao: string
     ncm: string
-    cst: string
+    st: boolean
     unitario: string
     total: string
     ipi: string
@@ -47,8 +47,8 @@ export const parseNFeXml = (res: string)  => {
         fornecedor: fornecedor || '',
         nNFe: nNFe || '',
         cnpj: cnpj || "",
-        valorSt: valorSt || "",
-        valorTotalProdutos: valorTotalProdutos || "",
+        valorSt: valorSt?.replace('.', ',') || "",
+        valorTotalProdutos: valorTotalProdutos?.replace('.', ',') || "",
     }
 
     const produtosExtraidos: NFeProduto[] = []
@@ -58,7 +58,7 @@ export const parseNFeXml = (res: string)  => {
         const ean = item.querySelector('cEAN')?.textContent || ''
         const descricao = item.querySelector('xProd')?.textContent || ''
         const ncm = item.querySelector('NCM')?.textContent || ''
-        const cst = item.querySelector('CST')?.textContent || ''
+        const st = item.querySelector('CST')?.textContent || ''
         const unitario = item.querySelector('vUnCom')?.textContent || ''
         const total = item.querySelector('vProd')?.textContent || ''
         const ipi = item.querySelector('pIPI')?.textContent || ''
@@ -68,10 +68,10 @@ export const parseNFeXml = (res: string)  => {
             ean: ean,
             descricao: descricao,
             ncm: ncm,
-            cst: cst,
-            unitario: unitario,
-            total: total,
-            ipi: ipi,
+            st: (st === '10'),
+            unitario: unitario?.replace('.', ','),
+            total: total?.replace('.', ','),
+            ipi: ipi?.replace('.', ','),
         }
 
         produtosExtraidos.push(produto)

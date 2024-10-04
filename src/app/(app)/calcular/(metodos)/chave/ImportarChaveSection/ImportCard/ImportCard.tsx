@@ -1,9 +1,10 @@
-import { ChangeEvent, FormEvent, useMemo, useRef, useState } from 'react'
+import { ChangeEvent, FormEvent, MouseEvent, useMemo, useRef, useState } from 'react'
 import style from './ImportCard.module.scss'
 import { svgsUtil } from '@/components/SvgArray/SvgUtil'
 import Highlight from '@/components/Highlight/Highlight'
 import LogoSvg from '@/components/SvgArray/LogoSvg'
-import { DocumentoData } from '@/hooks/useDocumento'
+import { DocumentoData, DocumentoImportado } from '@/hooks/useDocumento'
+import { AnimatePresence, motion } from 'framer-motion'
 
 interface ImportCardProps {
 
@@ -193,18 +194,62 @@ export default function ImportCard( { documento }: ImportCardProps ){
             </button>
 
             {importado&&
-            <span className={style.importado}>
-                {svgsUtil.unitarioNota}
-                <div>
-                    <h3>{importado.fornecedor}</h3>
-                    <p>{importado.numero}</p>
-                    <p>{importado.data.toLocaleString()}</p>
-                    <p>{importado.chave}</p>
-                </div>
-            </span>
+            <Documento documento={importado}/>
+            // <span className={style.imported}>
+            //     {svgsUtil.unitarioNota}
+            //     <div>
+            //         <h3>{importado.fornecedor}</h3>
+            //         <p>{importado.numero}</p>
+            //         <p>{importado.data.toLocaleString()}</p>
+            //         <p>{importado.chave}</p>
+            //     </div>
+            // </span>
             }
 
         </form>
+    )
+
+}
+
+const Documento = ({ documento }: { documento: DocumentoImportado }) => {
+
+    const { fornecedor, numero, data, chave } = documento
+    const [display, setDisplay] = useState(false)
+
+    const handleTabClick = (e: MouseEvent<HTMLSpanElement>) => {
+        e.stopPropagation()
+        setDisplay( prev => !prev )
+    }
+
+    return (
+        <div className={style.imported}>
+            <span 
+                className={style.tab} 
+                onClick={(e) => handleTabClick(e)}
+                data-display={display}
+            >
+                {svgsUtil.unitarioNota}                
+                <p>Documento Importado</p>
+                {svgsUtil.expand(display)}
+            </span>
+            <AnimatePresence>
+            {display&&
+            <motion.div 
+                className={style.info}
+
+                initial={{ height: 0 }}
+                animate={{ height: 'auto' }}
+                exit={{ height: 0 }}
+                transition={{ type: 'spring', bounce: 0, restDelta: 0.5 }}
+            >
+                <h3>{fornecedor}</h3>
+                <p>{numero}</p>
+                <p>{data.toLocaleString()}</p>
+                <p className={style.chave}>{chave}</p>
+            </motion.div>
+            }
+            </AnimatePresence>
+        </div>
     )
 
 }

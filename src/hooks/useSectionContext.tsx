@@ -3,8 +3,9 @@ import useContextControl, { ContextControl, ControlledInputData, IDisplayControl
 import useFilter, { UseFilter } from "./useFilter"
 import useFornecedor, { UseFornecedor } from "./useFornecedor"
 import usePedido, { UsePedido } from "./usePedido"
-import useProduto, { UseProduto } from "./useProduto"
+import useProduto, { IProdutoContext, UseProduto } from "./useProduto"
 import useTabela, { UseTabela } from "./useTabela"
+import { ProdutoCadastro } from "@/app/(app)/calcular/context/CalcularContext"
 
 export interface UseSectionContext {
 
@@ -32,7 +33,7 @@ export interface UseSectionContext {
 
     controlledInputData: ControlledInputData
     unitario: string
-    createProduto: (ctx: UseSectionContext) => void
+    createProduto: () => ProdutoCadastro
 
 }
 
@@ -91,7 +92,7 @@ export default function useSectionContext(): UseSectionContext {
 
     }, [fornecedorData, controlledInputData])
 
-    const createProduto = (ctx: UseSectionContext) => ({
+    const createProduto = () => ({
             
         id: new Date().getTime(),
         codigo: controlledInputData.codigo,

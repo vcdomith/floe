@@ -4,10 +4,21 @@ import style from './ImportarChaveSection.module.scss'
 import { svgsUtil } from '@/components/SvgArray/SvgUtil'
 import ImportCard from './ImportCard/ImportCard'
 import { useChave } from '../../../context/CalcularContext'
+import { useMemo } from 'react'
+import LogoSvg from '@/components/SvgArray/LogoSvg'
 
 export default function ImportarChaveSection() {
 
-    const { chave: { documentos }, cadastrarPedido } = useChave()
+    const { chave: { documentos, loading, submitForm } } = useChave()
+
+    const {
+        nfe: { importado: nfeImportado }, 
+        cte: { importado: cteImportado },
+    } = documentos
+
+    const valid = useMemo(() => {
+        return (nfeImportado !== undefined && cteImportado !== undefined)
+    }, [nfeImportado, cteImportado])
 
     return (
 
@@ -38,7 +49,16 @@ export default function ImportarChaveSection() {
 
             </div>
 
-            <button>Gerar Tabela!</button>
+            <button
+                className={style.submit} 
+                onClick={() => submitForm()}
+                disabled={(!valid || loading)}
+            >
+                {(loading)
+                    ? <><LogoSvg loop />  Importando...</>
+                    : 'Gerar Tabela!'
+                }
+            </button>
 
         </section>
 

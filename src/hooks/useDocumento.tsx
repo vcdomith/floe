@@ -97,7 +97,14 @@ export default function useDocumento(): UseDocumento {
 
         const extractData = parseNFeXml(res) as DadosImportados
       
-        setDadosImportados(extractData)
+        // setDadosImportados(extractData)
+        setDadosImportados( prev => ({
+            pedido: {
+                ...prev.pedido,
+                ...extractData.pedido
+            },
+            produtos: [...extractData.produtos]
+        }))
         setNFeImportado({
             fornecedor: extractData.pedido.fornecedor,
             numero: extractData.pedido.nNFe,
@@ -139,10 +146,11 @@ export default function useDocumento(): UseDocumento {
         }
 
         const extractData = parseCTeXml(res)
+        console.log('extractData', extractData);
         setDadosImportados( prev => ({
             pedido: {
                 ...prev.pedido,
-                valorFrete: extractData.valorFrete
+                ...extractData
             },
             produtos: [...prev.produtos]
         }))

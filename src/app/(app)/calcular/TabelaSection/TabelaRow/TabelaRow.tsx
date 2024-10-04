@@ -27,11 +27,13 @@ function TabelaRow({produto}: TabelaRowProps, ref) {
     const {id, codigo, ncm, st, unitario, unitarioNota, composto } = produto
     const {tabela1, tabela2, tabela3} = useMemo(() => getTabelasObject(produto), [produto])
 
+    const { context } = useCalcular()
+
     const { 
         context: {
             tabelaContext: { removeProduto }
         } 
-    } = useCalcular()
+    } = context
     const { addNotification } = useNotification()
 
     const { matches: isMobile } = useMediaQuery()

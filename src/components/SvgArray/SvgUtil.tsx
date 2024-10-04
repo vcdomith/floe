@@ -11,6 +11,7 @@ interface SvgUtilItems extends
     import: React.ReactNode
     detail: React.ReactNode
     delete: React.ReactNode
+    expand: (display: boolean) => React.ReactNode
 }
 
 // export const SvgUtil = ({ svg } : { svg: keyof SvgUtilItems } ) => {
@@ -208,6 +209,22 @@ function SvgDelete() {
 
 }
 
+function SvgExpand({ display }: { display: boolean }) {
+
+    return(
+        <svg width="20" height="20" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path 
+                d={`${display
+                    ? "M376 314L250 188L124 314" 
+                    : "M376 187L250 313L124 187"
+                }`}  
+                strokeWidth="50"
+            />
+        </svg>  
+    )
+
+}
+
 export const svgsUtil: SvgUtilItems = {
     base: <SvgDefault />,
     fatorBaseNormal: <SvgDefault />,
@@ -229,4 +246,5 @@ export const svgsUtil: SvgUtilItems = {
     import: <SvgImport />,
     detail: <SvgDetails />,
     delete: <SvgDelete />,
+    expand: (display: boolean) => <SvgExpand display={display} />
 }

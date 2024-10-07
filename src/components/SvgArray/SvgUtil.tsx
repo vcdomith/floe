@@ -1,40 +1,6 @@
 import { FatoresContext, ProdutoCadastro } from "@/app/(app)/calcular/context/CalcularContext";
 import { IFatores } from "@/interfaces/IFatores";
 
-interface SvgUtilItems extends 
-    Record<keyof FatoresContext, React.ReactNode>, 
-    Record<keyof Omit<ProdutoCadastro, 'fatores' | 'id' >, React.ReactNode> {
-    produto: React.ReactNode
-    produto3D: React.ReactNode
-    plus: React.ReactNode
-    back: React.ReactNode
-    import: React.ReactNode
-    detail: React.ReactNode
-    delete: React.ReactNode
-    expand: (display: boolean) => React.ReactNode
-}
-
-// export const SvgUtil = ({ svg } : { svg: keyof SvgUtilItems } ) => {
-
-//     const svgs: SvgUtilItems = {
-//         base: undefined,
-//         fatorBaseNormal: undefined,
-//         fatorBaseST: undefined,
-//         transporte: <SvgFornecedor />,
-//         st: <SvgST />,
-//         ipi: <SvgIPI />,
-//         desconto: <SvgDesconto />,
-//         codigo: <SvgCodigo />,
-//         ncm: <SvgNCM />,
-//         unitario: undefined,
-//         unitarioNota: <SvgUnitarioNota />,
-//         composto: <SvgComposto />
-//     }
-
-//     return svgs[svg]
-
-// }
-
 const SvgProduto_3D = () => {
     return(
         <svg width="50" height="50" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -225,6 +191,55 @@ function SvgExpand({ display }: { display: boolean }) {
 
 }
 
+function SvgNumero() {
+    return(
+        <svg width="500" height="500" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M200.687 87L164.993 414" stroke="black" strokeWidth="40"/>
+            <path d="M334.25 87L298.556 414" stroke="black" strokeWidth="40"/>
+            <path d="M415 188L85 188" stroke="black" strokeWidth="40"/>
+            <path d="M416 313L86 313" stroke="black" strokeWidth="40"/>
+        </svg>
+    )
+}
+
+function SvgData() {
+    return (
+        <svg width="500" height="500" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M342 250H250V158" stroke="black" strokeWidth="40"/>
+            <circle cx="250" cy="250" r="159" stroke="black" strokeWidth="40"/>
+        </svg>
+    )
+}
+
+function SvgChave() {
+
+    return (
+        <svg width="500" height="500" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M429 241.132L223.302 241.132" stroke="black" strokeWidth="40"/>
+            <path d="M411.642 354.83L411.642 223.774" stroke="black" strokeWidth="40"/>
+            <path d="M334.396 354.83L334.396 223.774" stroke="black" strokeWidth="40"/>
+            <circle cx="159.075" cy="248.075" r="78.0755" stroke="black" strokeWidth="40"/>
+        </svg>
+    )
+
+}
+
+interface SvgUtilItems extends 
+    Record<keyof FatoresContext, React.ReactNode>, 
+    Record<keyof Omit<ProdutoCadastro, 'fatores' | 'id' >, React.ReactNode> {
+    produto: React.ReactNode
+    produto3D: React.ReactNode
+    plus: React.ReactNode
+    back: React.ReactNode
+    import: React.ReactNode
+    detail: React.ReactNode
+    delete: React.ReactNode
+    expand: (display: boolean) => React.ReactNode
+    numero: React.ReactNode
+    data: React.ReactNode
+    chave: React.ReactNode
+}
+
 export const svgsUtil: SvgUtilItems = {
     base: <SvgDefault />,
     fatorBaseNormal: <SvgDefault />,
@@ -246,5 +261,9 @@ export const svgsUtil: SvgUtilItems = {
     import: <SvgImport />,
     detail: <SvgDetails />,
     delete: <SvgDelete />,
-    expand: (display: boolean) => <SvgExpand display={display} />
+    expand: (display: boolean) => <SvgExpand display={display} />,
+    numero: <SvgNumero />,
+    data: <SvgData />,
+    chave: <SvgChave />,
+    
 }

@@ -33,7 +33,6 @@ export interface UseSectionContext {
 
     controlledInputData: ControlledInputData
     unitario: string
-    createProduto: () => ProdutoCadastro
 
 }
 
@@ -92,37 +91,37 @@ export default function useSectionContext(): UseSectionContext {
 
     }, [fornecedorData, controlledInputData])
 
-    const createProduto = () => ({
+    // const createProduto = () => ({
             
-        id: new Date().getTime(),
-        codigo: controlledInputData.codigo,
-        ncm: controlledInputData.ncm || '',
-        st: controlledInputData.st,
-        unitario: unitario || '0',
-        unitarioNota: controlledInputData.unitarioNota || '0',
-        composto: [
+    //     id: new Date().getTime(),
+    //     codigo: controlledInputData.codigo,
+    //     ncm: controlledInputData.ncm || '',
+    //     st: controlledInputData.st,
+    //     unitario: unitario || '0',
+    //     unitarioNota: controlledInputData.unitarioNota || '0',
+    //     composto: [
 
-            controlledInputData.composto1 || '', 
-            controlledInputData.composto2 || '',
+    //         controlledInputData.composto1 || '', 
+    //         controlledInputData.composto2 || '',
 
-        ],
-        fatores: {
+    //     ],
+    //     fatores: {
 
-            base: controlledInputData.fatorBase || '1',
-            fatorBaseNormal: (!controlledInputData.st) ? controlledInputData.fatorBaseNormal : '1',
-            fatorBaseST: (controlledInputData.st) ? controlledInputData.fatorBaseST : '1',
+    //         base: controlledInputData.fatorBase || '1',
+    //         fatorBaseNormal: (!controlledInputData.st) ? controlledInputData.fatorBaseNormal : '1',
+    //         fatorBaseST: (controlledInputData.st) ? controlledInputData.fatorBaseST : '1',
     
-            transporte: (controlledInputData.st) 
-                ? controlledInputData.fatorTransportePedido || '1'
-                : '1',
-            st: (controlledInputData.st) 
-                ? controlledInputData.fatorSTPedido || '1'
-                : '1',
-            ipi: controlledInputData.ipi || '1',
-            desconto: controlledInputData.desconto || '1',
+    //         transporte: (controlledInputData.st) 
+    //             ? controlledInputData.fatorTransportePedido || '1'
+    //             : '1',
+    //         st: (controlledInputData.st) 
+    //             ? controlledInputData.fatorSTPedido || '1'
+    //             : '1',
+    //         ipi: controlledInputData.ipi || '1',
+    //         desconto: controlledInputData.desconto || '1',
 
-        }
-    })
+    //     }
+    // })
 
     return {
 
@@ -144,7 +143,6 @@ export default function useSectionContext(): UseSectionContext {
 
         unitario,
         controlledInputData,
-        createProduto,
     }
 
 }

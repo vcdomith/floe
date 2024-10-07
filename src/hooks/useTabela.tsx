@@ -10,8 +10,8 @@ export interface UseTabela {
     tabela: ProdutoCadastro[]
     setTabela: Dispatch<SetStateAction<ProdutoCadastro[]>>
     adicionarProduto: (produto: ProdutoCadastro) => void
-    removeProduto: (id: number) => void
-    updateProdutoTabela: (id: number, updatedProduto: ProdutoCadastro) => void
+    removeProduto: (id: string) => void
+    updateProdutoTabela: (id: string, updatedProduto: ProdutoCadastro) => void
     updateFatoresTabela: () => void
     resetTabela: () => void
 
@@ -30,7 +30,7 @@ export default function useTabela(ctx: ContextControl): UseTabela {
         setTabela( prev => ([...prev, produto]) )
     }
 
-    const removeProduto = (id: number) => {
+    const removeProduto = (id: string) => {
         setTabela(prev => {
             const updated = [...prev]
             const removed = updated.filter( produto => produto.id !== id )
@@ -38,7 +38,7 @@ export default function useTabela(ctx: ContextControl): UseTabela {
         })
     }
 
-    const updateProdutoTabela = (id: number, updatedProduto: ProdutoCadastro) => {
+    const updateProdutoTabela = (id: string, updatedProduto: ProdutoCadastro) => {
         setTabela((prev) => {
             const newTabela = [...prev]
             const index = newTabela.indexOf(newTabela.filter( produto => produto.id === id )[0])

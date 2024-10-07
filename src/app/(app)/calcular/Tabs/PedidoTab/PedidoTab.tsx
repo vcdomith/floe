@@ -5,7 +5,7 @@ import style from '../FornecedorTab/FornecedorTab.module.scss'
 import { motion, AnimatePresence } from 'framer-motion'
 import Config from '@/app/(app)/configurar/(Config)/Config'
 import NumberInput from '@/components/FatoresTable/FatoresTableBody/NumberInput/NumberInput'
-import { useManual } from '../../context/CalcularContext'
+import { useCalcular, useChave, useManual } from '../../context/CalcularContext'
 import CheckBox from '@/app/(app)/configurar/(CheckBox)/CheckBox'
 import { IFatoresPedido, IPedidoDisplayControl } from '@/hooks/usePedido'
 import usePedidoTabRefs, { InputRefs, Transporte_STRefs } from '@/hooks/usePedidoTabRefs'
@@ -18,8 +18,8 @@ export default function PedidoTab() {
     const [ displayPedido, setDisplayPedido ] = useState(false)
 
     // Receber o contexto a ser usado por prop, permite ser usado em mais de um lugar
-    // const { context } = useCalcular()
-    const { manual: { context } } = useManual()
+    const { context: { context } } = useCalcular()
+    // const { manual: { context } } = useManual()
     const { fornecedorContext, pedidoContext } = context
     const {fornecedorData: { 
         fatorBase 

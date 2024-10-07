@@ -14,8 +14,8 @@ interface UseEditProduto {
     resetForm: (preserveSt?: boolean) => void
     displayControl: IDisplayControl
     valid: boolean
-    updateTabela: (id: number, updatedProduto: ProdutoCadastro) => void
-    removeProduto: (id: number) => void
+    updateTabela: (id: string, updatedProduto: ProdutoCadastro) => void
+    removeProduto: (id: string) => void
 
 }
 

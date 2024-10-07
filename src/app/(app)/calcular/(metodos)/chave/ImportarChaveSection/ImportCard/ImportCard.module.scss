@@ -239,8 +239,8 @@
         // gap: 0.5rem;
 
         padding: 0.25rem 0.5rem ;
-        width: 350px;
-        max-width: 350px;
+        // width: 350px;
+        // max-width: 350px;
 
         border: 2px solid mix($cor-secundaria, $cor-destaque, 70%);
         border-radius: 0.5rem;
@@ -309,16 +309,46 @@
             // border-top: 2px solid;
             // border-image: linear-gradient(to right , transparent, cor-mix(10%) 8%, cor-mix(20%) 50%, cor-mix(10%) 92%, transparent) 27;
 
-            h3, p {
+            span {
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+
+                &:last-of-type {
+                    align-items: self-start;
+                }
+
+                svg {
+
+                    max-width: 20px;
+                    min-width: 20px;
+                    max-height: 20px;
+                    min-height: 20px;
+
+                    path, circle {
+                        stroke: mix($cor-secundaria, $cor-destaque, 40%);
+                    }
+
+                }
+
+            }
+
+            h4, p {
                 margin: 0;
                 color: mix($cor-secundaria, $cor-destaque, 20%);
             }
 
-            h3 {
+            h4 {
     
                 
                 border-top: 2px solid;
-                border-image: linear-gradient(to right , transparent, cor-mix(10%) 8%, cor-mix(20%) 50%, cor-mix(10%) 92%, transparent) 27;
+                border-image: linear-gradient(
+                    to right, 
+                    transparent, 
+                    mix($cor-destaque, $cor-secundaria, 10%) 8%, 
+                    mix($cor-destaque, $cor-secundaria, 20%) 50%, 
+                    mix($cor-destaque, $cor-secundaria, 10%) 92%, 
+                    transparent) 27;
                 margin-top: 0.25rem;
                 padding-top: 1rem;
                 
@@ -327,7 +357,11 @@
             .chave {
 
                 display: flex;
+                flex-wrap: wrap;
+                gap: 0.25rem;
 
+                max-width: max-content;
+                word-wrap: break-word;
                 padding-bottom: 0.5rem;
 
             }

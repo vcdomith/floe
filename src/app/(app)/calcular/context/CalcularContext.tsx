@@ -44,7 +44,7 @@ export interface FatoresContext {
 
 export interface ProdutoCadastro {
 
-    id: number
+    id: string
     codigo: string
     ncm: string
     

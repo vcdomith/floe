@@ -27,7 +27,7 @@ export default function useChaveContext(): UseChaveContext {
     const chaveContext = useSectionContext()
     const {
         fornecedorContext: { fornecedorData, setFornecedorData },
-        pedidoContext: { pedidoData, setPedidoData },
+        pedidoContext: { pedidoData, setPedidoData, pedidoDiff },
         produtoContext: { setProdutoData },
         contextControl: { controlledInputData },
         tabelaContext: { setTabela },
@@ -90,7 +90,7 @@ export default function useChaveContext(): UseChaveContext {
 
             return {
             
-                id:  parseInt(Date.now().toString(36) + Math.random().toString(36).substring(2)),
+                id:  Date.now().toString(36) + Math.random().toString(36).substring(2),
                 codigo: produtoContext.codigo,
                 ncm: produtoContext.ncm || '',
                 st: produtoContext.st,
@@ -122,6 +122,7 @@ export default function useChaveContext(): UseChaveContext {
 
         })
 
+        console.log(listaProdutosCadastro);
         // const produtoCriado = createProduto()
         // setProdutoData(produtoContext)
 
@@ -234,6 +235,7 @@ export default function useChaveContext(): UseChaveContext {
                 quantidadeProdutos: produtos.length.toString(),
             }))
             setTabela(produtosCadastro)
+            // ADICIONAR SETDIFF
 
             addNotification({
                 tipo: 'sucesso',

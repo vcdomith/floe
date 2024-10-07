@@ -6,6 +6,8 @@ import ImportCard from './ImportCard/ImportCard'
 import { useChave } from '../../../context/CalcularContext'
 import { useMemo } from 'react'
 import LogoSvg from '@/components/SvgArray/LogoSvg'
+import FornecedorTab from '../../../Tabs/FornecedorTab/FornecedorTab'
+import PedidoTab from '../../../Tabs/PedidoTab/PedidoTab'
 
 export default function ImportarChaveSection() {
 
@@ -46,6 +48,8 @@ export default function ImportarChaveSection() {
                 <ImportCard 
                     documento={documentos.nfe}
                 />
+
+                <PedidoTab />
 
             </div>
 

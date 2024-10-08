@@ -58,6 +58,7 @@ const INITAL_STATE_DADOS_IMPORTADOS: DadosImportados = {
     produtos: []
 }
 
+
 export default function useDocumento(): UseDocumento {
 
     const [chaveNFe, setChaveNFe] = useState('')
@@ -169,7 +170,10 @@ export default function useDocumento(): UseDocumento {
         })
 
         // Consulta NFe atrelada à CTe e importa seus dados
+        setChaveNFe(extractData.chaveNFe)
         handleImportNFe(extractData.chaveNFe)
+
+
 
         console.log(extractData);
         console.log(dadosImportados);

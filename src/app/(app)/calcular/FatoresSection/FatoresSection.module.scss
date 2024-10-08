@@ -119,125 +119,125 @@
 
         }
 
-        .aviso {
+        // .aviso {
 
-            display: flex;
-            flex-direction: column;
+        //     display: flex;
+        //     flex-direction: column;
 
-            gap: 0.5rem;
+        //     gap: 0.5rem;
 
-            min-height: 0;
-            overflow: hidden;
-            box-sizing: border-box;
+        //     min-height: 0;
+        //     overflow: hidden;
+        //     box-sizing: border-box;
 
-            border: 2px solid mix($cor-aviso, $cor-secundaria, 40%);
-            border-radius: 0.5rem;
-            background-color: mix($cor-aviso, $cor-secundaria, 10%);
+        //     border: 2px solid mix($cor-aviso, $cor-secundaria, 40%);
+        //     border-radius: 0.5rem;
+        //     background-color: mix($cor-aviso, $cor-secundaria, 10%);
 
-            padding: 0 0.5rem;
+        //     padding: 0 0.5rem;
 
-            .mensagem {
+        //     .mensagem {
 
-                display: flex;
-                gap: 0.5rem;
+        //         display: flex;
+        //         gap: 0.5rem;
 
-                padding-top: 0.5rem;
+        //         padding-top: 0.5rem;
 
-                svg {
-                    min-width: 20px;
-                    min-height: 20px;
+        //         svg {
+        //             min-width: 20px;
+        //             min-height: 20px;
         
-                    path {
-                        stroke: $cor-aviso;
-                    }
+        //             path {
+        //                 stroke: $cor-aviso;
+        //             }
     
-                }
+        //         }
     
-                p {
-                    font-size: 0.9rem;
-                    margin: 0;
-                    color: $cor-aviso;
-                }
-            }
+        //         p {
+        //             font-size: 0.9rem;
+        //             margin: 0;
+        //             color: $cor-aviso;
+        //         }
+        //     }
 
-            .buttons {
+        //     .buttons {
 
-                display: flex;
-                justify-content: flex-end;
-                gap: 0.5rem;
-                width: 100%;
+        //         display: flex;
+        //         justify-content: flex-end;
+        //         gap: 0.5rem;
+        //         width: 100%;
 
-                padding-bottom: 0.5rem;
+        //         padding-bottom: 0.5rem;
 
-                > button {
-                    height: 30px;
-                    padding: 0 0.5rem;
+        //         > button {
+        //             height: 30px;
+        //             padding: 0 0.5rem;
 
-                    outline: none;
-                    border: 2px solid;
-                    border-radius: 0.5rem;
+        //             outline: none;
+        //             border: 2px solid;
+        //             border-radius: 0.5rem;
 
-                    color: cor-mix(80%);
-                    color: mix($cor-aviso, $cor-secundaria, 80%);
-                    font-size: 0.9rem;
+        //             color: cor-mix(80%);
+        //             color: mix($cor-aviso, $cor-secundaria, 80%);
+        //             font-size: 0.9rem;
 
-                    cursor: pointer;
-                }
+        //             cursor: pointer;
+        //         }
 
-                .discard {
+        //         .discard {
 
-                    background-color: cor-mix(5%);
-                    background-color: mix($cor-aviso, $cor-secundaria, 5%);
-                    border-color: cor-mix(10%);
-                    border-color: mix($cor-aviso, $cor-secundaria, 10%);
+        //             background-color: cor-mix(5%);
+        //             background-color: mix($cor-aviso, $cor-secundaria, 5%);
+        //             border-color: cor-mix(10%);
+        //             border-color: mix($cor-aviso, $cor-secundaria, 10%);
 
-                    color: cor-mix(40%);
-                    color: mix($cor-aviso, $cor-secundaria, 40%);
+        //             color: cor-mix(40%);
+        //             color: mix($cor-aviso, $cor-secundaria, 40%);
 
-                    transition: border-color 400ms ease,
-                                background-color 400ms ease,
-                                color 400ms ease,
-                    ;
+        //             transition: border-color 400ms ease,
+        //                         background-color 400ms ease,
+        //                         color 400ms ease,
+        //             ;
 
-                    &:hover {
-                        background-color: cor-mix(10%);
-                        background-color: mix($cor-aviso, $cor-secundaria, 10%);
-                        border-color: cor-mix(15%);
-                        border-color: mix($cor-aviso, $cor-secundaria, 30%);
-                        color: cor-mix(50%);
-                        color: mix($cor-aviso, $cor-secundaria, 70%);
-                    }
+        //             &:hover {
+        //                 background-color: cor-mix(10%);
+        //                 background-color: mix($cor-aviso, $cor-secundaria, 10%);
+        //                 border-color: cor-mix(15%);
+        //                 border-color: mix($cor-aviso, $cor-secundaria, 30%);
+        //                 color: cor-mix(50%);
+        //                 color: mix($cor-aviso, $cor-secundaria, 70%);
+        //             }
 
-                }
+        //         }
 
-                .confirm {
+        //         .confirm {
 
-                    background-color: cor-mix(70%);
-                    background-color: mix($cor-aviso, $cor-secundaria, 10%);
-                    border-color: cor-mix(80%);
-                    border-color: mix($cor-aviso, $cor-secundaria, 50%);
+        //             background-color: cor-mix(70%);
+        //             background-color: mix($cor-aviso, $cor-secundaria, 10%);
+        //             border-color: cor-mix(80%);
+        //             border-color: mix($cor-aviso, $cor-secundaria, 50%);
 
-                    color: cor-mix(10%);
-                    color: mix($cor-aviso, $cor-secundaria, 70%);
+        //             color: cor-mix(10%);
+        //             color: mix($cor-aviso, $cor-secundaria, 70%);
 
-                    transition: border-color 400ms ease,
-                                background-color 400ms ease,
-                                color 400ms ease
-                    ;
+        //             transition: border-color 400ms ease,
+        //                         background-color 400ms ease,
+        //                         color 400ms ease
+        //             ;
 
-                    &:hover {
-                        background-color: cor-mix(80%);
-                        background-color: mix($cor-aviso, $cor-secundaria, 15%);
-                        border-color: cor-mix(90%);
-                        border-color: mix($cor-aviso, $cor-secundaria, 60%);
-                        color: mix($cor-aviso, $cor-secundaria, 80%);
-                    }
+        //             &:hover {
+        //                 background-color: cor-mix(80%);
+        //                 background-color: mix($cor-aviso, $cor-secundaria, 15%);
+        //                 border-color: cor-mix(90%);
+        //                 border-color: mix($cor-aviso, $cor-secundaria, 60%);
+        //                 color: mix($cor-aviso, $cor-secundaria, 80%);
+        //             }
 
-                }
+        //         }
 
-            }
+        //     }
 
-        }
+        // }
 
         .tabContainer {
 

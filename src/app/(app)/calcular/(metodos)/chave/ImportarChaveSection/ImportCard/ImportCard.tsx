@@ -1,11 +1,10 @@
-import { ChangeEvent, FormEvent, MouseEvent, useMemo, useRef, useState } from 'react'
+import { MouseEvent, useState } from 'react'
 import style from './ImportCard.module.scss'
 import { svgsUtil } from '@/components/SvgArray/SvgUtil'
 import Highlight from '@/components/Highlight/Highlight'
 import LogoSvg from '@/components/SvgArray/LogoSvg'
 import { DocumentoData, DocumentoImportado } from '@/hooks/useDocumento'
 import { AnimatePresence, motion } from 'framer-motion'
-import useChaveContext from '@/hooks/useChaveContext'
 import useImportCard from '@/hooks/useImportCard'
 import chaveFormatSplit from '@/utils/chaveFormat'
 
@@ -97,7 +96,7 @@ export default function ImportCard( { documento }: ImportCardProps ){
 
             <button 
                 className={style.button}
-                disabled={!valid}
+                disabled={!valid || loading}
                 type='submit'
             >
                 {loading
@@ -164,7 +163,7 @@ const Documento = ({ documento }: { documento: DocumentoImportado }) => {
                     {svgsUtil.chave}
                     <div className={style.chave}>
                         {chaveFormatSplit(chave)?.map( (segment, index) => 
-                            <p key={parseInt(segment)*index}>{segment}</p>
+                            <p key={parseInt(segment)+index}>{segment}</p>
                         )}
                     </div>
                 </span>

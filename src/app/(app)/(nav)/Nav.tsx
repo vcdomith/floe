@@ -12,7 +12,8 @@ import { usePathname } from "next/navigation"
 const Nav = () => {
 
     const [display, setDisplay] = useState(false)
-    const path = usePathname()
+    const path = usePathname().split('/')[1]
+    console.log(path);
 
   return (
     <>
@@ -48,7 +49,7 @@ const Nav = () => {
             >
                 <Link href='/configurar' prefetch>
                     <button 
-                    className={`${(path === '/configurar' ? style.active : '')}`}
+                    className={`${(path === 'configurar' ? style.active : '')}`}
                     >
                         <svg width="500" height="500" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <circle cx="355" cy="256.614" r="68" stroke="#E8D4B0" strokeWidth="40"/>
@@ -59,7 +60,7 @@ const Nav = () => {
                             <path d="M183.95 0.571302C183.95 26.7286 229.604 30.0417 229.4 68.9252C229.197 107.809 135 126.666 135 164.663C135 200.009 183.95 216.388 183.95 237.391" stroke="#E8D4B0" strokeWidth="40" strokeLinejoin="round"/>
                             <path d="M131.452 262.571C131.451 288.729 85.7968 292.042 86.0007 330.925C86.2046 369.809 180.401 388.666 180.401 426.663C180.401 462.009 131.451 478.388 131.452 499.391" stroke="#E8D4B0" strokeWidth="40" strokeLinejoin="round"/>
                         </svg>
-                        {(path === '/configurar')&&
+                        {(path === 'configurar')&&
                         <motion.div layoutId='Nav'></motion.div>
                         }
                         <p>Configurar Fatores</p>
@@ -67,7 +68,7 @@ const Nav = () => {
                 </Link>
                 <Link href='/calcular' prefetch>
                     <button 
-                    className={`${(path === '/calcular' ? style.active : '')}`}
+                    className={`${(path === 'calcular' ? style.active : '')}`}
                     >
                         <svg width="500" height="500" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <circle cx="144" cy="255.844" r="69" stroke="#E8D4B0" strokeWidth="40"/>
@@ -78,14 +79,14 @@ const Nav = () => {
                             <path d="M500 419.001C477.075 418.881 466 464.704 422 464.5C378 464.296 358 370 315 370C275 370 251.458 418.51 232 419.001" stroke="#E8D4B0" strokeWidth="40" strokeLinejoin="round"/>
                             <path d="M500 259.001C477.075 258.881 466 304.704 422 304.5C378 304.296 358 210 315 210C275 210 251.458 258.51 232 259.001" stroke="#E8D4B0" strokeWidth="40" strokeLinejoin="round"/>
                         </svg>
-                        {(path === '/calcular')&&
+                        {(path === 'calcular')&&
                         <motion.div layoutId='Nav' ></motion.div>
                         }
                         <p>Calcular Tabela</p>
                     </button>
                 </Link>
                 <Link href='/cadastros' prefetch>
-                    <button className={`${(path === '/cadastros' ? style.active : '')}`}>
+                    <button className={`${(path === 'cadastros' ? style.active : '')}`}>
                         <svg width="500" height="500" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M0 480.001C249.5 480.001 0 359 249.5 359" stroke="#591C4A" strokeWidth="40"/>
                             <path d="M250 480.001C499.5 480.001 250 359 499.5 359" stroke="#591C4A" strokeWidth="40"/>
@@ -95,7 +96,7 @@ const Nav = () => {
                             <path d="M250 319.5C499.5 319.5 250 181 499.5 181" stroke="#591C4A" strokeWidth="40"/>
                             <circle cx="250" cy="250" r="69" stroke="#591C4A" strokeWidth="40"/>
                         </svg>
-                        {(path === '/cadastros')&&
+                        {(path === 'cadastros')&&
                         <motion.div layoutId='Nav'></motion.div>
                         }
                         <p>Conferir Cadastros</p>
@@ -110,7 +111,7 @@ const Nav = () => {
                 data-display={display}
             >
                 <Link href='/usuario' prefetch>
-                    <button className={`${(path === '/usuario' ? style.active : '')}`}>
+                    <button className={`${(path === 'usuario' ? style.active : '')}`}>
                         <svg width="500" height="500" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M319 250.138C319 287.77 288.108 318.276 250 318.276C211.892 318.276 181 287.77 181 250.138C181 212.506 211.892 182 250 182C288.108 182 319 212.506 319 250.138Z" stroke="#E8D4B0" strokeWidth="40"/>
                             <path d="M480 250C480 377.025 377.025 480 250 480C122.975 480 20 377.025 20 250C20 122.975 122.975 20 250 20C377.025 20 480 122.975 480 250Z" stroke="#E8D4B0" strokeWidth="40"/>
@@ -121,7 +122,7 @@ const Nav = () => {
                     </button>
                 </Link>
                 <Link href='/usuario' prefetch>
-                    <button className={`${(path === '/usuario' ? style.active : '')}`}>
+                    <button className={`${(path === 'usuario' ? style.active : '')}`}>
                         <svg width="500" height="500" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M319 250.138C319 287.77 288.108 318.276 250 318.276C211.892 318.276 181 287.77 181 250.138C181 212.506 211.892 182 250 182C288.108 182 319 212.506 319 250.138Z" stroke="#E8D4B0" strokeWidth="40"/>
                             <path d="M33 476C68.37 303.607 71.937 311.546 169 268" stroke="#E8D4B0" strokeWidth="40"/>

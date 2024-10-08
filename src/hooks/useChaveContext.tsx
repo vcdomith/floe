@@ -8,6 +8,7 @@ import { ProdutoCadastro } from "@/app/(app)/calcular/context/CalcularContext";
 import { IProdutoContext } from "./useProduto";
 import { useMemo, useState } from "react";
 import { useNotification } from "@/app/(app)/(contexts)/NotificationContext";
+import { useModal } from "@/app/(app)/(contexts)/ModalContext";
 
 export interface UseChaveContext {
 
@@ -20,16 +21,28 @@ export interface UseChaveContext {
 
 }
 
+
+// const createDOM = (xml: string): Document => {
+
+//     const parser = new DOMParser()
+//     const doc = () => {
+
+//         const Doc = parser.parseFromString(xml, 'application/xml')
+//         return <Doc />
+
+//     } 
+
+//     return
+// }
+
 export default function useChaveContext(): UseChaveContext {
 
     const { stringToFloat, floatToString } = Converter
 
     const chaveContext = useSectionContext()
     const {
-        fornecedorContext: { fornecedorData, setFornecedorData },
-        pedidoContext: { pedidoData, setPedidoData, pedidoDiff },
-        produtoContext: { setProdutoData },
-        contextControl: { controlledInputData },
+        fornecedorContext: { setFornecedorData },
+        pedidoContext: { setPedidoData, updatePedidoControl },
         tabelaContext: { setTabela },
     } = chaveContext
 
@@ -38,16 +51,16 @@ export default function useChaveContext(): UseChaveContext {
     const [loading, setLoading] = useState(false)
     const { addNotification } = useNotification()
 
-    const unitario = useMemo(() => {
+    // const unitario = useMemo(() => {
 
-        if (fornecedorData.usaComposto) 
-            return controlledInputData.unitarioComposto
-        else if (fornecedorData.usaUnitarioPedido) 
-            return controlledInputData.unitarioPedido
-        else 
-            return controlledInputData.unitarioNota
+    //     if (fornecedorData.usaComposto) 
+    //         return controlledInputData.unitarioComposto
+    //     else if (fornecedorData.usaUnitarioPedido) 
+    //         return controlledInputData.unitarioPedido
+    //     else 
+    //         return controlledInputData.unitarioNota
 
-    }, [fornecedorData, controlledInputData])
+    // }, [fornecedorData, controlledInputData])
 
     const gerarProdutoCadastro = (produtos: NFeProduto[], fornecedor: IFornecedor, pedido: IFatoresPedido): ProdutoCadastro[] => {
 
@@ -86,8 +99,6 @@ export default function useChaveContext(): UseChaveContext {
                     return produtoContext.unitarioNota
             })()
 
-            console.log(produtoContext);
-
             return {
             
                 id:  Date.now().toString(36) + Math.random().toString(36).substring(2),
@@ -122,7 +133,6 @@ export default function useChaveContext(): UseChaveContext {
 
         })
 
-        console.log(listaProdutosCadastro);
         // const produtoCriado = createProduto()
         // setProdutoData(produtoContext)
 
@@ -135,7 +145,7 @@ export default function useChaveContext(): UseChaveContext {
         return floatToString(produtos
             .filter( produto => produto.st )
             .reduce(
-                (acc, val) => acc + parseFloat(val.total),
+                (acc, val) => acc + stringToFloat(val.total),
                 initial
             ))
 
@@ -146,7 +156,7 @@ export default function useChaveContext(): UseChaveContext {
         const { pedido, produtos } = dadosImportados        
 
         const pedidoResult: IFatoresPedido = {
-            usaNcm: false,
+            usaNcm: true,
             quantidadeProdutos: "",
             fatorTransportePedido: "",
             valorFrete: "",
@@ -162,33 +172,41 @@ export default function useChaveContext(): UseChaveContext {
             (stringToFloat(pedido.valorFrete) * stringToFloat('3.4')) / 
             (stringToFloat(pedido.valorTotalProdutos) * stringToFloat(fatorBase))
         ))
-        console.log('resultadoTransporte', resultadoTransporte);
-        console.log(floatToString(resultadoTransporte));
-
-        // setPedidoData(prev => ({
-        //     ...prev, 
-        //     ['fatorTransportePedido' as keyof IFatoresPedido]: floatToString(resultadoTransporte, 3)
-        // }))
 
         const totalPedidoSt = getTotalProdutosST(produtos)
+        // console.log(produtos
+        //     .filter( produto => produto.st ));
+        // console.log(totalPedidoSt);
 
         const resultadoSt = (1 + (
             (stringToFloat(pedido.valorSt) * stringToFloat('1')) / 
             (stringToFloat(totalPedidoSt) * stringToFloat(fatorBase))
         ))
-        console.log('resultadoSt', resultadoSt);
-        console.log(floatToString(resultadoSt));
 
         setPedidoData(prev => ({
             ...prev,
-            ['fatorTransportePedido' as keyof IFatoresPedido]: floatToString(resultadoTransporte, 3), 
-            ['fatorSTPedido' as keyof IFatoresPedido]: floatToString(resultadoSt, 3)
+            usaNcm: true,
+            quantidadeProdutos: produtos.length.toString(),
+            fatorTransportePedido: floatToString(resultadoTransporte, 3),
+            valorFrete: pedido.valorFrete,
+            valorTotalProdutos: pedido.valorTotalProdutos, 
+            fatorSTPedido: floatToString(resultadoSt, 3),
+            valorST: pedido.valorSt,
+            valorTotalProdutosST: totalPedidoSt,
         }))
 
         return {
             ...pedidoResult,
+            usaNcm: true,
+            quantidadeProdutos: produtos.length.toString(),
             fatorTransportePedido: floatToString(resultadoTransporte, 3),
-            fatorSTPedido: floatToString(resultadoSt, 3)
+            valorFrete: pedido.valorFrete,
+            fatorFrete: '3,4',
+            valorTotalProdutos: pedido.valorTotalProdutos, 
+            fatorSTPedido: floatToString(resultadoSt, 3),
+            valorST: pedido.valorSt,
+            multiploST: '1',
+            valorTotalProdutosST: totalPedidoSt,
         }
 
     }
@@ -234,8 +252,9 @@ export default function useChaveContext(): UseChaveContext {
                 ...prev,
                 quantidadeProdutos: produtos.length.toString(),
             }))
+            console.log(pedido);
+            updatePedidoControl(pedido)
             setTabela(produtosCadastro)
-            // ADICIONAR SETDIFF
 
             addNotification({
                 tipo: 'sucesso',
@@ -252,11 +271,6 @@ export default function useChaveContext(): UseChaveContext {
             })
 
         }
-
-        // A partir dos fatores itera produtos e gera-os
-
-        // setTabela(produtosGerados)
-
 
     }
 

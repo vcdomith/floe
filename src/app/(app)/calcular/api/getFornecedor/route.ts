@@ -1,5 +1,6 @@
 import { dbConnect } from "@/utils/db/supabase";
 import { NextRequest } from "next/server";
+import { FornecedorQueryType } from "../../Tabs/FornecedorTab/FornecedorTab";
 
 const supabase = dbConnect()
 
@@ -8,16 +9,22 @@ export async function GET(request: NextRequest) {
     try {
         
         const searchParam = request.nextUrl.searchParams
-        const cnpjQuery = searchParam.get('cnpj')
+        const type = searchParam.get('type') as FornecedorQueryType | null
 
-        if (!cnpjQuery) return new Response('No searchParam "fornecedor" was supplied', {
+        if (!type) return new Response('You must pass the type searchParam to be able to query the DB', {
+            status: 400
+        })
+
+        const query = searchParam.get(type)
+
+        if (!query) return new Response('No searchParam "cnpj" was supplied', {
             status: 400
         })
 
         const { data: fornecedor, error } = await supabase
             .from('fornecedores')
             .select('*')
-            .eq('cnpj', cnpjQuery)
+            .eq(type, query)
             .single()
 
         if (error) return new Response(JSON.stringify({ error: error.message }), { 

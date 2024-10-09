@@ -24,7 +24,7 @@ interface TabelaRowProps {
 const TabelaRow = forwardRef<HTMLSpanElement, TabelaRowProps>(
 function TabelaRow({produto}: TabelaRowProps, ref) {
 
-    const {id, codigo, ncm, st, unitario, unitarioNota, composto } = produto
+    const { id, codigo, ncm, st, unitario, unitarioNota, composto } = produto
     const {tabela1, tabela2, tabela3} = useMemo(() => getTabelasObject(produto), [produto])
 
     const { context } = useCalcular()
@@ -39,7 +39,7 @@ function TabelaRow({produto}: TabelaRowProps, ref) {
     const { matches: isMobile } = useMediaQuery()
     const { setModal, clearModal } = useModal()
 
-    const handleClick = (id: number) => {
+    const handleClick = (id: string) => {
 
         setModal(
             <ConfirmationDialog 

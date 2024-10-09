@@ -24,8 +24,9 @@ interface FatoresSectionProps {
 export default function FatoresSection({ fornecedores }: FatoresSectionProps) {
 
     const { 
-        manual: { context, submitForm } 
-    } = useManual()
+        context: { context } ,
+        submitForm
+    } = useCalcular()
     const {
         fornecedorContext,
         pedidoContext,  
@@ -34,7 +35,7 @@ export default function FatoresSection({ fornecedores }: FatoresSectionProps) {
         tabelaContext: { updateFatoresTabela },
     } = context
 
-    const {fornecedorData, fornecedorDiff, rollbackFornecedor, updateFornecedorControl} = fornecedorContext
+    const {fornecedorData, fornecedorDiff, fornecedorControl, rollbackFornecedor, updateFornecedorControl} = fornecedorContext
     const {pedidoData, pedidoDiff, rollbackPedido, updatePedidoControl} = pedidoContext
 
     const {addNotification} = useNotification()
@@ -123,7 +124,7 @@ export default function FatoresSection({ fornecedores }: FatoresSectionProps) {
                 }
 
                 <AnimatePresence>
-                {(fornecedorData.nome !== '')
+                {(fornecedorControl && fornecedorControl.nome !== '')
                 ?
                 <motion.div
                     initial={{ opacity: 0 }}

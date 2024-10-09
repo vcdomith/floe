@@ -57,6 +57,7 @@ export interface ProdutoCadastro {
 
 }
 
+const VALID_CONTEXTS = ['chave', 'xml', 'manual']
 // export interface DifferenceControl extends Record<keyof IFornecedor, boolean>, Record<keyof IFatoresPedido, boolean> {}
 
 export const CalcularContext = createContext<CalcularContext | undefined>(undefined)
@@ -110,7 +111,7 @@ export const CalcularProvider = ({ children }: { children: React.ReactNode }) =>
     }), [chaveContext, manualContext, xmlContext])
 
     const context = useMemo(() => {
-        if(path === undefined) {
+        if(path === undefined || !VALID_CONTEXTS.includes(path)) {
             return contexts.base
         }
         return contexts[path]

@@ -1,5 +1,6 @@
 import { FatoresContext, ProdutoCadastro } from "@/app/(app)/calcular/context/CalcularContext";
 import { IFatores } from "@/interfaces/IFatores";
+import React from "react";
 
 const SvgProduto_3D = () => {
     return(
@@ -224,7 +225,43 @@ function SvgChave() {
 
 }
 
-interface SvgUtilItems extends 
+function SvgChaveImport() {
+    return (
+        <svg width="500" height="500" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M178 390L59 390L59 258" stroke="black" stroke-width="40" stroke-linejoin="round"/>
+        <path d="M125 312L203 389.5L125 467" stroke="black" stroke-width="40"/>
+        <path d="M445 118L196.295 117.984" stroke="black" stroke-width="40"/>
+        <path d="M425 222L425 101" stroke="black" stroke-width="40"/>
+        <path d="M343 222L343 101" stroke="black" stroke-width="40"/>
+        <circle cx="131.975" cy="124.975" r="77.975" stroke="black" stroke-width="40"/>
+        <path d="M280.165 367.245C234.232 321.061 326.097 321.061 280.165 274.877L449.694 274.877C495.626 321.061 403.762 321.061 449.694 367.245C495.626 413.429 401.472 415.732 447.659 462.172L278.129 462.172C231.942 415.732 326.097 413.429 280.165 367.245Z" stroke="black" stroke-width="40" stroke-linejoin="round"/>
+        <line x1="318" y1="335" x2="392" y2="335" stroke="black" stroke-width="40"/>
+        <line x1="336" y1="394" x2="410" y2="394" stroke="black" stroke-width="40"/>
+        </svg>
+
+    )
+}
+
+function SvgXmlImport() {
+
+    return(
+        <svg width="500" height="500" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M178 390L59 390L59 258" stroke="black" stroke-width="40" stroke-linejoin="round"/>
+<path d="M125 312L203 389.5L125 467" stroke="black" stroke-width="40"/>
+<path d="M280.165 367.245C234.233 321.061 326.097 321.061 280.165 274.877L449.694 274.877C495.627 321.061 403.762 321.061 449.694 367.245C495.627 413.429 401.472 415.732 447.659 462.172L278.129 462.172C231.942 415.732 326.097 413.429 280.165 367.245Z" stroke="black" stroke-width="40" stroke-linejoin="round"/>
+<line x1="318" y1="335" x2="392" y2="335" stroke="black" stroke-width="40"/>
+<line x1="336" y1="394" x2="410" y2="394" stroke="black" stroke-width="40"/>
+<path d="M350.503 40L438.065 127L350.503 214" stroke="black" stroke-width="40"/>
+<path d="M149.561 40L62 127L149.561 214" stroke="black" stroke-width="40"/>
+<path d="M192.219 198.284L316.826 73.6774" stroke="black" stroke-width="40"/>
+</svg>
+
+
+    )
+
+}
+
+export interface SvgUtilItems extends 
     Record<keyof FatoresContext, React.ReactNode>, 
     Record<keyof Omit<ProdutoCadastro, 'fatores' | 'id' >, React.ReactNode> {
     produto: React.ReactNode
@@ -238,6 +275,8 @@ interface SvgUtilItems extends
     numero: React.ReactNode
     data: React.ReactNode
     chave: React.ReactNode
+    chaveImport: React.ReactNode
+    xmlImport: React.ReactNode
 }
 
 export const svgsUtil: SvgUtilItems = {
@@ -265,5 +304,6 @@ export const svgsUtil: SvgUtilItems = {
     numero: <SvgNumero />,
     data: <SvgData />,
     chave: <SvgChave />,
-    
+    chaveImport: <SvgChaveImport />,
+    xmlImport: <SvgXmlImport />,
 }

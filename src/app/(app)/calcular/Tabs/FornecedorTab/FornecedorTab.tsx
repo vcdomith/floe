@@ -20,6 +20,8 @@ import ConfirmationDialog from "@/components/ConfirmationDialog/ConfirmationDial
 
 interface FornecedorTabProps {
 
+    disabled?: boolean
+
     fornecedorCtx: string
     fornecedores: string[]
     svg?: React.ReactNode
@@ -27,18 +29,20 @@ interface FornecedorTabProps {
 
 }
 
-export default function FornecedorTab({ fornecedorCtx, fornecedores, svg, titulo }: FornecedorTabProps) {
+export type FornecedorQueryType = keyof IFornecedor
 
-    const [fornecedor, setFornecedor] = useState(fornecedorCtx&& capitalize(fornecedorCtx))
-    const setCapitalizedFornecedor = (value: string) => {
-        setFornecedor(capitalize(value))
-    }
+export default function FornecedorTab({ 
+    disabled = false,
+    fornecedores, 
+    svg, 
+    titulo 
+}: FornecedorTabProps) {
+
     const [displayFornecedor, setDisplayFornecedor] = useState(false)
 
-    const [fornecedorDb, setFornecedorDb] = useState<IFornecedor>()
     const [loadingFornecedor, setLoadingFornecedor] = useState(false)
 
-    const { manual: { context } } = useManual()
+    const { context: { context } } = useCalcular()
 
     const { 
         fornecedorContext,
@@ -46,7 +50,9 @@ export default function FornecedorTab({ fornecedorCtx, fornecedores, svg, titulo
         resetContext
     } = context
 
-    const {fornecedorData: {
+    const {fornecedorData, setFornecedorData, handleFornecedorChange, fornecedorControl, fornecedorDiff, updateFornecedorControl} = fornecedorContext
+
+    const {
         nome,
         fatorBase,
         fatorBaseNormal,
@@ -58,42 +64,47 @@ export default function FornecedorTab({ fornecedorCtx, fornecedores, svg, titulo
         usaIpiUniversal,
         usaUnitarioPedido,
         usaComposto
-    }, setFornecedorData, handleFornecedorChange, fornecedorDiff, updateFornecedorControl} = fornecedorContext
+    } = fornecedorData
 
     const {setModal, clearModal} = useModal()
 
-    useEffect(() => {
-        if(fornecedorDb !== undefined) 
-            // setDadosFornecedorDb(fornecedorDb)
-            setFornecedorData({...fornecedorDb})
-    }, [fornecedorDb])
-
     const getFornecedorDataDB = async () => {
 
-        if (fornecedorDb && fornecedor.toLowerCase() === fornecedorDb.nome) {
+        if (fornecedorControl !== undefined && !fornecedorDiff.includes('nome')) {
             console.log('fornecedor já carregado!');
             return
         }
 
         setLoadingFornecedor(true)
-        const supabase = dbConnect()
-        const { data: fornecedorDB, error } = await supabase
-            .from('fornecedores')
-            .select('*')
-            .eq('nome', fornecedor.toLowerCase())
 
-        setFornecedorDb(fornecedorDB![0] as IFornecedor)
+        try {
+            
+            const type: FornecedorQueryType = 'nome'
+
+            const res = await fetch(
+                `/calcular/api/getFornecedor?type=${type}&nome=${nome.toLowerCase()}`
+            )
+            const fornecedorDB: IFornecedor = await res.json()
+            
+            setLoadingFornecedor(false)
+            setFornecedorData(fornecedorDB)
+            updateFornecedorControl(fornecedorDB)
+
+        } catch (error) {
+            
+            console.log(error);
+            setLoadingFornecedor(false)
+
+        }
+
         setLoadingFornecedor(false)
-        updateFornecedorControl(fornecedorDB![0] as IFornecedor)
-        // console.log(fornecedorDB);
 
     }
 
     const handleFornecedorConfirm = () => {
 
         if (
-            fornecedorDb && 
-            fornecedor.toLowerCase() !== fornecedorDb.nome &&
+            fornecedorDiff.includes('nome') &&
             tabela.length > 0
         ) {
             setModal(
@@ -122,19 +133,19 @@ export default function FornecedorTab({ fornecedorCtx, fornecedores, svg, titulo
                 <h3>{ titulo ? titulo : 'Fornecedor'}</h3>
             </span>
             <span className={`${style.selectWrap} ${style.w100}`}>
-                <SelectFornecedor 
+                <SelectFornecedor
+                    disabled={disabled}
                     fornecedoresControle={fornecedores}
-                    fornecedor={fornecedor}
-                    setFornecedor={setCapitalizedFornecedor}
+                    fornecedor={nome}
+                    setFornecedor={handleFornecedorChange('nome')}
                     confirmFornecedor={getFornecedorDataDB}
                 />
-                {(fornecedorDb === undefined || nome !== fornecedor.toLowerCase())
+                {(fornecedorControl === undefined || fornecedorDiff.includes('nome'))
                 ?
                 <button 
                     className={style.button} 
-                    // onClick={() => setDisplay(prev => !prev)} 
                     onClick={() => handleFornecedorConfirm()}
-                    disabled={fornecedor === '' ? true : false}>
+                    disabled={nome === '' ? true : false}>
                     {loadingFornecedor
                     ?
                         <LogoSvg loop />

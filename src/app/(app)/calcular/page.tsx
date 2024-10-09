@@ -15,11 +15,11 @@ export default async function Calcular() {
             </div>
 
             <Link href={'/calcular/chave'} prefetch>
-                {svgsUtil.codigo}
+                {svgsUtil.chaveImport}
                 <p>Importar valores pelas chaves NFe e CTe</p>
             </Link>
             <Link href={'/calcular/xml'} prefetch>
-                {svgsUtil.composto}
+                {svgsUtil.xmlImport}
                 <p>Importar valores por arquivo XML da NFe e CTe</p>
             </Link>
             <Link href={'/calcular/manual'} prefetch>

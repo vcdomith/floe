@@ -79,10 +79,15 @@
         gap: 1rem;
 
         margin: 1rem;
+        margin-top: 0;
         // padding: 1rem;
 
         height: 100%;
         overflow: hidden;
+
+        & > :first-child {
+            margin-top: 1rem;
+        }
 
     }
 

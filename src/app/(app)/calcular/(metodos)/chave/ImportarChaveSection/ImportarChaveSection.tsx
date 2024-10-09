@@ -14,10 +14,11 @@ import { useNotification } from '@/app/(app)/(contexts)/NotificationContext'
 import AvisoFatoresDiferentes from '@/components/AvisoFatoresDiferentes/AvisoFatoresDIferentes'
 import Tab from '@/components/Tab/Tab'
 
-export default function ImportarChaveSection() {
+export default function ImportarChaveSection({ tipo = 'chave'} : { tipo: 'chave' | 'xml'}) {
 
     const { chave: { 
         context: { 
+            fornecedorContext: { fornecedorData, fornecedorDiff, rollbackFornecedor, updateFornecedorControl },
             pedidoContext: { pedidoData, pedidoDiff, rollbackPedido, updatePedidoControl },
             tabelaContext: { updateFatoresTabela }
         },
@@ -47,7 +48,7 @@ export default function ImportarChaveSection() {
                     <Link href={'/calcular'} prefetch>
                         {svgsUtil.back}
                     </Link>
-                    <h3>Importar NFe e CTe</h3>
+                    <h3>Importar NFe e CTe - {tipo}</h3>
                 </span>
 
                 <p>Forneça a chave de acesso da Nfe com 44 dígitos para importar os valores da nota:</p>
@@ -65,10 +66,12 @@ export default function ImportarChaveSection() {
                 >
 
                     <ImportCard 
+                        tipo={tipo} 
                         documento={documentos.cte}     
                     />
                     
-                    <ImportCard 
+                    <ImportCard
+                        tipo={tipo} 
                         documento={documentos.nfe}
                     />
                 </Tab>
@@ -77,6 +80,30 @@ export default function ImportarChaveSection() {
                     svg={svgsUtil.unitarioNota} 
                     section={'Fatores'}
                 >
+
+                    <FornecedorTab 
+                        disabled
+                        fornecedorCtx={fornecedorData.nome} 
+                        fornecedores={[]} 
+                    />
+                    <AnimatePresence>
+                    {(fornecedorDiff.length > 0) &&
+                    <AvisoFatoresDiferentes 
+                        tab={'fornecedor'} 
+                        cancelHandler={rollbackFornecedor} 
+                        confirmHandler={() => {
+                            updateFornecedorControl(fornecedorData)
+                            updateFatoresTabela()
+                            addNotification({
+                                tipo: 'sucesso',
+                                mensagem: 'Fatores atualizados com sucesso!'
+                            })
+                        }} 
+                    />
+
+                    }
+                    </AnimatePresence>
+
                     <PedidoTab />
                     <AnimatePresence>
                     {(pedidoDiff.length > 0) &&
@@ -92,6 +119,7 @@ export default function ImportarChaveSection() {
                             })
                         }} 
                     />
+
                     }
                     </AnimatePresence>
                 </Tab>
@@ -105,7 +133,7 @@ export default function ImportarChaveSection() {
             >
                 {(loading)
                     ? <><LogoSvg loop />  Importando...</>
-                    : 'Gerar Tabela!'
+                    : 'Gerar Tabela'
                 }
             </button>
 

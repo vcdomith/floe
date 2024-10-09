@@ -9,6 +9,7 @@ import { IProdutoContext } from "./useProduto";
 import { useMemo, useState } from "react";
 import { useNotification } from "@/app/(app)/(contexts)/NotificationContext";
 import { useModal } from "@/app/(app)/(contexts)/ModalContext";
+import { FornecedorQueryType } from "@/app/(app)/calcular/Tabs/FornecedorTab/FornecedorTab";
 
 export interface UseChaveContext {
 
@@ -41,7 +42,7 @@ export default function useChaveContext(): UseChaveContext {
 
     const chaveContext = useSectionContext()
     const {
-        fornecedorContext: { setFornecedorData },
+        fornecedorContext: { setFornecedorData, updateFornecedorControl },
         pedidoContext: { setPedidoData, updatePedidoControl },
         tabelaContext: { setTabela },
     } = chaveContext
@@ -218,10 +219,15 @@ export default function useChaveContext(): UseChaveContext {
         
         try {
             
-            const res = await fetch(`/calcular/api/getFornecedor?cnpj=${cnpj}`)
+            const type: FornecedorQueryType = 'cnpj'
+
+            const res = await fetch(
+                `/calcular/api/getFornecedor?type=${type}&cnpj=${cnpj}`
+            )
 
             const fornecedorData: IFornecedor = await res.json()
             setFornecedorData(fornecedorData)
+            updateFornecedorControl(fornecedorData)
 
             return fornecedorData
 

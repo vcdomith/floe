@@ -1,16 +1,16 @@
 'use client'
-import { ChangeEvent, Dispatch, KeyboardEvent, MouseEvent, MutableRefObject, RefObject, SetStateAction, Suspense, cache, useEffect, useMemo, useRef, useState } from "react"
+import { ChangeEvent, Dispatch, KeyboardEvent, SetStateAction, useMemo, useRef, useState } from "react"
 
 import style from './SelectFornecedor.module.scss'
 import { AnimatePresence, motion } from "framer-motion"
 import LogoSvg from "../SvgArray/LogoSvg"
-import { dbConnect } from "@/utils/db/supabase"
 import capitalize from "@/utils/capitalize"
 
 interface SelectFornecedorProps {
 
     loading?: boolean
     omitSearch?: boolean
+    disabled?: boolean
 
     fornecedoresControle: string[]
 
@@ -20,7 +20,15 @@ interface SelectFornecedorProps {
 
 }
 
-const SelectFornecedor = ({ loading, omitSearch, fornecedoresControle, fornecedor, setFornecedor, confirmFornecedor }: SelectFornecedorProps) => {
+const SelectFornecedor = ({ 
+    loading, 
+    omitSearch,
+    disabled = false, 
+    fornecedoresControle, 
+    fornecedor, 
+    setFornecedor, 
+    confirmFornecedor 
+}: SelectFornecedorProps) => {
 
     // const [fornecedoresControle, setFornecedoresControle] = useState<string[]>(fornecedores)
 
@@ -39,6 +47,11 @@ const SelectFornecedor = ({ loading, omitSearch, fornecedoresControle, fornecedo
     const selectRef = useRef<HTMLButtonElement>(null)
 
     if (search !== '' && !display) setSearch('')
+
+    const nomeDisplay = useMemo(() => {
+        if (fornecedor !== '') return capitalize(fornecedor)
+        return fornecedor
+    }, [fornecedor])
 
     const scrollToNode = (index: number) => {
 
@@ -214,6 +227,7 @@ const SelectFornecedor = ({ loading, omitSearch, fornecedoresControle, fornecedo
                 className={style.select}
                 ref={selectRef}
                 onKeyDown={(e) => handleArrowSelect(e)}
+                disabled={disabled}
                 onClick={(e) => {  
                     e.preventDefault()
                     // db fetch fornecedores  
@@ -226,11 +240,12 @@ const SelectFornecedor = ({ loading, omitSearch, fornecedoresControle, fornecedo
                     readOnly 
                     required
                     formTarget="fornecedor"
+                    disabled={disabled}
                     // disabled={fornecedor ? true : false}
                     placeholder="Selecione"
                     type="text" 
                     contentEditable={false}
-                    value={fornecedor}
+                    value={nomeDisplay}
                 />
                 <svg fill="#000000" width="30px"viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
                     <path 

@@ -10,7 +10,8 @@ export interface UseFornecedor {
     resetFornecedor: () => void
 
     fornecedorDiff: (keyof IFornecedor)[]
-    updateFornecedorControl: (fornecedor: IFornecedor) => void
+    fornecedorControl: IFornecedor | undefined
+    updateFornecedorControl: Dispatch<SetStateAction<IFornecedor | undefined>>
     rollbackFornecedor: () => void
     resetFornecedorControl: () => void
 
@@ -102,6 +103,7 @@ export default function useFornecedor(): UseFornecedor {
         resetFornecedor,
 
         fornecedorDiff,
+        fornecedorControl,
         updateFornecedorControl,
         rollbackFornecedor,
         resetFornecedorControl,

@@ -8,6 +8,7 @@ import { AnimatePresence, motion } from 'framer-motion'
 import useImportCard from '@/hooks/useImportCard'
 import chaveFormatSplit from '@/utils/chaveFormat'
 import { parseCTeXml } from '@/utils/parseXml'
+import { useNotification } from '@/app/(app)/(contexts)/NotificationContext'
 
 interface ImportCardProps {
 
@@ -49,7 +50,10 @@ export default function ImportCard( { tipo, documento }: ImportCardProps ){
                 }
 
                 {(tipo === 'xml')&&
+                    <>
                     <Xml />
+                    {/* <Chave documento={documento} /> */}
+                    </>
                 }
                 
             </span>
@@ -141,11 +145,21 @@ const Chave = ({ documento }: { documento: DocumentoData }) => {
 
 const Xml = () => {
 
+    const [documentos, setDocumentos] = useState<DocumentoImportado[]>([])
 
-    const handleDrop = (e: DragEvent<HTMLLabelElement>) => {
+    const [hover, setHover] = useState(false)
+    const { addNotification } = useNotification()
+
+    const handleDrop = (e: DragEvent<HTMLDivElement>) => {
 
         const file = e.dataTransfer.files?.[0]
-        // console.log(fileList);
+
+        if (file.name.split('.').at(-1) !== 'xml') {
+            addNotification({
+                tipo: 'erro',
+                mensagem: `Arquivo tipo .${file.name.split('.').at(-1)} não é compatível, use um arquivo .xml`
+            })
+        }
 
         if (file) {
             const reader = new FileReader()
@@ -153,6 +167,19 @@ const Xml = () => {
                 const text = e.target?.result as string
                 
                 const data = parseCTeXml(text)
+
+                const documento: DocumentoImportado = {
+                    tipo: 'CTe',
+                    fornecedor: data.transportador,
+                    numero: data.nCTe,
+                    chave: data.chaveCTe,
+                    data: new Date(),
+                }
+
+                setDocumentos(prev => [
+                    ...prev,
+                    documento
+                ])
 
                 console.log(data);
 
@@ -173,6 +200,19 @@ const Xml = () => {
                 
                 const data = parseCTeXml(text)
 
+                const documento: DocumentoImportado = {
+                    tipo: 'CTe',
+                    fornecedor: data.transportador,
+                    numero: data.nCTe,
+                    chave: data.chaveCTe,
+                    data: new Date(),
+                }
+
+                setDocumentos(prev => [
+                    ...prev,
+                    documento
+                ])
+
                 console.log(data);
 
             }
@@ -182,8 +222,24 @@ const Xml = () => {
     }
 
     return (
-        <div 
+        <motion.div 
             className={style.xml}
+            layout
+            onDragOver={(e) => {
+                e.preventDefault()
+                setHover(true)
+                // console.log(e)
+            }}
+            onDragLeave={(e) => {
+                e.preventDefault()
+                setHover(false)
+            }}
+            onDrop={(e) => {
+                e.preventDefault()
+                setHover(false)
+                handleDrop(e)
+            }}
+            data-hover={hover}
             // onDragEnter={}
         >
 {/* 
@@ -191,7 +247,6 @@ const Xml = () => {
                 {svgsUtil.xmlImport}
                 <p>Procure um arquivo XML em seu sistema ou arraste para importar seus dados:</p>
             </span> */}
-
             <input
                 className={style.file} 
                 type="file" 
@@ -200,26 +255,110 @@ const Xml = () => {
                 id="file" 
                 onChange={(e) => handleChange(e)}
             />
-            <label 
+            <motion.label 
                 className={style.import}
                 htmlFor="file"
-                onDragOver={(e) => {
-                    e.preventDefault()
-                    // console.log(e)
-                }}
-                onDragLeave={(e) => e.preventDefault()}
-                onDrop={(e) => {
-                    e.preventDefault()
-                    handleDrop(e)
-                }}
-            >
-                    Selecionar arquivo
-            </label>
+                data-hover={hover}
 
-        </div>
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+            >
+                <p><Highlight>arraste</Highlight> ou <Highlight>selecione</Highlight> arquivo .xml</p>
+            </motion.label>
+            <ul 
+                className={style.documentos}
+            >
+                <AnimatePresence mode='popLayout'>
+                {documentos.map( documento => 
+                    <motion.div 
+                        className={style.documento}
+                        key={documento.chave}
+                        data-hover={hover}
+
+                        initial={{ opacity: 0, scale: '1.5' }}
+                        animate={{ opacity: 1, scale: '1' }}
+                        exit={{ opacity: 0 }}
+                    >
+                        {svgsUtil.unitarioNota}
+                        <span>
+                            <p>{documento.tipo}</p>
+                            {svgsUtil.sucesso}
+                        </span>
+                        <p>{documento.numero}</p>
+                    </motion.div>
+                )}
+                {hover&&
+                <motion.div 
+                    className={`${style.documento} ${style.extra}`}
+
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                >
+                    {svgsUtil.unitarioNota}
+                    {svgsUtil.plus}
+                </motion.div>
+                }
+                {/* {(hover)
+                ?
+                <motion.div 
+                    className={style.hover}
+
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                >
+                    {hover&& svgsUtil.produto3D}
+                    <p>Solte para importar o documento</p>
+                </motion.div>
+                :
+                <>
+                {documentos.map( documento => 
+                    <div 
+                        className={style.documento}
+                        key={documento.chave}
+                    >
+                        {svgsUtil.unitarioNota}
+                        <p>{documento.tipo}</p>
+                        <p>{documento.numero}</p>
+                    </div>
+                )}
+                {hover&&
+                <div 
+                    className={`${style.documento} ${style.extra}`}
+                >
+                    {svgsUtil.plus}
+                </div>
+                }
+                </>
+
+                } */}
+                </AnimatePresence>
+            </ul>
+        </motion.div>
     )
 
 }
+
+{/* <input
+className={style.file} 
+type="file" 
+accept  ='.xml' 
+name="file" 
+id="file" 
+onChange={(e) => handleChange(e)}
+/>
+<motion.label 
+className={style.import}
+htmlFor="file"
+
+initial={{ opacity: 0 }}
+animate={{ opacity: 1 }}
+exit={{ opacity: 0 }}
+>
+    Selecionar arquivo
+</motion.label> */}
 
 const Documento = ({ documento }: { documento: DocumentoImportado }) => {
 

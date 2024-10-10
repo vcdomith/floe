@@ -14,6 +14,7 @@ export interface CTeData {
     transportador: string
     nCTe: string
     valorFrete: string
+    chaveCTe: string
     chaveNFe: string
 
 }
@@ -93,10 +94,12 @@ export const parseCTeXml = (res: string)  => {
     const transportador = xml.querySelector('emit > xNome')?.textContent
     const nCTe = xml.querySelector('nCT')?.textContent
     const valorFrete = xml.querySelector('vTPrest')?.textContent
+    const chaveCTe = xml.querySelector('infProt > chCTe')?.textContent
     const chaveNFe = xml.querySelector('infNFe > chave')?.textContent
 
     const CTeData: CTeData = {
         valorFrete: valorFrete || '',
+        chaveCTe: chaveCTe || '',
         chaveNFe: chaveNFe || '',
         transportador: transportador || "",
         nCTe: nCTe || ""

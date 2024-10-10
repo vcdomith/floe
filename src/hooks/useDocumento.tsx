@@ -13,6 +13,7 @@ export interface DadosImportados {
 
 export interface DocumentoImportado {
 
+    tipo: 'NFe' | 'CTe'
     fornecedor: string
     numero: string
     chave: string
@@ -50,6 +51,7 @@ const INITAL_STATE_DADOS_IMPORTADOS: DadosImportados = {
         valorTotalProdutos: "",
         valorFrete: "",
         chaveNFe: "",
+        chaveCTe: "",
         nNFe: "",
         transportador: "",
         nCTe: ""
@@ -107,6 +109,7 @@ export default function useDocumento(): UseDocumento {
             produtos: [...extractData.produtos]
         }))
         setNFeImportado({
+            tipo: 'NFe',
             fornecedor: extractData.pedido.fornecedor,
             numero: extractData.pedido.nNFe,
             chave: chave,
@@ -157,6 +160,7 @@ export default function useDocumento(): UseDocumento {
         }))
 
         setCTeImportado({
+            tipo: 'CTe',
             fornecedor: extractData.transportador,
             numero: extractData.nCTe,
             chave: chave,

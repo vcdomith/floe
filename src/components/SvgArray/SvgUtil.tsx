@@ -243,22 +243,46 @@ function SvgChaveImport() {
 }
 
 function SvgXmlImport() {
-
     return(
         <svg width="500" height="500" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M178 390L59 390L59 258" stroke="black" stroke-width="40" stroke-linejoin="round"/>
-<path d="M125 312L203 389.5L125 467" stroke="black" stroke-width="40"/>
-<path d="M280.165 367.245C234.233 321.061 326.097 321.061 280.165 274.877L449.694 274.877C495.627 321.061 403.762 321.061 449.694 367.245C495.627 413.429 401.472 415.732 447.659 462.172L278.129 462.172C231.942 415.732 326.097 413.429 280.165 367.245Z" stroke="black" stroke-width="40" stroke-linejoin="round"/>
-<line x1="318" y1="335" x2="392" y2="335" stroke="black" stroke-width="40"/>
-<line x1="336" y1="394" x2="410" y2="394" stroke="black" stroke-width="40"/>
-<path d="M350.503 40L438.065 127L350.503 214" stroke="black" stroke-width="40"/>
-<path d="M149.561 40L62 127L149.561 214" stroke="black" stroke-width="40"/>
-<path d="M192.219 198.284L316.826 73.6774" stroke="black" stroke-width="40"/>
-</svg>
-
-
+            <path d="M178 390L59 390L59 258" stroke="black" stroke-width="40" stroke-linejoin="round"/>
+            <path d="M125 312L203 389.5L125 467" stroke="black" stroke-width="40"/>
+            <path d="M280.165 367.245C234.233 321.061 326.097 321.061 280.165 274.877L449.694 274.877C495.627 321.061 403.762 321.061 449.694 367.245C495.627 413.429 401.472 415.732 447.659 462.172L278.129 462.172C231.942 415.732 326.097 413.429 280.165 367.245Z" stroke="black" stroke-width="40" stroke-linejoin="round"/>
+            <line x1="318" y1="335" x2="392" y2="335" stroke="black" stroke-width="40"/>
+            <line x1="336" y1="394" x2="410" y2="394" stroke="black" stroke-width="40"/>
+            <path d="M350.503 40L438.065 127L350.503 214" stroke="black" stroke-width="40"/>
+            <path d="M149.561 40L62 127L149.561 214" stroke="black" stroke-width="40"/>
+            <path d="M192.219 198.284L316.826 73.6774" stroke="black" stroke-width="40"/>
+        </svg>
     )
+}
 
+function SvgSucesso() {
+    return (
+        <svg width="50" height="50" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M149 219.875L240.063 310.938L348 203" stroke="black" strokeWidth="40"/>
+            <circle cx="250.5" cy="249.5" r="184.5" stroke="black" strokeWidth="40"/>
+        </svg>
+    )
+}
+
+function SvgAviso() {
+    return (
+        <svg width="50" height="50" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M462 433L250.5 67L144.75 250L39 433H462Z" stroke="black" strokeWidth="40" strokeLinejoin="bevel"/>
+            <path d="M250 198V380" stroke="black" strokeWidth="40"/>
+        </svg>
+    )
+}
+
+function SvgError() {
+    return (
+        <svg width="50" height="50" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M146 148L351 353" stroke="black" strokeWidth="40"/>
+            <path d="M351 148L146 353" stroke="black" strokeWidth="40"/>
+            <rect x="66" y="65" width="369" height="369" rx="49" stroke="black" strokeWidth="40"/>
+        </svg>
+    )
 }
 
 export interface SvgUtilItems extends 
@@ -277,6 +301,9 @@ export interface SvgUtilItems extends
     chave: React.ReactNode
     chaveImport: React.ReactNode
     xmlImport: React.ReactNode
+    sucesso: React.ReactNode
+    aviso: React.ReactNode
+    error: React.ReactNode
 }
 
 export const svgsUtil: SvgUtilItems = {
@@ -306,4 +333,7 @@ export const svgsUtil: SvgUtilItems = {
     chave: <SvgChave />,
     chaveImport: <SvgChaveImport />,
     xmlImport: <SvgXmlImport />,
+    sucesso: <SvgSucesso />,
+    aviso: <SvgAviso />,
+    error: <SvgError />,
 }

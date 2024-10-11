@@ -1,4 +1,4 @@
-import { ChangeEvent, DragEvent, MouseEvent, useMemo, useState } from 'react'
+import { ChangeEvent, DragEvent, forwardRef, MouseEvent, RefObject, useMemo, useRef, useState } from 'react'
 import style from './ImportCard.module.scss'
 import { svgsUtil, SvgUtilItems } from '@/components/SvgArray/SvgUtil'
 import Highlight from '@/components/Highlight/Highlight'
@@ -7,8 +7,12 @@ import { DocumentoData, DocumentoImportado } from '@/hooks/useDocumento'
 import { AnimatePresence, motion } from 'framer-motion'
 import useImportCard from '@/hooks/useImportCard'
 import chaveFormatSplit from '@/utils/chaveFormat'
-import { parseCTeXml } from '@/utils/parseXml'
+import { parseCTeXml, parseXml } from '@/utils/parseXml'
 import { useNotification } from '@/app/(app)/(contexts)/NotificationContext'
+import { useModal } from '@/app/(app)/(contexts)/ModalContext'
+import { create } from 'lodash'
+import { createPortal } from 'react-dom'
+import ConfirmationDialog from '@/components/ConfirmationDialog/ConfirmationDialog'
 
 interface ImportCardProps {
 
@@ -51,7 +55,7 @@ export default function ImportCard( { tipo, documento }: ImportCardProps ){
 
                 {(tipo === 'xml')&&
                     <>
-                    <Xml />
+                    <Xml documento={documento}/>
                     {/* <Chave documento={documento} /> */}
                     </>
                 }
@@ -78,7 +82,7 @@ export default function ImportCard( { tipo, documento }: ImportCardProps ){
 
 }
 
-const Chave = ({ documento }: { documento: DocumentoData }) => {
+export const Chave = ({ documento }: { documento: DocumentoData }) => {
 
     const {
         documento: documentoNome,
@@ -143,11 +147,25 @@ const Chave = ({ documento }: { documento: DocumentoData }) => {
 
 }
 
-const Xml = () => {
+interface DocumentosNodes {
+    nfe: Document | null
+    cte: Document | null
+
+}
+
+const appendToNode = (node: HTMLElement, content: Document ) => {
+    node.innerHTML += JSON.stringify(content)
+}
+
+export const Xml = ({ documento }: { documento: DocumentoData }) => {
 
     const [documentos, setDocumentos] = useState<DocumentoImportado[]>([])
+    const [documentosNodes, setDocumentosNodes] = useState<DocumentosNodes>({
+        nfe: null,
+        cte: null,
+    })
 
-    const [hover, setHover] = useState(false)
+    const [ hover, setHover ] = useState(false)
     const { addNotification } = useNotification()
 
     const handleDrop = (e: DragEvent<HTMLDivElement>) => {
@@ -166,15 +184,19 @@ const Xml = () => {
             reader.onload = function (e) {
                 const text = e.target?.result as string
                 
-                const data = parseCTeXml(text)
+                const { data, documento, node } = parseXml(text)
 
-                const documento: DocumentoImportado = {
-                    tipo: 'CTe',
-                    fornecedor: data.transportador,
-                    numero: data.nCTe,
-                    chave: data.chaveCTe,
-                    data: new Date(),
-                }
+                setDocumentosNodes(prev => ({
+                    ...prev,
+                    [documento.tipo.toLowerCase()]: node
+                }))
+                // const documento: DocumentoImportado = {
+                //     tipo: 'CTe',
+                //     fornecedor: data.transportador,
+                //     numero: data.nCTe,
+                //     chave: data.chaveCTe,
+                //     data: new Date(),
+                // }
 
                 setDocumentos(prev => [
                     ...prev,
@@ -198,15 +220,15 @@ const Xml = () => {
             reader.onload = function (e) {
                 const text = e.target?.result as string
                 
-                const data = parseCTeXml(text)
+                const { data, documento } = parseXml(text)
 
-                const documento: DocumentoImportado = {
-                    tipo: 'CTe',
-                    fornecedor: data.transportador,
-                    numero: data.nCTe,
-                    chave: data.chaveCTe,
-                    data: new Date(),
-                }
+                // const documento: DocumentoImportado = {
+                //     tipo: 'CTe',
+                //     fornecedor: data.transportador,
+                //     numero: data.nCTe,
+                //     chave: data.chaveCTe,
+                //     data: new Date(),
+                // }
 
                 setDocumentos(prev => [
                     ...prev,
@@ -220,6 +242,8 @@ const Xml = () => {
         }
 
     }
+
+    const { setModal } = useModal()
 
     return (
         <motion.div 
@@ -266,6 +290,7 @@ const Xml = () => {
             >
                 <p><Highlight>arraste</Highlight> ou <Highlight>selecione</Highlight> arquivo .xml</p>
             </motion.label>
+            <Chave documento={documento} />
             <ul 
                 className={style.documentos}
             >
@@ -275,15 +300,24 @@ const Xml = () => {
                         className={style.documento}
                         key={documento.chave}
                         data-hover={hover}
+                        onClick={ () => {
+                            setModal( <div/> )
+                            // console.log(divRef.current);
+                            console.log(documentosNodes)
+                            appendToNode(
+                                document.body, 
+                                (documentosNodes[documento.tipo.toLowerCase() as keyof DocumentosNodes])!
+                            )
+                        }}
 
                         initial={{ opacity: 0, scale: '1.5' }}
                         animate={{ opacity: 1, scale: '1' }}
                         exit={{ opacity: 0 }}
                     >
                         {svgsUtil.unitarioNota}
-                        <span>
+                        <span className={style.tipo}>
                             <p>{documento.tipo}</p>
-                            {svgsUtil.sucesso}
+                            {svgsUtil.check}
                         </span>
                         <p>{documento.numero}</p>
                     </motion.div>

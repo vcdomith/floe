@@ -1,3 +1,4 @@
+import { DocumentoImportado } from "@/hooks/useDocumento"
 
 export interface NFeData {
 
@@ -32,10 +33,20 @@ export interface NFeProduto {
 
 }
 
-export const parseNFeXml = (res: string)  => {
-   
-    const parser = new DOMParser()
-    const xml = parser.parseFromString(res, 'application/xml')
+interface NFeResult {
+    pedido: NFeData,
+    produtos: NFeProduto[]
+}
+
+export interface ParseXmlResult {
+    data: NFeResult | CTeData
+    documento: DocumentoImportado
+    node: Document
+}
+
+const SUPPORTED_DOCUMENTS = ['nfe', 'cte']
+
+export const parseNFeXml = (xml: Document): ParseXmlResult  => {
 
     const fornecedor = xml.querySelector('emit > xNome')?.textContent
     const nNFe = xml.querySelector('nNF')?.textContent
@@ -43,6 +54,7 @@ export const parseNFeXml = (res: string)  => {
     const itens = xml.querySelectorAll('infNFe > det')
     const valorSt = xml.querySelector('vST')?.textContent
     const valorTotalProdutos = xml.querySelector('ICMSTot > vProd')?.textContent
+    const chaveNFe = xml.querySelector('infProt > chNFe')?.textContent
 
     const fornecedorDataExtraido: NFeData = {
         fornecedor: fornecedor || '',
@@ -79,17 +91,26 @@ export const parseNFeXml = (res: string)  => {
 
     })
 
+    const documento: DocumentoImportado = {
+        tipo: 'NFe',
+        fornecedor: fornecedor!,
+        numero: nNFe!,
+        chave: chaveNFe!,
+        data: new Date(),
+    }
+
     return {
-        pedido: fornecedorDataExtraido,
-        produtos: produtosExtraidos
+        data: {
+            pedido: fornecedorDataExtraido,
+            produtos: produtosExtraidos
+        },
+        documento: documento,
+        node: xml,
     }
 
 }
 
-export const parseCTeXml = (res: string)  => {
-   
-    const parser = new DOMParser()
-    const xml = parser.parseFromString(res, 'application/xml')
+export const parseCTeXml = (xml: Document): ParseXmlResult  => {
         
     const transportador = xml.querySelector('emit > xNome')?.textContent
     const nCTe = xml.querySelector('nCT')?.textContent
@@ -105,7 +126,57 @@ export const parseCTeXml = (res: string)  => {
         nCTe: nCTe || ""
     }
 
-    return CTeData
+    const documento: DocumentoImportado = {
+        tipo: 'CTe',
+        fornecedor: transportador!,
+        numero: nCTe!,
+        chave: chaveCTe!,
+        data: new Date(),
+    }
+
+    return {
+        data: CTeData,
+        documento: documento,
+        node: xml,
+    }
+
+
+}
+
+export const parseXml = (res: string): ParseXmlResult => {
+
+    const parser = new DOMParser()
+    const xml = parser.parseFromString(res, 'application/xhtml+xml')
+
+    const tipo = xml.childNodes[0].nodeName.toLowerCase()
+
+    console.log(tipo);
+    console.log(tipo.includes('nfe'));
+    console.log(tipo.includes('cte'));
+
+    if (!tipo.includes('nfe') && !tipo.includes('cte')) {
+        throw new Error('Documento não suportado, deve incluir nfeProc ou cteProc como primeiro node')
+    }
+
+    return (tipo.includes('nfe')) 
+        ? parseNFeXml(xml)
+        : parseCTeXml(xml)
+
+    // switch (tipo) {
+
+    //     case 'nfeProc':
+
+    //         return parseNFeXml(xml)
+    
+    //     case 'cteProc':
+
+    //         return parseCTeXml(xml)
+
+    // }
+        
+
+
+
 
 
 }

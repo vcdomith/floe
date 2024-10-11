@@ -2,7 +2,7 @@
 import Link from 'next/link'
 import style from './ImportarChaveSection.module.scss'
 import { svgsUtil } from '@/components/SvgArray/SvgUtil'
-import ImportCard from './ImportCard/ImportCard'
+import ImportCard, { Xml } from './ImportCard/ImportCard'
 import { useChave } from '../../../context/CalcularContext'
 import { UIEvent, useMemo, useState } from 'react'
 import LogoSvg from '@/components/SvgArray/LogoSvg'
@@ -13,6 +13,7 @@ import capitalize from '@/utils/capitalize'
 import { useNotification } from '@/app/(app)/(contexts)/NotificationContext'
 import AvisoFatoresDiferentes from '@/components/AvisoFatoresDiferentes/AvisoFatoresDIferentes'
 import Tab from '@/components/Tab/Tab'
+import { Chave } from './ImportCard/ImportCard'
 
 export default function ImportarChaveSection({ tipo = 'chave'} : { tipo: 'chave' | 'xml'}) {
 
@@ -51,7 +52,7 @@ export default function ImportarChaveSection({ tipo = 'chave'} : { tipo: 'chave'
                     <h3>Importar NFe e CTe - {tipo}</h3>
                 </span>
 
-                <p>Forneça a chave de acesso da Nfe com 44 dígitos para importar os valores da nota:</p>
+                {/* <p>Forneça a chave de acesso da Nfe com 44 dígitos para importar os valores da nota:</p> */}
 
             </div>
 
@@ -62,10 +63,25 @@ export default function ImportarChaveSection({ tipo = 'chave'} : { tipo: 'chave'
                 <Tab 
                     svg={svgsUtil.chave} 
                     section={'Importar'} 
-                    initialDisplay
+                    // initialDisplay
                 >
+                    <p>Forneça a chave de acesso da Nfe com 44 dígitos para importar os valores da nota:</p>
+                    
+                    <Xml documento={documentos.cte} />
+                    {/* <Chave documento={documentos.cte}/> */}
+                    
+                    <button
+                        className={style.submit} 
+                        onClick={() => submitForm()}
+                        disabled={(!valid || loading)}
+                    >
+                        {(loading)
+                            ? <><LogoSvg loop />  Importando...</>
+                            : 'Gerar Tabela'
+                        }
+                    </button>
 
-                    <ImportCard 
+                    {/* <ImportCard 
                         tipo={tipo} 
                         documento={documentos.cte}     
                     />
@@ -73,7 +89,7 @@ export default function ImportarChaveSection({ tipo = 'chave'} : { tipo: 'chave'
                     <ImportCard
                         tipo={tipo} 
                         documento={documentos.nfe}
-                    />
+                    /> */}
                 </Tab>
 
                 <Tab 

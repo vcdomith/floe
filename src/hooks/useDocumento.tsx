@@ -1,5 +1,5 @@
 import { useNotification } from "@/app/(app)/(contexts)/NotificationContext"
-import { CTeData, NFeData, NFeProduto, parseCTeXml, parseNFeXml } from "@/utils/parseXml"
+import { CTeData, NFeData, NFeProduto, NFeResult, parseCTeXml, parseNFeXml, parseXml } from "@/utils/parseXml"
 import { useMemo, useState } from "react"
 
 interface PedidoData extends NFeData, CTeData {}
@@ -37,6 +37,7 @@ export interface DocumentoData {
 interface UseDocumento {
 
     documentos: Record<'nfe' | 'cte', DocumentoData>
+    getModeloDocumento: (chave: string) => string
 
     dadosImportados: DadosImportados
 
@@ -98,20 +99,22 @@ export default function useDocumento(): UseDocumento {
             return
         }
 
-        const extractData = parseNFeXml(res) as DadosImportados
+        const extractData = parseXml(res)
       
+        const { data } = extractData
+
         // setDadosImportados(extractData)
         setDadosImportados( prev => ({
             pedido: {
                 ...prev.pedido,
-                ...extractData.pedido
+                ...(extractData.data as NFeResult).pedido
             },
-            produtos: [...extractData.produtos]
+            produtos: [...(data as NFeResult).produtos]
         }))
         setNFeImportado({
             tipo: 'NFe',
-            fornecedor: extractData.pedido.fornecedor,
-            numero: extractData.pedido.nNFe,
+            fornecedor: (data as NFeResult).pedido.fornecedor,
+            numero: (data as NFeResult).pedido.nNFe,
             chave: chave,
             data: new Date(),
         })
@@ -149,20 +152,21 @@ export default function useDocumento(): UseDocumento {
             return
         }
 
-        const extractData = parseCTeXml(res)
+        const extractData = parseXml(res)
+        const { data } = extractData
         console.log('extractData', extractData);
         setDadosImportados( prev => ({
             pedido: {
                 ...prev.pedido,
-                ...extractData
+                ...data
             },
             produtos: [...prev.produtos]
         }))
 
         setCTeImportado({
             tipo: 'CTe',
-            fornecedor: extractData.transportador,
-            numero: extractData.nCTe,
+            fornecedor: (data as CTeData).transportador,
+            numero: (data as CTeData).nCTe,
             chave: chave,
             data: new Date(),
         })
@@ -174,15 +178,15 @@ export default function useDocumento(): UseDocumento {
         })
 
         // Consulta NFe atrelada à CTe e importa seus dados
-        setChaveNFe(extractData.chaveNFe)
-        handleImportNFe(extractData.chaveNFe)
-
-
+        setChaveNFe((data as CTeData).chaveNFe)
+        handleImportNFe((data as CTeData).chaveNFe)
 
         console.log(extractData);
         console.log(dadosImportados);
 
     }
+
+    const getModeloDocumento = (chave: string) => chave.slice(20,22)
 
     const documentos: Record<'nfe' | 'cte', DocumentoData> = useMemo(() => ({
         nfe: {
@@ -206,7 +210,7 @@ export default function useDocumento(): UseDocumento {
     return {
 
         documentos,
-
+        getModeloDocumento,
         dadosImportados
 
     }

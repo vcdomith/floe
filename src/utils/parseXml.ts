@@ -33,7 +33,7 @@ export interface NFeProduto {
 
 }
 
-interface NFeResult {
+export interface NFeResult {
     pedido: NFeData,
     produtos: NFeProduto[]
 }
@@ -119,7 +119,7 @@ export const parseCTeXml = (xml: Document): ParseXmlResult  => {
     const chaveNFe = xml.querySelector('infNFe > chave')?.textContent
 
     const CTeData: CTeData = {
-        valorFrete: valorFrete || '',
+        valorFrete: valorFrete?.replace('.', ',') || '',
         chaveCTe: chaveCTe || '',
         chaveNFe: chaveNFe || '',
         transportador: transportador || "",

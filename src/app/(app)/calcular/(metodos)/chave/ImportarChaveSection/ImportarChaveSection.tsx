@@ -2,7 +2,7 @@
 import Link from 'next/link'
 import style from './ImportarChaveSection.module.scss'
 import { svgsUtil } from '@/components/SvgArray/SvgUtil'
-import ImportCard, { Xml } from './ImportCard/ImportCard'
+import ImportCard from './ImportCard/ImportCard'
 import { useChave } from '../../../context/CalcularContext'
 import { UIEvent, useMemo, useState } from 'react'
 import LogoSvg from '@/components/SvgArray/LogoSvg'
@@ -13,7 +13,7 @@ import capitalize from '@/utils/capitalize'
 import { useNotification } from '@/app/(app)/(contexts)/NotificationContext'
 import AvisoFatoresDiferentes from '@/components/AvisoFatoresDiferentes/AvisoFatoresDIferentes'
 import Tab from '@/components/Tab/Tab'
-import { Chave } from './ImportCard/ImportCard'
+import ImportCardOld, { Chave } from './ImportCardOld/ImportCardOld'
 
 export default function ImportarChaveSection({ tipo = 'chave'} : { tipo: 'chave' | 'xml'}) {
 
@@ -67,7 +67,8 @@ export default function ImportarChaveSection({ tipo = 'chave'} : { tipo: 'chave'
                 >
                     <p>Forneça a chave de acesso da Nfe com 44 dígitos para importar os valores da nota:</p>
                     
-                    <Xml documento={documentos.cte} />
+                    {/* <Xml documento={documentos.cte} /> */}
+                    <ImportCard documento={documentos.cte} />
                     {/* <Chave documento={documentos.cte}/> */}
                     
                     <button

@@ -14,6 +14,7 @@ import ProdutoDetalhes from '@/components/ProdutoDetalhes/ProdutoDetalhes'
 import ConfirmationDialog from '@/components/ConfirmationDialog/ConfirmationDialog'
 import { useNotification } from '@/app/(app)/(contexts)/NotificationContext'
 import { useMediaQuery } from '@/app/(app)/(contexts)/MediaQueryContext'
+import Converter from '@/utils/typeConversion'
 
 interface TabelaRowProps {
 
@@ -21,11 +22,14 @@ interface TabelaRowProps {
 
 }
 
+const { stringToFloat } = Converter
+
 const TabelaRow = forwardRef<HTMLSpanElement, TabelaRowProps>(
 function TabelaRow({produto}: TabelaRowProps, ref) {
 
     const { id, codigo, ncm, st, unitario, unitarioNota, composto } = produto
-    const {tabela1, tabela2, tabela3} = useMemo(() => getTabelasObject(produto), [produto])
+    const { tabela1, tabela2, tabela3 } = useMemo(() => getTabelasObject(produto), [produto])
+    const unitarioDisplay = useMemo(() => stringToFloat(unitario).toFixed(2), [unitario])
 
     const { context } = useCalcular()
 
@@ -93,7 +97,7 @@ function TabelaRow({produto}: TabelaRowProps, ref) {
                 </div>
                 <div className={style.composto}>
                     <label className={style.label}>unitário</label>
-                    <p className={style.main}>{ unitario }</p>
+                    <p className={style.main}>{ unitarioDisplay }</p>
                     {(composto?.every(item => item !== ''))&&
                     <p className={style.second}>{ `(${composto[0]} + ${composto[1]})` }</p>
                     }
@@ -106,7 +110,7 @@ function TabelaRow({produto}: TabelaRowProps, ref) {
                 <div className={style.composto}>
                     <label className={style.label}>tabela 2</label>
                     <p className={style.main}>{ tabela2.toFixed(2) }</p>      
-                    <p className={style.second}>{ unitarioNota }</p>
+                    <p className={style.second}>{ unitarioDisplay }</p>
                 </div>
                 <div>
                     <label className={style.label}>tabela 3</label>

@@ -1,5 +1,5 @@
 
-import { DocumentoData, DocumentoImportado } from '@/hooks/useDocumento'
+import useDocumento, { DocumentoData, DocumentoImportado, UseDocumento } from '@/hooks/useDocumento'
 import style from './ImportCard.module.scss'
 import Highlight from '@/components/Highlight/Highlight'
 import { AnimatePresence, motion } from 'framer-motion'
@@ -10,20 +10,24 @@ import { useModal } from '@/app/(app)/(contexts)/ModalContext'
 import { svgsUtil } from '@/components/SvgArray/SvgUtil'
 import useImportCardDrag from './useImportCardDrag'
 import useImportCard from '@/hooks/useImportCard'
+import { useChave } from '@/app/(app)/calcular/context/CalcularContext'
+import { UseChaveContext } from '@/hooks/useChaveContext'
 
-interface ImportCardProps {
-    documento: DocumentoData
-}
-
-export default function ImportCard({documento}: ImportCardProps) {
+export default function ImportCard() {
 
     const {
-        documentos,
+        chave: { documentosContext: context }
+    } = useChave()
+
+    const { valid, documentos } = context
+
+    const {
+        // documentos,
         dragHover,
         setDragHover,
         handleChange,
         handleDrop,
-    } = useImportCardDrag()
+    } = useImportCardDrag(context)
 
     return (
         <motion.div 
@@ -47,11 +51,24 @@ export default function ImportCard({documento}: ImportCardProps) {
             data-hover={dragHover}
             // onDragEnter={}
         >
-{/* 
-            <span className={style.title}>
-                {svgsUtil.xmlImport}
-                <p>Procure um arquivo XML em seu sistema ou arraste para importar seus dados:</p>
-            </span> */}
+
+            <AnimatePresence>
+            {dragHover&&
+            <motion.section 
+                className={style.overlay}
+
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+            >
+                <div className={style.icon}>
+                    {svgsUtil.unitarioNota}
+                    {svgsUtil.plus}
+                </div>
+            </motion.section>
+            }
+            </AnimatePresence>
+
             <input
                 className={style.file} 
                 type="file" 
@@ -63,7 +80,7 @@ export default function ImportCard({documento}: ImportCardProps) {
             <motion.label 
                 className={style.import}
                 htmlFor="file"
-                data-hover={dragHover}
+                // data-hover={dragHover}
 
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
@@ -74,31 +91,27 @@ export default function ImportCard({documento}: ImportCardProps) {
     
             <div 
                 className={style.chave}
-                data-hover={dragHover}
             >
                 <span 
                     className={style.title}
-                    data-hover={dragHover}
                 >
                     <p>digite a <Highlight>chave</Highlight> do documento para importar</p>
                 </span>
-                <Chave documento={documento} />
+                <Chave context={context} />
                 <button 
                     className={style.importButton}
-                    data-hover={dragHover}
+                    disabled={!valid}
                 >Importar</button>
             </div>
-
 
             <ul 
                 className={style.documentos}
             >
                 <AnimatePresence mode='popLayout'>
-                {documentos.map( documento => 
+                {Object.entries(documentos).map( ([tipo, documento], index) => 
                     <motion.div 
-                        className={style.documento}
-                        key={documento.chave}
-                        data-hover={dragHover}
+                        className={`${style.documento} ${documento === null&& style.empty}`}
+                        key={index}
                         onClick={ () => {
                             // console.log(divRef.current);
                             // console.log(documentosNodes)
@@ -109,14 +122,17 @@ export default function ImportCard({documento}: ImportCardProps) {
                         exit={{ opacity: 0 }}
                     >
                         {svgsUtil.unitarioNota}
+                      
                         <span className={style.tipo}>
-                            <p>{documento.tipo}</p>
-                            {svgsUtil.check}
+                            <p>{tipo}</p>
+                            {(documento !== null)&& svgsUtil.check}
                         </span>
-                        <p>{documento.numero}</p>
+                      
+                        <p>{(documento === null) ? '••••••' : documento.numero}</p>
+                        
                     </motion.div>
                 )}
-                {dragHover&&
+                {/* {dragHover&&
                 <motion.div 
                     className={`${style.documento} ${style.extra}`}
 
@@ -127,7 +143,7 @@ export default function ImportCard({documento}: ImportCardProps) {
                     {svgsUtil.unitarioNota}
                     {svgsUtil.plus}
                 </motion.div>
-                }
+                } */}
         
                 </AnimatePresence>
             </ul>
@@ -136,14 +152,11 @@ export default function ImportCard({documento}: ImportCardProps) {
 
 }
 
-const Chave = ({ documento }: { documento: DocumentoData }) => {
+const Chave = ({ context }: { context: UseDocumento }) => {
 
-    const {
-        documento: documentoNome,
-        chave,
-    } = documento
+    const {dragHover} = useImportCardDrag(context)
 
-    const {dragHover} = useImportCardDrag()
+    const { chave } = context
 
     const {
         inputRef,
@@ -156,7 +169,7 @@ const Chave = ({ documento }: { documento: DocumentoData }) => {
         handleCaretEvent,
         handleDigitClick,
         resetCaret,
-    } = useImportCard(documento)
+    } = useImportCard(context)
 
     return (
         <div 
@@ -187,7 +200,7 @@ const Chave = ({ documento }: { documento: DocumentoData }) => {
                         return (
                             <div 
                             key={indexDigit}
-                            className={`${style.digit} ${style[documentoNome]}`}
+                            className={`${style.digit}`}
                             data-active={
                                 selectionActive 
                                     ? (digitIndex >= caret.start && digitIndex < caret.end)

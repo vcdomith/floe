@@ -1,6 +1,6 @@
 import { useNotification } from "@/app/(app)/(contexts)/NotificationContext"
 import { CTeData, NFeData, NFeProduto, NFeResult, parseCTeXml, parseNFeXml, parseXml } from "@/utils/parseXml"
-import { useMemo, useState } from "react"
+import { Dispatch, SetStateAction, useMemo, useState } from "react"
 
 interface PedidoData extends NFeData, CTeData {}
 
@@ -13,7 +13,7 @@ export interface DadosImportados {
 
 export interface DocumentoImportado {
 
-    tipo: 'NFe' | 'CTe'
+    tipo: 'nfe' | 'cte'
     fornecedor: string
     numero: string
     chave: string
@@ -34,12 +34,21 @@ export interface DocumentoData {
 
 // type parseXmlReturn = DadosImportados | { valorFrete: string | null | undefined, chaveNFe: string | null | undefined} | null
 
-interface UseDocumento {
+export interface UseDocumento {
 
-    documentos: Record<'nfe' | 'cte', DocumentoData>
-    getModeloDocumento: (chave: string) => string
-
+    chave: string
+    setChave: Dispatch<SetStateAction<string>>
+    valid: boolean
+    documentos: Documentos
+    setDocumento: (documento: DocumentoImportado) => void
     dadosImportados: DadosImportados
+
+    modelo: string | null
+    importarDocumento: (chave: string) => Promise<void>
+    // documentos: Record<'nfe' | 'cte', DocumentoData>
+    // getModeloDocumento: (chave: string) => string
+
+    // dadosImportados: DadosImportados
 
 }
 
@@ -61,19 +70,48 @@ const INITAL_STATE_DADOS_IMPORTADOS: DadosImportados = {
     produtos: []
 }
 
+interface Documentos {
+
+    cte: DocumentoImportado | null
+    nfe: DocumentoImportado | null
+    pedido: DocumentoImportado | null
+
+}
+
+const INITIAL_DOCUMENTOS: Documentos = {
+    cte: null,
+    nfe: null,
+    pedido: null
+}
+
+const SUPPORTED_MODELOS = ['55', '57']
 
 export default function useDocumento(): UseDocumento {
 
-    const [chaveNFe, setChaveNFe] = useState('')
-    const [chaveCTe, setChaveCTe] = useState('')
+    const [chave, setChave] = useState('')
+    const [loading, setLoading] = useState(false)
+
+    const [documentos, setDocumentos] = useState<Documentos>(INITIAL_DOCUMENTOS)
+    const setDocumento = (documento: DocumentoImportado) => {
+        setDocumentos(prev => ({
+            ...prev,
+            [documento.tipo]: documento
+        }))
+    }
+
+    const modelo = useMemo(() => {
+
+        if(chave.length !== 44) return null
+        return chave.slice(20,22)
+
+    }, [chave])
+    const getModelo = () => {
+
+    }
+
+    const valid = useMemo(() => chave.length === 44,[chave])
 
     const [dadosImportados, setDadosImportados] = useState<DadosImportados>(INITAL_STATE_DADOS_IMPORTADOS)
-
-    const [NFeLoading, setNFeLoading] = useState(false)
-    const [NFeImportado, setNFeImportado] = useState<DocumentoImportado>()
-
-    const [CTeLoading, setCTeLoading] = useState(false)
-    const [CTeImportado, setCTeImportado] = useState<DocumentoImportado>()
 
     const { addNotification } = useNotification()
 
@@ -84,7 +122,7 @@ export default function useDocumento(): UseDocumento {
             return
         }
 
-        setNFeLoading(true)
+        setLoading(true)
 
         const query: Response = await fetch(`/xml/api/getNFe?chave=${chave}`)
         const res = await query.json()
@@ -95,7 +133,7 @@ export default function useDocumento(): UseDocumento {
                 tipo: 'erro',
                 mensagem: `Ocorreu um erro durante a importação da NFe! erro: ${res}`
             })
-            setNFeLoading(false)
+            setLoading(false)
             return
         }
 
@@ -111,15 +149,15 @@ export default function useDocumento(): UseDocumento {
             },
             produtos: [...(data as NFeResult).produtos]
         }))
-        setNFeImportado({
-            tipo: 'NFe',
+        setDocumento({
+            tipo: 'nfe',
             fornecedor: (data as NFeResult).pedido.fornecedor,
             numero: (data as NFeResult).pedido.nNFe,
             chave: chave,
             data: new Date(),
         })
 
-        setNFeLoading(false)
+        setLoading(false)
         addNotification({
             tipo: 'sucesso',
             mensagem: 'NFe importada com sucesso!'
@@ -137,7 +175,7 @@ export default function useDocumento(): UseDocumento {
             return
         }
 
-        setCTeLoading(true)
+        setLoading(true)
 
         const query: Response = await fetch(`/xml/api/getCTe?chave=${chave}`)
         const res = await query.json()       
@@ -148,7 +186,7 @@ export default function useDocumento(): UseDocumento {
                 tipo: 'erro',
                 mensagem: `Ocorreu um erro durante a importação da CTe! erro: ${res}`
             })
-            setCTeLoading(false)
+            setLoading(false)
             return
         }
 
@@ -163,22 +201,22 @@ export default function useDocumento(): UseDocumento {
             produtos: [...prev.produtos]
         }))
 
-        setCTeImportado({
-            tipo: 'CTe',
+        setDocumento({
+            tipo: 'cte',
             fornecedor: (data as CTeData).transportador,
             numero: (data as CTeData).nCTe,
             chave: chave,
             data: new Date(),
         })
 
-        setCTeLoading(false)
+        setLoading(false)
         addNotification({
             tipo: 'sucesso',
             mensagem: 'CTe importada com sucesso!'
         })
 
         // Consulta NFe atrelada à CTe e importa seus dados
-        setChaveNFe((data as CTeData).chaveNFe)
+        setChave((data as CTeData).chaveNFe)
         handleImportNFe((data as CTeData).chaveNFe)
 
         console.log(extractData);
@@ -186,32 +224,56 @@ export default function useDocumento(): UseDocumento {
 
     }
 
-    const getModeloDocumento = (chave: string) => chave.slice(20,22)
+    const importarDocumento = async (chave: string) => {
+        
+        if (!modelo) {
+            console.log('documento não possúi modelo ou não está validado corretamente, necessita ter 44 dígitos');
+            return
+        } 
 
-    const documentos: Record<'nfe' | 'cte', DocumentoData> = useMemo(() => ({
-        nfe: {
-            documento: 'NFe',
-            chave: chaveNFe,
-            setChave: setChaveNFe,
-            loading: NFeLoading,
-            importarDocumento: handleImportNFe,
-            importado: NFeImportado,
-        } ,
-        cte: {
-            documento: 'CTe',
-            chave: chaveCTe,
-            setChave: setChaveCTe,
-            loading: CTeLoading,
-            importarDocumento: handleImportCTe,
-            importado: CTeImportado,
+        if (!SUPPORTED_MODELOS.includes(modelo)) {
+            console.log('apenas documentos com modelos 55(nfe) ou 57(cte) são suportados');
+            return
         }
-    }), [chaveNFe, NFeLoading, NFeImportado, chaveCTe, CTeLoading, CTeImportado])
+
+        if (modelo === '57') {
+            handleImportCTe(chave)
+            return
+        }
+
+        handleImportNFe(chave)
+
+    }
+
+    // const documentos: Record<'nfe' | 'cte', DocumentoData> = useMemo(() => ({
+    //     nfe: {
+    //         documento: 'NFe',
+    //         chave: chaveNFe,
+    //         setChave: setChaveNFe,
+    //         loading: NFeLoading,
+    //         importarDocumento: handleImportNFe,
+    //         importado: NFeImportado,
+    //     } ,
+    //     cte: {
+    //         documento: 'CTe',
+    //         chave: chaveCTe,
+    //         setChave: setChaveCTe,
+    //         loading: CTeLoading,
+    //         importarDocumento: handleImportCTe,
+    //         importado: CTeImportado,
+    //     }
+    // }), [chaveNFe, NFeLoading, NFeImportado, chaveCTe, CTeLoading, CTeImportado])
 
     return {
 
+        chave,
+        setChave,
+        valid,
         documentos,
-        getModeloDocumento,
-        dadosImportados
+        setDocumento,
+        dadosImportados,
+        modelo,
+        importarDocumento,
 
     }
 

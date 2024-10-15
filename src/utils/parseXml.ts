@@ -92,7 +92,7 @@ export const parseNFeXml = (xml: Document): ParseXmlResult  => {
     })
 
     const documento: DocumentoImportado = {
-        tipo: 'NFe',
+        tipo: 'nfe',
         fornecedor: fornecedor!,
         numero: nNFe!,
         chave: chaveNFe!,
@@ -127,7 +127,7 @@ export const parseCTeXml = (xml: Document): ParseXmlResult  => {
     }
 
     const documento: DocumentoImportado = {
-        tipo: 'CTe',
+        tipo: 'cte',
         fornecedor: transportador!,
         numero: nCTe!,
         chave: chaveCTe!,

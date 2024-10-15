@@ -1,5 +1,5 @@
 import { IFornecedor } from "@/interfaces/IFornecedor";
-import useDocumento, { DadosImportados, DocumentoData } from "./useDocumento";
+import useDocumento, { DadosImportados, DocumentoData, UseDocumento } from "./useDocumento";
 import useSectionContext, { UseSectionContext } from "./useSectionContext";
 import Converter from "@/utils/typeConversion";
 import { IFatoresPedido } from "./usePedido";
@@ -10,11 +10,13 @@ import { useMemo, useState } from "react";
 import { useNotification } from "@/app/(app)/(contexts)/NotificationContext";
 import { useModal } from "@/app/(app)/(contexts)/ModalContext";
 import { FornecedorQueryType } from "@/app/(app)/calcular/Tabs/FornecedorTab/FornecedorTab";
+import useImportCard from "./useImportCard";
 
 export interface UseChaveContext {
 
     context: UseSectionContext
-    documentos: Record<"nfe" | "cte", DocumentoData>
+    // documentos: Record<"nfe" | "cte", DocumentoData>
+    documentosContext: UseDocumento
     dadosImportados: DadosImportados
     loading: boolean
 
@@ -46,6 +48,7 @@ export default function useChaveContext(): UseChaveContext {
         pedidoContext: { setPedidoData, updatePedidoControl },
         tabelaContext: { setTabela },
     } = chaveContext
+    const documentosContext = useDocumento()
 
     const { documentos, dadosImportados } = useDocumento()
 
@@ -283,7 +286,7 @@ export default function useChaveContext(): UseChaveContext {
     return {
 
         context: chaveContext,
-        documentos,
+        documentosContext,
         dadosImportados,
         loading,
         submitForm

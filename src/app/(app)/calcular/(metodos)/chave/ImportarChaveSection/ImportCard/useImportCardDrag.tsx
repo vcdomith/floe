@@ -1,11 +1,11 @@
 import { useNotification } from "@/app/(app)/(contexts)/NotificationContext"
-import { DocumentoImportado } from "@/hooks/useDocumento"
-import { parseXml } from "@/utils/parseXml"
+import { DocumentoImportado, UseDocumento } from "@/hooks/useDocumento"
+import { CTeData, parseXml } from "@/utils/parseXml"
 import { ChangeEvent, Dispatch, DragEvent, SetStateAction, useState } from "react"
 
 export interface UseImportCardDrag {
 
-    documentos: DocumentoImportado[]
+    // documentos: DocumentoImportado[]
 
     dragHover: boolean
     setDragHover: Dispatch<SetStateAction<boolean>>
@@ -21,13 +21,18 @@ interface DocumentosNodes {
 
 }
 
-export default function useImportCardDrag(): UseImportCardDrag {
+export default function useImportCardDrag(context: UseDocumento): UseImportCardDrag {
 
-    const [documentos, setDocumentos] = useState<DocumentoImportado[]>([])
-    const [documentosNodes, setDocumentosNodes] = useState<DocumentosNodes>({
-        nfe: null,
-        cte: null,
-    })
+    // const [documentos, setDocumentos] = useState<DocumentoImportado[]>([])
+    // const [documentosNodes, setDocumentosNodes] = useState<DocumentosNodes>({
+    //     nfe: null,
+    //     cte: null,
+    // })
+
+    const {
+        documentos,
+        setDocumento,
+    } = context
 
     const [ dragHover, setDragHover ] = useState(false)
     const { addNotification } = useNotification()
@@ -50,10 +55,11 @@ export default function useImportCardDrag(): UseImportCardDrag {
                 
                 const { data, documento, node } = parseXml(text)
 
-                setDocumentosNodes(prev => ({
-                    ...prev,
-                    [documento.tipo.toLowerCase()]: node
-                }))
+                setDocumento(documento)
+                // setDocumentosNodes(prev => ({
+                //     ...prev,
+                //     [documento.tipo.toLowerCase()]: node
+                // }))
                 // const documento: DocumentoImportado = {
                 //     tipo: 'CTe',
                 //     fornecedor: data.transportador,
@@ -62,10 +68,10 @@ export default function useImportCardDrag(): UseImportCardDrag {
                 //     data: new Date(),
                 // }
 
-                setDocumentos(prev => [
-                    ...prev,
-                    documento
-                ])
+                // setDocumentos(prev => [
+                //     ...prev,
+                //     documento
+                // ])
 
                 console.log(data);
 
@@ -86,10 +92,12 @@ export default function useImportCardDrag(): UseImportCardDrag {
                 
                 const { data, documento } = parseXml(text)
 
-                setDocumentos(prev => [
-                    ...prev,
-                    documento
-                ])
+                setDocumento(documento)
+
+                // setDocumentos(prev => [
+                //     ...prev,
+                //     documento
+                // ])
 
                 console.log(data);
 
@@ -100,8 +108,6 @@ export default function useImportCardDrag(): UseImportCardDrag {
     }
 
     return {
-        documentos,
-
         dragHover,
         setDragHover,
         handleChange,

@@ -1,8 +1,9 @@
 import { ChangeEvent, Dispatch, FormEvent, RefObject, SetStateAction, useMemo, useRef, useState } from "react"
-import { DocumentoData } from "./useDocumento"
+import useDocumento, { DocumentoData, UseDocumento } from "./useDocumento"
 import chaveFormatSplit from "@/utils/chaveFormat"
+import { useChave } from "@/app/(app)/calcular/context/CalcularContext"
 
-interface UseImportCard {
+export interface UseImportCard {
 
     chaveFixedLength: string
     valid: boolean
@@ -34,14 +35,20 @@ const CARET_INITIAL_STATE: Caret = {
     direction: 'none'
 }
 
-export default function useImportCard( documento: DocumentoData ): UseImportCard {
+export default function useImportCard(context: UseDocumento): UseImportCard {
+
+    // const {
+    //     chave,
+    //     setChave,
+    //     importarDocumento,
+    //     importado
+    // } = documento
 
     const {
         chave,
         setChave,
-        importarDocumento,
-        importado
-    } = documento
+        importarDocumento
+    } = context
 
     const chaveFixedLength = useMemo(() => {
         let newString = chave
@@ -53,10 +60,11 @@ export default function useImportCard( documento: DocumentoData ): UseImportCard
 
     const valid = useMemo(() => {
         return (
-            chave.length === 44 &&
-            chave !== importado?.chave
+            chave.length === 44 
+            // &&
+            // chave !== importado?.chave
         )
-    }, [chave, importado])
+    }, [chave])
 
     const splitChave = useMemo(() => {
         return chaveFormatSplit(chaveFixedLength)

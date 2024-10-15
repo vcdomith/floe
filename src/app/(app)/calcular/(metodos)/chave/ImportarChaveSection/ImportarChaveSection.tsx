@@ -14,6 +14,7 @@ import { useNotification } from '@/app/(app)/(contexts)/NotificationContext'
 import AvisoFatoresDiferentes from '@/components/AvisoFatoresDiferentes/AvisoFatoresDIferentes'
 import Tab from '@/components/Tab/Tab'
 import ImportCardOld, { Chave } from './ImportCardOld/ImportCardOld'
+import useDocumento from '@/hooks/useDocumento'
 
 export default function ImportarChaveSection({ tipo = 'chave'} : { tipo: 'chave' | 'xml'}) {
 
@@ -23,7 +24,7 @@ export default function ImportarChaveSection({ tipo = 'chave'} : { tipo: 'chave'
             pedidoContext: { pedidoData, pedidoDiff, rollbackPedido, updatePedidoControl },
             tabelaContext: { updateFatoresTabela }
         },
-        documentos, 
+        // documentos, 
         loading, 
         submitForm 
     }} = useChave()
@@ -31,13 +32,20 @@ export default function ImportarChaveSection({ tipo = 'chave'} : { tipo: 'chave'
     const { addNotification } = useNotification()
 
     const {
-        nfe: { importado: nfeImportado }, 
-        cte: { importado: cteImportado },
-    } = documentos
+        documentos
+    } = useDocumento()
 
+    // const {
+    //     nfe: { importado: nfeImportado }, 
+    //     cte: { importado: cteImportado },
+    // } = documentos
+
+    // const valid = useMemo(() => {
+    //     return (nfeImportado !== undefined && cteImportado !== undefined)
+    // }, [nfeImportado, cteImportado])
     const valid = useMemo(() => {
-        return (nfeImportado !== undefined && cteImportado !== undefined)
-    }, [nfeImportado, cteImportado])
+        return (documentos.cte !== null && documentos.nfe !== null)
+    }, [documentos])
 
     return (
 
@@ -68,7 +76,7 @@ export default function ImportarChaveSection({ tipo = 'chave'} : { tipo: 'chave'
                     <p>Forneça a chave de acesso da Nfe com 44 dígitos para importar os valores da nota:</p>
                     
                     {/* <Xml documento={documentos.cte} /> */}
-                    <ImportCard documento={documentos.cte} />
+                    <ImportCard />
                     {/* <Chave documento={documentos.cte}/> */}
                     
                     <button

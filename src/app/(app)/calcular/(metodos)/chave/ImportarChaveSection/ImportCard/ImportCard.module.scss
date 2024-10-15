@@ -2,6 +2,8 @@
 
 .importCard {
 
+    position: relative;
+
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
@@ -25,6 +27,59 @@
         background-color: mix($cor-destaque, $cor-secundaria, 5%);
         border-color: mix($cor-destaque, $cor-secundaria, 30%);
         border-style: dashed;
+    }
+
+    .overlay {
+
+        position: absolute;
+        top: 0;
+        left: 0;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        width: 100%;
+        height: 100%;
+
+        // background-color: transparentize(mix($cor-destaque, $cor-secundaria, 0%), 0.4);
+        background: radial-gradient(
+            transparentize(mix($cor-destaque, $cor-secundaria, 0%), 0.2),
+            transparent);
+
+        backdrop-filter: blur(2px);
+
+        pointer-events: none;
+
+        .icon {
+
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+
+            max-width: 65px;
+            min-width: 65px;
+            max-height: 80px;
+            min-height: 80px;
+
+            padding: 0.5rem;
+            border: 2px solid mix($cor-destaque, $cor-secundaria, 80%);
+            border-radius: 0.5rem;
+
+            svg {
+
+                width: 35px;
+                height: 35px;
+
+                path, line, circle {
+                    stroke: mix($cor-destaque, $cor-secundaria, 80%);
+                }
+
+            }
+
+        }
+
     }
 
     .title {
@@ -251,18 +306,38 @@
     
             font-family: $fonte-body;
             font-size: 1rem;
+            font-weight: 600;
 
             outline: none;
-            border: 2px solid cor-mix(20%);
+            border: 2px solid cor-mix(15%);
             border-radius: 0.5rem;
 
             min-height: 28.8px;
             
-            background-color: cor-mix(5%);
-            color: cor-mix(60%);
+            background-color: cor-mix(10%);
+            color: cor-mix(55%);
     
+            cursor: pointer;
+
+            transition: background-color 400ms ease,
+                        color 400ms ease,
+                        border-color 400ms ease;
+
             &[data-hover="true"]{
                 pointer-events: none;
+            }
+
+            &:not(:disabled):hover {
+                border-color: cor-mix(25%);
+                background-color: cor-mix(15%);
+                color: cor-mix(65%);
+            }
+
+            &:disabled {
+                border-color: cor-mix(10%);
+                background-color: cor-mix(5%);
+                color: cor-mix(30%);
+                cursor: default;
             }
 
         }
@@ -274,12 +349,14 @@
         margin: 0;
         padding: 0;
         display: flex;
-        gap: 0.5rem;
+        gap: 1rem;
+        padding: 0.5rem;
+        justify-content: center;
 
         height: calc(80px + 1rem + 4px);
         min-height: calc(80px + 1rem + 4px);
 
-        pointer-events: none;
+        // pointer-events: none;
         // &[data-hover="true"]{
         //     pointer-events: none;
         // }
@@ -295,17 +372,24 @@
             height: 80px;
 
             // background-color: cor-mix(0%);
-            background: linear-gradient(135deg, cor-mix(0%), cor-mix(3%));
-            border: 2px solid mix($cor-destaque, $cor-secundaria, 30%);
-            box-shadow: 2px 2px 8px 2px transparentize($cor-primaria, 0.85);
+            // background: linear-gradient(135deg, cor-mix(0%), cor-mix(3%));
+            background-color: mix($cor-destaque, $cor-secundaria, 5%);
+            border: 2px solid mix($cor-destaque, $cor-secundaria, 60%);
+            // outline: 2px solid mix($cor-destaque, $cor-secundaria, 20%);
+            // box-shadow: 2px 2px 8px 2px transparentize($cor-primaria, 0.85);
+            box-shadow: 2px 2px 8px 2px transparent;
             border-radius: 0.5rem;
             padding: 0.5rem;
 
-             &[data-hover="false"]{
-                pointer-events: all;
-            }
-
             cursor: pointer;
+            transition: box-shadow 400ms ease,
+                        border 400ms ease,
+                        color 400ms ease,
+                        outline 400ms ease;
+
+            &:not(.empty):hover {
+                box-shadow: 2px 2px 8px 2px transparentize($cor-primaria, 0.75);
+            }
 
             svg {
 
@@ -349,22 +433,45 @@
 
         }
 
-        .extra {
+        .extra, .empty {
 
-            border-style: dashed;
-            border-color: cor-mix(20%);
+            // border-style: dashed;
+            outline: 2px solid transparent;
+            border-color: cor-mix(10%);
             background: none;
             background-color: mix($cor-destaque, $cor-secundaria, 5%);
             box-shadow: none;
 
             max-height: 80px;
 
+            cursor: default;
             // pointer-events: none;
 
             svg {
                 path, line {
                     stroke: cor-mix(30%);
                 }
+            }
+
+            p {
+                color: cor-mix(30%);
+            }
+
+            .tipo {
+                
+                p {
+                    color: cor-mix(30%);
+                }
+
+                svg {
+
+                    path {
+                        
+                        stroke: cor-mix(30%);
+
+                    }
+                }
+
             }
 
         }

@@ -91,19 +91,22 @@ export const parseNFeXml = (xml: Document): ParseXmlResult  => {
 
     })
 
+    const data: NFeResult = {
+        pedido: fornecedorDataExtraido,
+        produtos: produtosExtraidos
+    }
+
     const documento: DocumentoImportado = {
         tipo: 'nfe',
         fornecedor: fornecedor!,
         numero: nNFe!,
         chave: chaveNFe!,
-        data: new Date(),
+        criadoEm: new Date(),
+        data: data
     }
 
     return {
-        data: {
-            pedido: fornecedorDataExtraido,
-            produtos: produtosExtraidos
-        },
+        data: data,
         documento: documento,
         node: xml,
     }
@@ -131,7 +134,8 @@ export const parseCTeXml = (xml: Document): ParseXmlResult  => {
         fornecedor: transportador!,
         numero: nCTe!,
         chave: chaveCTe!,
-        data: new Date(),
+        criadoEm: new Date(),
+        data: CTeData
     }
 
     return {

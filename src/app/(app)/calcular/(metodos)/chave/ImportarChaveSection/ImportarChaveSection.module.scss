@@ -119,6 +119,34 @@
             margin-top: 0;
         }
 
+        .header {
+            
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+            // margin: 0 !important;
+
+            svg {
+
+                width: 50px;
+                height: 30px;
+                max-height: 30px;
+
+                rect {
+                    fill: $cor-secundaria;
+                }
+
+                path, line {
+                    stroke: cor-mix(60%);
+                }
+            }
+
+            p {
+                margin: 0;
+                color: cor-mix(60%);
+            }
+        }
+
     }
 
     .submit {

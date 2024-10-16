@@ -15,6 +15,7 @@ import AvisoFatoresDiferentes from '@/components/AvisoFatoresDiferentes/AvisoFat
 import Tab from '@/components/Tab/Tab'
 import ImportCardOld, { Chave } from './ImportCardOld/ImportCardOld'
 import useDocumento from '@/hooks/useDocumento'
+import { CTeData } from '@/utils/parseXml'
 
 export default function ImportarChaveSection({ tipo = 'chave'} : { tipo: 'chave' | 'xml'}) {
 
@@ -24,6 +25,7 @@ export default function ImportarChaveSection({ tipo = 'chave'} : { tipo: 'chave'
             pedidoContext: { pedidoData, pedidoDiff, rollbackPedido, updatePedidoControl },
             tabelaContext: { updateFatoresTabela }
         },
+        documentosContext: { documentos },
         // documentos, 
         loading, 
         submitForm 
@@ -31,9 +33,9 @@ export default function ImportarChaveSection({ tipo = 'chave'} : { tipo: 'chave'
 
     const { addNotification } = useNotification()
 
-    const {
-        documentos
-    } = useDocumento()
+    // const {
+    //     documentos
+    // } = useDocumento()
 
     // const {
     //     nfe: { importado: nfeImportado }, 
@@ -43,8 +45,12 @@ export default function ImportarChaveSection({ tipo = 'chave'} : { tipo: 'chave'
     // const valid = useMemo(() => {
     //     return (nfeImportado !== undefined && cteImportado !== undefined)
     // }, [nfeImportado, cteImportado])
-    const valid = useMemo(() => {
-        return (documentos.cte !== null && documentos.nfe !== null)
+    const generateValid = useMemo(() => {
+
+        const documentosValid = (documentos.cte !== null && documentos.nfe !== null)
+        const chavesValid = ((documentos.cte?.data as CTeData)?.chaveNFe === documentos.nfe?.chave)
+        return (documentosValid && chavesValid)
+
     }, [documentos])
 
     return (
@@ -71,18 +77,26 @@ export default function ImportarChaveSection({ tipo = 'chave'} : { tipo: 'chave'
                 <Tab 
                     svg={svgsUtil.chave} 
                     section={'Importar'} 
-                    // initialDisplay
+                    initialDisplay
                 >
-                    <p>Forneça a chave de acesso da Nfe com 44 dígitos para importar os valores da nota:</p>
+                    <span className={style.header}>
+                        {svgsUtil.documentImport}
+                        <p>Arraste um documento XML ou utilize a chave para importar dados:</p>
+                    </span>
                     
                     {/* <Xml documento={documentos.cte} /> */}
                     <ImportCard />
                     {/* <Chave documento={documentos.cte}/> */}
                     
+                    {/* Aviso caso tenha algum: 
+                        ° Chave NFe não é compatível com a CTe: chaveNFe cte
+                        ° 
+                     */}
+
                     <button
                         className={style.submit} 
                         onClick={() => submitForm()}
-                        disabled={(!valid || loading)}
+                        disabled={(!generateValid || loading)}
                     >
                         {(loading)
                             ? <><LogoSvg loop />  Importando...</>
@@ -151,16 +165,16 @@ export default function ImportarChaveSection({ tipo = 'chave'} : { tipo: 'chave'
 
             </div>
 
-            <button
+            {/* <button
                 className={style.submit} 
                 onClick={() => submitForm()}
-                disabled={(!valid || loading)}
+                disabled={(!generateValid || loading)}
             >
                 {(loading)
                     ? <><LogoSvg loop />  Importando...</>
                     : 'Gerar Tabela'
                 }
-            </button>
+            </button> */}
 
         </section>
 

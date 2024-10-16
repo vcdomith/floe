@@ -17,7 +17,7 @@ export interface UseChaveContext {
     context: UseSectionContext
     // documentos: Record<"nfe" | "cte", DocumentoData>
     documentosContext: UseDocumento
-    dadosImportados: DadosImportados
+    // dadosImportados: DadosImportados
     loading: boolean
 
     submitForm: () => void
@@ -50,9 +50,9 @@ export default function useChaveContext(): UseChaveContext {
     } = chaveContext
     const documentosContext = useDocumento()
 
-    const { documentos, dadosImportados } = useDocumento()
+    const { documentos, dadosImportados } = documentosContext
 
-    const [loading, setLoading] = useState(false)
+    const [ loading, setLoading ] = useState(false)
     const { addNotification } = useNotification()
 
     // const unitario = useMemo(() => {
@@ -219,6 +219,8 @@ export default function useChaveContext(): UseChaveContext {
 
         // Consulta DB fornecedor e importa seus dados
         const cnpj = dadosImportados.pedido.cnpj
+        console.log(dadosImportados);
+        console.log(cnpj);
         
         try {
             
@@ -287,7 +289,7 @@ export default function useChaveContext(): UseChaveContext {
 
         context: chaveContext,
         documentosContext,
-        dadosImportados,
+        // dadosImportados,
         loading,
         submitForm
 

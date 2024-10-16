@@ -295,6 +295,20 @@ function SvgCheck() {
 
 }
 
+function SvgDocumentImport() {
+    return (
+        <svg width="500" height="501" viewBox="0 0 500 501" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M122.833 195.074C53.6749 125.537 191.99 125.537 122.833 56L378.085 56C447.242 125.537 308.927 125.537 378.085 195.074C447.242 264.611 305.479 268.078 375.02 338L119.767 338C50.2266 268.078 191.99 264.611 122.833 195.074Z" stroke="black" strokeWidth="40" strokeLinejoin="round"/>
+        <line x1="177.951" y1="123.122" x2="314.748" y2="123.122" stroke="black" strokeWidth="40"/>
+        <line x1="190.943" y1="198.016" x2="327.74" y2="198.016" stroke="black" strokeWidth="40"/>
+        <rect x="196" y="218" width="107" height="194" fill="#D9D9D9"/>
+        <path d="M249 461L250.005 255" stroke="black" strokeWidth="40" strokeLinejoin="round"/>
+        <path d="M319 401L249 472L179 401" stroke="black" strokeWidth="40"/>
+        </svg>
+
+    )
+}
+
 export interface SvgUtilItems extends 
     Record<keyof FatoresContext, React.ReactNode>, 
     Record<keyof Omit<ProdutoCadastro, 'fatores' | 'id' >, React.ReactNode> {
@@ -315,6 +329,7 @@ export interface SvgUtilItems extends
     aviso: React.ReactNode
     error: React.ReactNode
     check: React.ReactNode
+    documentImport: React.ReactNode
 }
 
 export const svgsUtil: SvgUtilItems = {
@@ -348,4 +363,5 @@ export const svgsUtil: SvgUtilItems = {
     aviso: <SvgAviso />,
     error: <SvgError />,
     check: <SvgCheck />,
+    documentImport: <SvgDocumentImport />,
 }

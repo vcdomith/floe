@@ -116,26 +116,33 @@ export async function GET(request: NextRequest) {
         //     .from('ultNSU')
         //     .select('cte')
         //     .single()
+        const {data: ultNsuCte, error: errorNSU} = await supabase
+                .from('ctes')
+                .select('nsu')
+                .order('nsu', { ascending: false })
+                .range(0, 0)
+                .single()
 
         // console.log(ultNsuCte?.cte);
 
-        // if (ultNsuCte === null) return new Response(JSON.stringify(`Nenhuma ultNsu presente`), {
-        //     status: 404
-        // })
+        if (ultNsuCte === null || ultNsuCte.nsu === null) return new Response(JSON.stringify(`Nenhuma ultNsu presente`), {
+            status: 404
+        })
 
         // const consulta = await distribuição.consultaUltNSU(ultNsuCte.cte!)
         // console.log('consulta', consulta);
 
         //Consulta distribuicao.consultaNSU(0)
-        const consultaMaxNsu = await distribuição.consultaNSU('0')
-        console.log('consultaMaxNsu', consultaMaxNsu);
+        // const consultaMaxNsu = await distribuição.consultaNSU('0')
+        // console.log('consultaMaxNsu', consultaMaxNsu);
 
-        //Get maxNsu da resposta
-        const maxNSU = consultaMaxNsu.data.maxNSU
+        // //Get maxNsu da resposta
+        // const maxNSU = consultaMaxNsu.data.maxNSU
 
         //Consulta distribuicao.consultaUltNSU(maxNSu - 100)
-        console.log('Fazendo consulta initial e alimentando DB...');
-        const consulta = await distribuição.consultaUltNSU((parseInt(maxNSU) - 50).toString())
+        console.log('Fazendo consulta novos cadastros na webservice, nenhum encontrado no DB');
+        // const consulta = await distribuição.consultaUltNSU((parseInt(maxNSU) - 50).toString())
+        const consulta = await distribuição.consultaUltNSU(ultNsuCte.nsu)
         console.log('consulta', consulta);
         
         //Filtra, transforma os resultados para o seguinte formato: {nsu: string, chCTe: string}[]

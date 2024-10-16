@@ -3,7 +3,7 @@ import useDocumento, { DocumentoData, DocumentoImportado, UseDocumento } from '@
 import style from './ImportCard.module.scss'
 import Highlight from '@/components/Highlight/Highlight'
 import { AnimatePresence, motion } from 'framer-motion'
-import { ChangeEvent, DragEvent, useState } from 'react'
+import { ChangeEvent, DragEvent, useMemo, useState } from 'react'
 import { useNotification } from '@/app/(app)/(contexts)/NotificationContext'
 import { parseXml } from '@/utils/parseXml'
 import { useModal } from '@/app/(app)/(contexts)/ModalContext'
@@ -12,6 +12,8 @@ import useImportCardDrag from './useImportCardDrag'
 import useImportCard from '@/hooks/useImportCard'
 import { useChave } from '@/app/(app)/calcular/context/CalcularContext'
 import { UseChaveContext } from '@/hooks/useChaveContext'
+import LogoSvg from '@/components/SvgArray/LogoSvg'
+import { dbConnect } from '@/utils/db/supabase'
 
 export default function ImportCard() {
 
@@ -19,7 +21,13 @@ export default function ImportCard() {
         chave: { documentosContext: context }
     } = useChave()
 
-    const { valid, documentos } = context
+    const { 
+        chave,
+        valid: chaveValid,
+        loading, 
+        documentos, 
+        importarDocumento 
+    } = context
 
     const {
         // documentos,
@@ -28,6 +36,11 @@ export default function ImportCard() {
         handleChange,
         handleDrop,
     } = useImportCardDrag(context)
+
+    const valid = useMemo(() => {
+        const documentosValid = (documentos.cte?.chave !== chave && documentos.nfe?.chave !== chave)
+        return (chaveValid && documentosValid)
+    }, [documentos, chaveValid, chave])
 
     return (
         <motion.div 
@@ -89,8 +102,12 @@ export default function ImportCard() {
                 <p><Highlight>arraste</Highlight> ou <Highlight>selecione</Highlight> arquivo .xml</p>
             </motion.label>
     
-            <div 
+            <form 
                 className={style.chave}
+                onSubmit={(e) => {
+                    e.preventDefault()
+                    importarDocumento(chave)
+                }}
             >
                 <span 
                     className={style.title}
@@ -98,11 +115,22 @@ export default function ImportCard() {
                     <p>digite a <Highlight>chave</Highlight> do documento para importar</p>
                 </span>
                 <Chave context={context} />
-                <button 
+                {/* <button 
                     className={style.importButton}
                     disabled={!valid}
-                >Importar</button>
-            </div>
+                    onClick={() => importarDocumento(chave)}
+                >Importar</button> */}
+                <button 
+                    className={style.importButton}
+                    disabled={!valid || loading}
+                    type='submit'
+                >
+                    {loading
+                        ? <><LogoSvg loop />  Importando...</> 
+                        : `Importar`
+                    }
+                </button>
+            </form>
 
             <ul 
                 className={style.documentos}
@@ -113,6 +141,8 @@ export default function ImportCard() {
                         className={`${style.documento} ${documento === null&& style.empty}`}
                         key={index}
                         onClick={ () => {
+                            console.log(documento);
+                            // dbTest()
                             // console.log(divRef.current);
                             // console.log(documentosNodes)
                         }}

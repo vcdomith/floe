@@ -49,9 +49,9 @@ export default function useSectionContext(): UseSectionContext {
         produtoCtx: produtoContext
     }), [fornecedorContext, pedidoContext, produtoContext])
     const tabelaContext = useTabela(context)
-
     const contextControl = useContextControl(context)
-    const {controlledInputData, produtoValid} = useContextControl(context)
+
+    const {controlledInputData, produtoValid} = contextControl
     const {fornecedorData, resetFornecedor, resetFornecedorControl} = fornecedorContext
     const {pedidoData, resetPedido, resetPedidoControl} = pedidoContext
     const {resetForm} = produtoContext

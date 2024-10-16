@@ -49,9 +49,8 @@ export default function TabelaSection() {
                 title='Confirme se deseja salvar o pedido:'
                 message='Atenção: O pedido será salvo permanentemente!'
                 cancelHandler={clearModal}
-                confirmHandler={() => {
+                confirmHandler={async () => {
                     cadastrarPedido()
-                    resetContext()
                 }}
             />
         )

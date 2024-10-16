@@ -17,7 +17,8 @@ export interface DocumentoImportado {
     fornecedor: string
     numero: string
     chave: string
-    data: Date
+    criadoEm: Date
+    data: NFeResult | CTeData
 
 }
 
@@ -38,6 +39,7 @@ export interface UseDocumento {
 
     chave: string
     setChave: Dispatch<SetStateAction<string>>
+    loading: boolean
     valid: boolean
     documentos: Documentos
     setDocumento: (documento: DocumentoImportado) => void
@@ -105,11 +107,12 @@ export default function useDocumento(): UseDocumento {
         return chave.slice(20,22)
 
     }, [chave])
+
     const getModelo = () => {
 
     }
 
-    const valid = useMemo(() => chave.length === 44,[chave])
+    const valid = useMemo(() => chave.length === 44, [chave])
 
     const [dadosImportados, setDadosImportados] = useState<DadosImportados>(INITAL_STATE_DADOS_IMPORTADOS)
 
@@ -154,7 +157,8 @@ export default function useDocumento(): UseDocumento {
             fornecedor: (data as NFeResult).pedido.fornecedor,
             numero: (data as NFeResult).pedido.nNFe,
             chave: chave,
-            data: new Date(),
+            criadoEm: new Date(),
+            data: data
         })
 
         setLoading(false)
@@ -206,7 +210,8 @@ export default function useDocumento(): UseDocumento {
             fornecedor: (data as CTeData).transportador,
             numero: (data as CTeData).nCTe,
             chave: chave,
-            data: new Date(),
+            criadoEm: new Date(),
+            data: data
         })
 
         setLoading(false)
@@ -237,11 +242,13 @@ export default function useDocumento(): UseDocumento {
         }
 
         if (modelo === '57') {
-            handleImportCTe(chave)
+            console.log('cte');
+            await handleImportCTe(chave)
             return
         }
 
-        handleImportNFe(chave)
+        console.log('nfe');
+        await handleImportNFe(chave)
 
     }
 
@@ -268,6 +275,7 @@ export default function useDocumento(): UseDocumento {
 
         chave,
         setChave,
+        loading,
         valid,
         documentos,
         setDocumento,

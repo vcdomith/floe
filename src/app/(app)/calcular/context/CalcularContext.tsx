@@ -187,7 +187,8 @@ export const CalcularProvider = ({ children }: { children: React.ReactNode }) =>
             pedidoContext: { pedidoData },
             fornecedorContext: { fornecedorData },
             tabelaContext: { tabela },
-            setLoading
+            setLoading,
+            resetContext,
         } = activeContext        
 
         if (tabela.length === 0) {
@@ -230,6 +231,7 @@ export const CalcularProvider = ({ children }: { children: React.ReactNode }) =>
             }
 
             setLoading(false)
+            resetContext()
             addNotification({
                 tipo: 'sucesso',
                 mensagem: 'Cadastro realizado com sucesso!'

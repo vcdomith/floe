@@ -304,6 +304,11 @@
 
         .importButton {
     
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+
             font-family: $fonte-body;
             font-size: 1rem;
             font-weight: 600;
@@ -338,6 +343,13 @@
                 background-color: cor-mix(5%);
                 color: cor-mix(30%);
                 cursor: default;
+            }
+
+            svg {
+
+                width: 20px;
+                height: 20px;
+
             }
 
         }

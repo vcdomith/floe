@@ -155,12 +155,15 @@
     .import {
 
         display: flex; 
+        flex-direction: column;
         justify-content: center;
         align-items: center;
+        gap: 0.5rem;
+
         height: 100%;
 
-        // margin-bottom: 0.5rem;
-        padding-bottom: 0.5rem;
+        padding: 1rem 0;
+        // padding-bottom: 0.5rem;
 
         border-bottom: 2px solid cor-mix(10%);
 
@@ -169,6 +172,16 @@
         }
 
         cursor: pointer;
+
+        p {
+            margin: 0;
+        }
+
+        h5 {
+            margin: 0;
+            text-align: center;
+            color: cor-mix(30%);
+        }
 
     }
 

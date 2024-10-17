@@ -220,7 +220,7 @@ export const ProdutoDetalhes = ({ produto }:
                     {tabelas.map(([key, value]) => 
                         <div key={key} className={style.valor}>
                             <label>{key}</label>
-                            <h3>{(value) ? value.toFixed(2) : '~~~~~'}</h3>
+                            <h3>{(value) ? value.toFixed(2) : '••••••'}</h3>
                         </div>
                     )}
                 </span>

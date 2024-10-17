@@ -14,6 +14,7 @@ import { useChave } from '@/app/(app)/calcular/context/CalcularContext'
 import { UseChaveContext } from '@/hooks/useChaveContext'
 import LogoSvg from '@/components/SvgArray/LogoSvg'
 import { dbConnect } from '@/utils/db/supabase'
+import DocumentoDetalhes from '../DocumentoDetalhes/DocumentoDetalhes'
 
 export default function ImportCard() {
 
@@ -37,10 +38,20 @@ export default function ImportCard() {
         handleDrop,
     } = useImportCardDrag(context)
 
+    const { setModal } = useModal()
+
     const valid = useMemo(() => {
         const documentosValid = (documentos.cte?.chave !== chave && documentos.nfe?.chave !== chave)
         return (chaveValid && documentosValid)
     }, [documentos, chaveValid, chave])
+
+    const handleDocumentoClick = (documento: DocumentoImportado) => {
+
+        setModal(
+            <DocumentoDetalhes documento={documento}/>
+        )
+
+    }
 
     return (
         <motion.div 
@@ -99,7 +110,8 @@ export default function ImportCard() {
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
             >
-                <p><Highlight>arraste</Highlight> ou <Highlight>selecione</Highlight> arquivo .xml</p>
+                <p><Highlight>arraste</Highlight> ou <Highlight>selecione</Highlight> arquivo</p>
+                <h5>XML</h5>
             </motion.label>
     
             <form 
@@ -140,12 +152,7 @@ export default function ImportCard() {
                     <motion.div 
                         className={`${style.documento} ${documento === null&& style.empty}`}
                         key={index}
-                        onClick={ () => {
-                            console.log(documento);
-                            // dbTest()
-                            // console.log(divRef.current);
-                            // console.log(documentosNodes)
-                        }}
+                        onClick={ () => handleDocumentoClick(documento)}
 
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
@@ -190,6 +197,7 @@ const Chave = ({ context }: { context: UseDocumento }) => {
 
     const {
         inputRef,
+        handleKeyDown,
 
         splitChave,
         selectionActive,
@@ -216,6 +224,7 @@ const Chave = ({ context }: { context: UseDocumento }) => {
                 onChange={(e) => handleInputChange(e)}
                 onClick={() => handleCaretEvent()}
                 onKeyUp={() => handleCaretEvent()}
+                onKeyDown={(e) => handleKeyDown(e)}
                 onBlur={() => resetCaret()}
 
                 ref={inputRef}

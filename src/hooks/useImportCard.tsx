@@ -1,4 +1,4 @@
-import { ChangeEvent, Dispatch, FormEvent, RefObject, SetStateAction, useMemo, useRef, useState } from "react"
+import { ChangeEvent, Dispatch, FormEvent, KeyboardEvent, RefObject, SetStateAction, useMemo, useRef, useState } from "react"
 import useDocumento, { DocumentoData, UseDocumento } from "./useDocumento"
 import chaveFormatSplit from "@/utils/chaveFormat"
 import { useChave } from "@/app/(app)/calcular/context/CalcularContext"
@@ -10,6 +10,7 @@ export interface UseImportCard {
     splitChave: RegExpMatchArray | null | undefined
 
     inputRef: RefObject<HTMLInputElement>
+    handleKeyDown: (e: KeyboardEvent<HTMLInputElement>) => void
 
     caret: Caret
     handleCaretEvent: () => void
@@ -71,8 +72,10 @@ export default function useImportCard(context: UseDocumento): UseImportCard {
     }, [chaveFixedLength])
 
     const [caret, setCaret] = useState(CARET_INITIAL_STATE)
-
+    console.log(caret);
+    
     const inputRef = useRef<HTMLInputElement>(null)
+    console.log(inputRef.current?.value);
 
     const handleCaretEvent = () => {
 
@@ -142,12 +145,23 @@ export default function useImportCard(context: UseDocumento): UseImportCard {
 
     }
 
+    const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+
+        if (inputRef.current && e.ctrlKey && e.key === 'c') {
+            inputRef.current?.select()
+            inputRef.current?.setSelectionRange(caret.start, caret.end)
+            navigator.clipboard.writeText(inputRef.current?.value)
+        }
+
+    }
+
     return {
         chaveFixedLength,
         valid,
         splitChave,
 
         inputRef,
+        handleKeyDown,
 
         caret,
         handleCaretEvent,

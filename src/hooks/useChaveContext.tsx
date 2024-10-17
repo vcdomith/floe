@@ -85,10 +85,10 @@ export default function useChaveContext(): UseChaveContext {
                 ipiProporcional: "",
                 unitarioNota: produto.unitario,
                 unitarioPedido: fornecedor.usaUnitarioPedido 
-                    ? produto.unitario 
+                    ? "" 
                     : "",
                 unitarioComposto: fornecedor.usaComposto 
-                    ? produto.unitario 
+                    ? "" 
                     : "",
                 composto1: "",
                 composto2: ""
@@ -155,8 +155,9 @@ export default function useChaveContext(): UseChaveContext {
 
     }
 
-    const gerarFatoresPedido = (fatorBase: string): IFatoresPedido => {
+    const gerarFatoresPedido = (fornecedor: IFornecedor): IFatoresPedido => {
 
+        const { fatorBase, usaSt, usaTransporte} = fornecedor
         const { pedido, produtos } = dadosImportados        
 
         const pedidoResult: IFatoresPedido = {
@@ -172,20 +173,33 @@ export default function useChaveContext(): UseChaveContext {
             valorTotalProdutosST: ""
         } 
 
-        const resultadoTransporte = (1 + (
-            (stringToFloat(pedido.valorFrete) * stringToFloat('3.4')) / 
-            (stringToFloat(pedido.valorTotalProdutos) * stringToFloat(fatorBase))
-        ))
+        let resultadoTransporte: number | undefined
+        if (usaTransporte) {
+            resultadoTransporte = (1 + (
+                (stringToFloat(pedido.valorFrete) * stringToFloat('3.4')) / 
+                (stringToFloat(pedido.valorTotalProdutos) * stringToFloat(fatorBase))
+            ))
+        }
+        if (Number.isNaN(resultadoTransporte) || resultadoTransporte === null || resultadoTransporte === undefined) {
+            resultadoTransporte = 1
+        }
 
         const totalPedidoSt = getTotalProdutosST(produtos)
         // console.log(produtos
         //     .filter( produto => produto.st ));
         // console.log(totalPedidoSt);
 
-        const resultadoSt = (1 + (
-            (stringToFloat(pedido.valorSt) * stringToFloat('1')) / 
-            (stringToFloat(totalPedidoSt) * stringToFloat(fatorBase))
-        ))
+        let resultadoSt: number | undefined
+        if (usaSt) {
+            resultadoSt = (1 + (
+                (stringToFloat(pedido.valorSt) * stringToFloat('1')) / 
+                (stringToFloat(totalPedidoSt) * stringToFloat(fatorBase))
+            ))
+        }
+        if (Number.isNaN(resultadoSt) || resultadoSt === null || resultadoSt === undefined) {
+            resultadoSt = 1
+        }
+
 
         setPedidoData(prev => ({
             ...prev,
@@ -254,7 +268,7 @@ export default function useChaveContext(): UseChaveContext {
             const fornecedor = await gerarFatoresFornecedor()
             if (!fornecedor) return
 
-            const pedido = gerarFatoresPedido(fornecedor.fatorBase)
+            const pedido = gerarFatoresPedido(fornecedor)
 
             const produtos = dadosImportados.produtos
             const produtosCadastro = gerarProdutoCadastro(produtos, fornecedor, pedido)

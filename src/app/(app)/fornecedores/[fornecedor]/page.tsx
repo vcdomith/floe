@@ -1,4 +1,4 @@
-import capitalize from "@/utils/capitalize";
+import capitalizeInner from "@/utils/capitalize";
 import { dbConnect } from "@/utils/db/supabase";
 import { notFound, redirect } from "next/navigation";
 

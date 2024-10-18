@@ -4,7 +4,7 @@ import { ChangeEvent, Dispatch, KeyboardEvent, SetStateAction, useMemo, useRef, 
 import style from './SelectFornecedor.module.scss'
 import { AnimatePresence, motion } from "framer-motion"
 import LogoSvg from "../SvgArray/LogoSvg"
-import capitalize from "@/utils/capitalize"
+import capitalizeInner from "@/utils/capitalize"
 
 interface SelectFornecedorProps {
 
@@ -49,7 +49,7 @@ const SelectFornecedor = ({
     if (search !== '' && !display) setSearch('')
 
     const nomeDisplay = useMemo(() => {
-        if (fornecedor !== '') return capitalize(fornecedor)
+        if (fornecedor !== '') return capitalizeInner(fornecedor)
         return fornecedor
     }, [fornecedor])
 
@@ -364,7 +364,7 @@ const SelectFornecedor = ({
                             setDisplay(false)
                             selectRef.current?.focus()
                         }}
-                    >{capitalize(fornecedor)}</motion.li>
+                    >{capitalizeInner(fornecedor)}</motion.li>
                     )
                 :
                 (search !== '')&&

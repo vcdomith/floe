@@ -47,6 +47,8 @@ export default function ImportCard() {
 
     const handleDocumentoClick = (documento: DocumentoImportado) => {
 
+        if (documento === null) return
+
         setModal(
             <DocumentoDetalhes documento={documento}/>
         )
@@ -152,7 +154,7 @@ export default function ImportCard() {
                     <motion.div 
                         className={`${style.documento} ${documento === null&& style.empty}`}
                         key={index}
-                        onClick={ () => handleDocumentoClick(documento)}
+                        onClick={ () => handleDocumentoClick(documento) }
 
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}

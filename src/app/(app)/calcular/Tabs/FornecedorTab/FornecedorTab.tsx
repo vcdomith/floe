@@ -1,7 +1,7 @@
 'use client'
 
 import SelectFornecedor from "@/components/SelectFornecedor/SelectFornecedor";
-import capitalize from "@/utils/capitalize";
+import capitalizeInner from "@/utils/capitalize";
 import { useEffect, useState } from "react";
 
 import style from './FornecedorTab.module.scss'

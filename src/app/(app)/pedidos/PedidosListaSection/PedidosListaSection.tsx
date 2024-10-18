@@ -6,7 +6,7 @@ import { LayoutGroup, motion } from 'framer-motion'
 import { forwardRef, Suspense, useMemo, useState } from 'react'
 import Link from 'next/link'
 import { svgsUtil } from '@/components/SvgArray/SvgUtil'
-import capitalize from '@/utils/capitalize'
+import capitalizeInner from '@/utils/capitalize'
 import { usePathname } from 'next/navigation'
 import { useBackgroundSync } from '../../(contexts)/BackgroundSyncContext'
 import Highlight from '@/components/Highlight/Highlight'
@@ -176,7 +176,7 @@ const PedidoLink = forwardRef<HTMLDivElement, PedidoLinkProps>(function Forneced
             >
                 {svgsUtil.unitarioNota}
                 <p className={style.id}>{pedido.id}</p>
-                <p className={style.fornecedor}>{pedido.fornecedor&& capitalize(pedido.fornecedor)}</p>
+                <p className={style.fornecedor}>{pedido.fornecedor&& capitalizeInner(pedido.fornecedor)}</p>
                 <span className={style.composto}>
                     <p className={style.data}>
                         {new Date(pedido.created_at).toLocaleString().split(',')[0]}

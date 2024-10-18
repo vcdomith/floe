@@ -7,7 +7,7 @@ import { useCalcular, useManual } from "../context/CalcularContext";
 
 import style from './FatoresSection.module.scss'
 import { useNotification } from "../../(contexts)/NotificationContext";
-import capitalize from "@/utils/capitalize";
+import capitalizeInner from "@/utils/capitalize";
 import { useEffect, useState } from "react";
 import { useMediaQuery } from "../../(contexts)/MediaQueryContext";
 import { useSectionSelect } from "../../(contexts)/SectionSelectContext";

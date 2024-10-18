@@ -5,6 +5,7 @@ import style from './Config.module.scss'
 interface ConfigProps {
 
     subConfig?: boolean
+    className?: string
     svg: React.ReactNode
     title: string
     description: string
@@ -14,11 +15,11 @@ interface ConfigProps {
 
 }
 
-const Config = ({subConfig, svg, title, description, diff, input}: ConfigProps) => {
+const Config = ({className, subConfig, svg, title, description, diff, input}: ConfigProps) => {
 
   return (
     <motion.span 
-      className={style.config}
+      className={`${style.config} ${className}`}
       data-subconfig={subConfig}
       key={title}
 

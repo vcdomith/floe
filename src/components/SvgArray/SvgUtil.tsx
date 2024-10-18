@@ -330,6 +330,7 @@ export interface SvgUtilItems extends
     error: React.ReactNode
     check: React.ReactNode
     documentImport: React.ReactNode
+    fornecedor: React.ReactNode
 }
 
 export const svgsUtil: SvgUtilItems = {
@@ -364,4 +365,5 @@ export const svgsUtil: SvgUtilItems = {
     error: <SvgError />,
     check: <SvgCheck />,
     documentImport: <SvgDocumentImport />,
+    fornecedor: <SvgFornecedor />,
 }

@@ -16,6 +16,8 @@ import { useMediaQuery } from '../../(contexts)/MediaQueryContext'
 import { useSectionSelect } from '../../(contexts)/SectionSelectContext'
 import { usePathname } from 'next/navigation'
 import { UseSectionContext } from '@/hooks/useSectionContext'
+import { svgsUtil } from '@/components/SvgArray/SvgUtil'
+import Highlight from '@/components/Highlight/Highlight'
 
 export default function TabelaSection() {
 
@@ -118,7 +120,10 @@ export default function TabelaSection() {
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
                 >
-                    <p>Nenhum produto cadastrado ainda, use as abas para calcular eles.</p>
+                    <span className={style.noMatch}>
+                        {svgsUtil.produto}
+                        <p>Nenhum <Highlight>produto</Highlight> cadastrado ainda, use as abas para calcular eles.</p>
+                    </span>
                 </motion.div>
                 }
                 </motion.div>

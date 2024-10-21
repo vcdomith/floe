@@ -59,14 +59,24 @@ export default function PedidosListaSection({ pedidos: pedidosInitial, pedidosLe
                     </p>
                 </div>
 
-                <Link 
-                    className={style.novo}
-                    href={'/calcular'}
-                    prefetch
-                >
-                    {svgsUtil.plus}
-                    Calcular Pedido
-                </Link>
+                <span className={style.links}>
+                    <Link 
+                        className={style.novo}
+                        href={'/calcular/chave'}
+                        prefetch
+                    >
+                        {svgsUtil.unitarioNota}
+                        Importar Pedido
+                    </Link>
+                    <Link 
+                        className={style.novo}
+                        href={'/calcular/manual'}
+                        prefetch
+                    >
+                        {svgsUtil.plus}
+                        Calcular Pedido
+                    </Link>
+                </span>
 
                 {/* 
                     <input type="text" placeholder='buscar' /> */

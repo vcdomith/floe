@@ -18,10 +18,6 @@ export default async function Calcular() {
                 {svgsUtil.chaveImport}
                 <p>Importar valores pelas chaves NFe e CTe</p>
             </Link>
-            <Link href={'/calcular/xml'} prefetch>
-                {svgsUtil.xmlImport}
-                <p>Importar valores por arquivo XML da NFe e CTe</p>
-            </Link>
             <Link href={'/calcular/manual'} prefetch>
                 {svgsUtil.ncm}
                 <p>Calcular tabela manualmente</p>

@@ -4,10 +4,12 @@ import { svgsUtil } from '@/components/SvgArray/SvgUtil'
 import Config from '@/app/(app)/configurar/(Config)/Config'
 import chaveFormatSplit from '@/utils/chaveFormat'
 import Highlight from '@/components/Highlight/Highlight'
-import { MouseEvent, useState } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { MouseEvent, useMemo, useState } from 'react'
+import { motion, AnimatePresence, LayoutGroup } from 'framer-motion'
 import capitalize from '@/utils/capitalize'
 import { NFeData, NFeProduto, NFeResult } from '@/utils/parseXml'
+import Converter from '@/utils/typeConversion'
+import Search from '@/components/Search/Search'
 
 export default function DocumentoDetalhes({documento}: {documento: DocumentoImportado}) {
 
@@ -33,7 +35,7 @@ export default function DocumentoDetalhes({documento}: {documento: DocumentoImpo
                 <div className={style.detalhe}>
                     <span className={style.title}>
                         {svgsUtil.chave}
-                        <p>chave</p>
+                        <p>Chave</p>
                     </span>
                     <div className={style.format}>
                         {chaveFormatSplit(documento.chave)?.map( (segment, index) => 
@@ -100,7 +102,16 @@ function CTeDados({ documento }: {documento: DocumentoImportado}) {
                     svg={svgsUtil.base} 
                     title={capitalize(key)} 
                     description={`Valor de ${key}`} 
-                    input={capitalize(value)} 
+                    input={
+                        <div className={style.dado}>
+                            {(key.includes('chave')
+                                ? <div className={style.chave}>
+                                    {chaveFormatSplit(value)?.map( (segment, index) => 
+                                    <p key={parseInt(segment)+index}>{segment}</p>)}
+                                  </div>
+                                : <p>{capitalize(value)}</p>
+                            )}
+                        </div>} 
                 />
             )}
         </motion.div>
@@ -119,7 +130,18 @@ const INITIAL_NFE_DISPLAY = {
 const KEY_FILTER: Partial<keyof NFeProduto>[] = ['descricao', 'codigo']
 function NFeDados({ documento }: {documento: DocumentoImportado}) {
 
+    const [search, setSearch] = useState('')
+    const [filter, setFilter] = useState({
+        st: false
+    })
     const [display, setDisplay] = useState(INITIAL_NFE_DISPLAY)
+
+    const { floatToString, stringToFloat } = Converter
+
+    console.log(documento.data);
+    const produtosDisplay = useMemo(() => {
+        return (documento.data as NFeResult).produtos.filter( produto => produto.codigo.includes(search))
+    }, [documento, search])
 
     const handleTabClick = (
         e: MouseEvent<HTMLSpanElement, globalThis.MouseEvent>, 
@@ -171,18 +193,27 @@ function NFeDados({ documento }: {documento: DocumentoImportado}) {
             {svgsUtil.expand(display.produtos)}
         </button>
 
-        <AnimatePresence>
+        <LayoutGroup>
+        {/* <AnimatePresence mode='popLayout'> */}
         {display.produtos&&
         <motion.div 
             className={style.fatores}
             data-overflow={display}
+            layout
+            layoutRoot
 
             initial={{ height: 0 }}
             animate={{ height: 'auto' }}
             exit={{ height: 0 }}
             transition={{ type: 'spring', bounce: 0, restDelta: 0.5 }}
         >
-            {(documento.data as NFeResult).produtos.map( produto => 
+            <span className={style.filter}>
+                <Search 
+                    searchParam={search} 
+                    setSearchParam={setSearch} 
+                />
+            </span>
+            {produtosDisplay.map( produto => 
                 <Config 
                     key={produto.codigo}
                     svg={svgsUtil.produto} 
@@ -190,18 +221,20 @@ function NFeDados({ documento }: {documento: DocumentoImportado}) {
                     description={produto.descricao} 
                     input={
                         <div className={style.produtoDetalhe}>
-                            {Object.entries(produto).filter(([key, value]) => !KEY_FILTER.includes(key as keyof NFeProduto)).map(([key, value], index) => 
-                                <span 
-                                    key={index}
-                                >
-                                    <h5>{key.toUpperCase()}:</h5>
-                                    <p data-valid={key === 'st' && value}>{
-                                    (key === 'st')
-                                        ? value ? svgsUtil.check : svgsUtil.delete 
-                                        : value ? value : '0,00'
-                                    }</p>
-                                </span>
-                            )}
+                        {Object.entries(produto)
+                            .filter(([key, value]) => !KEY_FILTER.includes(key as keyof NFeProduto))
+                            .map(([key, value], index) => 
+                            <span 
+                                key={index}
+                            >
+                                <h5>{key.toUpperCase()}:</h5>
+                                <p data-valid={key === 'st' && value}>{
+                                (key === 'st')
+                                    ? value ? svgsUtil.check : svgsUtil.delete 
+                                    : value ? value : '0,00'
+                                }</p>
+                            </span>
+                        )}
                         </div>
                     } 
                 />
@@ -209,7 +242,8 @@ function NFeDados({ documento }: {documento: DocumentoImportado}) {
             }
         </motion.div>
         }
-        </AnimatePresence>
+        </LayoutGroup>
+        {/* </AnimatePresence> */}
 
         </>
     )

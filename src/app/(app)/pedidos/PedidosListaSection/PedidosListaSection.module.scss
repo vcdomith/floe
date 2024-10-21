@@ -49,64 +49,77 @@ $cor-destaque: darken(saturate(cor-mix(70%), 50%), 10%);
 
         }
 
-        .novo {
+        .links {
 
             display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 0.1rem;
+            gap: 0.5rem;
+            width: 100%;
 
-            font-family: $fonte-body;
-
-            height: calc(30px - 4px);
-            padding: 0 0.5rem;
-
-            outline: none;
-            border: 2px solid cor-mix(20%);
-            border-radius: 0.5rem;
-
-            color: cor-mix(70%);
-            font-size: 1rem;
-            font-weight: bold;
-            text-decoration: none;
-
-            background-color: cor-mix(5%);
-            
-            transition: background-color 400ms ease;
-
-            cursor: pointer;
-
-            &:hover {
-
-                background-color: cor-mix(10%);
-
-            }
-
-            &:disabled {
-
-                background-color: cor-mix(20%);
-                border-color: cor-mix(30%);
-                color: cor-mix(0%);
-
-                cursor: default;
-
-            }
-
-            svg {
-
-                width: 20px;
-                height: 20px;
-
-                path {
-
-                    stroke: cor-mix(70%);
-                    stroke-width: 50;
-
+            .novo {
+    
+                display: flex;
+                flex: 1;
+                justify-content: center;
+                align-items: center;
+                gap: 0.2rem;
+    
+                font-family: $fonte-body;
+    
+                height: calc(30px - 4px);
+                padding: 0 0.5rem;
+    
+                outline: none;
+                border: 2px solid cor-mix(20%);
+                border-radius: 0.5rem;
+    
+                color: cor-mix(70%);
+                font-size: 1rem;
+                font-weight: bold;
+                text-decoration: none;
+    
+                background-color: cor-mix(5%);
+                
+                transition: background-color 400ms ease;
+    
+                cursor: pointer;
+    
+                &:hover {
+    
+                    background-color: cor-mix(10%);
+    
                 }
+    
+                &:disabled {
+    
+                    background-color: cor-mix(20%);
+                    border-color: cor-mix(30%);
+                    color: cor-mix(0%);
+    
+                    cursor: default;
+    
+                }
+    
+                svg {
+    
+                    width: 20px;
+                    height: 20px;
+    
+                    path, line, circle {
+    
+                        stroke: cor-mix(70%);
+                        stroke-width: 50;
+    
+                    }
 
+                    rect {
+                        fill: $cor-secundaria;
+                    }
+    
+                }
+    
             }
-
         }
+
 
         .search {
 

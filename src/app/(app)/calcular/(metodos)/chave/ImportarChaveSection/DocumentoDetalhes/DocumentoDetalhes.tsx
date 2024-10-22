@@ -4,14 +4,17 @@ import { svgsUtil } from '@/components/SvgArray/SvgUtil'
 import Config from '@/app/(app)/configurar/(Config)/Config'
 import chaveFormatSplit from '@/utils/chaveFormat'
 import Highlight from '@/components/Highlight/Highlight'
-import { MouseEvent, useMemo, useState } from 'react'
+import { MouseEvent, SetStateAction, useMemo, useState } from 'react'
 import { motion, AnimatePresence, LayoutGroup } from 'framer-motion'
 import capitalize from '@/utils/capitalize'
 import { NFeData, NFeProduto, NFeResult } from '@/utils/parseXml'
 import Converter from '@/utils/typeConversion'
 import Search from '@/components/Search/Search'
+import CheckBox from '@/app/(app)/configurar/(CheckBox)/CheckBox'
 
 export default function DocumentoDetalhes({documento}: {documento: DocumentoImportado}) {
+
+    const chaveFormatDisplay = useMemo(() => chaveFormatSplit(documento.chave), [documento.chave])
 
     return (
         <div className={style.documento}>
@@ -38,7 +41,7 @@ export default function DocumentoDetalhes({documento}: {documento: DocumentoImpo
                         <p>Chave</p>
                     </span>
                     <div className={style.format}>
-                        {chaveFormatSplit(documento.chave)?.map( (segment, index) => 
+                        {chaveFormatDisplay?.map( (segment, index) => 
                             // <Highlight key={parseInt(segment)+index}>{segment}</Highlight>
                             <p key={parseInt(segment)+index}>{segment}</p>
                         )}
@@ -131,17 +134,20 @@ const KEY_FILTER: Partial<keyof NFeProduto>[] = ['descricao', 'codigo']
 function NFeDados({ documento }: {documento: DocumentoImportado}) {
 
     const [search, setSearch] = useState('')
-    const [filter, setFilter] = useState({
-        st: false
-    })
+    const [filter, setFilter] = useState(false)
+
     const [display, setDisplay] = useState(INITIAL_NFE_DISPLAY)
 
-    const { floatToString, stringToFloat } = Converter
+    const pedidoDisplay = useMemo(() => {
+        return Object.entries((documento.data as NFeResult).pedido).map(([key, value]) => [capitalize(key), capitalize(value)])
+    }, [documento])
 
-    console.log(documento.data);
     const produtosDisplay = useMemo(() => {
-        return (documento.data as NFeResult).produtos.filter( produto => produto.codigo.includes(search))
-    }, [documento, search])
+        return (documento.data as NFeResult).produtos
+            .filter( produto => filter ? produto.st : true )
+            .filter( produto => produto.codigo.includes(search) )
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [search, filter])
 
     const handleTabClick = (
         e: MouseEvent<HTMLSpanElement, globalThis.MouseEvent>, 
@@ -174,13 +180,13 @@ function NFeDados({ documento }: {documento: DocumentoImportado}) {
             transition={{ type: 'spring', bounce: 0, restDelta: 0.5 }}
         >
             <div className={style.wrapper}>
-            {Object.entries((documento.data as NFeResult).pedido).map(([key, value], index) => 
+            {pedidoDisplay.map(([key, value], index) => 
                 <Config 
                     key={index}
                     svg={svgsUtil.base} 
-                    title={capitalize(key)} 
+                    title={key} 
                     description={`Valor de ${key}`} 
-                    input={<p>{capitalize(value)}</p>} 
+                    input={<p>{value}</p>} 
                 />
             )}
             </div>
@@ -193,8 +199,7 @@ function NFeDados({ documento }: {documento: DocumentoImportado}) {
             {svgsUtil.expand(display.produtos)}
         </button>
 
-        <LayoutGroup>
-        {/* <AnimatePresence mode='popLayout'> */}
+        <AnimatePresence>
         {display.produtos&&
         <motion.div 
             className={style.fatores}
@@ -207,45 +212,90 @@ function NFeDados({ documento }: {documento: DocumentoImportado}) {
             exit={{ height: 0 }}
             transition={{ type: 'spring', bounce: 0, restDelta: 0.5 }}
         >
-            <span className={style.filter}>
+            <motion.span 
+                className={style.filter}
+
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ type: 'spring', bounce: 0, restDelta: 0.5 }}
+            >
+                <div className={style.st}>
+                    <p>ST</p>
+                    <CheckBox 
+                        checked={filter} 
+                        setChecked={setFilter}
+                    />
+                </div>
                 <Search 
                     searchParam={search} 
                     setSearchParam={setSearch} 
+                    textInput
                 />
-            </span>
-            {produtosDisplay.map( produto => 
+            </motion.span>
+            {/* <LayoutGroup>                 */}
+            {(produtosDisplay.length > 0)
+            ?
+            produtosDisplay.map( produto => 
                 <Config 
                     key={produto.codigo}
+                    layout
                     svg={svgsUtil.produto} 
                     title={produto.codigo} 
                     description={produto.descricao} 
                     input={
                         <div className={style.produtoDetalhe}>
-                        {Object.entries(produto)
-                            .filter(([key, value]) => !KEY_FILTER.includes(key as keyof NFeProduto))
-                            .map(([key, value], index) => 
-                            <span 
-                                key={index}
-                            >
-                                <h5>{key.toUpperCase()}:</h5>
-                                <p data-valid={key === 'st' && value}>{
-                                (key === 'st')
-                                    ? value ? svgsUtil.check : svgsUtil.delete 
-                                    : value ? value : '0,00'
-                                }</p>
-                            </span>
-                        )}
+                            <NfeProduto produto={produto}/>
                         </div>
                     } 
                 />
             )
+            :
+            <motion.div 
+                className={style.empty}
+
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+            >
+                <span className={style.noMatch}>
+                    {svgsUtil.produto}
+                    <p>Nenhum <Highlight>produto</Highlight> corresponde à pesquisa.</p>
+                </span>
+            </motion.div>
             }
+            
+            {/* </LayoutGroup> */}
         </motion.div>
         }
-        </LayoutGroup>
-        {/* </AnimatePresence> */}
+        </AnimatePresence>
 
         </>
+    )
+
+}
+
+function NfeProduto({ produto }: {produto: NFeProduto}) {
+
+    const nfeProdutoDisplay = useMemo(() => Object.entries(produto)
+        .filter(([key, value]) => !KEY_FILTER.includes(key as keyof NFeProduto))
+        .map(([key, value], index) => 
+        <span 
+            key={index}
+        >
+            <h5>{key.toUpperCase()}:</h5>
+            <p data-valid={key === 'st' && value}>{
+            (key === 'st')
+                ? value ? svgsUtil.check : svgsUtil.delete 
+                : value ? value : '0,00'
+            }</p>
+        </span>
+    ), [produto])
+
+    return (
+        <div className={style.produtoDetalhe}>
+            {nfeProdutoDisplay}
+        </div>
     )
 
 }

@@ -23,7 +23,7 @@ export interface UseImportCard {
 
 }
 
-interface Caret {
+export interface Caret {
     start: number,
     end: number,
     direction: 'none' | 'foward' | 'backward'
@@ -72,10 +72,8 @@ export default function useImportCard(context: UseDocumento): UseImportCard {
     }, [chaveFixedLength])
 
     const [caret, setCaret] = useState(CARET_INITIAL_STATE)
-    console.log(caret);
     
     const inputRef = useRef<HTMLInputElement>(null)
-    console.log(inputRef.current?.value);
 
     const handleCaretEvent = () => {
 

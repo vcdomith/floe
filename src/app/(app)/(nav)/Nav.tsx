@@ -13,7 +13,6 @@ const Nav = () => {
 
     const [display, setDisplay] = useState(false)
     const path = usePathname().split('/')[1]
-    console.log(path);
 
   return (
     <>

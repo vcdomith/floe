@@ -1,4 +1,5 @@
 import { DocumentoImportado } from "@/hooks/useDocumento"
+import Converter from "./typeConversion"
 
 export interface NFeData {
 
@@ -46,6 +47,8 @@ export interface ParseXmlResult {
 
 const SUPPORTED_DOCUMENTS = ['nfe', 'cte']
 
+const { stringToFloat, floatToString } = Converter
+
 export const parseNFeXml = (xml: Document): ParseXmlResult  => {
 
     const fornecedor = xml.querySelector('emit > xNome')?.textContent
@@ -82,7 +85,8 @@ export const parseNFeXml = (xml: Document): ParseXmlResult  => {
             descricao: descricao,
             ncm: ncm,
             st: (st === '10'),
-            unitario: unitario?.replace('.', ','),
+            // unitario: unitario?.replace('.', ','),
+            unitario: floatToString(parseFloat(unitario), 4),
             total: total?.replace('.', ','),
             ipi: ipi?.replace('.', ','),
         }

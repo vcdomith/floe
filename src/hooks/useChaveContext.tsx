@@ -233,8 +233,8 @@ export default function useChaveContext(): UseChaveContext {
 
         // Consulta DB fornecedor e importa seus dados
         const cnpj = dadosImportados.pedido.cnpj
-        console.log(dadosImportados);
-        console.log(cnpj);
+        // console.log(dadosImportados);
+        // console.log(cnpj);
         
         try {
             
@@ -303,7 +303,6 @@ export default function useChaveContext(): UseChaveContext {
 
         context: chaveContext,
         documentosContext,
-        // dadosImportados,
         loading,
         submitForm
 

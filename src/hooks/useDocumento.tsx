@@ -167,8 +167,8 @@ export default function useDocumento(): UseDocumento {
             mensagem: 'NFe importada com sucesso!'
         })
 
-        console.log(extractData);
-        console.log(dadosImportados);
+        // console.log(extractData);
+        // console.log(dadosImportados);
 
     }
 
@@ -224,8 +224,8 @@ export default function useDocumento(): UseDocumento {
         setChave((data as CTeData).chaveNFe)
         handleImportNFe((data as CTeData).chaveNFe)
 
-        console.log(extractData);
-        console.log(dadosImportados);
+        // console.log(extractData);
+        // console.log(dadosImportados);
 
     }
 

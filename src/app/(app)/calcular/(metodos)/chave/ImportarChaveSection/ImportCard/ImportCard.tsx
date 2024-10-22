@@ -9,7 +9,7 @@ import { parseXml } from '@/utils/parseXml'
 import { useModal } from '@/app/(app)/(contexts)/ModalContext'
 import { svgsUtil } from '@/components/SvgArray/SvgUtil'
 import useImportCardDrag from './useImportCardDrag'
-import useImportCard from '@/hooks/useImportCard'
+import useImportCard, { Caret } from '@/hooks/useImportCard'
 import { useChave } from '@/app/(app)/calcular/context/CalcularContext'
 import { UseChaveContext } from '@/hooks/useChaveContext'
 import LogoSvg from '@/components/SvgArray/LogoSvg'
@@ -149,14 +149,15 @@ export default function ImportCard() {
             <ul 
                 className={style.documentos}
             >
-                <AnimatePresence mode='popLayout'>
+                <AnimatePresence>
                 {Object.entries(documentos).map( ([tipo, documento], index) => 
                     <motion.div 
                         className={`${style.documento} ${documento === null&& style.empty}`}
                         key={index}
                         onClick={ () => handleDocumentoClick(documento) }
 
-                        initial={{ opacity: 0 }}
+                        initial={false}
+                        // initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
                     >
@@ -211,6 +212,30 @@ const Chave = ({ context }: { context: UseDocumento }) => {
         resetCaret,
     } = useImportCard(context)
 
+    const segmentsDisplay = useMemo(() => 
+        splitChave?.map( (segment, indexSegment) => 
+            <span className={style.segment} key={indexSegment}>
+            {segment.split('').map( (digit, indexDigit) => {
+
+                const digitIndex = (indexSegment * 4) + indexDigit
+
+                return (
+                    <div 
+                    key={indexDigit}
+                    className={`${style.digit}`}
+                    data-active={
+                        selectionActive 
+                            ? (digitIndex >= caret.start && digitIndex < caret.end)
+                            : (digitIndex === caret.end)
+                    }
+                    data-caret={selectionActive ? false : (digitIndex + 1) === caret.end}
+                    onClick={() => handleDigitClick(digitIndex)}
+                >{digit}</div>
+                )
+            })}
+            </span>
+    ), [caret, selectionActive])
+
     return (
         <div 
             className={style.format}
@@ -232,7 +257,7 @@ const Chave = ({ context }: { context: UseDocumento }) => {
                 ref={inputRef}
             />
             <span className={style.segments}>
-                {splitChave?.map( (segment, indexSegment) => 
+                {/* {splitChave?.map( (segment, indexSegment) => 
                     <span className={style.segment} key={indexSegment}>
                     {segment.split('').map( (digit, indexDigit) => {
 
@@ -253,9 +278,62 @@ const Chave = ({ context }: { context: UseDocumento }) => {
                         )
                     })}
                     </span>
-                )}
+                )} */}
+                {segmentsDisplay}
             </span>
         </div>
     )
 
 }
+
+// interface ChaveSegmentProps {
+//     segment: string
+//     indexSegment: number
+//     selectionActive: boolean
+//     caret: Caret
+// }
+
+// function ChaveSegment({ segment, indexSegment, selectionActive, caret }: ChaveSegmentProps) {
+
+//     const segmentDisplay = useMemo(() => segment.split(''), [segment])
+
+
+//     return (
+//         <span className={style.segment}>
+//             {segmentDisplay.map((digit, indexDigit) =>
+//                 <ChaveDigit 
+//                     key={indexDigit}
+//                     segment={''} 
+//                     indexSegment={0} 
+//                     selectionActive={false} 
+//                     caret={caret} 
+//                 />
+//             )}
+//         </span>
+//     )
+
+// }
+
+// interface ChaveDigitProps extends ChaveSegmentProps {
+//     digit: number
+//     indexDigit: number
+//     handleDigitClick: (index: number) => void
+// }
+
+// function ChaveDigit({caret, digit, indexDigit, selectionActive, handleDigitClick}: ChaveDigitProps) {
+
+//     return (
+//         <div 
+//             key={indexDigit}
+//             className={`${style.digit}`}
+//             data-active={
+//                 selectionActive 
+//                     ? (digitIndex >= caret.start && digitIndex < caret.end)
+//                     : (digitIndex === caret.end)
+//             }
+//             data-caret={selectionActive ? false : (digitIndex + 1) === caret.end}
+//             onClick={() => handleDigitClick(digitIndex)}
+//         >{digit}</div>
+//     )
+
+// }

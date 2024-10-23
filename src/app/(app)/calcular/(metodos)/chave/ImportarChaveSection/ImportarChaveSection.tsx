@@ -13,7 +13,6 @@ import capitalizeInner from '@/utils/capitalize'
 import { useNotification } from '@/app/(app)/(contexts)/NotificationContext'
 import AvisoFatoresDiferentes from '@/components/AvisoFatoresDiferentes/AvisoFatoresDIferentes'
 import Tab from '@/components/Tab/Tab'
-import ImportCardOld, { Chave } from './ImportCardOld/ImportCardOld'
 import useDocumento from '@/hooks/useDocumento'
 import { CTeData } from '@/utils/parseXml'
 

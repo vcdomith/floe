@@ -65,7 +65,7 @@ export default function FatoresSection({ fornecedores }: FatoresSectionProps) {
     }, [])
 
     return (
-        (!isMobile || section === 'Fatores')&&
+        // (!isMobile || section === 'Fatores')&&
         <section 
             className={style.fatores} 
             data-active={(section === 'Fatores')}

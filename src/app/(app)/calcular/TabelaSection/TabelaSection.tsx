@@ -60,7 +60,7 @@ export default function TabelaSection() {
     }
 
     return (
-        (!isMobile || section === 'Tabela')&&
+        // (!isMobile || section === 'Tabela')&&
         <section 
             className={style.tabelaSection} 
             data-active={(section === 'Tabela')}

@@ -402,7 +402,7 @@ const Produto = ({ produto, setCoordinates, setFatores }: ProdutoProps ) => {
                 borderRadius: 0,
                 // overflow: 'hidden'
             }}
-            key={(id*3.1415)}
+            key={(id)}
             // onClick={ e => handleClick() }
             onMouseEnter={() => handleHover()}
             onMouseLeave={() => setFatores(null)}

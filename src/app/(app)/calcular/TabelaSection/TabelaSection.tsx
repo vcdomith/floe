@@ -5,7 +5,7 @@ import TableHeader from './TabelaHeader/TabelaHeader'
 import TabelaRow from './TabelaRow/TabelaRow'
 import { motion, AnimatePresence, LayoutGroup } from 'framer-motion'
 import Search from '@/components/Search/Search'
-import { useEffect, useMemo } from 'react'
+import React, { useEffect, useMemo } from 'react'
 import { SearchFieldKeys } from '@/hooks/useFilter'
 
 import style from './TabelaSection.module.scss'
@@ -19,7 +19,7 @@ import { UseSectionContext } from '@/hooks/useSectionContext'
 import { svgsUtil } from '@/components/SvgArray/SvgUtil'
 import Highlight from '@/components/Highlight/Highlight'
 
-export default function TabelaSection() {
+export default React.memo(function TabelaSection() {
 
     const { context: { context }, cadastrarPedido } = useCalcular()
 
@@ -160,4 +160,4 @@ export default function TabelaSection() {
     )
 
 
-}
+})

@@ -52,11 +52,12 @@ export default function useImportCard(context: UseDocumento): UseImportCard {
     } = context
 
     const chaveFixedLength = useMemo(() => {
-        let newString = chave
-        while (newString.length < 44) {
-            newString += '_'
-        }
-        return newString
+        // let newString = chave
+        // while (newString.length < 44) {
+        //     newString += '_'
+        // }
+        // return newString
+        return chave.padEnd(44, '_')
     }, [chave])
 
     const valid = useMemo(() => {

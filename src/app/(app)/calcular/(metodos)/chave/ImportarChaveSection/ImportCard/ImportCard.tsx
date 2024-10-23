@@ -3,7 +3,7 @@ import useDocumento, { DocumentoData, DocumentoImportado, UseDocumento } from '@
 import style from './ImportCard.module.scss'
 import Highlight from '@/components/Highlight/Highlight'
 import { AnimatePresence, motion } from 'framer-motion'
-import { ChangeEvent, DragEvent, useMemo, useState } from 'react'
+import React, { ChangeEvent, DragEvent, useMemo, useState } from 'react'
 import { useNotification } from '@/app/(app)/(contexts)/NotificationContext'
 import { parseXml } from '@/utils/parseXml'
 import { useModal } from '@/app/(app)/(contexts)/ModalContext'
@@ -149,17 +149,17 @@ export default function ImportCard() {
             <ul 
                 className={style.documentos}
             >
-                <AnimatePresence>
+                {/* <AnimatePresence> */}
                 {Object.entries(documentos).map( ([tipo, documento], index) => 
                     <motion.div 
                         className={`${style.documento} ${documento === null&& style.empty}`}
                         key={index}
                         onClick={ () => handleDocumentoClick(documento) }
 
-                        initial={false}
-                        // initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
+                        // initial={false}
+                        // // initial={{ opacity: 0 }}
+                        // animate={{ opacity: 1 }}
+                        // exit={{ opacity: 0 }}
                     >
                         {svgsUtil.unitarioNota}
                       
@@ -185,7 +185,7 @@ export default function ImportCard() {
                 </motion.div>
                 } */}
         
-                </AnimatePresence>
+                {/* </AnimatePresence> */}
             </ul>
         </motion.div>
     )
@@ -212,29 +212,29 @@ const Chave = ({ context }: { context: UseDocumento }) => {
         resetCaret,
     } = useImportCard(context)
 
-    const segmentsDisplay = useMemo(() => 
-        splitChave?.map( (segment, indexSegment) => 
-            <span className={style.segment} key={indexSegment}>
-            {segment.split('').map( (digit, indexDigit) => {
+    // const segmentsDisplay = useMemo(() => 
+    //     splitChave?.map( (segment, indexSegment) => 
+    //         <span className={style.segment} key={indexSegment}>
+    //         {segment.split('').map( (digit, indexDigit) => {
 
-                const digitIndex = (indexSegment * 4) + indexDigit
+    //             const digitIndex = (indexSegment * 4) + indexDigit
 
-                return (
-                    <div 
-                    key={indexDigit}
-                    className={`${style.digit}`}
-                    data-active={
-                        selectionActive 
-                            ? (digitIndex >= caret.start && digitIndex < caret.end)
-                            : (digitIndex === caret.end)
-                    }
-                    data-caret={selectionActive ? false : (digitIndex + 1) === caret.end}
-                    onClick={() => handleDigitClick(digitIndex)}
-                >{digit}</div>
-                )
-            })}
-            </span>
-    ), [caret, selectionActive])
+    //             return (
+    //                 <div 
+    //                 key={indexDigit}
+    //                 className={`${style.digit}`}
+    //                 data-active={
+    //                     selectionActive 
+    //                         ? (digitIndex >= caret.start && digitIndex < caret.end)
+    //                         : (digitIndex === caret.end)
+    //                 }
+    //                 data-caret={selectionActive ? false : (digitIndex + 1) === caret.end}
+    //                 onClick={() => handleDigitClick(digitIndex)}
+    //             >{digit}</div>
+    //             )
+    //         })}
+    //         </span>
+    // ), [caret, selectionActive])
 
     return (
         <div 
@@ -257,6 +257,15 @@ const Chave = ({ context }: { context: UseDocumento }) => {
                 ref={inputRef}
             />
             <span className={style.segments}>
+                {splitChave?.map( (segment, indexSegment) => 
+                    <ChaveSegment
+                        key={indexSegment} 
+                        segment={segment} 
+                        indexSegment={indexSegment} 
+                        selectionActive={selectionActive} 
+                        caret={caret} 
+                        handleDigitClick={handleDigitClick}                     />
+                )}
                 {/* {splitChave?.map( (segment, indexSegment) => 
                     <span className={style.segment} key={indexSegment}>
                     {segment.split('').map( (digit, indexDigit) => {
@@ -279,61 +288,65 @@ const Chave = ({ context }: { context: UseDocumento }) => {
                     })}
                     </span>
                 )} */}
-                {segmentsDisplay}
+                {/* {segmentsDisplay} */}
             </span>
         </div>
     )
 
 }
 
-// interface ChaveSegmentProps {
-//     segment: string
-//     indexSegment: number
-//     selectionActive: boolean
-//     caret: Caret
-// }
+interface ChaveSegmentProps {
+    segment: string
+    indexSegment: number
+    selectionActive: boolean
+    caret: Caret
+    handleDigitClick: (index: number) => void
+}
 
-// function ChaveSegment({ segment, indexSegment, selectionActive, caret }: ChaveSegmentProps) {
+const ChaveSegment = React.memo(function ChaveSegment({ segment, indexSegment, selectionActive, caret, handleDigitClick }: ChaveSegmentProps) {
 
-//     const segmentDisplay = useMemo(() => segment.split(''), [segment])
+    const segmentDisplay = useMemo(() => segment.split(''), [segment])
 
+    return (
+        <span className={style.segment}>
+            {segmentDisplay.map((digit, indexDigit) =>
+                <ChaveDigit 
+                    key={indexDigit}
+                    segment={segment}
+                    indexSegment={indexSegment}
+                    digit={digit}
+                    indexDigit={indexDigit} 
+                    selectionActive={selectionActive}
+                    caret={caret} 
+                    handleDigitClick={handleDigitClick}
+                    />
+            )}
+        </span>
+    )
 
-//     return (
-//         <span className={style.segment}>
-//             {segmentDisplay.map((digit, indexDigit) =>
-//                 <ChaveDigit 
-//                     key={indexDigit}
-//                     segment={''} 
-//                     indexSegment={0} 
-//                     selectionActive={false} 
-//                     caret={caret} 
-//                 />
-//             )}
-//         </span>
-//     )
+})
 
-// }
+interface ChaveDigitProps extends ChaveSegmentProps {
+    digit: string
+    indexDigit: number
+}
 
-// interface ChaveDigitProps extends ChaveSegmentProps {
-//     digit: number
-//     indexDigit: number
-//     handleDigitClick: (index: number) => void
-// }
+const ChaveDigit = React.memo(function ChaveDigit({caret, digit, indexDigit, indexSegment, selectionActive, handleDigitClick}: ChaveDigitProps) {
 
-// function ChaveDigit({caret, digit, indexDigit, selectionActive, handleDigitClick}: ChaveDigitProps) {
+    const digitIndex = useMemo(() => (indexSegment * 4) + indexDigit, [indexDigit, indexSegment])
 
-//     return (
-//         <div 
-//             key={indexDigit}
-//             className={`${style.digit}`}
-//             data-active={
-//                 selectionActive 
-//                     ? (digitIndex >= caret.start && digitIndex < caret.end)
-//                     : (digitIndex === caret.end)
-//             }
-//             data-caret={selectionActive ? false : (digitIndex + 1) === caret.end}
-//             onClick={() => handleDigitClick(digitIndex)}
-//         >{digit}</div>
-//     )
+    return (
+        <div 
+            key={indexDigit}
+            className={`${style.digit}`}
+            data-active={
+                selectionActive 
+                    ? (digitIndex >= caret.start && digitIndex < caret.end)
+                    : (digitIndex === caret.end)
+            }
+            data-caret={selectionActive ? false : (digitIndex + 1) === caret.end}
+            onClick={() => handleDigitClick(digitIndex)}
+        >{digit}</div>
+    )
 
-// }
+})

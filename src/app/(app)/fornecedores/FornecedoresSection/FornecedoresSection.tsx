@@ -1,7 +1,7 @@
 'use client'
 import Link from 'next/link'
 import style from './FornecedoresSection.module.scss'
-import capitalize from '@/utils/capitalize'
+import capitalizeInner from '@/utils/capitalize'
 import { svgsUtil } from '@/components/SvgArray/SvgUtil'
 import Search from '@/components/Search/Search'
 import { usePathname } from 'next/navigation'
@@ -141,7 +141,7 @@ const FornecedorLink = forwardRef<HTMLDivElement, FornecedorLinkProps>(function 
             >
                 {svgsUtil.transporte}
                 <p>{fornecedor.id}</p>
-                <p>{fornecedor.nome&& capitalize(fornecedor.nome)}</p>
+                <p>{fornecedor.nome&& capitalizeInner(fornecedor.nome)}</p>
             </Link>
         </motion.div>
     )

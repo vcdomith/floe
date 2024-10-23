@@ -1,9 +1,10 @@
-import { IDisplayControl, ProdutoCadastro, useCalcular } from "@/app/(app)/calcular/context/CalcularContext";
+import { ProdutoCadastro, useCalcular } from "@/app/(app)/calcular/context/CalcularContext";
 
 import useProduto, { IProdutoContext } from "./useProduto";
 import { useMemo } from "react";
 import { useModal } from "@/app/(app)/(contexts)/ModalContext";
 import isEqual from "@/utils/isEqual";
+import { IDisplayControl } from "./useContextControl";
 
 interface UseEditProduto {
     
@@ -13,8 +14,8 @@ interface UseEditProduto {
     resetForm: (preserveSt?: boolean) => void
     displayControl: IDisplayControl
     valid: boolean
-    updateTabela: (id: number, updatedProduto: ProdutoCadastro) => void
-    removeProduto: (id: number) => void
+    updateTabela: (id: string, updatedProduto: ProdutoCadastro) => void
+    removeProduto: (id: string) => void
 
 }
 
@@ -39,13 +40,14 @@ export default function useEditProduto( produto: ProdutoCadastro ): UseEditProdu
 
     } = produtoData
 
+    const { context : { context } } = useCalcular()
+
     const { 
-        getDisplayControl, 
-        fornecedorContext: {fornecedorData}, 
-        pedidoContext: {pedidoData},
-        updateProdutoTabela,
-        removeProduto
-    } = useCalcular()
+        contextControl: { getDisplayControl }, 
+        fornecedorContext: { fornecedorData }, 
+        pedidoContext: { pedidoData },
+        tabelaContext: { updateProdutoTabela, removeProduto }
+    } = context
 
     const { clearModal } = useModal()
 

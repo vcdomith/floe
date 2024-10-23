@@ -1,8 +1,8 @@
 'use client'
 
 import SelectFornecedor from "@/components/SelectFornecedor/SelectFornecedor";
-import capitalize from "@/utils/capitalize";
-import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
+import capitalizeInner from "@/utils/capitalize";
+import { useEffect, useState } from "react";
 
 import style from './FornecedorTab.module.scss'
 import { motion, AnimatePresence } from "framer-motion";
@@ -13,12 +13,14 @@ import { dbConnect } from "@/utils/db/supabase";
 import { IFornecedor } from "@/interfaces/IFornecedor";
 import LogoSvg from "@/components/SvgArray/LogoSvg";
 import useFornecedor from "@/hooks/useFornecedor";
-import { useCalcular } from "../../context/CalcularContext";
+import { useCalcular, useManual } from "../../context/CalcularContext";
 import { svgsUtil } from "@/components/SvgArray/SvgUtil";
 import { useModal } from "@/app/(app)/(contexts)/ModalContext";
 import ConfirmationDialog from "@/components/ConfirmationDialog/ConfirmationDialog";
 
 interface FornecedorTabProps {
+
+    disabled?: boolean
 
     fornecedorCtx: string
     fornecedores: string[]
@@ -27,24 +29,30 @@ interface FornecedorTabProps {
 
 }
 
-export default function FornecedorTab({ fornecedorCtx, fornecedores, svg, titulo }: FornecedorTabProps) {
+export type FornecedorQueryType = keyof IFornecedor
 
-    const [fornecedor, setFornecedor] = useState(fornecedorCtx&& capitalize(fornecedorCtx))
-    const setCapitalizedFornecedor = (value: string) => {
-        setFornecedor(capitalize(value))
-    }
+export default function FornecedorTab({ 
+    disabled = false,
+    fornecedores, 
+    svg, 
+    titulo 
+}: FornecedorTabProps) {
+
     const [displayFornecedor, setDisplayFornecedor] = useState(false)
 
-    const [fornecedorDb, setFornecedorDb] = useState<IFornecedor>()
     const [loadingFornecedor, setLoadingFornecedor] = useState(false)
+
+    const { context: { context } } = useCalcular()
 
     const { 
         fornecedorContext,
-        tabela, 
+        tabelaContext: { tabela }, 
         resetContext
-    } = useCalcular()
+    } = context
 
-    const {fornecedorData: {
+    const {fornecedorData, setFornecedorData, handleFornecedorChange, fornecedorControl, fornecedorDiff, updateFornecedorControl} = fornecedorContext
+
+    const {
         nome,
         fatorBase,
         fatorBaseNormal,
@@ -56,42 +64,47 @@ export default function FornecedorTab({ fornecedorCtx, fornecedores, svg, titulo
         usaIpiUniversal,
         usaUnitarioPedido,
         usaComposto
-    }, setFornecedorData, handleFornecedorChange, fornecedorDiff, updateFornecedorControl} = fornecedorContext
+    } = fornecedorData
 
     const {setModal, clearModal} = useModal()
 
-    useEffect(() => {
-        if(fornecedorDb !== undefined) 
-            // setDadosFornecedorDb(fornecedorDb)
-            setFornecedorData({...fornecedorDb})
-    }, [fornecedorDb])
-
     const getFornecedorDataDB = async () => {
 
-        if (fornecedorDb && fornecedor.toLowerCase() === fornecedorDb.nome) {
+        if (fornecedorControl !== undefined && !fornecedorDiff.includes('nome')) {
             console.log('fornecedor já carregado!');
             return
         }
 
         setLoadingFornecedor(true)
-        const supabase = dbConnect()
-        const { data: fornecedorDB, error } = await supabase
-            .from('fornecedores')
-            .select('*')
-            .eq('nome', fornecedor.toLowerCase())
 
-        setFornecedorDb(fornecedorDB![0] as IFornecedor)
+        try {
+            
+            const type: FornecedorQueryType = 'nome'
+
+            const res = await fetch(
+                `/calcular/api/getFornecedor?type=${type}&nome=${nome.toLowerCase()}`
+            )
+            const fornecedorDB: IFornecedor = await res.json()
+            
+            setLoadingFornecedor(false)
+            setFornecedorData(fornecedorDB)
+            updateFornecedorControl(fornecedorDB)
+
+        } catch (error) {
+            
+            console.log(error);
+            setLoadingFornecedor(false)
+
+        }
+
         setLoadingFornecedor(false)
-        updateFornecedorControl(fornecedorDB![0] as IFornecedor)
-        // console.log(fornecedorDB);
 
     }
 
     const handleFornecedorConfirm = () => {
 
         if (
-            fornecedorDb && 
-            fornecedor.toLowerCase() !== fornecedorDb.nome &&
+            fornecedorDiff.includes('nome') &&
             tabela.length > 0
         ) {
             setModal(
@@ -120,31 +133,24 @@ export default function FornecedorTab({ fornecedorCtx, fornecedores, svg, titulo
                 <h3>{ titulo ? titulo : 'Fornecedor'}</h3>
             </span>
             <span className={`${style.selectWrap} ${style.w100}`}>
-                <SelectFornecedor 
+                <SelectFornecedor
+                    disabled={disabled}
                     fornecedoresControle={fornecedores}
-                    fornecedor={fornecedor}
-                    setFornecedor={setCapitalizedFornecedor}
+                    fornecedor={nome}
+                    setFornecedor={handleFornecedorChange('nome')}
                     confirmFornecedor={getFornecedorDataDB}
                 />
-                {(fornecedorDb === undefined || nome !== fornecedor.toLowerCase())
+                {(fornecedorControl === undefined || fornecedorDiff.includes('nome'))
                 ?
                 <button 
                     className={style.button} 
-                    // onClick={() => setDisplay(prev => !prev)} 
                     onClick={() => handleFornecedorConfirm()}
-                    disabled={fornecedor === '' ? true : false}>
+                    disabled={nome === '' ? true : false}>
                     {loadingFornecedor
                     ?
                         <LogoSvg loop />
                     :
-                        <svg width="25" height="25" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M129 437L129 201L212 201" stroke="black" strokeWidth="40" strokeLinejoin="round"/>
-                        <path d="M211 355L129.5 437L48 355" stroke="black" strokeWidth="40"/>
-                        <ellipse cx="352" cy="87" rx="93" ry="40" stroke="black" strokeWidth="40"/>
-                        <path d="M445 306C445 323.673 403.362 338 352 338C300.638 338 259 323.673 259 306" stroke="black" strokeWidth="40"/>
-                        <path d="M445 200C445 217.121 403.362 231 352 231C300.638 231 259 217.121 259 200" stroke="black" strokeWidth="40"/>
-                        <path d="M259 310V84M445 306.904V84" stroke="black" strokeWidth="40"/>
-                        </svg>
+                        svgsUtil.import
                     }
                 </button> 
                 :

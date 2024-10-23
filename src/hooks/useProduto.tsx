@@ -3,6 +3,7 @@ import { Dispatch, FormEvent, MutableRefObject, RefObject, SetStateAction, useMe
 import Converter from "@/utils/typeConversion";
 import { CalcularContext, ProdutoCadastro } from "@/app/(app)/calcular/context/CalcularContext";
 import getDifferentKeys from "@/utils/differentKeys";
+import { UseSectionContext } from "./useSectionContext";
 
 export interface UseProduto {
 
@@ -13,7 +14,7 @@ export interface UseProduto {
     resetForm: (preserveSt?: boolean) => void
     codigoInputRef: RefObject<HTMLInputElement> | null
 
-    getProdutoDisplayControl: (ctx: CalcularContext) => IProdutoDisplayControl
+    getProdutoDisplayControl: (ctx: UseSectionContext) => IProdutoDisplayControl
 
     produtoDiff: (keyof IProdutoContext)[]
     updateProdutoControl: (produto: IProdutoContext) => void
@@ -160,7 +161,7 @@ export default function useProduto(produto: (ProdutoCadastro | null) = null): Us
         fornecedorContext: {fornecedorData},
         pedidoContext: {pedidoData},
         produtoContext: {produtoData},
-    }: CalcularContext): IProdutoDisplayControl => 
+    }: UseSectionContext): IProdutoDisplayControl => 
     (produtoData.st)
     ? {
 

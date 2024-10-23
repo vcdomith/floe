@@ -5,12 +5,13 @@ import search from './Search.module.scss'
 
 interface SearchProps {
     className?: string | string[]
-    textInput?: boolean 
+    textInput?: boolean
+    pattern?: string 
     searchParam: string
     setSearchParam: (searchParam: string) => void
 }
 
-const Search = ({ className, searchParam, setSearchParam, textInput }: SearchProps) => {
+const Search = ({ className, searchParam, setSearchParam, textInput, pattern }: SearchProps) => {
 
   return (
     <span
@@ -58,6 +59,7 @@ const Search = ({ className, searchParam, setSearchParam, textInput }: SearchPro
             <input 
                 className={search.input}
                 type="text"
+                pattern={pattern}
                 value={searchParam}
                 onChange={(e) => setSearchParam(e.target.value.toUpperCase())}
                 onKeyDown={(e) => {if(e.key === 'Escape') setSearchParam('')}}

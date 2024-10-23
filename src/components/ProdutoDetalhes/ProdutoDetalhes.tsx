@@ -97,8 +97,8 @@ export const ProdutoDetalhes = ({ produto }:
         desconto
     } = controlledInputs
 
-    const {addNotification} = useNotification()
-    const {setModal, clearModal} = useModal()
+    const { addNotification } = useNotification()
+    const { clearModal } = useModal()
     const { matches: isMobile } = useMediaQuery()
 
     const tabelas: [string, number][] = useMemo(() => Object.entries(getTabelasObject(produtoEdit)), [produtoEdit])
@@ -160,7 +160,7 @@ export const ProdutoDetalhes = ({ produto }:
 
     }
 
-    const handleDelete = (id: number) => {
+    const handleDelete = (id: string) => {
 
         removeProduto(id)
         addNotification({
@@ -220,7 +220,7 @@ export const ProdutoDetalhes = ({ produto }:
                     {tabelas.map(([key, value]) => 
                         <div key={key} className={style.valor}>
                             <label>{key}</label>
-                            <h3>{(value) ? value.toFixed(2) : '~~~~~'}</h3>
+                            <h3>{(value) ? value.toFixed(2) : '••••••'}</h3>
                         </div>
                     )}
                 </span>

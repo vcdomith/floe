@@ -10,11 +10,14 @@
 //Opção layout
 // $cor-primaria: #16045d;
 // $cor-primaria: #191649;
-$cor-primaria: #210f30;
+// $cor-primaria: #210f30;
 // $cor-primaria: #0e0e2b;
 // $cor-primaria: #16491e;
 // $cor-primaria: #212f23;
+
+// $cor-primaria: #210f30;
 // $cor-primaria: #062b37;
+$cor-primaria: #060837;
 
 // $cor-primaria: #71110a;
 // $cor-primaria: #5a0606;
@@ -45,6 +48,7 @@ $cor-mix: mix($cor-primaria, $cor-secundaria, 10%);
 
 $cor-primaria-transparent: transparentize($cor-primaria, 0.8);
 $cor-aviso: darken(saturate(cor-mix(20%), 40%), 20%);
+$cor-destaque: darken(saturate(cor-mix(70%), 50%), 10%);
 
 //Animations
 @keyframes appear {
@@ -91,6 +95,8 @@ $cor-aviso: darken(saturate(cor-mix(20%), 40%), 20%);
 
 $fonte-titulo: 'Glamuk';
 $fonte-body: 'Archivo';
+// $fonte-mono: 'Roboto Mono';
+$fonte-mono: 'IBM Plex Mono';
 // $fonte-body: '';
 $fonte-header: 'Archivo SE';
 $fonte-destaque: 'Playfair Display';
@@ -99,6 +105,18 @@ $fonte-destaque: 'Playfair Display';
 @font-face {
     font-family: 'Archivo';
     src: url('../fonts/Archivo-Regular.ttf');
+    font-weight: normal;
+    font-size: normal;
+}
+@font-face {
+    font-family: 'Roboto Mono';
+    src: url('../fonts/RobotoMono-Regular.ttf');
+    font-weight: normal;
+    font-size: normal;
+}
+@font-face {
+    font-family: 'IBM Plex Mono';
+    src: url('../fonts/IBMPlexMono-Medium.ttf');
     font-weight: normal;
     font-size: normal;
 }

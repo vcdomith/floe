@@ -1,11 +1,11 @@
 'use client'
 import { getTabelas, getTabelasObject } from '@/utils/calculoTabelas'
-import { ProdutoCadastro, useCalcular } from '../context/CalcularContext'
+import { Contexts, ProdutoCadastro, useCalcular, useManual } from '../context/CalcularContext'
 import TableHeader from './TabelaHeader/TabelaHeader'
 import TabelaRow from './TabelaRow/TabelaRow'
 import { motion, AnimatePresence, LayoutGroup } from 'framer-motion'
 import Search from '@/components/Search/Search'
-import { useEffect, useMemo } from 'react'
+import React, { useEffect, useMemo } from 'react'
 import { SearchFieldKeys } from '@/hooks/useFilter'
 
 import style from './TabelaSection.module.scss'
@@ -14,21 +14,25 @@ import { useModal } from '../../(contexts)/ModalContext'
 import ConfirmationDialog from '@/components/ConfirmationDialog/ConfirmationDialog'
 import { useMediaQuery } from '../../(contexts)/MediaQueryContext'
 import { useSectionSelect } from '../../(contexts)/SectionSelectContext'
+import { usePathname } from 'next/navigation'
+import { UseSectionContext } from '@/hooks/useSectionContext'
+import { svgsUtil } from '@/components/SvgArray/SvgUtil'
+import Highlight from '@/components/Highlight/Highlight'
 
-export default function TabelaSection() {
+export default React.memo(function TabelaSection() {
+
+    const { context: { context }, cadastrarPedido } = useCalcular()
 
     const {
-        tabela, 
-        setTabela, 
+        tabelaContext,
         tabelaValid,
-        cadastrarPedidoDB, 
         filterContext, 
         resetContext,
         pedidoContext: {pedidoData: {quantidadeProdutos}},
-        // calcularSection,
-        setCalcularSection
-    } = useCalcular()
+    } = context
     const {searchParam, setSearchParam, searchField, setSearchFieldCapitalized} = filterContext
+
+    const { tabela } = tabelaContext
 
     const fieldKeys: SearchFieldKeys[] = ['unitario', 'codigo']
 
@@ -47,9 +51,8 @@ export default function TabelaSection() {
                 title='Confirme se deseja salvar o pedido:'
                 message='Atenção: O pedido será salvo permanentemente!'
                 cancelHandler={clearModal}
-                confirmHandler={() => {
-                    cadastrarPedidoDB()
-                    resetContext()
+                confirmHandler={async () => {
+                    cadastrarPedido()
                 }}
             />
         )
@@ -117,7 +120,10 @@ export default function TabelaSection() {
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
                 >
-                    <p>Nenhum produto cadastrado ainda, use as abas para calcular eles.</p>
+                    <span className={style.noMatch}>
+                        {svgsUtil.produto}
+                        <p>Nenhum <Highlight>produto</Highlight> cadastrado ainda, use as abas para calcular eles.</p>
+                    </span>
                 </motion.div>
                 }
                 </motion.div>
@@ -154,4 +160,4 @@ export default function TabelaSection() {
     )
 
 
-}
+})

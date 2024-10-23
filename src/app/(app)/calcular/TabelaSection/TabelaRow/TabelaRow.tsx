@@ -1,6 +1,6 @@
 'use client'
 import { getTabelasObject } from '@/utils/calculoTabelas'
-import { FatoresContext, ProdutoCadastro, useCalcular } from '../../context/CalcularContext'
+import { ProdutoCadastro, useCalcular } from '../../context/CalcularContext'
 import style from './TabelaRow.module.scss'
 import { Dispatch, SetStateAction, forwardRef, useMemo } from 'react'
 import {AnimatePresence, motion} from 'framer-motion'
@@ -14,6 +14,7 @@ import ProdutoDetalhes from '@/components/ProdutoDetalhes/ProdutoDetalhes'
 import ConfirmationDialog from '@/components/ConfirmationDialog/ConfirmationDialog'
 import { useNotification } from '@/app/(app)/(contexts)/NotificationContext'
 import { useMediaQuery } from '@/app/(app)/(contexts)/MediaQueryContext'
+import Converter from '@/utils/typeConversion'
 
 interface TabelaRowProps {
 
@@ -21,19 +22,35 @@ interface TabelaRowProps {
 
 }
 
+const { stringToFloat } = Converter
+
 const TabelaRow = forwardRef<HTMLSpanElement, TabelaRowProps>(
 function TabelaRow({produto}: TabelaRowProps, ref) {
 
-    const {id, codigo, ncm, st, unitario, unitarioNota, composto } = produto
-    const {tabela1, tabela2, tabela3} = useMemo(() => getTabelasObject(produto), [produto])
+    const { id, codigo, ncm, st, unitario, unitarioNota, composto } = produto
+    const { tabela1, tabela2, tabela3 } = useMemo(() => getTabelasObject(produto), [produto])
+    const unitarioDisplay = useMemo(() => stringToFloat(unitario).toFixed(2), [unitario])
+    const unitarioNotaDisplay = useMemo(() => stringToFloat(unitarioNota).toFixed(2), [unitarioNota])
 
-    const { removeProduto } = useCalcular()
+    const { context } = useCalcular()
+
+    const { 
+        context: {
+            tabelaContext: { removeProduto }
+        } 
+    } = context
     const { addNotification } = useNotification()
 
     const { matches: isMobile } = useMediaQuery()
     const { setModal, clearModal } = useModal()
 
-    const handleClick = (id: number) => {
+    const testValue = (value: string) => {
+        return (value !== '' && value.at(0) !== '-' && value !== "0.00")
+            ? value
+            : '••••••'
+    }
+
+    const handleClick = (id: string) => {
 
         setModal(
             <ConfirmationDialog 
@@ -87,24 +104,24 @@ function TabelaRow({produto}: TabelaRowProps, ref) {
                 </div>
                 <div className={style.composto}>
                     <label className={style.label}>unitário</label>
-                    <p className={style.main}>{ unitario }</p>
+                    <p className={style.main}>{ testValue(unitarioDisplay) }</p>
                     {(composto?.every(item => item !== ''))&&
                     <p className={style.second}>{ `(${composto[0]} + ${composto[1]})` }</p>
                     }
                 </div>
                 <div>
                     <label className={style.label}>tabela 1</label>
-                    <p>{ tabela1.toFixed(2) }</p>
+                    <p>{ testValue(tabela1.toFixed(2)) }</p>
                 </div>
                 {/* <div>{ tabela2 }</div> */}
                 <div className={style.composto}>
                     <label className={style.label}>tabela 2</label>
-                    <p className={style.main}>{ tabela2.toFixed(2) }</p>      
-                    <p className={style.second}>{ unitarioNota }</p>
+                    <p className={style.main}>{ testValue(tabela2.toFixed(2)) }</p>      
+                    <p className={style.second}>{ testValue(unitarioNotaDisplay) }</p>
                 </div>
                 <div>
                     <label className={style.label}>tabela 3</label>
-                    <p>{ tabela3.toFixed(2) }</p>
+                    <p>{ testValue(tabela3.toFixed(2)) }</p>
                 </div>
                 <div>
                     <span className={style.tools}>
@@ -116,10 +133,10 @@ function TabelaRow({produto}: TabelaRowProps, ref) {
                                 /> 
                             )}
                         >
-                            <SvgDetalhes />
+                            {svgsUtil.detail}
                         </button>
         
-                        <button onClick={() => handleClick(id)}><SvgExcluir/></button>
+                        <button onClick={() => handleClick(id)}>{svgsUtil.delete}</button>
                     </span>
                 </div>
         </motion.span>
@@ -129,33 +146,3 @@ function TabelaRow({produto}: TabelaRowProps, ref) {
 })
 
 export default TabelaRow
-
-const SvgExcluir = () => {
-    return(
-        <svg width="50" height="50" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M156 345L346 155" stroke="black" strokeWidth="40"/>
-            <path d="M155 155L345 345" stroke="black" strokeWidth="40"/>
-        </svg>
-    )
-}
-// const SvgExcluir = () => {
-//     return(
-//         <svg width="50" height="50" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
-//         <path d="M130 193L130 400L370 400L370 193" stroke="black" strokeWidth="40"/>
-//         <path d="M71 139L430 139" stroke="black" strokeWidth="40"/>
-//         <path d="M174 99L326 99" stroke="black" strokeWidth="40"/>
-//         <path d="M207 193L207 350" stroke="black" strokeWidth="40"/>
-//         <path d="M291 193L291 350" stroke="black" strokeWidth="40"/>
-//         </svg>
- 
-//     )
-// }
-const SvgDetalhes = () => {
-    return(
-        <svg width="50" height="50" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M117 161H383" stroke="black" strokeWidth="40"/>
-            <path d="M117 250H383" stroke="black" strokeWidth="40"/>
-            <path d="M117 339H383" stroke="black" strokeWidth="40"/>
-        </svg>
-    )
-}

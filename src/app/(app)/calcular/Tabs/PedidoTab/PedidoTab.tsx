@@ -5,9 +5,7 @@ import style from '../FornecedorTab/FornecedorTab.module.scss'
 import { motion, AnimatePresence } from 'framer-motion'
 import Config from '@/app/(app)/configurar/(Config)/Config'
 import NumberInput from '@/components/FatoresTable/FatoresTableBody/NumberInput/NumberInput'
-import Converter from '@/utils/typeConversion'
-import { useCalcular } from '../../context/CalcularContext'
-import { debug } from 'console'
+import { useCalcular, useChave, useManual } from '../../context/CalcularContext'
 import CheckBox from '@/app/(app)/configurar/(CheckBox)/CheckBox'
 import { IFatoresPedido, IPedidoDisplayControl } from '@/hooks/usePedido'
 import usePedidoTabRefs, { InputRefs, Transporte_STRefs } from '@/hooks/usePedidoTabRefs'
@@ -17,10 +15,12 @@ const NUMBER_INPUT_PLACEHOLDER = '_'.repeat(25)
 
 export default function PedidoTab() {
 
-    const [displayPedido, setDisplayPedido] = useState(false)
+    const [ displayPedido, setDisplayPedido ] = useState(false)
 
-    const calcularContext = useCalcular()
-    const {fornecedorContext, pedidoContext} = calcularContext
+    // Receber o contexto a ser usado por prop, permite ser usado em mais de um lugar
+    const { context: { context } } = useCalcular()
+    // const { manual: { context } } = useManual()
+    const { fornecedorContext, pedidoContext } = context
     const {fornecedorData: { 
         fatorBase 
     }, handleFornecedorChange} = fornecedorContext 
@@ -46,7 +46,7 @@ export default function PedidoTab() {
     } = pedidoData
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    const pedidoDisplayControl = useMemo(() => getPedidoDisplayControl(calcularContext), [calcularContext])
+    const pedidoDisplayControl = useMemo(() => getPedidoDisplayControl(context), [context])
 
     const { refs, pedidoFormRef, transporteRefs, stRefs, assignRef } = usePedidoTabRefs()
 

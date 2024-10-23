@@ -1,34 +1,6 @@
 import { FatoresContext, ProdutoCadastro } from "@/app/(app)/calcular/context/CalcularContext";
 import { IFatores } from "@/interfaces/IFatores";
-
-interface SvgUtilItems extends 
-    Record<keyof FatoresContext, React.ReactNode>, 
-    Record<keyof Omit<ProdutoCadastro, 'fatores' | 'id' >, React.ReactNode> {
-    produto: React.ReactNode
-    produto3D: React.ReactNode
-    plus: React.ReactNode
-}
-
-// export const SvgUtil = ({ svg } : { svg: keyof SvgUtilItems } ) => {
-
-//     const svgs: SvgUtilItems = {
-//         base: undefined,
-//         fatorBaseNormal: undefined,
-//         fatorBaseST: undefined,
-//         transporte: <SvgFornecedor />,
-//         st: <SvgST />,
-//         ipi: <SvgIPI />,
-//         desconto: <SvgDesconto />,
-//         codigo: <SvgCodigo />,
-//         ncm: <SvgNCM />,
-//         unitario: undefined,
-//         unitarioNota: <SvgUnitarioNota />,
-//         composto: <SvgComposto />
-//     }
-
-//     return svgs[svg]
-
-// }
+import React from "react";
 
 const SvgProduto_3D = () => {
     return(
@@ -43,7 +15,7 @@ const SvgProduto_3D = () => {
 
 const SvgCodigo = () => {
     return(
-        <svg width="500" height="500" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg width="50" height="50" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M407 365.704C329.979 303.655 330.739 417.926 253.718 355.876C176.698 293.826 169.448 418.269 92 355.876" stroke="black" strokeWidth="40"/>
         <path d="M33 413V87C33 64.9086 50.9086 47 73 47H419.26C446.178 47 468 68.8345 468 95.7688V404.231C468 431.165 446.169 453 419.251 453H355.285H73C50.9086 453 33 435.091 33 413Z" stroke="black" strokeWidth="40"/>
         <line x1="117" y1="102" x2="117" y2="289" stroke="black" strokeWidth="40"/>
@@ -56,7 +28,7 @@ const SvgCodigo = () => {
 }
 const SvgNCM = () => {
     return(
-        <svg width="500" height="500" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg width="50" height="50" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M481 414.43C367.303 350.586 368.425 478.274 254.727 414.43C141.03 350.586 130.327 478.628 16 414.43" stroke="black" strokeWidth="40"/>
         <rect x="34" y="87" width="160" height="226" rx="33.5" stroke="black" strokeWidth="40"/>
         <rect x="250" y="87" width="80" height="226" rx="33.5" stroke="black" strokeWidth="40"/>
@@ -139,7 +111,7 @@ const SvgDefault = () => {
 
 const SvgProduto = () => {
     return(
-        <svg width="500" height="500" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg width="50" height="50" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M449 135L250 20L51 135V365L250 480L449 365V135Z" stroke="black" strokeWidth="40" strokeLinejoin="round"/>
         <path d="M250 250.649C327.714 205.876 371.286 180.773 449 136M250 250.649C172.286 205.876 128.714 180.773 51 136M250 250.649V473" stroke="black" strokeWidth="40"/>
         <path d="M149 69C227.105 113.841 270.895 138.981 349 183.822C349 183.822 349 268.648 349 323" stroke="black" strokeWidth="40"/>
@@ -156,6 +128,209 @@ function SvgPlus() {
         </svg>
     )
 
+}
+
+function SvgBack() {
+
+    return (
+        <svg fill="#000000" width="800px" height="800px" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><path d="M14.19 16.005l7.869 7.868-2.129 2.129-9.996-9.997L19.937 6.002l2.127 2.129z"/></svg>
+    )
+
+}
+
+function SvgImport() {
+
+    return (
+        <svg width="25" height="25" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M129 437L129 201L212 201" stroke="black" strokeWidth="40" strokeLinejoin="round"/>
+            <path d="M211 355L129.5 437L48 355" stroke="black" strokeWidth="40"/>
+            <ellipse cx="352" cy="87" rx="93" ry="40" stroke="black" strokeWidth="40"/>
+            <path d="M445 306C445 323.673 403.362 338 352 338C300.638 338 259 323.673 259 306" stroke="black" strokeWidth="40"/>
+            <path d="M445 200C445 217.121 403.362 231 352 231C300.638 231 259 217.121 259 200" stroke="black" strokeWidth="40"/>
+            <path d="M259 310V84M445 306.904V84" stroke="black" strokeWidth="40"/>
+        </svg>
+    ) 
+
+}
+
+function SvgDetails() {
+
+    return ( 
+        <svg width="50" height="50" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M117 161H383" stroke="black" strokeWidth="40"/>
+            <path d="M117 250H383" stroke="black" strokeWidth="40"/>
+            <path d="M117 339H383" stroke="black" strokeWidth="40"/>
+        </svg>
+    )
+
+}
+
+function SvgDelete() {
+
+    return (
+        <svg width="50" height="50" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M156 345L346 155" stroke="black" strokeWidth="40"/>
+            <path d="M155 155L345 345" stroke="black" strokeWidth="40"/>
+        </svg>
+    )
+
+}
+
+function SvgExpand({ display }: { display: boolean }) {
+
+    return(
+        <svg width="20" height="20" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path 
+                d={`${display
+                    ? "M376 314L250 188L124 314" 
+                    : "M376 187L250 313L124 187"
+                }`}  
+                strokeWidth="50"
+            />
+        </svg>  
+    )
+
+}
+
+function SvgNumero() {
+    return(
+        <svg width="500" height="500" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M200.687 87L164.993 414" stroke="black" strokeWidth="40"/>
+            <path d="M334.25 87L298.556 414" stroke="black" strokeWidth="40"/>
+            <path d="M415 188L85 188" stroke="black" strokeWidth="40"/>
+            <path d="M416 313L86 313" stroke="black" strokeWidth="40"/>
+        </svg>
+    )
+}
+
+function SvgData() {
+    return (
+        <svg width="500" height="500" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M342 250H250V158" stroke="black" strokeWidth="40"/>
+            <circle cx="250" cy="250" r="159" stroke="black" strokeWidth="40"/>
+        </svg>
+    )
+}
+
+function SvgChave() {
+
+    return (
+        <svg width="500" height="500" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M429 241.132L223.302 241.132" stroke="black" strokeWidth="40"/>
+            <path d="M411.642 354.83L411.642 223.774" stroke="black" strokeWidth="40"/>
+            <path d="M334.396 354.83L334.396 223.774" stroke="black" strokeWidth="40"/>
+            <circle cx="159.075" cy="248.075" r="78.0755" stroke="black" strokeWidth="40"/>
+        </svg>
+    )
+
+}
+
+function SvgChaveImport() {
+    return (
+        <svg width="500" height="500" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M178 390L59 390L59 258" stroke="black" strokeWidth="40" strokeLinejoin="round"/>
+        <path d="M125 312L203 389.5L125 467" stroke="black" strokeWidth="40"/>
+        <path d="M445 118L196.295 117.984" stroke="black" strokeWidth="40"/>
+        <path d="M425 222L425 101" stroke="black" strokeWidth="40"/>
+        <path d="M343 222L343 101" stroke="black" strokeWidth="40"/>
+        <circle cx="131.975" cy="124.975" r="77.975" stroke="black" strokeWidth="40"/>
+        <path d="M280.165 367.245C234.232 321.061 326.097 321.061 280.165 274.877L449.694 274.877C495.626 321.061 403.762 321.061 449.694 367.245C495.626 413.429 401.472 415.732 447.659 462.172L278.129 462.172C231.942 415.732 326.097 413.429 280.165 367.245Z" stroke="black" strokeWidth="40" strokeLinejoin="round"/>
+        <line x1="318" y1="335" x2="392" y2="335" stroke="black" strokeWidth="40"/>
+        <line x1="336" y1="394" x2="410" y2="394" stroke="black" strokeWidth="40"/>
+        </svg>
+
+    )
+}
+
+function SvgXmlImport() {
+    return(
+        <svg width="500" height="500" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M178 390L59 390L59 258" stroke="black" strokeWidth="40" strokeLinejoin="round"/>
+            <path d="M125 312L203 389.5L125 467" stroke="black" strokeWidth="40"/>
+            <path d="M280.165 367.245C234.233 321.061 326.097 321.061 280.165 274.877L449.694 274.877C495.627 321.061 403.762 321.061 449.694 367.245C495.627 413.429 401.472 415.732 447.659 462.172L278.129 462.172C231.942 415.732 326.097 413.429 280.165 367.245Z" stroke="black" strokeWidth="40" strokeLinejoin="round"/>
+            <line x1="318" y1="335" x2="392" y2="335" stroke="black" strokeWidth="40"/>
+            <line x1="336" y1="394" x2="410" y2="394" stroke="black" strokeWidth="40"/>
+            <path d="M350.503 40L438.065 127L350.503 214" stroke="black" strokeWidth="40"/>
+            <path d="M149.561 40L62 127L149.561 214" stroke="black" strokeWidth="40"/>
+            <path d="M192.219 198.284L316.826 73.6774" stroke="black" strokeWidth="40"/>
+        </svg>
+    )
+}
+
+function SvgSucesso() {
+    return (
+        <svg width="50" height="50" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M149 219.875L240.063 310.938L348 203" stroke="black" strokeWidth="40"/>
+            <circle cx="250.5" cy="249.5" r="184.5" stroke="black" strokeWidth="40"/>
+        </svg>
+    )
+}
+
+function SvgAviso() {
+    return (
+        <svg width="50" height="50" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M462 433L250.5 67L144.75 250L39 433H462Z" stroke="black" strokeWidth="40" strokeLinejoin="bevel"/>
+            <path d="M250 198V380" stroke="black" strokeWidth="40"/>
+        </svg>
+    )
+}
+
+function SvgError() {
+    return (
+        <svg width="50" height="50" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M146 148L351 353" stroke="black" strokeWidth="40"/>
+            <path d="M351 148L146 353" stroke="black" strokeWidth="40"/>
+            <rect x="66" y="65" width="369" height="369" rx="49" stroke="black" strokeWidth="40"/>
+        </svg>
+    )
+}
+
+function SvgCheck() {
+
+    return (
+        <svg width="500" height="500" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M109 195.499L238.501 325L392 171.501" stroke="black" strokeWidth="40"/>
+        </svg>
+    )
+
+}
+
+function SvgDocumentImport() {
+    return (
+        <svg width="500" height="501" viewBox="0 0 500 501" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M122.833 195.074C53.6749 125.537 191.99 125.537 122.833 56L378.085 56C447.242 125.537 308.927 125.537 378.085 195.074C447.242 264.611 305.479 268.078 375.02 338L119.767 338C50.2266 268.078 191.99 264.611 122.833 195.074Z" stroke="black" strokeWidth="40" strokeLinejoin="round"/>
+        <line x1="177.951" y1="123.122" x2="314.748" y2="123.122" stroke="black" strokeWidth="40"/>
+        <line x1="190.943" y1="198.016" x2="327.74" y2="198.016" stroke="black" strokeWidth="40"/>
+        <rect x="196" y="218" width="107" height="194" fill="#D9D9D9"/>
+        <path d="M249 461L250.005 255" stroke="black" strokeWidth="40" strokeLinejoin="round"/>
+        <path d="M319 401L249 472L179 401" stroke="black" strokeWidth="40"/>
+        </svg>
+
+    )
+}
+
+export interface SvgUtilItems extends 
+    Record<keyof FatoresContext, React.ReactNode>, 
+    Record<keyof Omit<ProdutoCadastro, 'fatores' | 'id' >, React.ReactNode> {
+    produto: React.ReactNode
+    produto3D: React.ReactNode
+    plus: React.ReactNode
+    back: React.ReactNode
+    import: React.ReactNode
+    detail: React.ReactNode
+    delete: React.ReactNode
+    expand: (display: boolean) => React.ReactNode
+    numero: React.ReactNode
+    data: React.ReactNode
+    chave: React.ReactNode
+    chaveImport: React.ReactNode
+    xmlImport: React.ReactNode
+    sucesso: React.ReactNode
+    aviso: React.ReactNode
+    error: React.ReactNode
+    check: React.ReactNode
+    documentImport: React.ReactNode
+    fornecedor: React.ReactNode
 }
 
 export const svgsUtil: SvgUtilItems = {
@@ -175,4 +350,20 @@ export const svgsUtil: SvgUtilItems = {
     produto: <SvgProduto/>,
     produto3D: <SvgProduto_3D/>,
     plus: <SvgPlus />,
+    back: <SvgBack />,
+    import: <SvgImport />,
+    detail: <SvgDetails />,
+    delete: <SvgDelete />,
+    expand: (display: boolean) => <SvgExpand display={display} />,
+    numero: <SvgNumero />,
+    data: <SvgData />,
+    chave: <SvgChave />,
+    chaveImport: <SvgChaveImport />,
+    xmlImport: <SvgXmlImport />,
+    sucesso: <SvgSucesso />,
+    aviso: <SvgAviso />,
+    error: <SvgError />,
+    check: <SvgCheck />,
+    documentImport: <SvgDocumentImport />,
+    fornecedor: <SvgFornecedor />,
 }

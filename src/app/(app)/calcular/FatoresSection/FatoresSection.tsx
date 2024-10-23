@@ -3,14 +3,17 @@ import { motion, AnimatePresence } from "framer-motion";
 import FornecedorTab from "../Tabs/FornecedorTab/FornecedorTab";
 import PedidoTab from "../Tabs/PedidoTab/PedidoTab";
 import ProdutoTab from "../Tabs/ProdutoTab/ProdutoTab";
-import { useCalcular } from "../context/CalcularContext";
+import { useCalcular, useManual } from "../context/CalcularContext";
 
 import style from './FatoresSection.module.scss'
 import { useNotification } from "../../(contexts)/NotificationContext";
-import capitalize from "@/utils/capitalize";
-import { useEffect } from "react";
+import capitalizeInner from "@/utils/capitalize";
+import { useEffect, useState } from "react";
 import { useMediaQuery } from "../../(contexts)/MediaQueryContext";
 import { useSectionSelect } from "../../(contexts)/SectionSelectContext";
+import Link from "next/link";
+import { svgsUtil } from "@/components/SvgArray/SvgUtil";
+import AvisoFatoresDiferentes from "@/components/AvisoFatoresDiferentes/AvisoFatoresDIferentes";
 
 interface FatoresSectionProps {
 
@@ -20,23 +23,25 @@ interface FatoresSectionProps {
 
 export default function FatoresSection({ fornecedores }: FatoresSectionProps) {
 
+    const { 
+        context: { context } ,
+        submitForm
+    } = useCalcular()
     const {
         fornecedorContext,
         pedidoContext,  
-        produtoIsValid, 
-        submitForm, 
+        produtoValid,  
         tabelaValid,
-        updateFatoresTabela,
-        // calcularSection: section,
-        setCalcularSection
-    } = useCalcular()
-    const {fornecedorData, fornecedorDiff, rollbackFornecedor, updateFornecedorControl} = fornecedorContext
+        tabelaContext: { updateFatoresTabela },
+    } = context
+
+    const {fornecedorData, fornecedorDiff, fornecedorControl, rollbackFornecedor, updateFornecedorControl} = fornecedorContext
     const {pedidoData, pedidoDiff, rollbackPedido, updatePedidoControl} = pedidoContext
 
     const {addNotification} = useNotification()
 
     const { section, setSection } = useSectionSelect()
-    const {matches: isMobile} = useMediaQuery()
+    const { matches: isMobile } = useMediaQuery()
 
     useEffect(() => {
 
@@ -74,9 +79,14 @@ export default function FatoresSection({ fornecedores }: FatoresSectionProps) {
             // }}
         >
             <div className={style.content}>
-    
+
                 <div className={style.title}>
-                    <h3>Fornecedor</h3>
+                <span className={style.header}>
+                        <Link href={'/calcular'}>
+                            {svgsUtil.back}
+                        </Link>
+                        <h3>Fornecedor</h3>
+                    </span>
                     <AnimatePresence initial={false}>
                     {(fornecedorData.nome === '')&&
                     <motion.p
@@ -114,7 +124,7 @@ export default function FatoresSection({ fornecedores }: FatoresSectionProps) {
                 }
 
                 <AnimatePresence>
-                {(fornecedorData.nome !== '')
+                {(fornecedorControl && fornecedorControl.nome !== '')
                 ?
                 <motion.div
                     initial={{ opacity: 0 }}
@@ -172,7 +182,7 @@ export default function FatoresSection({ fornecedores }: FatoresSectionProps) {
                 className={style.submit} 
                 onClick={() => submitForm()} 
                 disabled={(fornecedorDiff.length === 0 && pedidoDiff.length === 0) 
-                    ? (tabelaValid)|| !produtoIsValid
+                    ? (tabelaValid)|| !produtoValid
                     : true
                 }
             >
@@ -186,41 +196,4 @@ export default function FatoresSection({ fornecedores }: FatoresSectionProps) {
         </section>
     )
 
-}
-
-interface AvisoFatoresDiferentesProps {
-    tab: 'pedido' | 'fornecedor' 
-    cancelHandler: () => void
-    confirmHandler: () => void
-}
-
-const AvisoFatoresDiferentes = ({tab, cancelHandler, confirmHandler}: AvisoFatoresDiferentesProps) => {
-    return (
-        <motion.span
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            key={tab}
-            
-            className={style.aviso}
-        >
-            <span className={style.mensagem}>
-                <svg width="20" height="20" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M462 433L250.5 67L144.75 250L39 433H462Z" stroke="black" strokeWidth="40" strokeLinejoin="bevel"/>
-                    <path d="M250 198V380" stroke="black" strokeWidth="40"/>
-                </svg>
-                <p>{`Fatores alterados em '${capitalize(tab)}' não estão afetando os produtos!`}</p> 
-            </span>
-            <span className={style.buttons}>
-                <button 
-                    className={style.discard}
-                    onClick={() => cancelHandler()}
-                >Descartar</button>
-                <button 
-                    className={style.confirm}
-                    onClick={() => confirmHandler()}
-                >Atualizar Fatores</button>
-            </span>
-        </motion.span>
-    )
 }

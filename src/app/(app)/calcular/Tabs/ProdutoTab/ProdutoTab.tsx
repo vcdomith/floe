@@ -9,7 +9,7 @@ import styleProduto from './ProdutoTab.module.scss'
 import Config from "@/app/(app)/configurar/(Config)/Config"
 import NumberInput from "@/components/FatoresTable/FatoresTableBody/NumberInput/NumberInput"
 import CheckBox from "@/app/(app)/configurar/(CheckBox)/CheckBox"
-import { useCalcular } from "../../context/CalcularContext"
+import { useCalcular, useManual } from "../../context/CalcularContext"
 import Converter from "@/utils/typeConversion"
 import { IProdutoContext, IProdutoDisplayControl } from "@/hooks/useProduto"
 import { svgsUtil } from "@/components/SvgArray/SvgUtil"
@@ -26,12 +26,7 @@ interface ProdutoConfigElements {
 const PRODUTO_CONFIG_MAP: Record<keyof IProdutoDisplayControl, ProdutoConfigElements> = {
     st: {
         title: 'Produto com ST?',
-        description: 'Produto usa Subst. Trib.',
-        // input: 
-        //     <CheckBox 
-        //         checked={st}
-        //         setChecked={handleProdutoChange('st')}
-        //     />,
+        description: 'Produto usa Subst. Trib.', 
     },
     codigo: {
         title: 'Código',
@@ -69,13 +64,12 @@ const PRODUTO_CONFIG_MAP: Record<keyof IProdutoDisplayControl, ProdutoConfigElem
 
 export default function ProdutoTab() {
 
-    const calcularContext = useCalcular()
+    const { manual: { context, submitForm } } = useManual()
     const {
         produtoContext, 
         fornecedorContext, 
-        produtoIsValid, 
-        submitForm, 
-    } = calcularContext
+        produtoValid, 
+    } = context
     const {
         produtoData: {
             st,
@@ -104,7 +98,7 @@ export default function ProdutoTab() {
     const {fornecedorData: { fatorBase, usaUnitarioPedido }, handleFornecedorChange} = fornecedorContext
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    const produtoDisplayControl = useMemo(() => getProdutoDisplayControl(calcularContext), [calcularContext])
+    const produtoDisplayControl = useMemo(() => getProdutoDisplayControl(context), [context])
 
     const [displayProdutoTab, setDisplayProdutoTab] = useState(false)
 
@@ -113,7 +107,7 @@ export default function ProdutoTab() {
 
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-        produtoIsValid&& submitForm()
+        produtoValid&& submitForm()
     }
 
     const {stringToFloat, floatToString} = Converter

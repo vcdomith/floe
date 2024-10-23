@@ -10,7 +10,7 @@ import { useNotification } from "../(contexts)/NotificationContext"
 import style from './configurar.module.scss'
 import Config from "./(Config)/Config"
 import Loading from "../cadastros/loading"
-import capitalize from "@/utils/capitalize"
+import capitalizeInner from "@/utils/capitalize"
 import { motion, AnimatePresence } from "framer-motion"
 import useFornecedor from "@/hooks/useFornecedor"
 import { useModal } from "../(contexts)/ModalContext"
@@ -65,7 +65,7 @@ export default function Configurar() {
 
         setModal(
             <ConfirmationDialog 
-                title={`Confirme para salvar o fornecedor ${capitalize(nome)}:`}
+                title={`Confirme para salvar o fornecedor ${capitalizeInner(nome)}:`}
                 message="Alerta: o fornecedor será salvo permanentemente!" 
                 cancelHandler={clearModal} 
                 confirmHandler={cadastrarFornecedor}                
@@ -117,7 +117,7 @@ export default function Configurar() {
             }
             addNotification({ 
                 tipo: 'sucesso', 
-                mensagem: `Cadastro do fornecedor ${capitalize(novoCadastro.nome)} feito com sucesso!`
+                mensagem: `Cadastro do fornecedor ${capitalizeInner(novoCadastro.nome)} feito com sucesso!`
             })
             resetFornecedor()            
 
@@ -157,7 +157,7 @@ export default function Configurar() {
     const [loadingFornecedores, setLoadingFornecedores] = useState(true)
     const [selectedFornecedor, setSelectedFornecedor] = useState('')
     const setCapitalizedFornecedor = (value: string) => {
-        setSelectedFornecedor(capitalize(value))
+        setSelectedFornecedor(capitalizeInner(value))
     }
 
     useEffect(() => {
@@ -285,7 +285,7 @@ export default function Configurar() {
                                     </svg>
                                     <p 
                                         // style={{ margin: 0, display: "flex", alignContent: 'center', gap: '0.3rem' }}
-                                    >O fornecedor <strong>{capitalize(nome)}</strong> já está cadastrado</p>
+                                    >O fornecedor <strong>{capitalizeInner(nome)}</strong> já está cadastrado</p>
                                 </motion.span>
                             }
                             </AnimatePresence>

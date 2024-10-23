@@ -1,6 +1,8 @@
 export interface IFornecedor {
 
     nome: string
+    nomeFantasia?: string
+    cnpj?: string
 
     //strings that will be used as numbers
     fatorBase: string

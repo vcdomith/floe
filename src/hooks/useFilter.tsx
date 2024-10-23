@@ -1,5 +1,5 @@
 import { ProdutoCadastro } from "@/app/(app)/calcular/context/CalcularContext";
-import capitalize from "@/utils/capitalize";
+import capitalizeInner from "@/utils/capitalize";
 import { Dispatch, SetStateAction, useState } from "react";
 
 export interface UseFilter {
@@ -16,9 +16,9 @@ export type SearchFieldKeys = Extract<keyof ProdutoCadastro, 'unitario' | 'codig
 export default function useFilter(): UseFilter {
 
     const [searchParam, setSearchParam] = useState('')
-    const [searchField, setSearchField] = useState< SearchFieldKeys >(capitalize('codigo'))
+    const [searchField, setSearchField] = useState< SearchFieldKeys >(capitalizeInner('codigo'))
     const setSearchFieldCapitalized = (value: SearchFieldKeys) => {
-        setSearchField(capitalize(value))
+        setSearchField(capitalizeInner(value))
     }
 
     return {

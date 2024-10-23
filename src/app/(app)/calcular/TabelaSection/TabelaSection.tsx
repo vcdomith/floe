@@ -19,7 +19,7 @@ import { UseSectionContext } from '@/hooks/useSectionContext'
 import { svgsUtil } from '@/components/SvgArray/SvgUtil'
 import Highlight from '@/components/Highlight/Highlight'
 
-export default React.memo(function TabelaSection() {
+export default function TabelaSection() {
 
     const { context: { context }, cadastrarPedido } = useCalcular()
 
@@ -160,4 +160,4 @@ export default React.memo(function TabelaSection() {
     )
 
 
-})
+}

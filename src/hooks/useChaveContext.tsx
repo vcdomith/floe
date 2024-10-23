@@ -243,6 +243,14 @@ export default function useChaveContext(): UseChaveContext {
             const res = await fetch(
                 `/calcular/api/getFornecedor?type=${type}&cnpj=${cnpj}`
             )
+            if (res.status !== 200) {
+                setLoading(false)
+                addNotification({
+                    tipo: 'erro',
+                    mensagem: `Erro ao gerar tabela: Erro ao buscar informações, fornecedor ${dadosImportados.pedido.fornecedor.split(' ')[0]} ou cnpj não cadastrado`
+                })
+                throw new Error('Erro ao buscar informações, fornecedor ou cnpj não cadastrado')
+            }
 
             const fornecedorData: IFornecedor = await res.json()
             setFornecedorData(fornecedorData)
@@ -253,7 +261,8 @@ export default function useChaveContext(): UseChaveContext {
 
         } catch (error) {
             
-            console.log(error);
+            console.error(error);
+            return null
 
         }
 
@@ -266,7 +275,7 @@ export default function useChaveContext(): UseChaveContext {
             setLoading(true)
 
             const fornecedor = await gerarFatoresFornecedor()
-            if (!fornecedor) return
+            if (fornecedor === null) return new Error('Erro ao gerar Fatores Fornecedor')
 
             const pedido = gerarFatoresPedido(fornecedor)
 
@@ -289,11 +298,13 @@ export default function useChaveContext(): UseChaveContext {
 
         } catch (error) {
          
-            console.log(error);
+            console.log('submitform', error);
+            setLoading(false)
             addNotification({
                 tipo: 'erro',
                 mensagem: `Erro ao gerar tabela: ${error}`
             })
+            return
 
         }
 

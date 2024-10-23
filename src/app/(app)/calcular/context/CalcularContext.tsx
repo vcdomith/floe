@@ -9,7 +9,7 @@ import useXmlContext, { UseXmlContext } from "@/hooks/useXmlContext";
 
 export interface CalcularContext {
 
-    context:  UseChaveContext | UseXmlContext | UseManualContext | { context: UseSectionContext }
+    context:  UseChaveContext | UseManualContext | { context: UseSectionContext }
     contexts: Contexts
     
     submitForm: () => void
@@ -23,7 +23,6 @@ export interface CalcContext {
 
 export interface Contexts {
     chave: UseChaveContext
-    xml: UseXmlContext
     manual: UseManualContext
     base: { context: UseSectionContext }
 }
@@ -57,7 +56,7 @@ export interface ProdutoCadastro {
 
 }
 
-const VALID_CONTEXTS = ['chave', 'xml', 'manual']
+const VALID_CONTEXTS = ['chave', 'manual']
 // export interface DifferenceControl extends Record<keyof IFornecedor, boolean>, Record<keyof IFatoresPedido, boolean> {}
 
 export const CalcularContext = createContext<CalcularContext | undefined>(undefined)
@@ -78,13 +77,6 @@ export const useChave = () => {
     return { chave, cadastrarPedido } 
 }
 
-export const useXml = () => {
-    const context = useContext(CalcularContext)
-    if (!context) throw new Error('useCalcular must be used within a CalcularProvider')
-    const { contexts: { xml }, cadastrarPedido } = context
-    return { xml, cadastrarPedido } 
-}
-
 export const useManual = () => {
     const context = useContext(CalcularContext)
     if (!context) throw new Error('useCalcular must be used within a CalcularProvider')
@@ -100,15 +92,13 @@ export const CalcularProvider = ({ children }: { children: React.ReactNode }) =>
     const baseContext = { context: useSectionContext() }
 
     const chaveContext = useChaveContext()
-    const xmlContext = useXmlContext()
     const manualContext = useManualContext()
 
     const contexts: Contexts = useMemo(() => ({
         chave: chaveContext,
-        xml: xmlContext,
         manual: manualContext,
         base: baseContext,
-    }), [chaveContext, manualContext, xmlContext])
+    }), [chaveContext, manualContext])
 
     const context = useMemo(() => {
         if(path === undefined || !VALID_CONTEXTS.includes(path)) {

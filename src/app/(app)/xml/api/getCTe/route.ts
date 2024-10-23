@@ -23,7 +23,15 @@ export async function GET(request: NextRequest) {
         .storage
         .from('test')
         .download('cert/certificado.pfx')
-   
+        
+    if (certError) {
+        return new Response(JSON.stringify(certError), {
+            status: 500,
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+    }
 
     const certBuffer = await blobToBuffer(cert!)
 

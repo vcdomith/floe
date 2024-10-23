@@ -42,7 +42,7 @@ export default function useManualContext(): UseManualContext {
 
         let produto: ProdutoCadastro = {
             
-            id: new Date().getTime(),
+            id: Date.now().toString(36) + Math.random().toString(36).substring(2),
             codigo: controlledInputData.codigo,
             ncm: controlledInputData.ncm || '',
             st: controlledInputData.st,

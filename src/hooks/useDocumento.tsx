@@ -127,45 +127,53 @@ export default function useDocumento(): UseDocumento {
 
         setLoading(true)
 
-        const query: Response = await fetch(`/xml/api/getNFe?chave=${chave}`)
-        const res = await query.json()
+        try {
+            
+            const query: Response = await fetch(`/xml/api/getNFe?chave=${chave}`)
+            const res = await query.json()
 
-        if (query.status !== 200) {
-            console.log(query);
-            addNotification({
-                tipo: 'erro',
-                mensagem: `Ocorreu um erro durante a importação da NFe! erro: ${res}`
+            if (query.status !== 200) {
+                console.log(query);
+                addNotification({
+                    tipo: 'erro',
+                    mensagem: `Ocorreu um erro durante a importação da NFe! erro: ${res}`
+                })
+                setLoading(false)
+                return
+            }
+
+            const extractData = parseXml(res)
+        
+            const { data } = extractData
+
+            // setDadosImportados(extractData)
+            setDadosImportados( prev => ({
+                pedido: {
+                    ...prev.pedido,
+                    ...(extractData.data as NFeResult).pedido
+                },
+                produtos: [...(data as NFeResult).produtos]
+            }))
+            setDocumento({
+                tipo: 'nfe',
+                fornecedor: (data as NFeResult).pedido.fornecedor,
+                numero: (data as NFeResult).pedido.nNFe,
+                chave: chave,
+                criadoEm: new Date(),
+                data: data
             })
+
             setLoading(false)
-            return
+            addNotification({
+                tipo: 'sucesso',
+                mensagem: 'NFe importada com sucesso!'
+            })
+
+        } catch (error) {
+            
+            console.error(error)
+
         }
-
-        const extractData = parseXml(res)
-      
-        const { data } = extractData
-
-        // setDadosImportados(extractData)
-        setDadosImportados( prev => ({
-            pedido: {
-                ...prev.pedido,
-                ...(extractData.data as NFeResult).pedido
-            },
-            produtos: [...(data as NFeResult).produtos]
-        }))
-        setDocumento({
-            tipo: 'nfe',
-            fornecedor: (data as NFeResult).pedido.fornecedor,
-            numero: (data as NFeResult).pedido.nNFe,
-            chave: chave,
-            criadoEm: new Date(),
-            data: data
-        })
-
-        setLoading(false)
-        addNotification({
-            tipo: 'sucesso',
-            mensagem: 'NFe importada com sucesso!'
-        })
 
         // console.log(extractData);
         // console.log(dadosImportados);
@@ -181,48 +189,56 @@ export default function useDocumento(): UseDocumento {
 
         setLoading(true)
 
-        const query: Response = await fetch(`/xml/api/getCTe?chave=${chave}`)
-        const res = await query.json()       
-        
-        if (query.status !== 200) {
-            console.log(query);
-            addNotification({
-                tipo: 'erro',
-                mensagem: `Ocorreu um erro durante a importação da CTe! erro: ${res}`
+        try {
+            
+            const query: Response = await fetch(`/xml/api/getCTe?chave=${chave}`)
+            const res = await query.json()       
+            
+            if (query.status !== 200) {
+                console.log(query);
+                addNotification({
+                    tipo: 'erro',
+                    mensagem: `Ocorreu um erro durante a importação da CTe! erro: ${res}`
+                })
+                setLoading(false)
+                return
+            }
+
+            const extractData = parseXml(res)
+            const { data } = extractData
+            console.log('extractData', extractData);
+            setDadosImportados( prev => ({
+                pedido: {
+                    ...prev.pedido,
+                    ...data
+                },
+                produtos: [...prev.produtos]
+            }))
+
+            setDocumento({
+                tipo: 'cte',
+                fornecedor: (data as CTeData).transportador,
+                numero: (data as CTeData).nCTe,
+                chave: chave,
+                criadoEm: new Date(),
+                data: data
             })
+
             setLoading(false)
-            return
+            addNotification({
+                tipo: 'sucesso',
+                mensagem: 'CTe importada com sucesso!'
+            })
+
+            // Consulta NFe atrelada à CTe e importa seus dados
+            setChave((data as CTeData).chaveNFe)
+            handleImportNFe((data as CTeData).chaveNFe)
+
+        } catch (error) {
+            
+            console.error(error)
+
         }
-
-        const extractData = parseXml(res)
-        const { data } = extractData
-        console.log('extractData', extractData);
-        setDadosImportados( prev => ({
-            pedido: {
-                ...prev.pedido,
-                ...data
-            },
-            produtos: [...prev.produtos]
-        }))
-
-        setDocumento({
-            tipo: 'cte',
-            fornecedor: (data as CTeData).transportador,
-            numero: (data as CTeData).nCTe,
-            chave: chave,
-            criadoEm: new Date(),
-            data: data
-        })
-
-        setLoading(false)
-        addNotification({
-            tipo: 'sucesso',
-            mensagem: 'CTe importada com sucesso!'
-        })
-
-        // Consulta NFe atrelada à CTe e importa seus dados
-        setChave((data as CTeData).chaveNFe)
-        handleImportNFe((data as CTeData).chaveNFe)
 
         // console.log(extractData);
         // console.log(dadosImportados);

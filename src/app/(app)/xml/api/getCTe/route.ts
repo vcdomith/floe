@@ -16,13 +16,16 @@ type COD_UF = "11" | "12" | "13" | "14" | "15" | "16" | "17" | "21" | "22" | "23
 
 export async function GET(request: NextRequest) {
 
+    try {
+
     const searchParams = request.nextUrl.searchParams
     const chCTe = searchParams.get('chave')!
 
     const {data: cert, error: certError } = await supabase
-    .storage
-    .from('test')
-    .download('cert/certificado.pfx')
+        .storage
+        .from('test')
+        .download('cert/certificado.pfx')
+   
 
     const certBuffer = await blobToBuffer(cert!)
 
@@ -203,5 +206,9 @@ export async function GET(request: NextRequest) {
             'Content-Type': 'application/json'
         }
     })
+
+} catch (error) {
+     console.error(error)   
+}
 
 }

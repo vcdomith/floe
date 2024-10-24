@@ -1,5 +1,5 @@
 'use client'
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useScroll } from "framer-motion";
 import FornecedorTab from "../Tabs/FornecedorTab/FornecedorTab";
 import PedidoTab from "../Tabs/PedidoTab/PedidoTab";
 import ProdutoTab from "../Tabs/ProdutoTab/ProdutoTab";
@@ -8,7 +8,7 @@ import { useCalcular, useManual } from "../context/CalcularContext";
 import style from './FatoresSection.module.scss'
 import { useNotification } from "../../(contexts)/NotificationContext";
 import capitalizeInner from "@/utils/capitalize";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useMediaQuery } from "../../(contexts)/MediaQueryContext";
 import { useSectionSelect } from "../../(contexts)/SectionSelectContext";
 import Link from "next/link";
@@ -43,6 +43,10 @@ export default function FatoresSection({ fornecedores }: FatoresSectionProps) {
     const { section, setSection } = useSectionSelect()
     const { matches: isMobile } = useMediaQuery()
 
+    const sectionRef = useRef<HTMLElement>(null)
+    if (section === 'Fatores') sectionRef.current?.scrollIntoView()
+    // if (sectionRef.current && sectionRef.current.parentElement?.scrollLeft! === 0) setSection('Fatores')
+
     useEffect(() => {
 
         const handleKeyCombo = (e: KeyboardEvent) => {
@@ -69,6 +73,7 @@ export default function FatoresSection({ fornecedores }: FatoresSectionProps) {
         <section 
             className={style.fatores} 
             data-active={(section === 'Fatores')}
+            ref={sectionRef}
 
             // drag='x'
             // dragConstraints={{ left: 0, right: 0, top: 0, bottom: 0 }}

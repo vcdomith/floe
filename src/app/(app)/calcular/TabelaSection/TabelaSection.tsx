@@ -5,7 +5,7 @@ import TableHeader from './TabelaHeader/TabelaHeader'
 import TabelaRow from './TabelaRow/TabelaRow'
 import { motion, AnimatePresence, LayoutGroup } from 'framer-motion'
 import Search from '@/components/Search/Search'
-import React, { useEffect, useMemo } from 'react'
+import React, { useEffect, useMemo, useRef } from 'react'
 import { SearchFieldKeys } from '@/hooks/useFilter'
 
 import style from './TabelaSection.module.scss'
@@ -41,8 +41,12 @@ export default function TabelaSection() {
     , [searchParam, tabela, searchField])
 
     const { setModal, clearModal } = useModal()
-    const { section } = useSectionSelect()
+    const { section, setSection } = useSectionSelect()
     const { matches: isMobile } = useMediaQuery()
+
+    const sectionRef = useRef<HTMLElement>(null)
+    if (section === 'Tabela') sectionRef.current?.scrollIntoView()
+    // if (sectionRef.current && sectionRef.current.parentElement?.scrollLeft! > 0) setSection('Tabela')
 
     const handleSaveClick = () => {
 
@@ -51,9 +55,7 @@ export default function TabelaSection() {
                 title='Confirme se deseja salvar o pedido:'
                 message='Atenção: O pedido será salvo permanentemente!'
                 cancelHandler={clearModal}
-                confirmHandler={async () => {
-                    cadastrarPedido()
-                }}
+                confirmHandler={async () => cadastrarPedido()}
             />
         )
 
@@ -64,6 +66,7 @@ export default function TabelaSection() {
         <section 
             className={style.tabelaSection} 
             data-active={(section === 'Tabela')}
+            ref={sectionRef}
 
             // drag='x'
             // dragConstraints={{ left: 0, right: 0 }}

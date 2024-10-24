@@ -1,12 +1,19 @@
 import useDynamicaState from "@/hooks/useDynamicState";
 import { usePathname } from "next/navigation";
-import { createContext, Dispatch, SetStateAction, useCallback, useContext, useEffect, useMemo, useState } from "react";
+import { createContext, Dispatch, MutableRefObject, RefObject, SetStateAction, useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
 
 interface SectionSelectContextProps {
     path: string
     sections: string[]
     section: string
     setSection: Dispatch<SetStateAction<string>>
+    mainRef: RefObject<HTMLElement>
+    // sectionsRefs: MutableRefObject<SectionRefs>
+}
+
+interface SectionRefs {
+    section_1: HTMLElement | null
+    section_2: HTMLElement | null
 }
 
 const SUPPORTED_PATHS = ['configurar', 'calcular', 'cadastros']
@@ -28,7 +35,8 @@ export const useSectionSelect = () => {
 
 export const SectionSelectProvider = ({ children }: { children: React.ReactNode }) => {
 
-    const path = usePathname().slice(1,)
+    const path = usePathname().split('/')[1]
+    console.log(path);
     
     // const [previousPath, setPreviousPath] = useState<string>(path)
 
@@ -45,6 +53,17 @@ export const SectionSelectProvider = ({ children }: { children: React.ReactNode 
         dependency: path
     })
 
+    const mainRef = useRef<HTMLElement>(null)
+    console.log(mainRef)
+
+    // const sectionsRefs = useRef<SectionRefs>({
+    //     section_1: null,
+    //     section_2: null,
+    // })
+
+    // const parentRef = useRef<HTMLElement>(null)
+    // if (sectionsRefs.current) parentRef.current = sectionsRefs.current.section_1?.parentElement
+
     // const [section, setSection] = useState(sections[0])
     
     // if (path !== previousPath) {
@@ -57,7 +76,8 @@ export const SectionSelectProvider = ({ children }: { children: React.ReactNode 
             path,
             sections,
             section,
-            setSection
+            setSection,
+            mainRef,
         }}
     >
         {children}

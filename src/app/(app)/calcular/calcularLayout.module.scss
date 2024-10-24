@@ -16,6 +16,13 @@
 
     .main {
         height: calc(100dvh - 7rem);
+        gap: 1rem;
+
+        overflow-y: hidden;
+        overflow-x: scroll;
+        scroll-snap-type: x mandatory;
+        scroll-behavior: smooth;
+
     }
 
 }

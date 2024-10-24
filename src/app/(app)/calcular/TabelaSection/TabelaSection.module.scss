@@ -299,8 +299,23 @@
 
 @media (width <= 700px) {
     
-    .tabelaSection[data-active="false"]{
-        display: none;
+    // .tabelaSection[data-active="false"]{
+    //     display: none;
+    // }
+
+    .tabelaSection {
+        width: calc(100vw - 4rem);
+        flex: none;
+
+        scroll-snap-align: end;
+        border-left: none;
+
+        .content {
+
+            border-top: none;
+
+        }
+        
     }
 
 }
@@ -309,13 +324,13 @@
 
     .tabelaSection {
 
-        border-left: none;
+        // border-left: none;
         gap: 0.5rem;
 
         .content {
 
             padding: 0;
-            border-top: none;
+            // border-top: none;
 
             .tabela {
 

@@ -7,7 +7,7 @@ const VALID_ROUTES = ['configurar', 'calcular', 'tabela', 'cadastros']
 
 export default function SectionSelect() {
 
-    const { path, sections, section, setSection } = useSectionSelect()
+    const { path, sections, section, handleSectionChange } = useSectionSelect()
 
     return (
         <span className={style.select}>
@@ -19,7 +19,7 @@ export default function SectionSelect() {
                 fornecedoresControle={sections} 
                 // fornecedoresControle={sections} 
                 fornecedor={section} 
-                setFornecedor={setSection}                
+                setFornecedor={handleSectionChange}                
                 omitSearch
             />
         </span>

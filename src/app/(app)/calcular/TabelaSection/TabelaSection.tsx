@@ -44,10 +44,6 @@ export default function TabelaSection() {
     const { section, setSection } = useSectionSelect()
     const { matches: isMobile } = useMediaQuery()
 
-    const sectionRef = useRef<HTMLElement>(null)
-    if (section === 'Tabela') sectionRef.current?.scrollIntoView()
-    // if (sectionRef.current && sectionRef.current.parentElement?.scrollLeft! > 0) setSection('Tabela')
-
     const handleSaveClick = () => {
 
         setModal(
@@ -66,15 +62,6 @@ export default function TabelaSection() {
         <section 
             className={style.tabelaSection} 
             data-active={(section === 'Tabela')}
-            ref={sectionRef}
-
-            // drag='x'
-            // dragConstraints={{ left: 0, right: 0 }}
-            // onDrag={(event, info) => {
-            //     if (info.offset.x >= 40) {
-            //         setCalcularSection('Fatores')
-            //     }
-            // }}
         > 
         <div className={style.content}>
 

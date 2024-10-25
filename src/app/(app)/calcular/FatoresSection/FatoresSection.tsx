@@ -43,10 +43,6 @@ export default function FatoresSection({ fornecedores }: FatoresSectionProps) {
     const { section, setSection } = useSectionSelect()
     const { matches: isMobile } = useMediaQuery()
 
-    const sectionRef = useRef<HTMLElement>(null)
-    if (section === 'Fatores') sectionRef.current?.scrollIntoView()
-    // if (sectionRef.current && sectionRef.current.parentElement?.scrollLeft! === 0) setSection('Fatores')
-
     useEffect(() => {
 
         const handleKeyCombo = (e: KeyboardEvent) => {
@@ -73,15 +69,6 @@ export default function FatoresSection({ fornecedores }: FatoresSectionProps) {
         <section 
             className={style.fatores} 
             data-active={(section === 'Fatores')}
-            ref={sectionRef}
-
-            // drag='x'
-            // dragConstraints={{ left: 0, right: 0, top: 0, bottom: 0 }}
-            // onDrag={(event, info) => {
-            //     if (info.offset.x <= -40) {
-            //         setCalcularSection('Tabela')
-            //     }
-            // }}
         >
             <div className={style.content}>
 

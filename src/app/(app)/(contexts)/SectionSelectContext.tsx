@@ -1,13 +1,15 @@
 import useDynamicaState from "@/hooks/useDynamicState";
 import { usePathname } from "next/navigation";
-import { createContext, Dispatch, MutableRefObject, RefObject, SetStateAction, useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
+import { createContext, Dispatch, MutableRefObject, RefObject, SetStateAction, UIEvent, useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
 
 interface SectionSelectContextProps {
     path: string
     sections: string[]
     section: string
     setSection: Dispatch<SetStateAction<string>>
+    handleSectionChange: (value: string) => void
     mainRef: RefObject<HTMLElement>
+    handleScroll: (e: UIEvent<HTMLElement>) => void
     // sectionsRefs: MutableRefObject<SectionRefs>
 }
 
@@ -52,9 +54,38 @@ export const SectionSelectProvider = ({ children }: { children: React.ReactNode 
         initialState: sections[0],
         dependency: path
     })
-
+    const [programaticScroll, setProgramaticScroll] = useState(false)
+    
     const mainRef = useRef<HTMLElement>(null)
     console.log(mainRef)
+
+    const handleScroll = (e: UIEvent<HTMLElement>) => {
+
+        if (programaticScroll) return
+
+        const scrollPos = (e.target as HTMLElement).scrollLeft
+        const scrollWidth = (e.target as HTMLElement).scrollWidth
+
+        if (scrollPos > scrollWidth / 4) {
+            setSection('Tabela')
+        } else {
+            setSection('Fatores')
+        }
+
+    }
+
+    const handleSectionChange = (value: string) => {
+        
+        if(mainRef.current?.childNodes.length === 0) return 
+        
+        const index = sections.indexOf(value)
+        setSection(value);
+        setProgramaticScroll(true);
+        (mainRef.current?.childNodes[index] as HTMLElement).scrollIntoView({ behavior: 'smooth' })
+
+        setTimeout(() => setProgramaticScroll(false), 500)
+
+    }
 
     // const sectionsRefs = useRef<SectionRefs>({
     //     section_1: null,
@@ -77,7 +108,9 @@ export const SectionSelectProvider = ({ children }: { children: React.ReactNode 
             sections,
             section,
             setSection,
+            handleSectionChange,
             mainRef,
+            handleScroll,
         }}
     >
         {children}

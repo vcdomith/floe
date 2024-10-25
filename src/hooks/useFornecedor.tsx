@@ -17,9 +17,11 @@ export interface UseFornecedor {
 
 }
 
-const STRING_INPUT_FIELDS: (keyof IFornecedor)[] = ['nome', 'fatorBase', 'fatorBaseNormal', 'fatorBaseST']
+const STRING_INPUT_FIELDS: (keyof IFornecedor)[] = ['nome', 'nomeFantasia', 'cnpj', 'fatorBase', 'fatorBaseNormal', 'fatorBaseST']
 const INITIAL_STATE: IFornecedor = {
     nome: '',
+    nomeFantasia: '',
+    cnpj: '',
     fatorBase: '',
     fatorBaseNormal: '',
     fatorBaseST: '',

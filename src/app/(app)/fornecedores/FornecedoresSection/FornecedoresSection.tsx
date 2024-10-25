@@ -9,6 +9,8 @@ import { forwardRef, Suspense, useMemo, useState } from 'react'
 import { motion, LayoutGroup, AnimatePresence } from 'framer-motion'
 import LogoSvg from '@/components/SvgArray/LogoSvg'
 import Highlight from '@/components/Highlight/Highlight'
+import { useModal } from '../../(contexts)/ModalContext'
+import NovoFornecedor from '../(NovoFornecedor)/NovoFornecedor'
 
 interface FatoresSectionProps {
 
@@ -21,11 +23,19 @@ export default function FornecedoresSection({ fornecedores } : FatoresSectionPro
     const path = usePathname().slice(1,).split('/')[1]?.replaceAll('%20', ' ')
     console.log(path);
 
+    const { setModal } = useModal()
+
     const [searchParam, setSearchParam] = useState('')
 
     const fornecedoresDisplay = useMemo(() => 
         fornecedores?.filter( fornecedor => fornecedor.nome?.includes(searchParam.toLowerCase()))
     , [searchParam])
+
+    const handleNovoFornecedor = () => {
+        setModal(
+            <NovoFornecedor/>
+        )
+    }
 
     return (
         <section className={style.fornecedores}>
@@ -39,7 +49,10 @@ export default function FornecedoresSection({ fornecedores } : FatoresSectionPro
                     </p>
                 </div>
 
-                <button className={style.novo}>
+                <button 
+                    className={style.novo}
+                    onClick={() => handleNovoFornecedor()}
+                >
                     {svgsUtil.plus}
                     Novo Fornecedor
                 </button>

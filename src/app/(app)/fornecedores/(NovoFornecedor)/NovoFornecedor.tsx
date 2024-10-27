@@ -1,6 +1,6 @@
 import { svgsUtil } from '@/components/SvgArray/SvgUtil'
 import style from './NovoFornecedor.module.scss'
-import { motion } from 'framer-motion'
+import { AnimatePresence, motion } from 'framer-motion'
 import Config from '../../configurar/(Config)/Config'
 import CheckBox from '../../configurar/(CheckBox)/CheckBox'
 import useFornecedor from '@/hooks/useFornecedor'
@@ -46,6 +46,7 @@ export default function NovoFornecedor() {
             }
 
             <ul className={style.content}>
+            <AnimatePresence>
 
                 <span className={style.tag}>
                     <h5>Dados</h5>
@@ -54,10 +55,10 @@ export default function NovoFornecedor() {
                 <motion.div 
                     className={`${style.fatores} ${style.dados}`}
 
-                    initial={{ height: 0 }}
-                    animate={{ height: 'auto' }}
-                    exit={{ height: 0 }}
-                    transition={{ type: 'spring', bounce: 0, restDelta: 0.5 }}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.4 }}
                 >
                     <Config 
                         svg={svgsUtil.fornecedor} 
@@ -107,10 +108,10 @@ export default function NovoFornecedor() {
                 <motion.div 
                     className={style.fatores}
 
-                    initial={{ height: 0 }}
-                    animate={{ height: 'auto' }}
-                    exit={{ height: 0 }}
-                    transition={{ type: 'spring', bounce: 0, restDelta: 0.5 }}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.4 }}
                 >
                     <Config 
                         svg={svgsUtil.fornecedor} 
@@ -158,10 +159,10 @@ export default function NovoFornecedor() {
                 <motion.div 
                     className={style.fatores}
 
-                    initial={{ height: 0 }}
-                    animate={{ height: 'auto' }}
-                    exit={{ height: 0 }}
-                    transition={{ type: 'spring', bounce: 0, restDelta: 0.5 }}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.4 }}
                 >
                     <Config 
                         svg={svgsUtil.transporte} 
@@ -252,6 +253,8 @@ export default function NovoFornecedor() {
                         }                              
                     />
                 </motion.div>
+                
+            </AnimatePresence>
             </ul>
 
             <span className={style.buttons}>

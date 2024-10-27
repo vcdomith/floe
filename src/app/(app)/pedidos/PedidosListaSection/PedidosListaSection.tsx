@@ -66,7 +66,7 @@ export default function PedidosListaSection({ pedidos: pedidosInitial, pedidosLe
                         prefetch
                     >
                         {svgsUtil.unitarioNota}
-                        Importar Pedido
+                        Importar
                     </Link>
                     <Link 
                         className={style.novo}
@@ -74,7 +74,7 @@ export default function PedidosListaSection({ pedidos: pedidosInitial, pedidosLe
                         prefetch
                     >
                         {svgsUtil.plus}
-                        Calcular Pedido
+                        Calcular
                     </Link>
                 </span>
 

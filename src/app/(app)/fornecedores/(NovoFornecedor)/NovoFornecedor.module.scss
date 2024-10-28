@@ -624,7 +624,7 @@
             border-radius: 0.5rem;
 
             color: cor-mix(80%);
-            font-size: 0.9rem;
+            font-size: 1rem;
 
             cursor: pointer;
 
@@ -695,6 +695,8 @@
 
         .submit {
 
+            font-family: $fonte-body;
+
             display: flex;
             align-items: center;
             gap: 0.25rem;
@@ -750,6 +752,16 @@
             }
 
         }
+
+    }
+
+}
+
+@media (width <= 700px) {
+
+    .novoFornecedor {
+
+        min-width: calc(100dvw - 4rem);
 
     }
 

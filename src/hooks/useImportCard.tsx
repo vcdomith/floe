@@ -1,6 +1,6 @@
 import { ChangeEvent, Dispatch, FormEvent, KeyboardEvent, RefObject, SetStateAction, useMemo, useRef, useState } from "react"
 import useDocumento, { DocumentoData, UseDocumento } from "./useDocumento"
-import chaveFormatSplit from "@/utils/chaveFormat"
+import { chaveFormatSplit } from "@/utils/documentosFormat"
 import { useChave } from "@/app/(app)/calcular/context/CalcularContext"
 
 export interface UseImportCard {

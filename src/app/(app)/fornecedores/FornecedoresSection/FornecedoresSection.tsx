@@ -21,7 +21,6 @@ interface FatoresSectionProps {
 export default function FornecedoresSection({ fornecedores } : FatoresSectionProps) {
 
     const path = usePathname().slice(1,).split('/')[1]?.replaceAll('%20', ' ')
-    console.log(path);
 
     const { setModal } = useModal()
 
@@ -128,14 +127,12 @@ export default function FornecedoresSection({ fornecedores } : FatoresSectionPro
 interface FornecedorLinkProps {
     fornecedor: { id: number , nome: string | null}
     path: string
-    key: string | number
 }
 
-const FornecedorLink = forwardRef<HTMLDivElement, FornecedorLinkProps>(function FornecedorLink({ fornecedor, path, key }: FornecedorLinkProps, ref) {
+const FornecedorLink = forwardRef<HTMLDivElement, FornecedorLinkProps>(function FornecedorLink({ fornecedor, path }: FornecedorLinkProps, ref) {
 
     return (
         <motion.div
-            key={key}
             ref={ref}
 
             initial={{ opacity: 0, x: -10 }}

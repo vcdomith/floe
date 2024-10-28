@@ -5,6 +5,15 @@ import Config from '../../configurar/(Config)/Config'
 import CheckBox from '../../configurar/(CheckBox)/CheckBox'
 import useFornecedor from '@/hooks/useFornecedor'
 import NumberInput from '@/components/FatoresTable/FatoresTableBody/NumberInput/NumberInput'
+import { ChangeEvent, FormEvent } from 'react'
+
+const formatCNPJ = (value: string) => {
+    // Remove non-numeric characters
+    value = value.replace(/\D/g, '');
+    
+    // Apply the CNPJ mask: 00.000.000/0000-00
+    return value.replace(/^(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})$/, '$1.$2.$3/$4-$5');
+};
 
 export default function NovoFornecedor() {
 
@@ -25,8 +34,30 @@ export default function NovoFornecedor() {
         usaComposto
     } = fornecedorData
 
+    const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault()
+        console.log('Submit');
+    }
+
+    const handleCnpjChange = () => {
+
+        return (value: string) => setFornecedorData(prev => ({
+            ...prev,
+            cnpj: formatCNPJ(value)
+        }))
+
+        // const inputValue = e.target.value
+        // const format = formatCNPJ(inputValue)
+        
+        // handleFornecedorChange('cnpj')
+
+    }
+
     return (
-        <div className={style.novoFornecedor}>
+        <form 
+            className={style.novoFornecedor}
+            onSubmit={(e) => handleSubmit(e)}    
+        >
 
             <section className={style.header}>
                 <span className={style.badge}>
@@ -45,15 +76,18 @@ export default function NovoFornecedor() {
             {//TODO - wrap elementos em um form
             }
 
-            <ul className={style.content}>
+            <section 
+                className={style.content}
+            >
             <AnimatePresence>
 
-                <span className={style.tag}>
+                <span className={style.tag} key={1}>
                     <h5>Dados</h5>
                 </span>
 
                 <motion.div 
                     className={`${style.fatores} ${style.dados}`}
+                    key={2}
 
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
@@ -68,6 +102,7 @@ export default function NovoFornecedor() {
                             <input 
                                 type='text'
                                 value={nome}
+                                required
                                 onChange={(e) => handleFornecedorChange('nome')(e.target.value)}
                             />
                         } 
@@ -80,6 +115,7 @@ export default function NovoFornecedor() {
                             <input 
                                 type='text'
                                 value={nomeFantasia}
+                                required
                                 onChange={(e) => handleFornecedorChange('nomeFantasia')(e.target.value)}
                             />
                         } 
@@ -91,8 +127,9 @@ export default function NovoFornecedor() {
                         input={
                             <NumberInput 
                                 placeholder={'_____'} 
+                                required
                                 valor={cnpj!} 
-                                setValor={handleFornecedorChange('cnpj')}
+                                setValor={handleCnpjChange()}
                                 minLength={14}
                                 maxLength={14}
                             />
@@ -101,12 +138,13 @@ export default function NovoFornecedor() {
 
                 </motion.div>
 
-                <span className={style.tag}>
+                <span className={style.tag} key={3}>
                     <h5>Fatores</h5>
                 </span>
 
                 <motion.div 
                     className={style.fatores}
+                    key={4}
 
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
@@ -152,12 +190,13 @@ export default function NovoFornecedor() {
 
                 </motion.div>
 
-                <span className={style.tag}>
+                <span className={style.tag} key={5}>
                     <h5>Configurações</h5>
                 </span>
 
                 <motion.div 
                     className={style.fatores}
+                    key={6}
 
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
@@ -253,18 +292,21 @@ export default function NovoFornecedor() {
                         }                              
                     />
                 </motion.div>
-                
+
             </AnimatePresence>
-            </ul>
+            </section>
 
             <span className={style.buttons}>
-                <button className={style.submit}>
-                    {svgsUtil.plus}
+                <button 
+                    className={style.submit}
+                    type='submit'
+                >
+                    {/* {svgsUtil.plus} */}
                     Cadastrar Fornecedor
                 </button>
             </span>
                         
-        </div>
+        </form>
     )
 
 }

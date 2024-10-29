@@ -268,8 +268,6 @@
     
             transition: background-color 400ms ease;
 
-            cursor: pointer;
-
             &:hover {
                 background-color: cor-mix(7%);
             }
@@ -329,6 +327,92 @@
 
             height: 100%;
             // height: fit-content;
+
+            .cnpj {
+
+                margin-top: auto;
+                margin-bottom: auto;
+
+                .input {
+                    opacity: 0;
+                    max-width: 0;
+                    max-height: 0;
+                    padding: 0;
+                    border: none;
+                    position: absolute;
+                }
+
+                .format {
+               
+                    display: flex;
+                    // gap: 0.5rem;
+
+                    border: 2px solid cor-mix(20%);
+                    border-radius: 0.5rem;
+
+                    padding: 0.25rem 0.5rem;
+
+                    transition: border-color 400ms ease;
+
+                    &[data-valid='true']{
+                        border-color: darken(saturate(cor-mix(70%), 40%), 5%);
+                    }
+
+                    p {
+                        font-family: $fonte-mono;
+                        margin: 0;
+                    }
+
+                    strong {
+                        font-family: $fonte-mono;
+                        font-weight: 500;
+                        margin: 0;
+
+                        color: cor-mix(30%);
+                        // padding: 0 0.1rem;
+                    }
+
+                    .digit {
+                        
+               
+                        user-select: none;
+                        cursor: text;
+                        font-family: $fonte-mono;
+                        // color: mix($cor-destaque, $cor-secundaria, 90%);
+                        color: cor-mix(80%);
+          
+                        display: flex;
+                        justify-content: center;
+                        line-height: inherit;
+                        line-height: 1.3;
+        
+                        border-right: 2px solid transparent;
+        
+                        transition: border 100ms ease,
+                                    color 400ms ease;
+        
+                        &[data-active="true"]{
+        
+                            background-color: cor-mix(10%);
+                            // color: cor-mix(0%);
+        
+                        }
+                        &[data-fill='true']{
+                            color: cor-mix(20%);
+                        }
+        
+                        &[data-caret="true"] {
+        
+                            border-right: 2px solid cor-mix(50%);
+                            
+                        }
+        
+                    }
+
+                }
+
+
+            }
 
             .filter {
 

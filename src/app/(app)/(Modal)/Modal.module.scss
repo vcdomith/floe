@@ -14,7 +14,8 @@
     height: 100dvh;
 
     z-index: 998;
-
+    transition: width 400ms ease,
+                height 400ms ease;
     // background-color: $cor-secundaria;
 
     .backdrop {
@@ -44,6 +45,9 @@
         // background-color: $cor-secundaria;
 
         z-index: 1000;
+
+        transition: width 400ms ease,
+                    height 400ms ease;
 
     }
 

@@ -5,15 +5,24 @@ import Config from '../../configurar/(Config)/Config'
 import CheckBox from '../../configurar/(CheckBox)/CheckBox'
 import useFornecedor from '@/hooks/useFornecedor'
 import NumberInput from '@/components/FatoresTable/FatoresTableBody/NumberInput/NumberInput'
-import { ChangeEvent, FormEvent } from 'react'
+import React, { ChangeEvent, FormEvent, KeyboardEvent, useMemo, useRef, useState } from 'react'
+import { cnpjFormatSplit, formatSplit } from '@/utils/documentosFormat'
+import { IFornecedor } from '@/interfaces/IFornecedor'
+import { Caret } from '@/hooks/useImportCard'
+import { useNotification } from '../../(contexts)/NotificationContext'
+import { useModal } from '../../(contexts)/ModalContext'
+import ConfirmationDialog from '@/components/ConfirmationDialog/ConfirmationDialog'
+import LogoSvg from '@/components/SvgArray/LogoSvg'
 
-const formatCNPJ = (value: string) => {
-    // Remove non-numeric characters
-    value = value.replace(/\D/g, '');
+// const formatCNPJ = (value: string) => {
+//     // Remove non-numeric characters
+//     value = value.replace(/\D/g, '');
     
-    // Apply the CNPJ mask: 00.000.000/0000-00
-    return value.replace(/^(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})$/, '$1.$2.$3/$4-$5');
-};
+//     // Apply the CNPJ mask: 00.000.000/0000-00
+//     return value.replace(/^(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})$/, '$1.$2.$3/$4-$5');
+// };
+
+const CNPJ_SEGMENT_FORMAT = [2,3,3,4,2]
 
 export default function NovoFornecedor() {
 
@@ -34,24 +43,95 @@ export default function NovoFornecedor() {
         usaComposto
     } = fornecedorData
 
+    const { addNotification } = useNotification()
+    const { setModal } = useModal()
+
+    const [loading, setLoading] = useState(false)
+
+    const cadastrarFornecedor = async () => {
+
+        try {
+
+            setLoading(true)
+
+            const novoCadastro: IFornecedor = {
+                ...fornecedorData,
+                nome: nome.replaceAll(' ', '_').toLowerCase()
+            }
+
+            const response: Response = await fetch('/fornecedores/api/cadastrarFornecedor', {
+                method: 'POST',
+                headers: {
+                    "Content-Type": 'application/json'
+                },
+                body: JSON.stringify({
+                    fornecedor: novoCadastro,
+                })
+            })
+            
+            const json: Response = await response.json()
+
+            if (!response.ok) {
+                addNotification({
+                    tipo: 'erro',
+                    mensagem: JSON.stringify(json)
+                })
+                return
+            }
+
+            addNotification({
+                tipo: 'sucesso',
+                mensagem: 'Cadastro realizado com sucesso!'
+            })
+
+            setLoading(false)
+
+        } catch (error) {
+            
+            setLoading(false)
+            addNotification({
+                tipo: 'erro',
+                mensagem: JSON.stringify(error)
+            })
+
+        }
+
+        setLoading(false)
+
+    }
+
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+
         e.preventDefault()
-        console.log('Submit');
-    }
 
-    const handleCnpjChange = () => {
-
-        return (value: string) => setFornecedorData(prev => ({
-            ...prev,
-            cnpj: formatCNPJ(value)
-        }))
-
-        // const inputValue = e.target.value
-        // const format = formatCNPJ(inputValue)
+        setModal(
+            <ConfirmationDialog 
+                title='Confirme se deseja salvar o pedido:'
+                message='Atenção: O pedido será salvo permanentemente!'
+                cancelHandler={() => setModal(<NovoFornecedor/>)}
+                confirmHandler={async () => cadastrarFornecedor()}
+            />
+        )
         
-        // handleFornecedorChange('cnpj')
 
     }
+
+    const fixedLengthCnpj = useMemo(() => cnpj!.padEnd(14, '_'), [cnpj])
+    const cnpjSplit = useMemo(() => formatSplit(fixedLengthCnpj, CNPJ_SEGMENT_FORMAT), [fixedLengthCnpj])
+
+    // const handleCnpjChange = () => {
+
+    //     return (value: string) => setFornecedorData(prev => ({
+    //         ...prev,
+    //         cnpj: formatCNPJ(value)
+    //     }))
+
+    //     // const inputValue = e.target.value
+    //     // const format = formatCNPJ(inputValue)
+        
+    //     // handleFornecedorChange('cnpj')
+
+    // }
 
     return (
         <form 
@@ -72,9 +152,6 @@ export default function NovoFornecedor() {
                     </div>
                 </span>
             </section>
-
-            {//TODO - wrap elementos em um form
-            }
 
             <section 
                 className={style.content}
@@ -125,13 +202,11 @@ export default function NovoFornecedor() {
                         title={'CNPJ'} 
                         description={`CNPJ fornecedor`} 
                         input={
-                            <NumberInput 
-                                placeholder={'_____'} 
-                                required
-                                valor={cnpj!} 
-                                setValor={handleCnpjChange()}
-                                minLength={14}
-                                maxLength={14}
+                            <Cnpj 
+                                cnpj={cnpj!} 
+                                handleFornecedorChange={handleFornecedorChange} 
+                                cnpjSplit={cnpjSplit!}
+                                fixed={fixedLengthCnpj}
                             />
                         } 
                     />
@@ -157,6 +232,7 @@ export default function NovoFornecedor() {
                         description={`Fator Base que todos produtos do fornecedor usam`} 
                         input={
                             <NumberInput 
+                                required
                                 placeholder={'x 1,00'} 
                                 valor={fatorBase} 
                                 setValor={handleFornecedorChange('fatorBase')}
@@ -168,7 +244,8 @@ export default function NovoFornecedor() {
                         title={'Fator Normal'} 
                         description={`Fator que os produtos sem ST usam`} 
                         input={
-                            <NumberInput 
+                            <NumberInput
+                                required 
                                 placeholder={'x 1,00'} 
                                 valor={fatorBaseNormal} 
                                 setValor={handleFornecedorChange('fatorBaseNormal')}
@@ -181,6 +258,7 @@ export default function NovoFornecedor() {
                         description={`Fator que os produtos com ST usam`} 
                         input={
                             <NumberInput 
+                                required
                                 placeholder={'x 1,00'} 
                                 valor={fatorBaseST} 
                                 setValor={handleFornecedorChange('fatorBaseST')}
@@ -301,12 +379,206 @@ export default function NovoFornecedor() {
                     className={style.submit}
                     type='submit'
                 >
-                    {/* {svgsUtil.plus} */}
-                    Cadastrar Fornecedor
+                    {loading
+                        ?  <><LogoSvg loop/>Carregando</>
+                        : 'Cadastrar Fornecedor'
+                    }
                 </button>
             </span>
                         
         </form>
+    )
+
+}
+
+const CARET_INITIAL_STATE: Caret = {
+    start: -1,
+    end: -1,
+    direction: 'none'
+}
+
+function Cnpj({cnpj, handleFornecedorChange, fixed } :{ cnpj: string, handleFornecedorChange: <T>(field: keyof IFornecedor) => (valor: T) => void, cnpjSplit: string[], fixed: string}) {
+
+    const [caret, setCaret] = useState(CARET_INITIAL_STATE)
+    
+    const inputRef = useRef<HTMLInputElement>(null)
+
+    const handleCaretEvent = () => {
+
+        if (inputRef.current) {
+
+            const start = inputRef.current?.selectionStart!
+            const end = inputRef.current?.selectionEnd!
+            const direction = (inputRef.current?.selectionDirection! as 'none' | 'foward' | 'backward')
+
+            setCaret({ start, end, direction })
+
+        }
+    }
+
+    const resetCaret = () => {
+        setCaret(CARET_INITIAL_STATE)
+    }
+
+    const handleInputChange = (e: 
+        ChangeEvent<HTMLInputElement> ) => {
+
+        if (/^[0-9]*$/.test(e.target.value)) {
+            handleFornecedorChange('cnpj')(e.target.value)
+            handleCaretEvent()
+        }
+
+    }
+
+    const handleDigitClick = (index: number) => {
+
+        if (inputRef.current) {
+
+            if (index <= cnpj.length) {
+                    
+                inputRef.current.focus()
+                inputRef.current.setSelectionRange((index + 1), (index + 1))
+    
+                setCaret({
+                    start: index + 1,
+                    end: index + 1,
+                    direction: 'foward',
+                })
+    
+                return
+            }
+    
+            inputRef.current.focus()
+            inputRef.current.setSelectionRange(cnpj.length + 1, cnpj.length + 1)
+
+            setCaret({
+                start: cnpj.length,
+                end: cnpj.length,
+                direction: 'foward',
+            })
+        }
+
+        
+    }
+
+    const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+
+        if (inputRef.current && e.ctrlKey && e.key === 'c') {
+            inputRef.current?.select()
+            inputRef.current?.setSelectionRange(caret.start, caret.end)
+            navigator.clipboard.writeText(inputRef.current?.value)
+        }
+
+    }
+
+    const selectionActive = useMemo(() => caret.end !== caret.start, [caret])
+    const valid = useMemo(() => !fixed.includes('_'), [fixed])
+
+    let formatCount = 1
+    let formatIndex = 0
+    let addFormat = false
+
+    return (
+        <div className={style.cnpj}>
+            {/* <NumberInput 
+                placeholder={'_____'} 
+                required
+                valor={cnpj!} 
+                setValor={handleFornecedorChange('cnpj')}
+                minLength={14}
+                maxLength={14}
+            /> */}
+            <input 
+                className={style.input}
+                type="text" 
+                required
+                minLength={14} 
+                maxLength={14}
+                value={cnpj}
+                onChange={(e) => handleInputChange(e)}
+                onClick={() => handleCaretEvent()}
+                onKeyUp={() => handleCaretEvent()}
+                onKeyDown={(e) => handleKeyDown(e)}
+                onBlur={() => resetCaret()}
+
+                ref={inputRef}
+            />
+            <span 
+                className={style.format}
+                data-valid={valid}
+            >
+                {fixed.split('').map( (digit, index) => {
+
+                    addFormat = false
+                    if (formatCount === CNPJ_SEGMENT_FORMAT[formatIndex]) {
+                        formatIndex++
+                        formatCount = 0
+                        addFormat = true
+                    }
+                    formatCount++
+
+                    return (
+                        <React.Fragment
+                            key={index}
+                        >
+                        <span 
+                            className={`${style.digit}`}
+                            data-active={
+                                selectionActive 
+                                    ? (index >= caret.start && index < caret.end)
+                                    : (index === caret.end)
+                            }
+                            data-caret={selectionActive ? false : (index + 1) === caret.end}
+                            data-fill={digit === '_'}
+                            onClick={() => handleDigitClick(index)}
+                        >
+                            {digit}
+                        </span>
+                        {(addFormat && index !== fixed.length - 1)&& 
+                            <strong>
+                                {index !== 7
+                                ? '.'
+                                : '/'
+                                }
+                            </strong>
+                        }
+                        </React.Fragment>
+                    )
+
+                })}
+                {/* {cnpjSplit?.map( (segment, indexSegment) => {
+                    let segmentLength = segment.length
+                    console.log(indexSegment, segmentLength);
+                    return <>
+                        {segment.split('').map( (digit, indexDigit) => {
+
+                            const digitIndex = (indexSegment * segmentLength) + indexDigit
+                            // const digitIndex = (indexSegment * segmentLength) + indexDigit
+                            
+                            return (
+                                <div 
+                                key={indexDigit}
+                                className={`${style.digit}`}
+                                data-active={
+                                    selectionActive 
+                                        ? (digitIndex >= caret.start && digitIndex < caret.end)
+                                        : (digitIndex === caret.end)
+                                }
+                                data-caret={selectionActive ? false : (digitIndex + 1) === caret.end}
+                                onClick={() => handleDigitClick(digitIndex)}
+                            >{digit}</div>
+                            )
+                        })}
+                        {(indexSegment !== 2)
+                            ? (indexSegment !== cnpjSplit.length - 1) 
+                                ?<strong>.</strong>
+                                : null
+                            :<strong>/</strong>
+                        }
+                    </> 
+                    })} */}
+            </span>
+        </div>
     )
 
 }

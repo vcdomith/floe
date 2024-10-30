@@ -1,7 +1,7 @@
 import { createContext, useContext, useState } from "react";
 
 interface ModalContextProps {
-    modal: React.ReactNode
+    modal: React.ReactNode[]
     setModal: (component: React.ReactNode) => void
     clearModal: () => void
 }
@@ -17,14 +17,36 @@ export const useModal = () => {
 
 export const ModalProvider = ({ children }: { children: React.ReactNode}) => {
 
-    const [modal, setModal] = useState<React.ReactNode>(null)
+    const [modal, setModal] = useState<React.ReactNode[]>([])
 
-    const clearModal = () => setModal(null)
+    const addModal = (modal: React.ReactNode) => setModal( prev => {
+
+        // Condition to debounce and make sure only one type of modal is being shown at a time
+        if (prev.some( element => 
+            (element as React.JSX.Element).type.name === 
+            (modal as React.JSX.Element).type.name)) {
+                return [...prev]
+        }
+
+        return [
+            ...prev,
+            modal
+        ]
+    })
+
+    // const clearModal = () => setModal([])
+
+    const clearModal = () => setModal(prev => {
+        const updated = [...prev]
+        updated.pop()
+        return updated
+    })
+
 
     return <ModalContext.Provider
         value={{
             modal,
-            setModal,
+            setModal: addModal,
             clearModal
         }}
     >

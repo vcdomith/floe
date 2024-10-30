@@ -3,8 +3,8 @@ import style from './ConfirmationDialog.module.scss'
 import { useEffect, useRef } from 'react'
 
 interface ConfirmationDialogProps {
-    title: string
-    message?: string
+    title: React.ReactNode
+    message?: React.ReactNode
     cancelHandler: () => void,
     confirmHandler: () => void,
 }

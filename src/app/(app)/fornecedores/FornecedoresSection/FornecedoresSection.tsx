@@ -70,12 +70,13 @@ export default function FornecedoresSection({ fornecedores } : FatoresSectionPro
             <div className={style.content}>
 
                 <motion.div 
-                    className={style.fornecedoresContainer} 
+                    className={style.fornecedoresContainer}
+                    initial={false} 
                     
                     layout 
                     layoutRoot
                     >
-                    <LayoutGroup>
+                <LayoutGroup>
                 {/* <AnimatePresence mode='popLayout'> */}
                 {
                 (fornecedoresDisplay && fornecedoresDisplay.length > 0)
@@ -127,17 +128,20 @@ export default function FornecedoresSection({ fornecedores } : FatoresSectionPro
 interface FornecedorLinkProps {
     fornecedor: { id: number , nome: string | null}
     path: string
+    key: number
 }
 
-const FornecedorLink = forwardRef<HTMLDivElement, FornecedorLinkProps>(function FornecedorLink({ fornecedor, path }: FornecedorLinkProps, ref) {
+const FornecedorLink = forwardRef<HTMLDivElement, FornecedorLinkProps>(function FornecedorLink({ fornecedor, path, key }: FornecedorLinkProps, ref) {
 
     return (
         <motion.div
+            key={key}
             ref={ref}
 
             initial={{ opacity: 0, x: -10 }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: 10 }}
+            transition={{ duration: 0.2 }}
 
             layout='position'
             layoutScroll

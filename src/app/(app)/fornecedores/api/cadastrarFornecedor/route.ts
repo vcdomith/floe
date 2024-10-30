@@ -31,7 +31,14 @@ export async function POST(request: NextRequest) {
             .insert(fornecedor)
 
         if (error){
-            return new Response(`Erro ao cadastrar fornecedor na DB erro:${error}`, {
+
+            if(error.code === '23505') {
+                return new Response(JSON.stringify(`Fornecedor ${fornecedor.nome} já cadastrado`), {
+                    status: 500
+                })
+            }
+
+            return new Response(JSON.stringify(error), {
                 status: 500
             })
         }

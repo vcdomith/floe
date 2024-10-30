@@ -17,7 +17,7 @@
     right: 2rem;
     // right: 2rem;
 
-    // z-index: 10;
+    z-index: 9000;
 
     // overflow: hidden;
 
@@ -57,7 +57,8 @@
 
         p {
 
-            display: flex;
+            // display: inline-flex;
+            // gap: 0.25rem;
             align-items: center;
             min-height: 25px;
 

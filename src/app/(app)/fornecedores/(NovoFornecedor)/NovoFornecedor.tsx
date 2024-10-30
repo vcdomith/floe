@@ -13,6 +13,9 @@ import { useNotification } from '../../(contexts)/NotificationContext'
 import { useModal } from '../../(contexts)/ModalContext'
 import ConfirmationDialog from '@/components/ConfirmationDialog/ConfirmationDialog'
 import LogoSvg from '@/components/SvgArray/LogoSvg'
+import Highlight from '@/components/Highlight/Highlight'
+import { PostgrestError } from '@supabase/supabase-js'
+import capitalize from '@/utils/capitalize'
 
 // const formatCNPJ = (value: string) => {
 //     // Remove non-numeric characters
@@ -44,7 +47,7 @@ export default function NovoFornecedor() {
     } = fornecedorData
 
     const { addNotification } = useNotification()
-    const { setModal } = useModal()
+    const { modal, setModal, clearModal } = useModal()
 
     const [loading, setLoading] = useState(false)
 
@@ -69,13 +72,15 @@ export default function NovoFornecedor() {
                 })
             })
             
-            const json: Response = await response.json()
+            const json = await response.json()
 
             if (!response.ok) {
+    
                 addNotification({
                     tipo: 'erro',
-                    mensagem: JSON.stringify(json)
+                    mensagem: json
                 })
+                setLoading(false)
                 return
             }
 
@@ -85,9 +90,11 @@ export default function NovoFornecedor() {
             })
 
             setLoading(false)
+            clearModal()
 
         } catch (error) {
-            
+
+            console.log(error);
             setLoading(false)
             addNotification({
                 tipo: 'erro',
@@ -102,13 +109,15 @@ export default function NovoFornecedor() {
 
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
 
-        e.preventDefault()
+        e.preventDefault();
+
+        // if (modal.length > 1) return
 
         setModal(
             <ConfirmationDialog 
-                title='Confirme se deseja salvar o pedido:'
-                message='Atenção: O pedido será salvo permanentemente!'
-                cancelHandler={() => setModal(<NovoFornecedor/>)}
+                title={<>Confirme se deseja salvar o fornecedor {nome}</>}
+                message='Atenção: O fornecedor será salvo permanentemente!'
+                cancelHandler={clearModal}
                 confirmHandler={async () => cadastrarFornecedor()}
             />
         )

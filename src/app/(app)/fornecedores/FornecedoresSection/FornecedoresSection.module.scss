@@ -215,7 +215,8 @@ $cor-destaque: darken(saturate(cor-mix(70%), 50%), 10%);
                 text-decoration: none;
     
                 transition: background-color 400ms ease,
-                            border-color 400ms ease;
+                            border-color 400ms ease,
+                            outline 400ms ease;
 
                 &:hover {
 
@@ -226,7 +227,8 @@ $cor-destaque: darken(saturate(cor-mix(70%), 50%), 10%);
 
                 &[data-selected="true"] {
 
-                    background-color: cor-mix(7.5%);
+                    // background-color: cor-mix(7.5%);
+                    background-color: cor-mix(0%);
                     // background: linear-gradient(
                     //     to right, 
                     //     mix(mix($cor-destaque, $cor-primaria, 80%), $cor-secundaria, 10%),
@@ -234,7 +236,9 @@ $cor-destaque: darken(saturate(cor-mix(70%), 50%), 10%);
                     //     mix(mix($cor-destaque, $cor-primaria, 80%), $cor-secundaria, 10%),
                     // );
                     // background-color: mix(mix($cor-destaque, $cor-primaria, 80%), $cor-secundaria, 10%);
-                    border-color: cor-mix(27.5%);
+                    outline: 1px solid mix($cor-destaque, $cor-secundaria, 60%);
+                    border-color: mix($cor-destaque, $cor-secundaria, 60%);
+                    // border-color: cor-mix(27.5%);
                     // border-color: mix($cor-destaque, $cor-secundaria, 60%);
                     // border-color: mix(mix($cor-destaque, $cor-primaria, 80%), $cor-secundaria, 80%);
                  

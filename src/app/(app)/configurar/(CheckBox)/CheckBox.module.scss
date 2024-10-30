@@ -98,7 +98,8 @@
         }
 
         &[data-checked="false"] {
-            background-color: $cor-secundaria;
+            // background-color: $cor-secundaria;
+            background-color: transparent;
             // border-color: $cor-primaria;
             border-color: cor-mix(80%);
         }

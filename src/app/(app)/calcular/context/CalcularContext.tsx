@@ -2,7 +2,7 @@
 import { createContext, useContext, useMemo } from "react";
 import { useNotification } from "../../(contexts)/NotificationContext";
 import useSectionContext, { UseSectionContext } from "@/hooks/useSectionContext";
-import { usePathname } from "next/navigation";
+import { redirect, usePathname } from "next/navigation";
 import useChaveContext, { UseChaveContext } from "@/hooks/useChaveContext";
 import useManualContext, { UseManualContext } from "@/hooks/useManualContext";
 import useXmlContext, { UseXmlContext } from "@/hooks/useXmlContext";
@@ -24,7 +24,6 @@ export interface CalcContext {
 export interface Contexts {
     chave: UseChaveContext
     manual: UseManualContext
-    base: { context: UseSectionContext }
 }
 
 export interface FatoresContext {
@@ -89,20 +88,18 @@ export const CalcularProvider = ({ children }: { children: React.ReactNode }) =>
     const {addNotification} = useNotification()
     const path = usePathname().split('/')[2] as keyof Contexts | undefined
 
-    const baseContext = { context: useSectionContext() }
-
     const chaveContext = useChaveContext()
     const manualContext = useManualContext()
 
     const contexts: Contexts = useMemo(() => ({
         chave: chaveContext,
         manual: manualContext,
-        base: baseContext,
     }), [chaveContext, manualContext])
 
     const context = useMemo(() => {
         if(path === undefined || !VALID_CONTEXTS.includes(path)) {
-            return contexts.base
+            redirect('calcular/chave')
+            // throw new Error(`useCalcular must be used within a CalcularProvider and within supported routes: ${VALID_CONTEXTS}`)
         }
         return contexts[path]
     }, [contexts, path])

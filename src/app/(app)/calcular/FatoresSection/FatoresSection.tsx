@@ -14,6 +14,7 @@ import { useSectionSelect } from "../../(contexts)/SectionSelectContext";
 import Link from "next/link";
 import { svgsUtil } from "@/components/SvgArray/SvgUtil";
 import AvisoFatoresDiferentes from "@/components/AvisoFatoresDiferentes/AvisoFatoresDIferentes";
+import MetodoSelect from "../(metodos)/(MetodoSelect)/MetodoSelect";
 
 interface FatoresSectionProps {
 
@@ -70,15 +71,18 @@ export default function FatoresSection({ fornecedores }: FatoresSectionProps) {
             className={style.fatores} 
             data-active={(section === 'Fatores')}
         >
+
+            <MetodoSelect />
+
             <div className={style.content}>
 
                 <div className={style.title}>
-                <span className={style.header}>
+                    {/* <span className={style.header}>
                         <Link href={'/calcular'}>
                             {svgsUtil.back}
                         </Link>
                         <h3>Fornecedor</h3>
-                    </span>
+                    </span> */}
                     <AnimatePresence initial={false}>
                     {(fornecedorData.nome === '')&&
                     <motion.p

@@ -15,6 +15,7 @@ import AvisoFatoresDiferentes from '@/components/AvisoFatoresDiferentes/AvisoFat
 import Tab from '@/components/Tab/Tab'
 import useDocumento from '@/hooks/useDocumento'
 import { CTeData } from '@/utils/parseXml'
+import MetodoSelect from '../../(MetodoSelect)/MetodoSelect'
 
 export default function ImportarChaveSection({ tipo = 'chave'} : { tipo: 'chave' | 'xml'}) {
 
@@ -56,7 +57,9 @@ export default function ImportarChaveSection({ tipo = 'chave'} : { tipo: 'chave'
 
         <section className={style.chaveSection}>
             
-            <div className={style.title}>
+            <MetodoSelect />
+
+            {/* <div className={style.title}>
 
                 <span className={style.header}>
                     <Link href={'/calcular'} prefetch>
@@ -65,9 +68,8 @@ export default function ImportarChaveSection({ tipo = 'chave'} : { tipo: 'chave'
                     <h3>Importar NFe e CTe - {tipo}</h3>
                 </span>
 
-                {/* <p>Forneça a chave de acesso da Nfe com 44 dígitos para importar os valores da nota:</p> */}
 
-            </div>
+            </div> */}
 
             <div 
                 className={style.content}
@@ -92,7 +94,7 @@ export default function ImportarChaveSection({ tipo = 'chave'} : { tipo: 'chave'
                         ° 
                      */}
 
-                    <button
+                    {/* <button
                         className={style.submit} 
                         onClick={() => submitForm()}
                         disabled={(!generateValid || loading)}
@@ -101,7 +103,7 @@ export default function ImportarChaveSection({ tipo = 'chave'} : { tipo: 'chave'
                             ? <><LogoSvg loop />  Importando...</>
                             : 'Gerar Tabela'
                         }
-                    </button>
+                    </button> */}
 
                     {/* <ImportCard 
                         tipo={tipo} 
@@ -164,7 +166,7 @@ export default function ImportarChaveSection({ tipo = 'chave'} : { tipo: 'chave'
 
             </div>
 
-            {/* <button
+            <button
                 className={style.submit} 
                 onClick={() => submitForm()}
                 disabled={(!generateValid || loading)}
@@ -173,7 +175,7 @@ export default function ImportarChaveSection({ tipo = 'chave'} : { tipo: 'chave'
                     ? <><LogoSvg loop />  Importando...</>
                     : 'Gerar Tabela'
                 }
-            </button> */}
+            </button>
 
         </section>
 

@@ -1,0 +1,11 @@
+@use '../../../globalStyle.module.scss' as *;
+
+.section {
+    display: flex;
+    flex-direction: column;
+    // gap: 0.5rem;
+
+    flex: 2;
+    flex-shrink: 0;
+
+}

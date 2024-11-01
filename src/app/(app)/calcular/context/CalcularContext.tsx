@@ -24,6 +24,7 @@ export interface CalcContext {
 export interface Contexts {
     chave: UseChaveContext
     manual: UseManualContext
+    base: { context: UseSectionContext }
 }
 
 export interface FatoresContext {
@@ -90,15 +91,18 @@ export const CalcularProvider = ({ children }: { children: React.ReactNode }) =>
 
     const chaveContext = useChaveContext()
     const manualContext = useManualContext()
+    const baseContext = useSectionContext()
 
     const contexts: Contexts = useMemo(() => ({
         chave: chaveContext,
         manual: manualContext,
-    }), [chaveContext, manualContext])
+        base: { context: baseContext }
+    }), [chaveContext, manualContext, baseContext])
 
     const context = useMemo(() => {
         if(path === undefined || !VALID_CONTEXTS.includes(path)) {
-            redirect('calcular/chave')
+            return contexts.base
+            // redirect('calcular/chave')
             // throw new Error(`useCalcular must be used within a CalcularProvider and within supported routes: ${VALID_CONTEXTS}`)
         }
         return contexts[path]

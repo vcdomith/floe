@@ -37,6 +37,8 @@ export default async function Pedido({ params }: { params: { pedido: number }}) 
         .limit(1)
         .single()
 
+    console.log(pedido);
+
     return pedido
         ? 
             <PedidoRows produtos={pedido.produtos} />

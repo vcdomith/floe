@@ -2,30 +2,28 @@
 import { getTabelasObject } from '@/utils/calculoTabelas'
 import { ProdutoCadastro, useCalcular } from '../../context/CalcularContext'
 import style from './TabelaRow.module.scss'
-import { Dispatch, SetStateAction, forwardRef, useMemo } from 'react'
-import {AnimatePresence, motion} from 'framer-motion'
-import { update } from '@react-spring/web'
-import Config from '@/app/(app)/configurar/(Config)/Config'
+import { forwardRef, useMemo } from 'react'
+import {motion} from 'framer-motion'
 import { svgsUtil } from '@/components/SvgArray/SvgUtil'
-import CheckBox from '@/app/(app)/configurar/(CheckBox)/CheckBox'
 import { useModal } from '@/app/(app)/(contexts)/ModalContext'
-import { IProdutoContext } from '@/hooks/useProduto'
-import ProdutoDetalhes from '@/components/ProdutoDetalhes/ProdutoDetalhes'
+import { ProdutoEdit } from '@/components/ProdutoDetalhes/ProdutoEdit'
 import ConfirmationDialog from '@/components/ConfirmationDialog/ConfirmationDialog'
 import { useNotification } from '@/app/(app)/(contexts)/NotificationContext'
 import { useMediaQuery } from '@/app/(app)/(contexts)/MediaQueryContext'
 import Converter from '@/utils/typeConversion'
+import ProdutoDetalhes from '@/components/ProdutoDetalhes/ProdutoDetalhes'
 
 interface TabelaRowProps {
 
     produto: ProdutoCadastro
+    editable?: boolean
 
 }
 
 const { stringToFloat } = Converter
 
 const TabelaRow = forwardRef<HTMLSpanElement, TabelaRowProps>(
-function TabelaRow({produto}: TabelaRowProps, ref) {
+function TabelaRow({produto, editable = true}: TabelaRowProps, ref) {
 
     const { id, codigo, ncm, st, unitario, unitarioNota, composto } = produto
     const { tabela1, tabela2, tabela3 } = useMemo(() => getTabelasObject(produto), [produto])
@@ -127,10 +125,16 @@ function TabelaRow({produto}: TabelaRowProps, ref) {
                     <span className={style.tools}>
                         
                         <button 
-                            onClick={() => setModal( 
-                                <ProdutoDetalhes 
+                            onClick={() => setModal(
+                                editable
+                                ? 
+                                <ProdutoEdit 
                                     produto={produto}
-                                /> 
+                                />
+                                :
+                                <ProdutoDetalhes
+                                    produto={produto}
+                                />
                             )}
                         >
                             {svgsUtil.detail}

@@ -17,8 +17,6 @@ import { getTabelasObject } from "@/utils/calculoTabelas"
 import { useModal } from "@/app/(app)/(contexts)/ModalContext"
 import ConfirmationDialog from "../ConfirmationDialog/ConfirmationDialog"
 import { useMediaQuery } from "@/app/(app)/(contexts)/MediaQueryContext"
-import useTabela from "@/hooks/useTabela"
-import { IDisplayControl } from "@/hooks/useContextControl"
 
 const NUMBER_INPUT_PLACEHOLDER = '_'.repeat(50)
 const PRESERVE_ST_STATE = false
@@ -65,68 +63,97 @@ const disabledFields: (keyof FatoresContext)[] = [
     'st'
 ]
 
-export const ProdutoDetalhes = ({ produto }: 
+export const ProdutoEdit = ({ produto, editable = true }: 
     { 
         produto: ProdutoCadastro,
+        editable?: boolean,
     }
 ) => {
+
+    const {
+        produtoEdit,
+        controlledInputs, 
+        handleProdutoChange,
+        resetForm: resetProduto, 
+        displayControl, 
+        valid,
+        updateTabela,
+        removeProduto
+    } = useEditProduto(produto)
+
+    const {
+        fatores
+    } = produtoEdit
 
     const {
         codigo,
         ncm,
         st,
-        unitario, 
+        unitarioPedido, 
         unitarioNota,
-        composto,
-        fatores: {
-            ipi,
-            desconto,
-            st: fatorSt,
-            transporte,
-            fatorBaseST,
-            fatorBaseNormal,
-            base
-        }
-    } = produto
+        unitarioComposto,
+        composto1,
+        composto2,
+        ipi,
+        desconto
+    } = controlledInputs
 
-    const [composto1, composto2] = composto
-
-    const { stringToFloat, floatToString } = Converter
-
-    const displayControl: IDisplayControl = useMemo(() => {
-
-        return {
-            fatorTransportePedido: st,
-            fatorSTPedido: st,
-            ncm: true,
-            desconto: desconto !== '1',
-            ipi: st,
-            unitarioPedido: composto1 === '' || composto2 === '',
-            unitarioNota: true,
-            unitarioComposto: composto1 !== '' && composto2 !== ''
-        }
-
-    }, [])
-
-    const unitarioComposto = useMemo(() => 
-        floatToString(stringToFloat(composto1) + stringToFloat(composto2))
-    , [])
+    console.log(produto);
 
     const { addNotification } = useNotification()
-    const { clearModal } = useModal()
+    const { setModal, clearModal } = useModal()
     const { matches: isMobile } = useMediaQuery()
 
     const tabelas: [string, number][] = useMemo(() => 
-        Object.entries(getTabelasObject(produto))
-    , [produto])
+        Object.entries(getTabelasObject(editable ? produtoEdit : produto))
+    , [produtoEdit, produto])
 
     const [tabDisplayControl, setTabDisplayControl] = useState({
         atributos: false,
         fatores: false,
     })
 
+    const {floatToString, stringToFloat} = Converter
+
     const compostoRef_1 = useRef<HTMLInputElement>(null)
     const compostoRef_2 = useRef<HTMLInputElement>(null)
+
+    const handleKeyDown = (e: KeyboardEvent<HTMLDivElement>, field: keyof IProdutoContext) => {
+
+        if(e.key === 'Enter') {
+            
+            const calculoUnitario: string = floatToString(stringToFloat(composto1) + stringToFloat(composto2))
+
+            if (calculoUnitario === 'NaN' && field === 'unitarioComposto') {
+
+                e.preventDefault()
+
+                if (composto1 === '') {
+
+                    compostoRef_1.current?.focus()
+                    return
+
+                } 
+
+                if (composto2 === '') {
+
+                    compostoRef_2.current?.focus()
+                    return
+
+                }
+
+            }
+
+            const valorCalculado = floatToString(
+                stringToFloat(composto1) + 
+                stringToFloat(composto2)
+                , 2)
+
+            handleProdutoChange('unitarioComposto')(valorCalculado)
+            if (valorCalculado === 'NaN') e.preventDefault()
+        } 
+
+    }
 
     const handleTabClick = (e: MouseEvent<HTMLSpanElement, globalThis.MouseEvent>, tab: keyof typeof tabDisplayControl) => {
 
@@ -135,6 +162,32 @@ export const ProdutoDetalhes = ({ produto }:
             ...prev,
             [tab]: !prev[tab]
         }))
+
+    }
+
+    const handleDelete = (id: string) => {
+
+        // removeProduto(id)
+        // addNotification({
+        //     tipo: 'sucesso',
+        //     mensagem: `Produto ${produto.codigo} excluído com sucesso!`
+        // })
+        // clearModal()
+
+        setModal(
+            <ConfirmationDialog 
+                title={`Confirme a exclusão do produto ${produto.codigo}:`}
+                message='Aviso: o produto será excluído permanentemente!' 
+                cancelHandler={clearModal} 
+                confirmHandler={() => {
+                    addNotification({
+                        tipo: 'sucesso',
+                        mensagem: `Produto ${produto.codigo} excluído com sucesso!`,
+                    })
+                    removeProduto(id)
+                }}                
+            />
+        )
 
     }
 
@@ -205,8 +258,8 @@ export const ProdutoDetalhes = ({ produto }:
                         input={
                             <CheckBox 
                                 checked={st}
-                                setChecked={() => {}}
-                                disabled
+                                setChecked={handleProdutoChange('st')}
+                                // disabled
                             />
                         }
                     />
@@ -220,8 +273,7 @@ export const ProdutoDetalhes = ({ produto }:
                                 type="text" 
                                 placeholder="_____________"
                                 value={codigo}
-                                // onChange={(e) => handleProdutoChange('codigo')(e.target.value.toUpperCase())}
-                                disabled
+                                onChange={(e) => handleProdutoChange('codigo')(e.target.value.toUpperCase())}
                                 required
                                 data-valid={codigo}
                             />
@@ -236,8 +288,7 @@ export const ProdutoDetalhes = ({ produto }:
                             <NumberInput 
                                 placeholder={""} 
                                 valor={ncm} 
-                                setValor={() => {}}
-                                disabled
+                                setValor={handleProdutoChange('ncm')}
                                 minLength={8}
                                 maxLength={8}
                                 className={style.codigo}
@@ -250,11 +301,17 @@ export const ProdutoDetalhes = ({ produto }:
                         title={'Unit. Nota'} 
                         description={'Valor para calcular preços:'}
                         input={
+                            // <input
+                            //     className={style.codigo}
+                            //     type="text" 
+                            //     placeholder="_____________"
+                            //     value={unitarioNota}
+                            //     required
+                            // />
                             <NumberInput 
                                 placeholder={'______'} 
                                 valor={unitarioNota} 
-                                setValor={() => {}}  
-                                disabled
+                                setValor={handleProdutoChange('unitarioNota')}  
                                 required
                             />
                         }
@@ -267,9 +324,8 @@ export const ProdutoDetalhes = ({ produto }:
                         input={
                             <NumberInput 
                                 placeholder={'______'} 
-                                valor={unitario} 
-                                setValor={() => {}}  
-                                disabled
+                                valor={unitarioPedido} 
+                                setValor={handleProdutoChange('unitarioPedido')}  
                                 required
                             />
                         }
@@ -285,9 +341,9 @@ export const ProdutoDetalhes = ({ produto }:
                                 <NumberInput 
                                     placeholder={'______'} 
                                     valor={unitarioComposto} 
-                                    setValor={() => {}}
+                                    setValor={handleProdutoChange('unitarioComposto')}
                                     disabled
-                                    // data-valid={(unitarioComposto) ? true : false}
+                                    data-valid={(unitarioComposto) ? true : false}
                                     required
                                 />
                             }
@@ -298,6 +354,7 @@ export const ProdutoDetalhes = ({ produto }:
                         */}
                         <div 
                             className={`${style.extra} ${styleProduto.composto}`} 
+                            onKeyDown={(e) => handleKeyDown(e, 'unitarioComposto')}
                         >
                             <span> 
                                 <div>
@@ -305,9 +362,9 @@ export const ProdutoDetalhes = ({ produto }:
                                     <NumberInput 
                                         placeholder={NUMBER_INPUT_PLACEHOLDER} 
                                         valor={composto1} 
-                                        setValor={() => {}} 
-                                        disabled
+                                        setValor={handleProdutoChange('composto1')} 
                                         required
+                                        refProp={compostoRef_1}
                                     />
                                 </div>        
                                 <p>+</p>
@@ -316,9 +373,9 @@ export const ProdutoDetalhes = ({ produto }:
                                     <NumberInput 
                                         placeholder={NUMBER_INPUT_PLACEHOLDER} 
                                         valor={composto2} 
-                                        setValor={() => {}} 
-                                        disabled
+                                        setValor={handleProdutoChange('composto2')} 
                                         required
+                                        refProp={compostoRef_2}
                                     />
                                 </div>
                             </span>
@@ -356,7 +413,7 @@ export const ProdutoDetalhes = ({ produto }:
                             <input
                                 type="text" 
                                 placeholder="_____________"
-                                value={base}
+                                value={fatores.base}
                                 // onChange={handleFatorChange('base')}
                                 required
                                 disabled
@@ -373,7 +430,7 @@ export const ProdutoDetalhes = ({ produto }:
                             <input
                                 type="text" 
                                 placeholder="_____________"
-                                value={fatorBaseST}
+                                value={fatores.fatorBaseST}
                                 // onChange={handleFatorChange('fatorBaseST')}
                                 required
                                 disabled
@@ -389,7 +446,7 @@ export const ProdutoDetalhes = ({ produto }:
                             <input
                                 type="text" 
                                 placeholder="_____________"
-                                value={fatorBaseNormal}
+                                value={fatores.fatorBaseNormal}
                                 // onChange={handleFatorChange('fatorBaseNormal')}
                                 required
                                 disabled
@@ -406,7 +463,7 @@ export const ProdutoDetalhes = ({ produto }:
                             <input
                                 type="text" 
                                 placeholder="_____________"
-                                value={transporte}
+                                value={fatores.transporte}
                                 // onChange={handleFatorChange('transporte')}
                                 required
                                 disabled
@@ -423,7 +480,7 @@ export const ProdutoDetalhes = ({ produto }:
                             <input
                                 type="text" 
                                 placeholder="_____________"
-                                value={fatorSt}
+                                value={fatores.st}
                                 // onChange={handleFatorChange('st')}
                                 required
                                 disabled
@@ -448,8 +505,7 @@ export const ProdutoDetalhes = ({ produto }:
                             <NumberInput 
                                 placeholder={'______'} 
                                 valor={ipi} 
-                                setValor={() => {}}
-                                disabled
+                                setValor={handleProdutoChange('ipi')}
                                 required                  
                             />
                         }
@@ -472,8 +528,7 @@ export const ProdutoDetalhes = ({ produto }:
                             <NumberInput 
                                 placeholder={'______'} 
                                 valor={desconto} 
-                                setValor={() => {}}
-                                disabled
+                                setValor={handleProdutoChange('desconto')}
                                 required                  
                             />
                         }
@@ -488,7 +543,7 @@ export const ProdutoDetalhes = ({ produto }:
 
             <span className={style.buttons}>
 
-                {/* <button 
+                <button 
                     className={style.delete}
                     onClick={() => handleDelete(produto.id)}
                 >
@@ -496,16 +551,16 @@ export const ProdutoDetalhes = ({ produto }:
                     {!isMobile&&
                     <p>Excluir</p>
                     }
-                </button> */}
+                </button>
 
-                {/* <button 
+                <button 
                     className={style.discard}
                     onClick={() => resetProduto(PRESERVE_ST_STATE)}
                 >
                     Descartar
-                </button> */}
+                </button>
 
-                {/* <button 
+                <button 
                     className={style.update}
                     disabled={!valid}
                     onClick={() => {
@@ -517,7 +572,7 @@ export const ProdutoDetalhes = ({ produto }:
                     }}
                 >
                     Atualizar
-                </button> */}
+                </button>
 
             </span>
 
@@ -525,7 +580,7 @@ export const ProdutoDetalhes = ({ produto }:
     )
 }
 
-export default ProdutoDetalhes
+export default ProdutoEdit
 
 const ExpandButton = (
     { display }: 
@@ -548,4 +603,17 @@ const ExpandButton = (
         </div>
     )
 
+}
+
+const SvgExcluir = () => {
+    return(
+        <svg width="50" height="50" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M130 193L130 400L370 400L370 193" stroke="black" strokeWidth="40"/>
+        <path d="M71 139L430 139" stroke="black" strokeWidth="40"/>
+        <path d="M174 99L326 99" stroke="black" strokeWidth="40"/>
+        <path d="M207 193L207 350" stroke="black" strokeWidth="40"/>
+        <path d="M291 193L291 350" stroke="black" strokeWidth="40"/>
+        </svg>
+ 
+    )
 }

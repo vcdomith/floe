@@ -22,6 +22,7 @@ export default function PedidoRows({ produtos }: { produtos: ProdutoCadastro[] }
         <TabelaRow 
             key={produto.id}
             produto={produto}
+            editable={false}
         />)
     : 
     <motion.div

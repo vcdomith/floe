@@ -160,14 +160,12 @@ export default function PedidosListaSection({ pedidos: pedidosInitial, pedidosLe
 interface PedidoLinkProps {
     pedido: ICadastro
     path: string
-    key: string
 }
 
-const PedidoLink = forwardRef<HTMLDivElement, PedidoLinkProps>(function FornecedorLink({ pedido, path, key }: PedidoLinkProps, ref) {
+const PedidoLink = forwardRef<HTMLDivElement, PedidoLinkProps>(function FornecedorLink({ pedido, path }: PedidoLinkProps, ref) {
 
     return (
         <motion.div
-            key={key}
             ref={ref}
 
             initial={{ opacity: 0, x: -10 }}

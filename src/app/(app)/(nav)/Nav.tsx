@@ -46,9 +46,9 @@ const Nav = () => {
                 className={style.links}
                 data-display={display}
             >
-                <Link href='/configurar' prefetch>
+                <Link href='/fornecedores' prefetch>
                     <button 
-                    className={`${(path === 'configurar' ? style.active : '')}`}
+                    className={`${(path === 'fornecedores' ? style.active : '')}`}
                     >
                         <svg width="500" height="500" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <circle cx="355" cy="256.614" r="68" stroke="#E8D4B0" strokeWidth="40"/>
@@ -59,13 +59,13 @@ const Nav = () => {
                             <path d="M183.95 0.571302C183.95 26.7286 229.604 30.0417 229.4 68.9252C229.197 107.809 135 126.666 135 164.663C135 200.009 183.95 216.388 183.95 237.391" stroke="#E8D4B0" strokeWidth="40" strokeLinejoin="round"/>
                             <path d="M131.452 262.571C131.451 288.729 85.7968 292.042 86.0007 330.925C86.2046 369.809 180.401 388.666 180.401 426.663C180.401 462.009 131.451 478.388 131.452 499.391" stroke="#E8D4B0" strokeWidth="40" strokeLinejoin="round"/>
                         </svg>
-                        {(path === 'configurar')&&
+                        {(path === 'fornecedores')&&
                         <motion.div layoutId='Nav'></motion.div>
                         }
                         <p>Configurar Fatores</p>
                     </button>
                 </Link>
-                <Link href='/calcular' prefetch>
+                <Link href='/calcular/chave' prefetch>
                     <button 
                     className={`${(path === 'calcular' ? style.active : '')}`}
                     >
@@ -84,8 +84,8 @@ const Nav = () => {
                         <p>Calcular Tabela</p>
                     </button>
                 </Link>
-                <Link href='/cadastros' prefetch>
-                    <button className={`${(path === 'cadastros' ? style.active : '')}`}>
+                <Link href='/pedidos' prefetch>
+                    <button className={`${(path === 'pedidos' ? style.active : '')}`}>
                         <svg width="500" height="500" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M0 480.001C249.5 480.001 0 359 249.5 359" stroke="#591C4A" strokeWidth="40"/>
                             <path d="M250 480.001C499.5 480.001 250 359 499.5 359" stroke="#591C4A" strokeWidth="40"/>
@@ -95,7 +95,7 @@ const Nav = () => {
                             <path d="M250 319.5C499.5 319.5 250 181 499.5 181" stroke="#591C4A" strokeWidth="40"/>
                             <circle cx="250" cy="250" r="69" stroke="#591C4A" strokeWidth="40"/>
                         </svg>
-                        {(path === 'cadastros')&&
+                        {(path === 'pedidos')&&
                         <motion.div layoutId='Nav'></motion.div>
                         }
                         <p>Conferir Cadastros</p>

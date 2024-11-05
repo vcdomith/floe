@@ -1,5 +1,5 @@
 import { useNotification } from "@/app/(app)/(contexts)/NotificationContext"
-import { CTeData, NFeData, NFeProduto, NFeResult, parseCTeXml, parseNFeXml, parseXml } from "@/utils/parseXml"
+import { CTeData, NFeData, NFeProduto, NFeResult, parseXml } from "@/utils/parseXml"
 import { Dispatch, SetStateAction, useMemo, useState } from "react"
 
 interface PedidoData extends NFeData, CTeData {}

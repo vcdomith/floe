@@ -13,9 +13,32 @@
     border-left: 1px solid;
     border-image: linear-gradient(0deg , $cor-secundaria, cor-mix(40%)) 5;
 
+    //Selector para Tag da Tabela
     > section:last-child {
         overflow: hidden;
-        height: 100%;
+    }
+
+    .dados {
+        
+        display: flex;
+        gap: 0.5rem;
+
+        span {
+
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+
+            h3 {
+                margin: 0;
+            }
+
+            p {
+                margin: 0;
+            }
+
+        }
+
     }
 
     .content {

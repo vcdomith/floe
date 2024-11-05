@@ -36,14 +36,21 @@ export default function PedidoDetalheSection(
             svg={svgsUtil.unitarioNota} 
             section={'Dados'}
         >
+            <div className={style.dados}>
             {pedido
             ?
-            dados.map(([key, value]) => 
+            <>
+            {dados.map(([key, value]) => 
                 <span key={key}>
                     <h3>{key}</h3>
-                    <p>{value}</p>
+                    <p>{(key === 'created_at') ? new Date(value).toLocaleString() : value}</p>
                 </span>
-            )
+            )}
+            <span>
+                <h3>quantidade</h3>
+                <p>{pedido.produtos.length} {pedido.produtos.length > 1 ? 'produtos' : 'produto'}</p>
+            </span>
+            </>
             :
             <div
                 className={style.noMatch}
@@ -52,6 +59,7 @@ export default function PedidoDetalheSection(
                 <p> Nenhum <Highlight>pedido</Highlight> selecionado</p>
             </div>
             }
+            </div>
         </Tab>
         <Tab 
             svg={svgsUtil.produto} 

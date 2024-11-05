@@ -5,6 +5,7 @@ import { svgsUtil } from "@/components/SvgArray/SvgUtil"
 import Highlight from "@/components/Highlight/Highlight"
 
 import style from './pedido.module.scss'
+import PedidoDetalheSection from "../PedidoDetalheSection/PedidoDetalheSection"
 
 export const dynamicParams = true
 
@@ -19,8 +20,12 @@ export async function generateStaticParams() {
 
     const pedidosParam = pedidos
         ?.map( ({ id }) => ({
-        pedido: id.toString()
-    })) || [{ pedido: '' }]
+        pedido: [id.toString()]
+    })) || [{ pedido: [''] }]
+
+    pedidosParam.push({pedido: ['']})
+
+    // console.log(pedidosParam);
 
     // console.log(pedidosParam);
     return pedidosParam
@@ -37,17 +42,23 @@ export default async function Pedido({ params }: { params: { pedido: number }}) 
         .limit(1)
         .single()
 
-    console.log(pedido);
+    // console.log(params.pedido);
 
-    return pedido
-        ? 
-            <PedidoRows produtos={pedido.produtos} />
-        : 
-            <div
-                className={style.noMatch}
-            >
-                {svgsUtil.unitarioNota}
-                <p>Nenhum <Highlight>pedido</Highlight> com id <Highlight>{params.pedido}</Highlight> existe</p>
-            </div>
+    return <PedidoDetalheSection pedido={pedido} id={params.pedido}/>
+
+    // console.log(pedido);
+
+    // return pedido
+    //     ? 
+    //         <PedidoRows produtos={pedido.produtos} />
+    //     : 
+    //         <div
+    //             className={style.noMatch}
+    //         >
+    //             {svgsUtil.unitarioNota}
+    //             <p>Nenhum <Highlight>pedido</Highlight> com id <Highlight>{params.pedido}</Highlight> existe</p>
+    //         </div>
+
+
 
 }

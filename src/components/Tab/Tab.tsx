@@ -7,11 +7,12 @@ import { AnimatePresence, motion } from "framer-motion"
 interface Tab {
     svg: React.ReactNode
     section: string
-    children: React.ReactNode
     initialDisplay?: boolean
+    heightMode?: 'auto' | '100%'
+    children: React.ReactNode
 }
 
-export default function Tab({ svg, section, initialDisplay = false ,children }: Tab) {
+export default function Tab({ svg, section, initialDisplay = false, heightMode = 'auto', children }: Tab) {
 
     const [display, setDisplay] = useState(initialDisplay)
 
@@ -39,7 +40,7 @@ export default function Tab({ svg, section, initialDisplay = false ,children }: 
                 className={style.wrapper}
                 
                 initial={{ height: 0 }}
-                animate={{ height: 'auto' }}
+                animate={{ height: heightMode }}
                 exit={{ height: 0 }}
                 transition={{ type: 'spring', bounce: 0, restDelta: 0.5 }}
             >

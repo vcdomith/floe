@@ -24,10 +24,12 @@ export default function PedidosContextWrapper(
                 pedidos={(pedidos !== null) ? pedidos : []}
                 pedidosLength={pedidosLength}
             />
-                
-            <PedidoDetalheSection>
+
+            {children}
+
+            {/* <PedidoDetalheSection>
                 {children}
-            </PedidoDetalheSection>
+            </PedidoDetalheSection> */}
 
         </PedidosProvider>
     )

@@ -12,6 +12,7 @@ import { svgsUtil } from '@/components/SvgArray/SvgUtil'
 import { useMemo } from 'react'
 import Highlight from '@/components/Highlight/Highlight'
 import PedidoRows from '../[[...pedido]]/PedidoRows'
+import capitalize from '@/utils/capitalize'
 
 export default function PedidoDetalheSection(
     { pedido, id }: { pedido: ICadastro | null, id: number | null }
@@ -29,7 +30,6 @@ export default function PedidoDetalheSection(
     return (
         <section 
             className={style.tabelaSection} 
-       
         > 
             
         <Tab 
@@ -40,20 +40,88 @@ export default function PedidoDetalheSection(
             {pedido
             ?
             <>
-            {dados.map(([key, value]) => 
-                <span key={key}>
-                    <h3>{key}</h3>
-                    <p>{(key === 'created_at') ? new Date(value).toLocaleString() : value}</p>
+            {dados.filter(([key, value]) => key !== 'created_at').map(([key, value]) => 
+                <span key={key} className={style.dado}>
+                    <h3>{key}:</h3>
+                    <p>{(key === 'created_at') ? new Date(value).toLocaleString() : capitalize(value)}</p>
                 </span>
             )}
-            <span>
-                <h3>quantidade</h3>
-                <p>{pedido.produtos.length} {pedido.produtos.length > 1 ? 'produtos' : 'produto'}</p>
-            </span>
+                
+                <span className={style.dado}>
+                    <h3>quantidade</h3>
+                    <p>{pedido.produtos.length} {pedido.produtos.length > 1 ? 'produtos' : 'produto'}</p>
+                </span>
+                <span className={style.dado}>
+                    <h3>criado em:</h3>
+                    <div className={style.data}>
+                        <p>{new Date(pedido.created_at).toLocaleString().split(',')[0]}</p>
+                        <p>as {new Date(pedido.created_at).toLocaleString().split(',')[1]} h</p>
+                    </div>
+                </span>
+            <span className={`${style.dado} ${style.documento}`}>
+                    <div>
+                        <h3>NFe</h3>
+                        <p>#099545</p>
+                    </div>
+                    <button>{svgsUtil.unitarioNota}</button>
+                </span>
+                <span className={`${style.dado} ${style.documento}`}>
+                    <div>
+                        <h3>CTe</h3>
+                        <p>#099545</p>
+                    </div>
+                    <button>{svgsUtil.unitarioNota}</button>
+                </span>
             </>
+            // <span className={style.detalhes}>
+            //     <div className={style.pedido}>
+            //         <div className={style.dado}>
+            //             <h4>id:</h4>
+            //             <p>{dados.id}</p>
+            //         </div>
+            //         <div className={style.dado}>
+            //             <h4>fornecedor:</h4>
+            //             <p>{dados.fornecedor}</p>
+            //         </div>
+            //         <div className={style.dado}>
+            //             <h4>criado em:</h4>
+            //             <p>{new Date(dados.created_at).toLocaleString()}</p>
+            //         </div>
+            //         <div className={style.dado}>
+            //             <h4>produtos:</h4>
+            //             <p>{pedido?.produtos.length} produtos</p>
+            //         </div>
+            //     </div>
+            //     <div className={style.documentos}>
+            //         <span className={style.documento}>
+            //             <div className={style.title}>
+            //                 <h3>NFe</h3>
+            //                 <p>#055654</p>
+            //             </div>
+            //             <span className={style.chave}>
+            //                 35241021570775000687570030005995941030717025
+            //             </span>
+            //             <button className={style.button}>
+            //                 {svgsUtil.unitarioNota}
+            //             </button>
+            //         </span>
+            //         <span className={style.documento}>
+            //             <div className={style.title}>
+            //                 <h3>NFe</h3>
+            //                 <p>#055654</p>
+            //             </div>
+            //             <span className={style.chave}>
+            //                 35241021570775000687570030005995941030717025
+            //             </span>
+            //             <button className={style.button}>
+            //                 {svgsUtil.unitarioNota}
+            //             </button>
+            //         </span>
+            //     </div>
+            // </span>
             :
             <div
-                className={style.noMatch}
+                className={`${style.noMatch} ${style.noMatchDados}`}
             >
                 {svgsUtil.unitarioNota}
                 <p> Nenhum <Highlight>pedido</Highlight> selecionado</p>

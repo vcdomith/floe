@@ -23,7 +23,7 @@ export async function POST(request: NextRequest) {
             })
         }
 
-        const { data , error } = await supabase
+        const { data, error } = await supabase
             .from('cadastros')
             .insert({
                 fornecedor: fornecedor,

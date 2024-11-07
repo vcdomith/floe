@@ -470,19 +470,23 @@ $cor-destaque: darken(saturate(cor-mix(70%), 50%), 10%);
 
 @media (width <= 700px) {
 
-    .fatores {
+    .pedidos {
         min-width: 0;
+        width: calc(100vw - 4rem);
+        flex: none;
+
+        scroll-snap-align: start;
     }
 
-    .fatores[data-active="false"]{
-        display: none;
-    }
+    // .pedidos[data-active="false"]{
+    //     display: none;
+    // }
 
 } 
 
 @media (width <= 440px) {
 
-    .fatores {
+    .pedidos {
 
         .content {
     

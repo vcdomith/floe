@@ -1,4 +1,5 @@
 import { ProdutoCadastro } from "@/app/(app)/calcular/context/CalcularContext";
+import { DocumentoImportado } from "@/hooks/useDocumento";
 import { dbConnect } from "@/utils/db/supabase";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -8,6 +9,7 @@ interface Pedido {
 
     fornecedor: string
     produtos: ProdutoCadastro[]
+    documentos: { cte: DocumentoImportado, nfe: DocumentoImportado, pedido?: DocumentoImportado }
 
 }
 
@@ -15,7 +17,7 @@ export async function POST(request: NextRequest) {
 
     try {
         
-        const { produtos, fornecedor }: Pedido = await request.json()
+        const { produtos, fornecedor, documentos }: Pedido = await request.json()
         
         if (produtos.length === 0) {
             return new Response('Não é possível cadastrar um pedido vazio', {
@@ -27,7 +29,8 @@ export async function POST(request: NextRequest) {
             .from('cadastros')
             .insert({
                 fornecedor: fornecedor,
-                produtos: produtos
+                produtos: produtos,
+                documentos: documentos,
             })
 
         if (error) return new Response(`Erro ao cadastrar pedido: ${error}`, {

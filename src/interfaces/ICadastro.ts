@@ -7,5 +7,5 @@ export interface ICadastro {
     created_at: string
     fornecedor: string | null
     produtos: ProdutoCadastro[]
-    documentos?: { cte: DocumentoImportado, nfe: DocumentoImportado }
+    documentos?: { cte: DocumentoImportado, nfe: DocumentoImportado, pedido?: DocumentoImportado }
 }

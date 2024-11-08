@@ -114,10 +114,33 @@
                 max-height: 35px;
                 min-height: 35px;
 
+                cursor: pointer;
+
+                transition: border-color 400ms ease,
+                            background-color 400ms ease;
+
+                &:hover {
+
+                    background-color: cor-mix(2%);
+                    border-color: cor-mix(30%);
+
+                }
+
+                &:disabled {
+                    border-color: cor-mix(10%);
+
+                    svg path,line {
+                        stroke: cor-mix(10%);
+                    }
+                }
 
                 svg {
                     width: 25px;
                     height: 25px;
+
+                    path,line {
+                        stroke: cor-mix(60%);
+                    }
                 }
                 
             }
@@ -209,10 +232,14 @@
                         max-height: 35px;
                         min-height: 35px;
 
-
                         svg {
                             width: 25px;
                             height: 25px;
+
+                            path, line {
+                                stroke: cor-mix(60%);
+                            }
+
                         }
 
                     }

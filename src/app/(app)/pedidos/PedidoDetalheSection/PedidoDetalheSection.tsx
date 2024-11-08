@@ -13,6 +13,9 @@ import { useMemo } from 'react'
 import Highlight from '@/components/Highlight/Highlight'
 import PedidoRows from '../[[...pedido]]/PedidoRows'
 import capitalize from '@/utils/capitalize'
+import { useModal } from '../../(contexts)/ModalContext'
+import DocumentoDetalhes from '../../calcular/(metodos)/chave/ImportarChaveSection/DocumentoDetalhes/DocumentoDetalhes'
+import { DocumentoImportado } from '@/hooks/useDocumento'
 
 export default function PedidoDetalheSection(
     { pedido, id }: { pedido: ICadastro | null, id: number | null }
@@ -21,11 +24,24 @@ export default function PedidoDetalheSection(
     const { searchParam, setSearchParam, searchField, setSearchFieldCapitalized } = usePedidos()
     const fieldKeys: SearchFieldKeys[] = ['unitario', 'codigo']
 
+    const { setModal } = useModal()
+
     const dados = useMemo(() => {
         if (!pedido) return []
-        return Object.entries(pedido).filter(([key, _]) => key !== 'produtos')
+        return Object.entries(pedido).filter(([key, _]) => key !== 'produtos' && key !== 'documentos')
     }
     , [pedido])
+
+    
+    const handleDocumentoClick = (documento: DocumentoImportado | undefined) => {
+
+        if (documento === null || documento === undefined) return
+
+        setModal(
+            <DocumentoDetalhes documento={documento}/>
+        )
+
+    }
 
     return (
         <section 
@@ -43,7 +59,7 @@ export default function PedidoDetalheSection(
             {dados.filter(([key, value]) => key !== 'created_at').map(([key, value]) => 
                 <span key={key} className={style.dado}>
                     <h3>{key}:</h3>
-                    <p>{(key === 'created_at') ? new Date(value).toLocaleString() : capitalize(value)}</p>
+                    <p>{capitalize(value)}</p>
                 </span>
             )}
                 
@@ -61,16 +77,28 @@ export default function PedidoDetalheSection(
             <span className={`${style.dado} ${style.documento}`}>
                     <div>
                         <h3>NFe</h3>
-                        <p>#099545</p>
+                        <p>{(pedido.documentos) 
+                            ? '#' + pedido.documentos?.nfe.numero
+                            : '••••••'
+                        }</p>
                     </div>
-                    <button>{svgsUtil.unitarioNota}</button>
+                    <button
+                        onClick={() => handleDocumentoClick(pedido.documentos?.nfe)}
+                        disabled={(pedido.documentos === null)}
+                    >{svgsUtil.unitarioNota}</button>
                 </span>
                 <span className={`${style.dado} ${style.documento}`}>
                     <div>
                         <h3>CTe</h3>
-                        <p>#099545</p>
+                        <p>{(pedido.documentos) 
+                            ? '#' + pedido.documentos?.cte.numero
+                            : '••••••'
+                        }</p>
                     </div>
-                    <button>{svgsUtil.unitarioNota}</button>
+                    <button
+                        onClick={() => handleDocumentoClick(pedido.documentos?.cte)}
+                        disabled={(pedido.documentos === null)}
+                    >{svgsUtil.unitarioNota}</button>
                 </span>
             </>
             // <span className={style.detalhes}>

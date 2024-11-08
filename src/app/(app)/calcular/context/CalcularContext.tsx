@@ -174,6 +174,8 @@ export const CalcularProvider = ({ children }: { children: React.ReactNode }) =>
 
         const { context: activeContext } = context
 
+        const useDocumento = path === 'chave'
+
         const {
             pedidoContext: { pedidoData },
             fornecedorContext: { fornecedorData },
@@ -207,7 +209,10 @@ export const CalcularProvider = ({ children }: { children: React.ReactNode }) =>
                 },
                 body: JSON.stringify({
                     fornecedor: fornecedorData.nome,
-                    produtos: tabela
+                    produtos: tabela,
+                    documentos: useDocumento 
+                        ? (context as UseChaveContext).documentosContext.documentos 
+                        : null
                 })
             })
 

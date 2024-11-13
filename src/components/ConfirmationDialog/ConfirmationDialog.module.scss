@@ -115,6 +115,10 @@
 
             .confirm {
 
+                display: flex;
+                gap: 0.5rem;
+                align-items: center;
+
                 background-color: cor-mix(70%);
                 border-color: cor-mix(80%);
 
@@ -128,6 +132,18 @@
                 &:hover {
                     background-color: cor-mix(80%);
                     border-color: cor-mix(90%);
+                }
+
+                &[data-loading="true"] {
+                    background-color: cor-mix(20%);
+                    border-color: cor-mix(30%);
+                    color: cor-mix(80%);
+                    cursor: default;
+                }
+
+                svg {
+                    width: 20px;
+                    height: 20px;
                 }
 
             }

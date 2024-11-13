@@ -9,6 +9,7 @@ export interface UseManualContext {
 
     submitForm: () => void
     
+    resetContext: () => void
 
 }
 
@@ -16,6 +17,7 @@ export default function useManualContext(): UseManualContext {
 
     const { addNotification } = useNotification()
     const context = useSectionContext()
+    const { resetContext } = context
 
     const submitForm = () => {
 
@@ -81,7 +83,8 @@ export default function useManualContext(): UseManualContext {
 
     return {
         context,
-        submitForm
+        submitForm,
+        resetContext,
     }
 
 }

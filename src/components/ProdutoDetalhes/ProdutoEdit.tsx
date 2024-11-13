@@ -105,8 +105,8 @@ export const ProdutoEdit = ({ produto, editable = true }:
     const { matches: isMobile } = useMediaQuery()
 
     const tabelas: [string, number][] = useMemo(() => 
-        Object.entries(getTabelasObject(editable ? produtoEdit : produto))
-    , [produtoEdit, produto])
+        Object.entries(getTabelasObject(produtoEdit))
+    , [produtoEdit])
 
     const [tabDisplayControl, setTabDisplayControl] = useState({
         atributos: false,

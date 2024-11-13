@@ -6,6 +6,8 @@ import { redirect, usePathname } from "next/navigation";
 import useChaveContext, { UseChaveContext } from "@/hooks/useChaveContext";
 import useManualContext, { UseManualContext } from "@/hooks/useManualContext";
 import useXmlContext, { UseXmlContext } from "@/hooks/useXmlContext";
+import { useModal } from "../../(contexts)/ModalContext";
+import LogoSvg from "@/components/SvgArray/LogoSvg";
 
 export interface CalcularContext {
 
@@ -13,7 +15,7 @@ export interface CalcularContext {
     contexts: Contexts
     
     submitForm: () => void
-    cadastrarPedido: () => void
+    cadastrarPedido: () => Promise<void>
 
 }
 
@@ -92,6 +94,8 @@ export const CalcularProvider = ({ children }: { children: React.ReactNode }) =>
     const chaveContext = useChaveContext()
     const manualContext = useManualContext()
     const baseContext = useSectionContext()
+
+    const {clearModal} = useModal()
 
     const contexts: Contexts = useMemo(() => ({
         chave: chaveContext,
@@ -172,7 +176,9 @@ export const CalcularProvider = ({ children }: { children: React.ReactNode }) =>
 
     const cadastrarPedido = async () => {
 
-        const { context: activeContext } = context
+        const { context: activeContext, resetContext } = context as (UseManualContext | UseChaveContext)
+
+        console.log(context);
 
         const useDocumento = path === 'chave'
 
@@ -181,9 +187,8 @@ export const CalcularProvider = ({ children }: { children: React.ReactNode }) =>
             fornecedorContext: { fornecedorData },
             tabelaContext: { tabela },
             setLoading,
-            resetContext,
-        } = activeContext        
-
+        } = activeContext
+        
         if (tabela.length === 0) {
             addNotification({
                 tipo: 'erro',
@@ -244,6 +249,7 @@ export const CalcularProvider = ({ children }: { children: React.ReactNode }) =>
         }
 
         setLoading(false)
+        clearModal()
 
     }
 

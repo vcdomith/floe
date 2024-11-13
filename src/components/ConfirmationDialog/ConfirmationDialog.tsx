@@ -1,12 +1,14 @@
 import { useModal } from '@/app/(app)/(contexts)/ModalContext'
 import style from './ConfirmationDialog.module.scss'
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import LogoSvg from '../SvgArray/LogoSvg'
+import { UseSectionContext } from '@/hooks/useSectionContext'
 
 interface ConfirmationDialogProps {
     title: React.ReactNode
     message?: React.ReactNode
     cancelHandler: () => void,
-    confirmHandler: () => void,
+    confirmHandler: (() => void) | (() => Promise<void>),
 }
 
 export default function ConfirmationDialog (
@@ -14,13 +16,30 @@ export default function ConfirmationDialog (
 ) {
 
     const confirmRef = useRef<HTMLButtonElement | null>(null)
+    const [loading, setLoading] = useState(false)
 
     const { clearModal } = useModal()
 
-    const handleConfirm = () => {
-        confirmHandler()
-        confirmRef.current!.disabled = true
+    console.log(confirmHandler.constructor.name, confirmHandler.constructor.name === 'AsyncFunction');
+
+    const handleConfirm = async () => {
+
+        try {
+            
+            setLoading(true)
+            confirmRef.current!.disabled = true
+            await confirmHandler() 
+
+        } catch (error) {
+            
+            setLoading(false)
+            console.error(error)
+
+        }
+
+        setLoading(false)
         clearModal()
+        // confirmRef.current!.disabled = true
     }
 
     useEffect(() => {
@@ -29,6 +48,9 @@ export default function ConfirmationDialog (
             if (e.key === 'Escape') {
                 clearModal()
                 return
+            }
+            if (e.key === 'Enter') {
+                confirmHandler()
             }
         }
 
@@ -57,8 +79,18 @@ export default function ConfirmationDialog (
                     <button 
                         className={style.confirm} 
                         ref={confirmRef}
+                        disabled={loading}
+                        data-loading={loading}
                         onClick={() => handleConfirm()}>
-                            Confirmar
+                            {loading
+                            ?
+                            <>
+                            <LogoSvg loop/>
+                            <p>Cadastrando...</p>
+                            </>
+                            :
+                            'Confirmar'
+                            }
                     </button>
                 </span>
             </div>

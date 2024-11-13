@@ -8,13 +8,13 @@ export default function GlobalProvider({children}: {children: React.ReactNode}) 
     return (
         <MediaQueryProvider>
             <NotificationProvider>
-                <CalcularProvider>
-                        <ModalProvider>
-                            <SectionSelectProvider>
+                <ModalProvider>
+                    <CalcularProvider>
+                        <SectionSelectProvider>
                             {children}
-                            </SectionSelectProvider>
-                        </ModalProvider>
-                </CalcularProvider>
+                        </SectionSelectProvider>
+                    </CalcularProvider>
+                </ModalProvider>
             </NotificationProvider>
         </MediaQueryProvider>
     )

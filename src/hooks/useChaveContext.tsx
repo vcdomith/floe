@@ -22,6 +22,8 @@ export interface UseChaveContext {
 
     submitForm: () => void
 
+    resetContext: () => void
+
 }
 
 
@@ -47,10 +49,11 @@ export default function useChaveContext(): UseChaveContext {
         fornecedorContext: { setFornecedorData, updateFornecedorControl },
         pedidoContext: { setPedidoData, updatePedidoControl },
         tabelaContext: { setTabela },
+        resetContext: baseReset,
     } = chaveContext
     const documentosContext = useDocumento()
 
-    const { documentos, dadosImportados } = documentosContext
+    const { clearDocumento, dadosImportados } = documentosContext
 
     const [ loading, setLoading ] = useState(false)
     const { addNotification } = useNotification()
@@ -79,7 +82,7 @@ export default function useChaveContext(): UseChaveContext {
                 desconto: fornecedor.usaDesconto 
                     ? '1' 
                     : "1",
-                ipi: (produto.st && fornecedor.usaIpi) 
+                ipi: (fornecedor.usaIpi) 
                     ?  floatToString(1 + (stringToFloat(produto.ipi) / 100)) 
                     : "1",
                 ipiProporcional: "",
@@ -310,12 +313,18 @@ export default function useChaveContext(): UseChaveContext {
 
     }
 
+    const resetContext = () => {
+        baseReset()
+        clearDocumento()
+    }
+
     return {
 
         context: chaveContext,
         documentosContext,
         loading,
-        submitForm
+        submitForm,
+        resetContext,
 
     }
 

@@ -100,7 +100,7 @@ export const ProdutoDetalhes = ({ produto }:
             fatorSTPedido: st,
             ncm: true,
             desconto: desconto !== '1',
-            ipi: st,
+            ipi: ipi !== '1',
             unitarioPedido: composto1 === '' || composto2 === '',
             unitarioNota: true,
             unitarioComposto: composto1 !== '' && composto2 !== ''

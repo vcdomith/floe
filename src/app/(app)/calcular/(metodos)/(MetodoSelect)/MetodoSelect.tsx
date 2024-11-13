@@ -8,7 +8,7 @@ import { usePathname } from "next/navigation";
 export default function MetodoSelect() {
 
     const path = usePathname().split('/').at(-1)
-    console.log(path);
+    // console.log(path);
 
     const spring = { 
         type: "spring",

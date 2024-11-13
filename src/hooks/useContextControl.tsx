@@ -72,7 +72,7 @@ export default function useContextControl(ctx: ContextControl): UseContextContro
             fatorSTPedido: false,
             ncm: pedidoData.usaNcm,
             desconto: fornecedorData.usaDesconto,
-            ipi: fornecedorData.usaIpiUniversal,
+            ipi: fornecedorData.usaIpi,
 
             // unitarioNota: (fornecedorData.usaComposto) ? true : fornecedorData.usaUnitarioPedido,
             unitarioNota: true,

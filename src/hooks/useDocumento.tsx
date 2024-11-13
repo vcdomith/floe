@@ -47,6 +47,8 @@ export interface UseDocumento {
 
     modelo: string | null
     importarDocumento: (chave: string) => Promise<void>
+
+    clearDocumento: () => void
     // documentos: Record<'nfe' | 'cte', DocumentoData>
     // getModeloDocumento: (chave: string) => string
 
@@ -268,6 +270,12 @@ export default function useDocumento(): UseDocumento {
 
     }
 
+    const clearDocumento = () => {
+        setChave('')
+        setDadosImportados(INITAL_STATE_DADOS_IMPORTADOS)
+        setDocumentos(INITIAL_DOCUMENTOS)
+    }
+
     // const documentos: Record<'nfe' | 'cte', DocumentoData> = useMemo(() => ({
     //     nfe: {
     //         documento: 'NFe',
@@ -298,7 +306,7 @@ export default function useDocumento(): UseDocumento {
         dadosImportados,
         modelo,
         importarDocumento,
-
+        clearDocumento,
     }
 
 }

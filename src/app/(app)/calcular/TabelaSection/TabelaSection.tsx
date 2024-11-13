@@ -28,6 +28,7 @@ export default function TabelaSection() {
         tabelaValid,
         filterContext, 
         resetContext,
+        loading,
         pedidoContext: {pedidoData: {quantidadeProdutos}},
     } = context
     const {searchParam, setSearchParam, searchField, setSearchFieldCapitalized} = filterContext
@@ -51,7 +52,7 @@ export default function TabelaSection() {
                 title='Confirme se deseja salvar o pedido:'
                 message='Atenção: O pedido será salvo permanentemente!'
                 cancelHandler={clearModal}
-                confirmHandler={async () => cadastrarPedido()}
+                confirmHandler={() => cadastrarPedido()}
             />
         )
 

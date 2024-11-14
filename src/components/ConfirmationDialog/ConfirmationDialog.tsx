@@ -3,6 +3,7 @@ import style from './ConfirmationDialog.module.scss'
 import { useEffect, useRef, useState } from 'react'
 import LogoSvg from '../SvgArray/LogoSvg'
 import { UseSectionContext } from '@/hooks/useSectionContext'
+import { svgsUtil } from '../SvgArray/SvgUtil'
 
 interface ConfirmationDialogProps {
     title: React.ReactNode
@@ -68,6 +69,7 @@ export default function ConfirmationDialog (
             <span className={style.badge}>
                 <SvgAviso />
                 <h3>Aviso</h3>
+                <button onClick={() => clearModal()}>{svgsUtil.delete}</button>
             </span>
             <div className={style.content}>
                 <div className={style.texts}>

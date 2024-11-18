@@ -11,10 +11,10 @@ export default function SectionSelect() {
 
     return (
         <span className={style.select}>
-            <Logo 
+            {/* <Logo 
                 route={path} 
                 styleName={style.logo}
-            />
+            /> */}
             <SelectFornecedor 
                 fornecedoresControle={sections} 
                 // fornecedoresControle={sections} 

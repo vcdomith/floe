@@ -193,12 +193,14 @@ $fonte-destaque: 'Playfair Display';
     
     /* Handle */
     ::-webkit-scrollbar-thumb {
-    background: linear-gradient(0deg, $cor-secundaria, cor-mix(50%) 50%, $cor-secundaria);
+    // background: linear-gradient(0deg, $cor-secundaria, cor-mix(50%) 50%, $cor-secundaria);
+    background-color: cor-mix(30%);
     }
 
     /* Handle on hover */
     ::-webkit-scrollbar-thumb:hover {
-    background: linear-gradient(0deg, $cor-secundaria, cor-mix(80%) 50%, $cor-secundaria);
+    // background: linear-gradient(0deg, $cor-secundaria, cor-mix(80%) 50%, $cor-secundaria);
+    background-color: cor-mix(40%);
     cursor: pointer;
     // background: linear-gradient(90deg, #521843, #421236);
     }

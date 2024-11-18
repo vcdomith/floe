@@ -17,13 +17,16 @@ interface TabelaRowProps {
 
     produto: ProdutoCadastro
     editable?: boolean
+    disableTools?: ToolDisable
 
 }
 
 const { stringToFloat } = Converter
 
+type ToolDisable = 'edit' | 'delete' | 'both' | 'none'
+
 const TabelaRow = forwardRef<HTMLSpanElement, TabelaRowProps>(
-function TabelaRow({produto, editable = true}: TabelaRowProps, ref) {
+function TabelaRow({produto, editable = true, disableTools = 'none'}: TabelaRowProps, ref) {
 
     const { id, codigo, ncm, st, unitario, unitarioNota, composto } = produto
     const { tabela1, tabela2, tabela3 } = useMemo(() => getTabelasObject(produto), [produto])
@@ -136,11 +139,23 @@ function TabelaRow({produto, editable = true}: TabelaRowProps, ref) {
                                     produto={produto}
                                 />
                             )}
+                            disabled={
+                                disableTools === 'both' ||
+                                disableTools === 'edit'
+                            }
                         >
                             {svgsUtil.detail}
                         </button>
         
-                        <button onClick={() => handleClick(id)}>{svgsUtil.delete}</button>
+                        <button 
+                            onClick={() => handleClick(id)}
+                            disabled={
+                                disableTools === 'both' ||
+                                disableTools === 'delete'
+                            }
+                        >
+                            {svgsUtil.delete}
+                        </button>
                     </span>
                 </div>
         </motion.span>

@@ -52,7 +52,10 @@ export default function PedidoDetalheSection(
             svg={svgsUtil.unitarioNota} 
             section={'Dados'}
         >
-            <div className={style.dados}>
+            <div 
+                className={style.dados}
+                data-empty={!pedido}
+            >
             {pedido
             ?
             <>
@@ -101,52 +104,6 @@ export default function PedidoDetalheSection(
                     >{svgsUtil.unitarioNota}</button>
                 </span>
             </>
-            // <span className={style.detalhes}>
-            //     <div className={style.pedido}>
-            //         <div className={style.dado}>
-            //             <h4>id:</h4>
-            //             <p>{dados.id}</p>
-            //         </div>
-            //         <div className={style.dado}>
-            //             <h4>fornecedor:</h4>
-            //             <p>{dados.fornecedor}</p>
-            //         </div>
-            //         <div className={style.dado}>
-            //             <h4>criado em:</h4>
-            //             <p>{new Date(dados.created_at).toLocaleString()}</p>
-            //         </div>
-            //         <div className={style.dado}>
-            //             <h4>produtos:</h4>
-            //             <p>{pedido?.produtos.length} produtos</p>
-            //         </div>
-            //     </div>
-            //     <div className={style.documentos}>
-            //         <span className={style.documento}>
-            //             <div className={style.title}>
-            //                 <h3>NFe</h3>
-            //                 <p>#055654</p>
-            //             </div>
-            //             <span className={style.chave}>
-            //                 35241021570775000687570030005995941030717025
-            //             </span>
-            //             <button className={style.button}>
-            //                 {svgsUtil.unitarioNota}
-            //             </button>
-            //         </span>
-            //         <span className={style.documento}>
-            //             <div className={style.title}>
-            //                 <h3>NFe</h3>
-            //                 <p>#055654</p>
-            //             </div>
-            //             <span className={style.chave}>
-            //                 35241021570775000687570030005995941030717025
-            //             </span>
-            //             <button className={style.button}>
-            //                 {svgsUtil.unitarioNota}
-            //             </button>
-            //         </span>
-            //     </div>
-            // </span>
             :
             <div
                 className={`${style.noMatch} ${style.noMatchDados}`}

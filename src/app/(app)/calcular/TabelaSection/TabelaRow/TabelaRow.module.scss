@@ -147,16 +147,26 @@
 
             cursor: pointer;
 
-            &:hover {
+            &:hover:not(:disabled) {
 
                 background-color: cor-mix(10%);
                 box-shadow: inset 2px 2px 12px 2px transparentize(saturate(cor-mix(60%), 15%), 0.9);
 
             }
 
-            &:active {
+            &:active:not(:disabled) {
 
                 box-shadow: inset 2px 2px 12px 2px transparentize(saturate(cor-mix(60%), 15%), 0.8);
+
+            }
+
+            &:disabled {
+
+                cursor: default;
+
+                svg path, line, ellipse {
+                    stroke: cor-mix(20%);
+                }
 
             }
 

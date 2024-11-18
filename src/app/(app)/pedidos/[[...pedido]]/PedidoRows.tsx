@@ -23,6 +23,7 @@ export default function PedidoRows({ produtos }: { produtos: ProdutoCadastro[] }
             key={produto.id}
             produto={produto}
             editable={false}
+            disableTools='delete'
         />)
     : 
     <motion.div

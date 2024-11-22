@@ -61,7 +61,7 @@ export default function FornecedorTab({
         usaSt,
         usaDesconto,
         usaIpi,
-        usaIpiUniversal,
+        usaIpiProporcional,
         usaUnitarioPedido,
         usaComposto
     } = fornecedorData
@@ -271,11 +271,11 @@ export default function FornecedorTab({
                     svg={svgsUtil.ipi} 
                     title={'IPI Universal'} 
                     description={'Usa IPI no calculo de todos produtos?'} 
-                    diff={fornecedorDiff.includes('usaIpiUniversal')}
+                    diff={fornecedorDiff.includes('usaIpiProporcional')}
                     input={
                         <CheckBox 
-                            checked={usaIpiUniversal} 
-                            setChecked={handleFornecedorChange('usaIpiUniversal')}
+                            checked={usaIpiProporcional} 
+                            setChecked={handleFornecedorChange('usaIpiProporcional')}
                             disabled={!usaIpi} 
                         />
                     }                             

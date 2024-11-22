@@ -29,7 +29,7 @@ const INITIAL_STATE: IFornecedor = {
     usaSt: true,
     usaDesconto: false,
     usaIpi: false,
-    usaIpiUniversal: false,
+    usaIpiProporcional: false,
     usaUnitarioPedido: false,
     usaComposto: false,
 }
@@ -62,9 +62,9 @@ export default function useFornecedor(): UseFornecedor {
 
             if (field === 'usaIpi' && !newValue) {
 
-                updatedData.usaIpiUniversal = false
+                updatedData.usaIpiProporcional = false
                 
-            } else if ( field === 'usaIpiUniversal' && newValue && !prev.usaIpi) {
+            } else if ( field === 'usaIpiProporcional' && newValue && !prev.usaIpi) {
 
                 return prev
 

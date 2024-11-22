@@ -37,7 +37,7 @@ export default function Configurar() {
         usaSt,
         usaDesconto,
         usaIpi,
-        usaIpiUniversal,
+        usaIpiProporcional,
         usaUnitarioPedido,
         usaComposto
     } = fornecedorData
@@ -390,8 +390,8 @@ export default function Configurar() {
                             input={
                                 <CheckBox 
                                     name="ipiUniversal"
-                                    checked={usaIpiUniversal} 
-                                    setChecked={handleFornecedorChange('usaIpiUniversal')}
+                                    checked={usaIpiProporcional} 
+                                    setChecked={handleFornecedorChange('usaIpiProporcional')}
                                     disabled={!usaIpi}
                                 />
                             }                             

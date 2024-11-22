@@ -14,7 +14,7 @@ export interface IFornecedor {
     usaSt: boolean
     usaDesconto: boolean
     usaIpi: boolean
-    usaIpiUniversal: boolean
+    usaIpiProporcional: boolean
     usaUnitarioPedido: boolean
     usaComposto: boolean
 

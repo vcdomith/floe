@@ -23,44 +23,44 @@ interface ProdutoConfigElements {
     input?: React.ReactNode
 }
 
-const PRODUTO_CONFIG_MAP: Record<keyof IProdutoDisplayControl, ProdutoConfigElements> = {
-    st: {
-        title: 'Produto com ST?',
-        description: 'Produto usa Subst. Trib.', 
-    },
-    codigo: {
-        title: 'Código',
-        description: 'Código do produto',
-        input: <div></div>
-    },
-    ncm: {
-        title: '',
-        description: '',
-        input: <div></div>
-    },
-    desconto: {
-        title: '',
-        description: '',
-    },
-    ipi: {
-        title: '',
-        description: '',
-        input: <div></div>
-    },
-    unitarioNota: {
-        title: '',
-        description: '',
-    },
-    unitarioPedido: {
-        title: '',
-        description: '',
-    },
-    unitarioComposto: {
-        title: '',
-        description: '',
-        input: <div></div>
-    },
-}
+// const PRODUTO_CONFIG_MAP: Record<keyof IProdutoDisplayControl, ProdutoConfigElements> = {
+//     st: {
+//         title: 'Produto com ST?',
+//         description: 'Produto usa Subst. Trib.', 
+//     },
+//     codigo: {
+//         title: 'Código',
+//         description: 'Código do produto',
+//         input: <div></div>
+//     },
+//     ncm: {
+//         title: '',
+//         description: '',
+//         input: <div></div>
+//     },
+//     desconto: {
+//         title: '',
+//         description: '',
+//     },
+//     ipi: {
+//         title: '',
+//         description: '',
+//         input: <div></div>
+//     },
+//     unitarioNota: {
+//         title: '',
+//         description: '',
+//     },
+//     unitarioPedido: {
+//         title: '',
+//         description: '',
+//     },
+//     unitarioComposto: {
+//         title: '',
+//         description: '',
+//         input: <div></div>
+//     },
+// }
 
 export default function ProdutoTab() {
 
@@ -258,6 +258,7 @@ export default function ProdutoTab() {
                                         />
                                     }
                                 />
+                                {produtoDisplayControl.ipiProporcional&&
                                 <div 
                                     className={`${style.extra} ${styleProduto.ipi}`} 
                                     // onSubmit={(e) => handleProdutoSubmit('ipi', e, fatorBase)}
@@ -286,6 +287,7 @@ export default function ProdutoTab() {
                                     </span>
                                     <button type='submit' hidden></button>                        
                                 </div>
+                                }
                             </div>
                             }
                             <Config 

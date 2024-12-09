@@ -33,6 +33,7 @@ export interface IDisplayControl {
     ncm: boolean
     desconto: boolean
     ipi: boolean
+    ipiProporcional: boolean
     unitarioPedido: boolean
     unitarioNota: boolean
     unitarioComposto: boolean
@@ -59,6 +60,7 @@ export default function useContextControl(ctx: ContextControl): UseContextContro
             ncm: pedidoData.usaNcm,
             desconto: fornecedorData.usaDesconto,
             ipi: fornecedorData.usaIpi,
+            ipiProporcional: (fornecedorData.usaIpi && fornecedorData.usaIpiProporcional),
 
             // unitarioNota: (fornecedorData.composto) ? true : fornecedorData.unitarioNota,
             unitarioNota: true,
@@ -73,6 +75,7 @@ export default function useContextControl(ctx: ContextControl): UseContextContro
             ncm: pedidoData.usaNcm,
             desconto: fornecedorData.usaDesconto,
             ipi: fornecedorData.usaIpi,
+            ipiProporcional: (fornecedorData.usaIpi && fornecedorData.usaIpiProporcional),
 
             // unitarioNota: (fornecedorData.usaComposto) ? true : fornecedorData.usaUnitarioPedido,
             unitarioNota: true,

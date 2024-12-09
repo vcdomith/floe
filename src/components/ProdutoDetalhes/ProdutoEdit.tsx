@@ -95,6 +95,7 @@ export const ProdutoEdit = ({ produto, editable = true }:
         composto1,
         composto2,
         ipi,
+        ipiProporcional,
         desconto
     } = controlledInputs
 
@@ -489,27 +490,72 @@ export const ProdutoEdit = ({ produto, editable = true }:
                     />
                     }
                     {displayControl.ipi&&
-                    <Config
-                        svg={svgsUtil.ipi} 
-                        title={fatoresConfigTextos.ipi.titulo} 
-                        description={fatoresConfigTextos.ipi.descricao}
-                        input={
-                            // <input
-                            //     className={style.codigo}
-                            //     type="text" 
-                            //     placeholder="_____________"
-                            //     value={ipi}
-                            //     onChange={handleProdutoChange('ipi')}
-                            //     required
-                            // />
-                            <NumberInput 
-                                placeholder={'______'} 
-                                valor={ipi} 
-                                setValor={handleProdutoChange('ipi')}
-                                required                  
-                            />
-                        }
-                    />
+                    // <Config
+                    //     svg={svgsUtil.ipi} 
+                    //     title={fatoresConfigTextos.ipi.titulo} 
+                    //     description={fatoresConfigTextos.ipi.descricao}
+                    //     input={
+                    //         // <input
+                    //         //     className={style.codigo}
+                    //         //     type="text" 
+                    //         //     placeholder="_____________"
+                    //         //     value={ipi}
+                    //         //     onChange={handleProdutoChange('ipi')}
+                    //         //     required
+                    //         // />
+                    //         <NumberInput 
+                    //             placeholder={'______'} 
+                    //             valor={ipi} 
+                    //             setValor={handleProdutoChange('ipi')}
+                    //             required                  
+                    //         />
+                    //     }
+                    // />
+                    <div className={`${style.configWrapper} ${styleProduto.configWrapper}`}>
+                                <Config 
+                                    svg={svgsUtil.ipi} 
+                                    title={'IPI'} 
+                                    description={'Alíquiota IPI aplicado ao produto:'}
+                                    input={
+                                        <NumberInput 
+                                            placeholder={'______'} 
+                                            valor={ipi} 
+                                            setValor={handleProdutoChange('ipi')}
+                                            required                  
+                                        />
+                                    }
+                                />
+                                {displayControl.ipiProporcional&&
+                                <div 
+                                    className={`${style.extra} ${styleProduto.ipi}`} 
+                                    // onSubmit={(e) => handleProdutoSubmit('ipi', e, fatorBase)}
+                                    onKeyDown={(e) => handleKeyDown(e, 'ipi')}
+                                >
+                                    <span> 
+                                        <div>
+                                            <label htmlFor="">Aliquota IPI</label>
+                                            <NumberInput 
+                                                placeholder={NUMBER_INPUT_PLACEHOLDER} 
+                                                valor={controlledInputs.ipiProporcional} 
+                                                setValor={handleProdutoChange('ipiProporcional')} 
+                                            />
+                                        </div>        
+                                        <p>/</p>
+                                        <div>
+                                            <label htmlFor="">Fator Base</label>
+                                            <NumberInput 
+                                                placeholder={NUMBER_INPUT_PLACEHOLDER} 
+                                                valor={fatores.base} 
+                                                setValor={() => {}} 
+                                                required 
+                                                disabled
+                                            />
+                                        </div>
+                                    </span>
+                                    <button type='submit' hidden></button>                        
+                                </div>
+                                }
+                            </div>
                     }
                     {displayControl.desconto&&
                     <Config

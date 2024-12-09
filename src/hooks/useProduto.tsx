@@ -44,8 +44,7 @@ export interface IProdutoContext {
 export interface IProdutoDisplayControl extends 
     Record<
         keyof Omit<
-            IProdutoContext,
-            'ipiProporcional' | 
+            IProdutoContext, 
             'composto1' | 
             'composto2'
         >
@@ -171,6 +170,7 @@ export default function useProduto(produto: (ProdutoCadastro | null) = null): Us
         ncm: pedidoData.usaNcm,
         desconto: fornecedorData.usaDesconto,
         ipi: fornecedorData.usaIpi,
+        ipiProporcional: (fornecedorData.usaIpi && fornecedorData.usaIpiProporcional),
 
         unitarioNota: true,
         unitarioPedido: (fornecedorData.usaUnitarioPedido && !fornecedorData.usaComposto), 
@@ -185,6 +185,7 @@ export default function useProduto(produto: (ProdutoCadastro | null) = null): Us
         ncm: pedidoData.usaNcm,
         desconto: fornecedorData.usaDesconto,
         ipi: fornecedorData.usaIpi,
+        ipiProporcional: (fornecedorData.usaIpi && fornecedorData.usaIpiProporcional),
 
         unitarioNota: true,
         unitarioPedido: (fornecedorData.usaUnitarioPedido && !fornecedorData.usaComposto), 

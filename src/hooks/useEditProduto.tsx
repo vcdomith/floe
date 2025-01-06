@@ -5,6 +5,7 @@ import { useMemo } from "react";
 import { useModal } from "@/app/(app)/(contexts)/ModalContext";
 import isEqual from "@/utils/isEqual";
 import { IDisplayControl } from "./useContextControl";
+import Converter from "@/utils/typeConversion";
 
 interface UseEditProduto {
     
@@ -30,7 +31,7 @@ export default function useEditProduto( produto: ProdutoCadastro ): UseEditProdu
         
         desconto,
         ipi,
-        ipiProporcional,
+        ipiProporcional: ipiProp,
 
         unitarioNota,
         unitarioPedido,
@@ -50,6 +51,11 @@ export default function useEditProduto( produto: ProdutoCadastro ): UseEditProdu
     } = context
 
     const { clearModal } = useModal()
+    const { stringToFloat, floatToString } = Converter
+
+    const ipiProporcional = fornecedorData.usaIpiProporcional 
+        ? floatToString(stringToFloat(ipiProp) * stringToFloat(fornecedorData.fatorBase))
+        : ipi 
 
     const unitario = useMemo(() => {
 

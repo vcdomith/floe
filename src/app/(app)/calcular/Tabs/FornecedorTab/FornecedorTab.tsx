@@ -269,8 +269,8 @@ export default function FornecedorTab({
                 <Config 
                     subConfig
                     svg={svgsUtil.ipi} 
-                    title={'IPI Universal'} 
-                    description={'Usa IPI no calculo de todos produtos?'} 
+                    title={'IPI Proporcional'} 
+                    description={'Usa IPI proporcional ao fator base no calculo dos produtos?'} 
                     diff={fornecedorDiff.includes('usaIpiProporcional')}
                     input={
                         <CheckBox 

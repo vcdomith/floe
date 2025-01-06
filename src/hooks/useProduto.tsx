@@ -85,7 +85,9 @@ export default function useProduto(produto: (ProdutoCadastro | null) = null): Us
             
             desconto: produto.fatores.desconto,
             ipi: produto.fatores.ipi,
-            ipiProporcional: '',
+            ipiProporcional: floatToString(
+                stringToFloat(produto.fatores.ipi) * stringToFloat(produto.fatores.base)
+            ),
 
             unitarioNota: produto.unitarioNota,
             unitarioPedido: produto.unitario,

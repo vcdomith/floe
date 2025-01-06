@@ -63,7 +63,7 @@ const disabledFields: (keyof FatoresContext)[] = [
     'st'
 ]
 
-export const ProdutoEdit = ({ produto, editable = true }: 
+export const ProdutoEdit = ({ produto }: 
     { 
         produto: ProdutoCadastro,
         editable?: boolean,
@@ -99,7 +99,7 @@ export const ProdutoEdit = ({ produto, editable = true }:
         desconto
     } = controlledInputs
 
-    console.log(produto);
+    // console.log(produto);
 
     const { addNotification } = useNotification()
     const { setModal, clearModal } = useModal()
@@ -118,6 +118,7 @@ export const ProdutoEdit = ({ produto, editable = true }:
 
     const compostoRef_1 = useRef<HTMLInputElement>(null)
     const compostoRef_2 = useRef<HTMLInputElement>(null)
+    const ipiProporcionalRef = useRef<HTMLInputElement>(null)
 
     const handleKeyDown = (e: KeyboardEvent<HTMLDivElement>, field: keyof IProdutoContext) => {
 
@@ -130,28 +131,42 @@ export const ProdutoEdit = ({ produto, editable = true }:
                 e.preventDefault()
 
                 if (composto1 === '') {
-
                     compostoRef_1.current?.focus()
                     return
-
                 } 
 
                 if (composto2 === '') {
-
                     compostoRef_2.current?.focus()
                     return
-
                 }
+
+                const valorCalculado = floatToString(
+                    stringToFloat(composto1) + 
+                    stringToFloat(composto2)
+                    , 2)
+    
+                handleProdutoChange('unitarioComposto')(valorCalculado)
+                if (valorCalculado === 'NaN') e.preventDefault()
+            }
+
+            if ( field === 'ipi') {
+
+                e.preventDefault()
+
+                if (ipiProporcional === '') {
+                    ipiProporcionalRef.current?.focus()
+                    return
+                }
+
+                const valorCalculado = floatToString(
+                    stringToFloat(ipiProporcional) / stringToFloat(fatores.base)
+                )
+
+                handleProdutoChange('ipi')(valorCalculado)
+                if (valorCalculado === 'NaN') e.preventDefault()
 
             }
 
-            const valorCalculado = floatToString(
-                stringToFloat(composto1) + 
-                stringToFloat(composto2)
-                , 2)
-
-            handleProdutoChange('unitarioComposto')(valorCalculado)
-            if (valorCalculado === 'NaN') e.preventDefault()
         } 
 
     }
@@ -536,8 +551,9 @@ export const ProdutoEdit = ({ produto, editable = true }:
                                             <label htmlFor="">Aliquota IPI</label>
                                             <NumberInput 
                                                 placeholder={NUMBER_INPUT_PLACEHOLDER} 
-                                                valor={controlledInputs.ipiProporcional} 
-                                                setValor={handleProdutoChange('ipiProporcional')} 
+                                                valor={ipiProporcional} 
+                                                setValor={handleProdutoChange('ipiProporcional')}
+                                                ref={ipiProporcionalRef}
                                             />
                                         </div>        
                                         <p>/</p>

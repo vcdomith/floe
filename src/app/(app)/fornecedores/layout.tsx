@@ -6,7 +6,10 @@ import DetalheSection from './DetalheSection/DetalheSection'
 export default async function Configurar({ children }:{ children: React.ReactNode }){
 
     const supabase = dbConnect()
-    const { data: fornecedores, error } = await supabase.from('fornecedores').select('id,nome')
+    const { data: fornecedores, error } = await supabase
+        .from('fornecedores')
+        .select('id,nome')
+        .order('id', { ascending: false })
 
     return (
         <main

@@ -1,4 +1,4 @@
-import useDynamicaState from "@/hooks/useDynamicState";
+import useDynamicState from "@/hooks/useDynamicState";
 import useFilter, { UseFilter } from "@/hooks/useFilter";
 import { usePathname } from "next/navigation";
 import { createContext, useContext } from "react";
@@ -21,7 +21,7 @@ export const PedidosProvider = ({ children }: { children: React.ReactNode }) => 
     const path = usePathname()
 
     const { searchParam: initialSearch , setSearchParam: initialSet, searchField, setSearchFieldCapitalized } = useFilter()
-    const [searchParam, setSearchParam] = useDynamicaState({
+    const [searchParam, setSearchParam] = useDynamicState({
         initialState: initialSearch,
         dependency: path
     })

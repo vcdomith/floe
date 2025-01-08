@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export default function useDynamicaState<T, K>({
+export default function useDynamicState<T, K>({
     initialState,
     dependency
 }: {

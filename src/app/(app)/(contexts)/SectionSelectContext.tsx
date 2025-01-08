@@ -1,4 +1,4 @@
-import useDynamicaState from "@/hooks/useDynamicState";
+import useDynamicState from "@/hooks/useDynamicState";
 import { usePathname } from "next/navigation";
 import { createContext, Dispatch, MutableRefObject, RefObject, SetStateAction, UIEvent, useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
 
@@ -38,7 +38,7 @@ export const useSectionSelect = () => {
 export const SectionSelectProvider = ({ children }: { children: React.ReactNode }) => {
 
     const path = usePathname().split('/')[1]
-    console.log(path);
+    // console.log(path);
     
     // const [previousPath, setPreviousPath] = useState<string>(path)
 
@@ -50,7 +50,7 @@ export const SectionSelectProvider = ({ children }: { children: React.ReactNode 
             
     }, [path])    
 
-    const [section, setSection] = useDynamicaState({
+    const [section, setSection] = useDynamicState({
         initialState: sections[0],
         dependency: path
     })

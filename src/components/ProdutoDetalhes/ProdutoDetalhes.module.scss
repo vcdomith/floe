@@ -169,6 +169,8 @@
 
         padding-right: calc(0.5rem);
 
+        @include thin-scrollbar-global;
+
         .tag {
 
             display: flex;

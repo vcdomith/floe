@@ -84,14 +84,14 @@ export default function FatoresSection({ fornecedores }: FatoresSectionProps) {
                         <h3>Fornecedor</h3>
                     </span> */}
                     <AnimatePresence initial={false}>
-                    {(fornecedorData.nome === '')&&
+                    {/* {(fornecedorData.nome === '')&&
+                    } */}
                     <motion.p
                         animate={{ opacity: 1, height: 'auto' }}
                         exit={{ opacity: 0, height: 0 }}
                     >
                         Selecione um fornecedor para acessar os fatores e configurações para calcular as tabelas:
                     </motion.p>
-                    }
                     </AnimatePresence>
                 </div>
                 {fornecedores&&

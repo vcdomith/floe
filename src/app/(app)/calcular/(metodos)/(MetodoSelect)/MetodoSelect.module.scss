@@ -122,3 +122,147 @@
     }
 
 }
+
+.container {
+
+    position: relative;
+    display: flex;
+    width: min-content;
+
+    .metodo {
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 1rem;
+
+        outline: none;
+        border: none;
+
+        padding-left: 1rem;
+
+        border: 2px solid cor-mix(2%);
+        border-radius: 0.25rem;
+        background: none;
+        
+        height: clamp(40px, 40px, 40px);
+
+        cursor: pointer;
+
+        transition: background-color 600ms ease,
+                    border 400ms ease;
+
+        &[data-open="true"] {
+
+            border-color: cor-mix(20%);
+            background-color: cor-mix(5%);
+
+        }
+
+        &[data-open="false"]:hover {
+
+            border-color: cor-mix(7%);
+            background-color: cor-mix(3%);
+
+        }
+
+        h2 {
+
+            font-family: $fonte-body;
+            margin: 0;
+            color: cor-mix(90%);
+            font-size: 1.2rem;
+
+        }
+
+        svg {
+
+            path {
+                stroke: cor-mix(30%);
+                transition: d 400ms ease;
+            }
+
+        }
+
+    }
+
+    .list {
+        
+        position: absolute;
+        top: calc(40px + 0.5rem);
+        // left: 0;
+        right: 0;
+        z-index: 5;
+
+        margin: 0;
+        padding: 0;
+
+        box-sizing: border-box;
+        width: 100%;
+
+        display: flex;
+        flex-direction: column;
+        background-color: $cor-secundaria;
+        border: 2px solid cor-mix(20%);
+        border-radius: 0.25rem;
+
+        box-shadow: 2px 2px 12px $cor-primaria-transparent;
+
+        a {
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            text-decoration: none;
+            cursor: pointer;
+            
+            &[data-selected="true"] {
+
+                background-color: cor-mix(10%);
+
+            }
+
+            &[data-selected="false"]:hover {
+
+                background-color: cor-mix(3%);
+
+            }
+
+            p {
+
+                color: cor-mix(80%);
+                margin: 0;
+                padding: 0.5rem 1rem;
+                font-size: 1rem;
+                
+            }
+
+            svg {
+
+                width: 25px;
+                height: 25px;
+
+                margin-right: 0.25rem;
+
+                circle {
+                    display: none;
+                }
+
+                path {
+                    stroke: cor-mix(70%);
+                }
+
+            }
+
+            // .dot {
+
+            //     width: clamp(10px, 10px, 10px);
+            //     height: clamp(10px, 10px, 10px);
+            //     border-radius: 5rem;
+            //     background-color: cor-mix(50%);
+
+            // }
+        }
+    }
+
+}

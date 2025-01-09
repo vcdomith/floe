@@ -85,6 +85,10 @@
         height: 100%;
         overflow: hidden;
 
+        &[data-height="100%"] {
+            height: calc(100% - 1rem);
+        }
+
         & > :first-child {
             margin-top: 1rem;
         }

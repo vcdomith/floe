@@ -24,8 +24,9 @@
         box-sizing: border-box;
         padding: 1rem;
         
-        border-top: 1px solid;
-        border-image: linear-gradient(to right , $cor-secundaria, cor-mix(40%)) 27;
+        border-top: 1px solid cor-mix(20%);
+        border-bottom: 1px solid cor-mix(20%);
+        // border-image: linear-gradient(to right , $cor-secundaria, cor-mix(40%)) 27;
         
         overflow-y: scroll;
 
@@ -58,6 +59,37 @@
         }
 
         .title {
+
+            .badge {
+
+                display: flex;
+                gap: 0.5rem;
+
+                svg {
+                    width: 32px;
+                    min-width: 32px;
+                    min-height: 30px;
+                    max-height: 30px;
+    
+                    rect {
+                        fill: $cor-secundaria;
+                    }
+    
+                    path, line {
+                        stroke: cor-mix(60%);
+                    }
+
+                    path:last-child {
+                        fill: cor-mix(0%);
+                    }
+                }
+
+                p {
+                    margin: 0;
+                    color: cor-mix(60%);
+                }
+
+            }
 
             .header {
 
@@ -259,8 +291,10 @@
         padding: 0.25rem 0;
         // margin: 0 1rem;
     
-        width: 100%;
-        // width: calc(100% - 2rem);
+        // width: 100%;
+        margin: 1rem;
+        margin-top: 0.5rem;
+        width: calc(100% - 2rem);
         font-size: 1.1rem;
         background-color: cor-mix(75%);
         color: cor-mix(0%);

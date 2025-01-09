@@ -27,8 +27,8 @@ $cor-destaque: darken(saturate(cor-mix(70%), 50%), 10%);
         padding: 1rem;
         padding-top: 0;
 
-        border-top: 1px solid;
-        border-image: linear-gradient(to right , $cor-secundaria, cor-mix(40%)) 27;
+        // border-top: 1px solid cor-mix(20%);
+        // border-image: linear-gradient(to right , $cor-secundaria, cor-mix(40%)) 27;
 
         .title {
 
@@ -174,8 +174,8 @@ $cor-destaque: darken(saturate(cor-mix(70%), 50%), 10%);
         padding: 1rem;
         background-color: cor-mix(3%);
         
-        border-top: 1px solid;
-        border-image: linear-gradient(to right , $cor-secundaria, cor-mix(40%)) 27;
+        border-top: 1px solid cor-mix(20%);
+        // border-image: linear-gradient(to right , $cor-secundaria, cor-mix(40%)) 27;
         
         overflow-y: scroll;
 

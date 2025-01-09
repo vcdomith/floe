@@ -176,6 +176,8 @@
         overflow-y: scroll;
         padding-right: calc(0.5rem);
 
+        @include thin-scrollbar-global;
+
         .detalhe {
 
             display: flex;

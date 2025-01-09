@@ -72,31 +72,39 @@ export default function MetodoSelect() {
                 <h2>{capitalize(path?? '')}</h2>
                 {svgsUtil.expand(open)}
             </button>
-            <AnimatePresence>
-            {open&&
-                <motion.ul 
-                    className={style.list}
+            <span className={style.listContainer}>
+                <AnimatePresence>
+                {open&&
+                    <motion.ul 
+                        className={style.list}
 
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                >
-                    {METODOS.map(metodo => 
-                        <Link
-                            key={metodo}
-                            href={metodo}
-                            prefetch
-                            data-selected={path === metodo}
-                        >
-                            <p>{capitalize(metodo)}</p>
-                            {path === metodo&&
-                            svgsUtil.sucesso
-                            }
-                        </Link>
-                    )}
-                </motion.ul>
-            }
-            </AnimatePresence>
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: 'auto' }}
+                        exit={{ opacity: 0, height: 0 }}
+                    >
+                        {METODOS.map(metodo => 
+                            <Link
+                                key={metodo}
+                                href={metodo}
+                                prefetch
+                                data-selected={path === metodo}
+                            >   
+                                {svgsUtil.documentImport}
+                                <div>
+                                    <h3>{capitalize(metodo)}</h3>
+                                    {/* {path === metodo&&
+                                    svgsUtil.sucesso
+                                    } */}
+                                    <p>
+                                        Importe os documentos por chave ou por XML
+                                    </p>
+                                </div>
+                            </Link>
+                        )}
+                    </motion.ul>
+                }
+                </AnimatePresence>
+            </span>
         </div>
 
         // <span className={style.select}>

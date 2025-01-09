@@ -29,8 +29,9 @@
     
     margin: 1rem;
     margin-left: 4rem;
-    padding: 2rem;
-    border-radius: 1rem;
+    // padding: 2rem;
+    padding: 1rem;
+    border-radius: 0.25rem;
 
     // background-color: transparentize($cor-secundaria, 0.1);
     background-color: $cor-secundaria;
@@ -54,6 +55,8 @@
 
         gap: 3rem;
     
+        border: 1px solid cor-mix(20%);
+
         // transition: all 500ms;
     }
 

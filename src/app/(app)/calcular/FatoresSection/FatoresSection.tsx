@@ -86,12 +86,15 @@ export default function FatoresSection({ fornecedores }: FatoresSectionProps) {
                     <AnimatePresence initial={false}>
                     {/* {(fornecedorData.nome === '')&&
                     } */}
-                    <motion.p
-                        animate={{ opacity: 1, height: 'auto' }}
-                        exit={{ opacity: 0, height: 0 }}
-                    >
-                        Selecione um fornecedor para acessar os fatores e configurações para calcular as tabelas:
-                    </motion.p>
+                    <span className={style.badge}>
+                        {svgsUtil.documentManual}
+                        <motion.p
+                            animate={{ opacity: 1, height: 'auto' }}
+                            exit={{ opacity: 0, height: 0 }}
+                        >
+                            Selecione um fornecedor para acessar os fatores e configurações para calcular:
+                        </motion.p>
+                    </span>
                     </AnimatePresence>
                 </div>
                 {fornecedores&&

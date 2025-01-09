@@ -53,7 +53,7 @@ export default function PedidosListaSection({ pedidos: pedidosInitial, pedidosLe
             <header className={style.header}>
 
             <div className={style.title}>
-                    <h3>Pedidos:</h3>
+                    <h3>Pedidos</h3>
                     <p>
                         Selecione um pedido para conferir seus produtos e fatores:
                     </p>

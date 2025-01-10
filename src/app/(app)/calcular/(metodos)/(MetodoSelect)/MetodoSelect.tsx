@@ -5,13 +5,24 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { svgsUtil } from "@/components/SvgArray/SvgUtil";
 import { redirect, usePathname } from "next/navigation";
 import SelectFornecedor from "@/components/SelectFornecedor/SelectFornecedor";
-import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
+import { Dispatch, FocusEvent, ReactNode, RefObject, SetStateAction, useEffect, useRef, useState } from "react";
 import useDynamicState from "@/hooks/useDynamicState";
 import { useRouter } from "next/navigation";
 import capitalize from "@/utils/capitalize";
 
-const METODOS = ['chave', 'manual']
-// const IDS = METODOS.length
+const METODOS = ['chave', 'manual'] as const
+type Metodo = (typeof METODOS)[number]
+const METODOS_DATA: Record<Metodo, {svg: ReactNode, desc: string}> = {
+    chave: {
+        svg: svgsUtil.documentImport,
+        desc: 'Importe os documentos por chave ou por XML'
+    },
+    manual: {
+        svg: svgsUtil.documentManual,
+        desc: 'Calcular preços preenchendo dados manualmente'
+    }
+}
+const IDS = METODOS.length
 
 export default function MetodoSelect() {
 
@@ -27,23 +38,7 @@ export default function MetodoSelect() {
 
     const containerRef = useRef<HTMLDivElement>(null)
 
-    console.log(containerRef.current?.children);
-
-    useEffect(() => {
-
-        function handleClickOutside(e: MouseEvent) {
-            if( containerRef.current && !containerRef.current?.contains(e.target as Node) ) {
-                setOpen(false)
-            }
-        }
-
-        document.addEventListener('click', handleClickOutside)
-
-        return () => {
-            document.removeEventListener('click', handleClickOutside)
-        } 
-
-    }, [])
+    // console.log(containerRef.current?.children);
 
     // const spring = { 
     //     type: "spring",
@@ -75,33 +70,11 @@ export default function MetodoSelect() {
             <span className={style.listContainer}>
                 <AnimatePresence>
                 {open&&
-                    <motion.ul 
-                        className={style.list}
-
-                        initial={{ opacity: 0, height: 0 }}
-                        animate={{ opacity: 1, height: 'auto' }}
-                        exit={{ opacity: 0, height: 0 }}
-                    >
-                        {METODOS.map(metodo => 
-                            <Link
-                                key={metodo}
-                                href={metodo}
-                                prefetch
-                                data-selected={path === metodo}
-                            >   
-                                {svgsUtil.documentImport}
-                                <div>
-                                    <h3>{capitalize(metodo)}</h3>
-                                    {/* {path === metodo&&
-                                    svgsUtil.sucesso
-                                    } */}
-                                    <p>
-                                        Importe os documentos por chave ou por XML
-                                    </p>
-                                </div>
-                            </Link>
-                        )}
-                    </motion.ul>
+                    <MetodosLista 
+                        path={path?? ''} 
+                        setOpen={setOpen} 
+                        containerRef={containerRef} 
+                    />
                 }
                 </AnimatePresence>
             </span>
@@ -147,3 +120,112 @@ export default function MetodoSelect() {
     )
 
 }
+interface MetodosListaProps {
+    path: string
+    setOpen: (open: boolean) => void
+    containerRef: RefObject<HTMLDivElement>
+}
+const MetodosLista = ({path, setOpen, containerRef}: MetodosListaProps) => {
+
+    const [selectedId, setSelectedId] = useState<number | null>(null)
+    const listRef = useRef<HTMLUListElement>(null)
+
+    console.log(selectedId);
+
+    const listElementChildren = listRef.current?.childNodes
+    if (selectedId !== null && listElementChildren) {
+        (listElementChildren[selectedId] as HTMLAnchorElement).focus()
+    }
+    
+    useEffect(() => {
+
+        function handleClickOutside(e: MouseEvent) {
+            if( containerRef.current && !containerRef.current?.contains(e.target as Node) ) {
+                setOpen(false)
+            }
+        }
+
+        function handleKeyDown(e: KeyboardEvent) {
+
+            switch (e.code) {
+                
+                case 'ArrowUp': {
+
+                    e.preventDefault()
+                    if (selectedId === 0) return
+
+                    const newSelectedId = (selectedId === 0 || selectedId === null)
+                        ? 0
+                        : selectedId - 1
+
+                    setSelectedId(newSelectedId)
+
+                    break;
+                }
+
+                case 'ArrowDown': {
+
+                    e.preventDefault()
+                    if (selectedId === (IDS - 1)) return
+
+                    const newSelectedId = (selectedId === (IDS-1))
+                        ? selectedId
+                        : (selectedId === null) 
+                            ? 0 
+                            : selectedId + 1
+
+                    setSelectedId(newSelectedId)
+
+                    break;
+                }
+                    
+                case 'Escape': {
+                    setOpen(false)
+                }
+            
+                default:
+                    break;
+            }
+
+        }
+
+        document.addEventListener('click', handleClickOutside)
+        document.addEventListener('keydown', handleKeyDown)
+
+        return () => {
+            document.removeEventListener('click', handleClickOutside)
+            document.removeEventListener('keydown', handleKeyDown)
+        } 
+
+    }, [selectedId])
+
+    return (
+        <motion.ul 
+            className={style.list}
+
+            initial={{ y: -10, opacity: 0, height: 0 }}
+            animate={{ y: 0, opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            ref={listRef}
+
+        >
+            {METODOS.map((metodo, index) => 
+                <Link
+                    key={metodo}
+                    href={metodo}
+                    prefetch
+                    data-selected={path === metodo}
+                >   
+                    {METODOS_DATA[metodo as keyof typeof METODOS_DATA].svg}
+                    <div>
+                        <h3>{capitalize(metodo)}</h3>
+                        <p>
+                            {METODOS_DATA[metodo as keyof typeof METODOS_DATA].desc}
+                        </p>
+                    </div>
+                </Link>
+            )}
+        </motion.ul>
+    )
+
+} 

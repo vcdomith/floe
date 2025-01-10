@@ -130,6 +130,7 @@ export default function FatoresSection({ fornecedores }: FatoresSectionProps) {
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
                     transition={{ duration: 1, delayChildren: 0.5 }}
+                    className={style.fatoresSection}
                 >
                 {(fornecedorDiff.length === 0)&&
                 <>

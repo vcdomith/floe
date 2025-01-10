@@ -316,7 +316,7 @@ function SvgDocumentManual() {
         <line x1="129.951" y1="232.122" x2="266.748" y2="232.122" stroke="black" stroke-width="40"/>
         <line x1="142.943" y1="307.016" x2="279.74" y2="307.016" stroke="black" stroke-width="40"/>
         <line x1="124.602" y1="378.854" x2="261.398" y2="378.854" stroke="black" stroke-width="40"/>
-        <path d="M406.245 56L211 251.38V307H264.95L461 110.814L406.245 56Z" fill="#D9D9D9" stroke="black" stroke-width="40"/>
+        <path d="M406.245 56L211 251.38V307H264.95L461 110.814L406.245 56Z" fill="#e8d4b0" stroke="black" stroke-width="40" className="fill"/>
         <path d="M406.245 56L211 251.38V307H264.95L461 110.814L406.245 56Z" stroke="black" stroke-width="40"/>
         </svg>
     )

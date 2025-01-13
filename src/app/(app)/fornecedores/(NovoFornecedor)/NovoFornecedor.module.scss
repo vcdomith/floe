@@ -806,6 +806,12 @@
                 border-color: cor-mix(90%);
             }
 
+            &[data-disabled="true"] {
+                background-color: cor-mix(5%);
+                border-color: cor-mix(20%);
+                color: cor-mix(20%);
+            }
+
             svg {
 
                 width: 20px;

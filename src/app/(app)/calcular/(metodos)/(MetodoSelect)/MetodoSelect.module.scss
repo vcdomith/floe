@@ -242,9 +242,10 @@
                 cursor: pointer;
     
                 outline: none;
-                border-left: 4px solid transparent;
+                border-left: 0 solid transparent;
 
                 padding: 0.5rem;
+                padding-left: calc(0.5rem + 4px);
                 
                 &:not(:last-of-type) {
                     border-bottom: 2px solid cor-mix(20%);
@@ -254,6 +255,7 @@
     
                     // background-color: mix($cor-destaque, $cor-secundaria, 5%);
                     border-left: 4px solid mix($cor-destaque, $cor-secundaria, 70%);
+                    padding-left: 0.5rem;
                     pointer-events: none;
     
                 }

@@ -46,6 +46,9 @@ export default function NovoFornecedor() {
         usaComposto
     } = fornecedorData
 
+    //TODO - melhorar validação cnpj
+    const valid = Object.values(fornecedorData).every( value => value !== '' )
+
     const { addNotification } = useNotification()
     const { modal, setModal, clearModal } = useModal()
 
@@ -387,6 +390,7 @@ export default function NovoFornecedor() {
                 <button 
                     className={style.submit}
                     type='submit'
+                    data-disabled={!valid}
                 >
                     {loading
                         ?  <><LogoSvg loop/>Carregando</>

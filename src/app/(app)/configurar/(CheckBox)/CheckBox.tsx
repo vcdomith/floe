@@ -1,10 +1,10 @@
 'use client'
-import { KeyboardEvent, SetStateAction, useState } from "react"
+import { InputHTMLAttributes, KeyboardEvent, SetStateAction, useState } from "react"
 import { motion } from 'framer-motion'
 
 import style from './CheckBox.module.scss'
 
-interface CheckBoxProps {
+interface CheckBoxProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'checked' | 'onChange'> {
 
     name?: string
     disabled?: boolean
@@ -13,7 +13,7 @@ interface CheckBoxProps {
 
 }
 
-export default function CheckBox({ checked, setChecked, name, disabled }: CheckBoxProps) {
+export default function CheckBox({ checked, setChecked, name, disabled, ...rest }: CheckBoxProps) {
 
     const spring = {
         type: "spring",
@@ -71,6 +71,7 @@ export default function CheckBox({ checked, setChecked, name, disabled }: CheckB
                 value={checked ? 'on' : 'off'}
                 onKeyDown={(e) => handleKeyDown(e)}
                 disabled={disabled || false}
+                {...rest}
             >   
             </input>
             <motion.div 

@@ -13,9 +13,9 @@ import { svgsUtil } from '@/components/SvgArray/SvgUtil'
 
 const NUMBER_INPUT_PLACEHOLDER = '_'.repeat(25)
 
-export default function PedidoTab() {
+export default function PedidoTab({ initial = false }: { initial ?: boolean }) {
 
-    const [ displayPedido, setDisplayPedido ] = useState(false)
+    const [ displayPedido, setDisplayPedido ] = useState(initial)
 
     // Receber o contexto a ser usado por prop, permite ser usado em mais de um lugar
     const { context: { context } } = useCalcular()
@@ -161,6 +161,7 @@ export default function PedidoTab() {
                             <CheckBox 
                                 checked={usaNcm}
                                 setChecked={handlePedidoChange('usaNcm')}
+                                autoFocus={initial}
                             />
                         }
                     />

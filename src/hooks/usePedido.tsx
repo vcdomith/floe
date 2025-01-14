@@ -17,6 +17,7 @@ export interface UsePedido {
     getPedidoDisplayControl: (ctx: UseSectionContext) => IPedidoDisplayControl
 
     pedidoDiff: (keyof IFatoresPedido)[]
+    pedidoControl: IFatoresPedido | undefined
     updatePedidoControl: (pedido: IFatoresPedido) => void
     rollbackPedido: () => void
     resetPedidoControl: () => void
@@ -187,6 +188,7 @@ export default function usePedido( produto: (ProdutoCadastro | null) = null ): U
         getPedidoDisplayControl,
         
         pedidoDiff,
+        pedidoControl,
         updatePedidoControl,
         rollbackPedido,
         resetPedidoControl,

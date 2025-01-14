@@ -182,8 +182,11 @@ const PedidoLink = forwardRef<HTMLDivElement, PedidoLinkProps>(function Forneced
                 href={`/pedidos/${pedido.id}`}
                 data-selected={ path === pedido.id.toString() }
             >
-                {svgsUtil.unitarioNota}
-                <p className={style.id}>{pedido.id}</p>
+                <span className={style.idContainer}>
+                    {/* {svgsUtil.unitarioNota} */}
+                    {svgsUtil.numero}
+                    <p className={style.id}>{pedido.id.toString().padStart(4, '0')}</p>
+                </span>
                 <p className={style.fornecedor}>{pedido.fornecedor&& capitalizeInner(pedido.fornecedor)}</p>
                 <span className={style.composto}>
                     <p className={style.data}>

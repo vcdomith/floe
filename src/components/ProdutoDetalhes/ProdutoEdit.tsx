@@ -201,6 +201,7 @@ export const ProdutoEdit = ({ produto }:
                         mensagem: `Produto ${produto.codigo} excluído com sucesso!`,
                     })
                     removeProduto(id)
+                    clearModal()
                 }}                
             />
         )

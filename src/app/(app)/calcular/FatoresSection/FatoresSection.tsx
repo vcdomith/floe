@@ -15,6 +15,7 @@ import Link from "next/link";
 import { svgsUtil } from "@/components/SvgArray/SvgUtil";
 import AvisoFatoresDiferentes from "@/components/AvisoFatoresDiferentes/AvisoFatoresDIferentes";
 import MetodoSelect from "../(metodos)/(MetodoSelect)/MetodoSelect";
+import { UseManualContext } from "@/hooks/useManualContext";
 
 interface FatoresSectionProps {
 
@@ -25,9 +26,10 @@ interface FatoresSectionProps {
 export default function FatoresSection({ fornecedores }: FatoresSectionProps) {
 
     const { 
-        context: { context } ,
-        submitForm
+        context: selectedContext
     } = useCalcular()
+
+    const { context, submitForm } = selectedContext as UseManualContext
     const {
         fornecedorContext,
         pedidoContext,  
@@ -37,7 +39,7 @@ export default function FatoresSection({ fornecedores }: FatoresSectionProps) {
     } = context
 
     const {fornecedorData, fornecedorDiff, fornecedorControl, rollbackFornecedor, updateFornecedorControl} = fornecedorContext
-    const {pedidoData, pedidoDiff, rollbackPedido, updatePedidoControl} = pedidoContext
+    const {pedidoData, pedidoDiff, pedidoControl, rollbackPedido, updatePedidoControl} = pedidoContext
 
     const {addNotification} = useNotification()
 
@@ -143,7 +145,7 @@ export default function FatoresSection({ fornecedores }: FatoresSectionProps) {
                 <div className={style.tabContainer}>
                     <AnimatePresence initial={false}>
 
-                    <PedidoTab />
+                    <PedidoTab initial/>
                     
                     {(pedidoDiff.length > 0)&&
                         <AvisoFatoresDiferentes 
@@ -166,9 +168,9 @@ export default function FatoresSection({ fornecedores }: FatoresSectionProps) {
                 }
 
 
-                {(fornecedorDiff.length === 0 && pedidoDiff.length === 0)&&
+                {(fornecedorDiff.length === 0 && pedidoDiff.length === 0 && pedidoControl)&&
                 <div className={style.tabContainer}>
-                    <ProdutoTab />
+                    <ProdutoTab initial />
                 </div>
                 }
                 </motion.div>

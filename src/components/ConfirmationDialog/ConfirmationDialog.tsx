@@ -17,11 +17,12 @@ export default function ConfirmationDialog (
 ) {
 
     const confirmRef = useRef<HTMLButtonElement | null>(null)
+    const cancelRef = useRef<HTMLButtonElement | null>(null)
     const [loading, setLoading] = useState(false)
 
     const { clearModal } = useModal()
 
-    console.log(confirmHandler.constructor.name, confirmHandler.constructor.name === 'AsyncFunction');
+    // console.log(confirmHandler.constructor.name, confirmHandler.constructor.name === 'AsyncFunction');
 
     const handleConfirm = async () => {
 
@@ -50,8 +51,14 @@ export default function ConfirmationDialog (
                 clearModal()
                 return
             }
-            if (e.key === 'Enter') {
-                confirmHandler()
+            // if (e.key === 'Enter') {
+            //     confirmHandler()
+            // }
+            if (e.key === 'ArrowRight') {
+                confirmRef.current?.focus()
+            }
+            if (e.key === 'ArrowLeft') {
+                cancelRef.current?.focus()
             }
         }
 
@@ -77,9 +84,14 @@ export default function ConfirmationDialog (
                 <p className={style.message}>{message}</p>
                 </div>
                 <span className={style.buttons}>
-                    <button className={style.cancel} onClick={() => cancelHandler()}>Cancelar</button>
+                    <button 
+                        className={style.cancel} 
+                        onClick={() => cancelHandler()}
+                        ref={cancelRef}
+                    >Cancelar</button>
                     <button 
                         className={style.confirm} 
+                        autoFocus
                         ref={confirmRef}
                         disabled={loading}
                         data-loading={loading}

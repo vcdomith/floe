@@ -5,7 +5,7 @@ import Config from '../../configurar/(Config)/Config'
 import CheckBox from '../../configurar/(CheckBox)/CheckBox'
 import useFornecedor from '@/hooks/useFornecedor'
 import NumberInput from '@/components/FatoresTable/FatoresTableBody/NumberInput/NumberInput'
-import React, { ChangeEvent, FormEvent, KeyboardEvent, useMemo, useRef, useState } from 'react'
+import React, { ChangeEvent, FormEvent, KeyboardEvent, useEffect, useMemo, useRef, useState } from 'react'
 import { cnpjFormatSplit, formatSplit } from '@/utils/documentosFormat'
 import { IFornecedor } from '@/interfaces/IFornecedor'
 import { Caret } from '@/hooks/useImportCard'
@@ -47,12 +47,19 @@ export default function NovoFornecedor() {
     } = fornecedorData
 
     //TODO - melhorar validação cnpj
-    const valid = Object.values(fornecedorData).every( value => value !== '' )
+    const valid = Object.entries(fornecedorData).every( ([key, value]) => {
+        if (key === 'cnpj') {
+            return value.length === 14
+        }
+        return value !== ''
+    } )
 
     const { addNotification } = useNotification()
     const { modal, setModal, clearModal } = useModal()
 
     const [loading, setLoading] = useState(false)
+
+    const formRef = useRef<HTMLFormElement>(null)
 
     const cadastrarFornecedor = async () => {
 
@@ -145,10 +152,30 @@ export default function NovoFornecedor() {
 
     // }
 
+    useEffect(() => {
+
+        const formElement = formRef.current
+
+        const handleEscapeCancel = (e: globalThis.KeyboardEvent) => {
+            if (e.key === 'Escape') {
+                clearModal()
+                return
+            }
+        }
+
+        formElement?.addEventListener('keydown', handleEscapeCancel)
+
+        return () => {
+            formElement?.removeEventListener('keydown', handleEscapeCancel)
+        }
+
+    }, [])
+
     return (
         <form 
             className={style.novoFornecedor}
             onSubmit={(e) => handleSubmit(e)}    
+            ref={formRef}
         >
 
             <section className={style.header}>
@@ -193,6 +220,7 @@ export default function NovoFornecedor() {
                                 value={nome}
                                 required
                                 onChange={(e) => handleFornecedorChange('nome')(e.target.value)}
+                                autoFocus
                             />
                         } 
                     />

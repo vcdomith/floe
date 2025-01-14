@@ -137,12 +137,21 @@
 
                 outline: none;
                 border: 2px solid;
+                outline: 2px solid transparent;
                 border-radius: 0.5rem;
 
                 color: cor-mix(80%);
                 font-size: 0.9rem;
 
                 cursor: pointer;
+
+                transition: outline-color 400ms ease;
+
+                // &:focus-visible {
+                //     outline: 2px solid cor-mix(20%);
+                //     // border: 2px solid cor-mix(0%);
+                //     // box-shadow: 2px 2px 12px 2px cor-mix(40%);
+                // }
 
             }
 
@@ -161,6 +170,12 @@
                             background-color 400ms ease,
                             color 400ms ease
                 ;
+
+                &:focus-visible, &:focus-within {
+                    outline: 2px solid cor-mix(60%);
+                    border: 2px solid cor-mix(40%);
+                    // box-shadow: 2px 2px 12px 2px cor-mix(40%);
+                }
 
                 &:hover {
                     background-color: cor-mix(80%);
@@ -192,6 +207,12 @@
                             background-color 400ms ease,
                             color 400ms ease,
                 ;
+
+                &:focus-visible {
+                    outline: 2px solid cor-mix(20%);
+                    border: 2px solid cor-mix(0%);
+                    // box-shadow: 2px 2px 12px 2px cor-mix(40%);
+                }
 
                 &:hover {
                     background-color: cor-mix(10%);

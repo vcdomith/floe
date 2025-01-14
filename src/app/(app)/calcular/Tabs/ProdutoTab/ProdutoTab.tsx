@@ -62,11 +62,12 @@ interface ProdutoConfigElements {
 //     },
 // }
 
-export default function ProdutoTab() {
+export default function ProdutoTab({ initial = false }: { initial?: boolean }) {
 
     const { manual: { context, submitForm } } = useManual()
     const {
-        produtoContext, 
+        produtoContext,
+        pedidoContext: { pedidoControl }, 
         fornecedorContext, 
         produtoValid, 
     } = context
@@ -94,13 +95,13 @@ export default function ProdutoTab() {
         updateProdutoControl,
     } = produtoContext
     // console.log(produtoDiff);
-    
+
     const {fornecedorData: { fatorBase, usaUnitarioPedido }, handleFornecedorChange} = fornecedorContext
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
     const produtoDisplayControl = useMemo(() => getProdutoDisplayControl(context), [context])
 
-    const [displayProdutoTab, setDisplayProdutoTab] = useState(false)
+    const [displayProdutoTab, setDisplayProdutoTab] = useState(initial)
 
     const compostoRef_1 = useRef<HTMLInputElement>(null)
     const compostoRef_2 = useRef<HTMLInputElement>(null)
@@ -190,6 +191,7 @@ export default function ProdutoTab() {
                                     <CheckBox 
                                         checked={st}
                                         setChecked={handleProdutoChange('st')}
+                                        autoFocus={initial}
                                     />
                                 }
                             />

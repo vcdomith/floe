@@ -185,7 +185,11 @@ const PedidoLink = forwardRef<HTMLDivElement, PedidoLinkProps>(function Forneced
                 <span className={style.idContainer}>
                     {/* {svgsUtil.unitarioNota} */}
                     {svgsUtil.numero}
-                    <p className={style.id}>{pedido.id.toString().padStart(4, '0')}</p>
+                    <p className={style.id}>
+                        {/* {fornecedor.id.toString().padStart(4, '0')} */}
+                        <span className={style.zero}>{'0'.repeat(4 - (pedido.id.toString().length))}</span>
+                        {pedido.id.toString()}
+                    </p>
                 </span>
                 <p className={style.fornecedor}>{pedido.fornecedor&& capitalizeInner(pedido.fornecedor)}</p>
                 <span className={style.composto}>

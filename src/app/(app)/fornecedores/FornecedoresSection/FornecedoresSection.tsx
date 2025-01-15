@@ -87,17 +87,6 @@ export default function FornecedoresSection({ fornecedores } : FatoresSectionPro
                         fornecedor={fornecedor}
                         path={path}
                     /> 
-                    // <Link 
-                    //     className={style.fornecedor}
-                    //     data-selected={path === fornecedor.nome}
-                    //     key={fornecedor.id} 
-                    //     href={`/fornecedores/${fornecedor.nome}`} 
-                    //     prefetch
-                    // >
-                    //     {svgsUtil.transporte}
-                    //     <p>{fornecedor.id}</p>
-                    //     <p>{fornecedor.nome&& capitalize(fornecedor.nome)}</p>
-                    // </Link>
                 ))
                 :
                 <motion.div
@@ -153,8 +142,14 @@ const FornecedorLink = forwardRef<HTMLDivElement, FornecedorLinkProps>(function 
                 href={`/fornecedores/${fornecedor.nome}`} 
                 prefetch
             >
-                {svgsUtil.transporte}
-                <p>{fornecedor.id}</p>
+                <span className={style.idContainer}>
+                    {svgsUtil.numero}
+                    <p className={style.id}>
+                        {/* {fornecedor.id.toString().padStart(4, '0')} */}
+                        <span className={style.zero}>{'0'.repeat(4 - (fornecedor.id.toString().length))}</span>
+                        {fornecedor.id.toString()}
+                    </p>
+                </span>
                 <p>{fornecedor.nome&& capitalizeInner(fornecedor.nome)}</p>
             </Link>
         </motion.div>

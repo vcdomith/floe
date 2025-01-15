@@ -211,6 +211,9 @@ $cor-destaque: darken(saturate(cor-mix(70%), 50%), 10%);
     
                 gap: 0.5rem;
                 padding: 0 0.5rem;
+                padding-left: 0;
+
+                overflow: hidden;
 
                 min-height: calc(50px - 0.2rem);
     
@@ -257,6 +260,43 @@ $cor-destaque: darken(saturate(cor-mix(70%), 50%), 10%);
                         color: cor-mix(80%);
                         // color: mix($cor-destaque, $cor-secundaria, 60%);
                         // color: mix(mix($cor-destaque, $cor-primaria, 80%), $cor-secundaria, 80%);
+                    }
+
+                }
+
+                .idContainer {
+
+                    display: flex;
+                    gap: 0.1rem;
+                    height: calc(50px - 4px);
+                    background-color: cor-mix(2%);
+                    // background-color: mix($cor-destaque, $cor-secundaria, 5%);
+                    align-items: center;
+                    padding-left: 0.5rem;
+
+                    svg {
+                        width: 20px;
+                        height: 20px;
+
+                        path {
+                            stroke: cor-mix(40%);
+                        }
+                    }
+
+                    .id {
+
+                        display: flex;
+                        align-items: center;
+                        font-size: 1.1rem;
+                        height: 100%;
+    
+                        padding-right: 0.5rem;
+                        border-right: 2px solid cor-mix(10%);
+
+                        .zero {
+                            color: cor-mix(40%);
+                        }
+
                     }
 
                 }

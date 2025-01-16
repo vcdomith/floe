@@ -1,16 +1,20 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useModal } from "../(contexts)/ModalContext";
 import style from './Modal.module.scss'
+import { FocusTrap } from "focus-trap-react";
+import { forwardRef, ReactNode } from "react";
 
 const BASE_Z_INDEX = 5000
 
 export default function Modal() {
 
-    const { modal, clearModal } = useModal()
+    const { modal: modalArray, clearModal } = useModal()
+
+    console.log(modalArray.length);
 
     return (
         <AnimatePresence>
-        {modal.map( (modal, index) => 
+        {modalArray.map( (modal, index) => 
             <motion.div 
             key={index}
             className={style.wrapper}
@@ -22,14 +26,13 @@ export default function Modal() {
             transition={{ duration: 0.4 }}
         >
 
-            <motion.section 
-                className={style.backdrop}
-                onClick={clearModal}
-            />
-
-            <div className={style.modal}>
-                {modal}
-            </div>
+            <FocusTrap active>
+                <ModalContent 
+                    modal={modal} 
+                    style={style} 
+                    clearModal={clearModal}                
+                />
+            </FocusTrap>
 
         </motion.div>
         )}
@@ -37,3 +40,27 @@ export default function Modal() {
     )
 
 }
+
+interface ModalContentProps {
+    modal: ReactNode
+    style: {
+        readonly [key: string]: string
+    }
+    clearModal: () => void
+}
+
+const ModalContent = forwardRef<HTMLElement, ModalContentProps>( function ModalContent({modal, style, clearModal}, ref) {
+    return (
+        <section ref={ref}>
+            <motion.section 
+                className={style.backdrop}
+                onClick={clearModal}
+                />
+
+            <div className={style.modal}>
+                    {modal}
+            </div>
+            
+        </section>
+    )
+})

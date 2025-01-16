@@ -75,7 +75,7 @@ export default function FornecedoresSection({ fornecedores } : FatoresSectionPro
                     
                     layout 
                     layoutRoot
-                    >
+                >
                 <LayoutGroup>
                 {/* <AnimatePresence mode='popLayout'> */}
                 {

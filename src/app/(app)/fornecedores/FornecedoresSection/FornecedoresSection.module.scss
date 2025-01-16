@@ -194,6 +194,51 @@ $cor-destaque: darken(saturate(cor-mix(70%), 50%), 10%);
 
         // padding: 1rem;
 
+        .search {
+
+            // max-height: 33.2px;
+            display: flex;
+            justify-self: flex-start;
+            width: 100%;
+            box-sizing: border-box;
+            height: 30px;
+            padding: 0.25rem;
+            border-color: cor-mix(30%);
+            border-radius: 0.5rem;
+
+            margin-bottom: 1rem;
+
+            svg {
+
+                fill: cor-mix(60%);
+
+            }
+
+            & > div {
+
+                width: 100%;
+
+                input {
+
+                    width: 100%;
+                    flex: 1;
+                    padding-left: 0.25rem;
+    
+                    font-size: 1rem;
+                    color: cor-mix(80%);
+                    
+                    &::placeholder {
+                        
+                        font-size: 1rem;
+    
+                    }
+    
+                }
+
+            }
+
+        }
+
         & > :first-child h3 {
             margin-top: 0;
         }

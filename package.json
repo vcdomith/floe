@@ -13,6 +13,7 @@
     "@supabase/ssr": "^0.4.0",
     "@supabase/supabase-js": "^2.41.1",
     "@vexta-systems/node-mde": "^0.15.4",
+    "focus-trap-react": "^11.0.3",
     "framer-motion": "^11.0.14",
     "lodash": "^4.17.21",
     "next": "^14.2.4",

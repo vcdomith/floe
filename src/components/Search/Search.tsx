@@ -7,11 +7,12 @@ interface SearchProps {
     className?: string | string[]
     textInput?: boolean
     pattern?: string 
+    placeholder?: string
     searchParam: string
     setSearchParam: (searchParam: string) => void
 }
 
-const Search = ({ className, searchParam, setSearchParam, textInput, pattern }: SearchProps) => {
+const Search = ({ className, searchParam, setSearchParam, textInput, pattern, placeholder = 'Buscar' }: SearchProps) => {
 
   return (
     <span
@@ -46,7 +47,7 @@ const Search = ({ className, searchParam, setSearchParam, textInput, pattern }: 
         {!textInput
         ?
         <NumberInput 
-        placeholder='Buscar'
+        placeholder={placeholder}
         valor={searchParam}
         setValor={setSearchParam}
         className={search.input}

@@ -16,6 +16,7 @@ import LogoSvg from '@/components/SvgArray/LogoSvg'
 import Highlight from '@/components/Highlight/Highlight'
 import { PostgrestError } from '@supabase/supabase-js'
 import capitalize from '@/utils/capitalize'
+import { FocusTrap } from 'focus-trap-react'
 
 // const formatCNPJ = (value: string) => {
 //     // Remove non-numeric characters
@@ -172,6 +173,7 @@ export default function NovoFornecedor() {
     }, [])
 
     return (
+        // <FocusTrap>
         <form 
             className={style.novoFornecedor}
             onSubmit={(e) => handleSubmit(e)}    
@@ -419,6 +421,7 @@ export default function NovoFornecedor() {
                     className={style.submit}
                     type='submit'
                     data-disabled={!valid}
+                    tabIndex={valid ? 0 : -1}
                 >
                     {loading
                         ?  <><LogoSvg loop/>Carregando</>
@@ -428,6 +431,7 @@ export default function NovoFornecedor() {
             </span>
                         
         </form>
+        // </FocusTrap>
     )
 
 }

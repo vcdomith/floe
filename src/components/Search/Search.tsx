@@ -1,5 +1,4 @@
 
-import { ChangeEvent } from 'react'
 import NumberInput from '../FatoresTable/FatoresTableBody/NumberInput/NumberInput'
 import search from './Search.module.scss'
 

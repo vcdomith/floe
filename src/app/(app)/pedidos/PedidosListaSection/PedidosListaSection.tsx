@@ -3,7 +3,7 @@ import { ICadastro } from '@/interfaces/ICadastro'
 import style from './PedidosListaSection.module.scss'
 import Search from '@/components/Search/Search'
 import { LayoutGroup, motion } from 'framer-motion'
-import { forwardRef, Suspense, useMemo, useState } from 'react'
+import { forwardRef, Suspense, useCallback, useMemo, useState } from 'react'
 import Link from 'next/link'
 import { svgsUtil } from '@/components/SvgArray/SvgUtil'
 import capitalizeInner from '@/utils/capitalize'
@@ -11,6 +11,7 @@ import { usePathname } from 'next/navigation'
 import { useBackgroundSync } from '../../(contexts)/BackgroundSyncContext'
 import Highlight from '@/components/Highlight/Highlight'
 import LogoSvg from '@/components/SvgArray/LogoSvg'
+import { debounce } from 'lodash'
 
 interface PedidosListaSectionProps {
     pedidos: ICadastro[]
@@ -22,18 +23,94 @@ export default function PedidosListaSection({ pedidos: pedidosInitial, pedidosLe
     const path = usePathname().slice(1,).split('/')[1]
 
     const [pedidos, setPedidos] = useState(pedidosInitial)
-    const [loading, setLoading] = useState(false)
+    const [pedidosQuery, setPedidosQuery] = useState<ICadastro[]>([])
+
+    const [loadingMore, setLoadingMore] = useState(false)
+    const [loadingQuery, setLoadingQuery] = useState(false)
     const [offset, setOffset] = useState(10)
 
     const [searchParam, setSearchParam] = useState('')
 
-    const pedidosDisplay = useMemo(() => 
-        pedidos?.filter( pedido => pedido.fornecedor?.includes(searchParam.toLowerCase()))
-    , [pedidos, searchParam])
+    const pedidosDisplay = useMemo(() => {
+
+        if (pedidosQuery.length > 0) return pedidosQuery
+
+        return pedidos?.filter( pedido => pedido.fornecedor?.includes(searchParam.toLowerCase()))
+
+    }
+    , [pedidos, searchParam, pedidosQuery])
+
+    // const handleSearch = useCallback(
+    //     debounce((searchParam: string) => {
+    //         setSearchParam(searchParam)
+    //     }, 300),
+    //     [setSearchParam]
+    // )
+
+    const handleSearch = (searchParam: string) => {
+
+        setSearchParam(searchParam)
+        setPedidosQuery([])
+
+        // console.log(
+        //     pedidos?.filter( pedido => pedido.fornecedor?.includes(searchParam.toLowerCase())).length === 0
+        // );
+        // if (pedidos?.filter( pedido => pedido.fornecedor?.includes(searchParam.toLowerCase())).length === 0) {
+
+        //     console.log('inner');
+        //     debouncedQuery(searchParam)
+
+        // }
+
+    }
+
+    const pesquisaDb = async (fornecedor: string) => {
+
+        if (fornecedor === '') return
+
+        setLoadingQuery(true)
+
+        try {
+            
+            const res = await fetch(`/pedidos/api/query?fornecedor=${fornecedor}`)
+            const pedidosPesquisa: ICadastro[] = await res.json()
+            
+            if (res.status === 500) {
+                console.error('Error')
+                return
+            }
+
+            console.log(pedidosPesquisa);
+            console.log('pequisadbtry');
+
+            setPedidosQuery(pedidosPesquisa)
+
+
+        } catch (error) {
+            
+            console.error(error)
+            // setLoadingQuery(false)
+
+        } finally {
+
+            setLoadingQuery(false)
+
+        }
+
+        // setLoadingQuery(false)
+
+    }
+
+    const debouncedQuery = useCallback(
+        debounce((fornecedor: string) => {
+            pesquisaDb(fornecedor)
+        }, 1000),
+        [pesquisaDb]
+    )
 
     const handleLoadMore = async () => {
 
-        setLoading(true)
+        setLoadingMore(true)
 
         const res = await fetch(`/pedidos/api/loadMore?offset=${offset}`)
         const pedidosExtra = await res.json()
@@ -42,7 +119,7 @@ export default function PedidosListaSection({ pedidos: pedidosInitial, pedidosLe
 
         setPedidos( prev => [...prev, ...pedidosExtra] )
         setOffset( prev => prev + 10 )
-        setLoading(false)
+        setLoadingMore(false)
 
     }
 
@@ -85,7 +162,7 @@ export default function PedidosListaSection({ pedidos: pedidosInitial, pedidosLe
                 <Search 
                     className={style.search} 
                     searchParam={searchParam} 
-                    setSearchParam={setSearchParam} 
+                    setSearchParam={handleSearch} 
                     textInput
                 />
 
@@ -124,18 +201,35 @@ export default function PedidosListaSection({ pedidos: pedidosInitial, pedidosLe
                     >
                         {svgsUtil.unitarioNota}
                         <p>Nenhum <Highlight>pedido</Highlight> corresponde à pesquisa</p>
+                        
+                        <div>
+                            <p>Não encontrou o pedido?</p>
+                            <button
+                                onClick={() => pesquisaDb(searchParam)}
+                            >Pesquisar db</button>
+                        </div>
+
                     </motion.div>
                     }
 
+                    {(pedidosDisplay.length > 0 && searchParam)&&
+                        <div>
+                            <p>Não encontrou o pedido?</p>
+                            <button
+                                onClick={() => pesquisaDb(searchParam)}
+                            >Pesquisar db</button>
+                        </div>
+                    }
+                    
                     {
                     (pedidosDisplay.length === pedidos.length)&& 
                     pedidosDisplay.length < pedidosLength&&
                     <button
                         className={style.load}
                         onClick={() => handleLoadMore()}
-                        disabled={loading}
+                        disabled={loadingMore}
                     >{
-                    (loading)
+                    (loadingMore)
                         ?
                             <>
                             <LogoSvg loop/>
@@ -144,6 +238,13 @@ export default function PedidosListaSection({ pedidos: pedidosInitial, pedidosLe
                         : 
                             'Carregar Mais'
                     }</button>
+                    }
+
+                    {loadingQuery&&
+                        <span>
+                            <LogoSvg loop/>
+                            Carregando...
+                        </span>
                     }
 
                     </LayoutGroup>

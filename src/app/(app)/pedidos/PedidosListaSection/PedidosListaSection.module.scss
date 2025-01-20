@@ -391,23 +391,11 @@ $cor-destaque: darken(saturate(cor-mix(70%), 50%), 10%);
             .noMatch {
 
                 display: flex;
+                flex-direction: column;
                 justify-content: center;
                 align-items: center;
-                gap: 0.5rem;
+                gap: 1.5rem;
                 padding: 0.5rem;
-
-                & > svg {
-
-                    width: 35px;
-                    min-width: 35px;
-                    max-width: 35px;
-                    height: 35px;
-
-                    path, circle, line, ellipse {
-                        stroke: cor-mix(80%);
-                    }
-
-                }
 
                 p {
 
@@ -416,6 +404,87 @@ $cor-destaque: darken(saturate(cor-mix(70%), 50%), 10%);
                     margin: 0;
 
                 }
+
+
+                .info {
+
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    gap: 0.5rem;
+
+                    & > svg {
+
+                        width: 35px;
+                        min-width: 35px;
+                        max-width: 35px;
+                        height: 35px;
+    
+                        path, circle, line, ellipse {
+                            stroke: cor-mix(80%);
+                        }
+    
+                    }
+
+                }
+
+                .query {
+
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    gap: 1rem;
+
+                    width: 100%;
+                    box-sizing: border-box;
+
+                    border: 2px solid cor-mix(10%);
+                    border-radius: 0.5rem;
+                    padding: 1rem;
+
+                    background-color: cor-mix(7%);
+
+                    p {
+
+
+
+                    }
+
+                    button {
+
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        gap: 0.5rem;
+
+                        width: 100%;
+
+                        outline: none;
+                        border: 2px solid cor-mix(30%);
+                        border-radius: 0.5rem;
+                        background-color: cor-mix(10%);
+
+                        svg {
+                            
+                            path, line, ellipse {
+                                stroke: cor-mix(60%);
+                            }
+
+                        }
+
+                        p {
+
+                            color: cor-mix(60%);
+                            font-family: $fonte-body;
+                            font-size: 1rem;
+
+                        }
+
+                    }
+
+                }                
+
+                
 
             }
 

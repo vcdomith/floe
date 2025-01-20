@@ -199,25 +199,33 @@ export default function PedidosListaSection({ pedidos: pedidosInitial, pedidosLe
                         layout='position'
                         layoutScroll
                     >
-                        {svgsUtil.unitarioNota}
-                        <p>Nenhum <Highlight>pedido</Highlight> corresponde à pesquisa</p>
+                        <span className={style.info}>
+                            {svgsUtil.unitarioNota}
+                            <p>Nenhum <Highlight>pedido</Highlight> corresponde à pesquisa</p>
+                        </span>
                         
-                        <div>
+                        <div className={style.query}>
                             <p>Não encontrou o pedido?</p>
                             <button
                                 onClick={() => pesquisaDb(searchParam)}
-                            >Pesquisar db</button>
+                            >
+                                {svgsUtil.import}
+                                <p>Pesquisar db</p>
+                            </button>
                         </div>
 
                     </motion.div>
                     }
 
                     {(pedidosDisplay.length > 0 && searchParam)&&
-                        <div>
+                        <div className={style.query}>
                             <p>Não encontrou o pedido?</p>
                             <button
                                 onClick={() => pesquisaDb(searchParam)}
-                            >Pesquisar db</button>
+                            >
+                                {svgsUtil.import}
+                                <p>Pesquisar db</p>
+                            </button>
                         </div>
                     }
                     

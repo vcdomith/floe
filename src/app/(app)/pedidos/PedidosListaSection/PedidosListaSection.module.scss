@@ -56,120 +56,81 @@ $cor-destaque: darken(saturate(cor-mix(70%), 50%), 10%);
             width: 100%;
 
             .novo {
-    
+
                 display: flex;
                 flex: 1;
                 justify-content: center;
                 align-items: center;
                 gap: 0.2rem;
-    
+
                 font-family: $fonte-body;
-    
+
                 height: calc(30px - 4px);
                 padding: 0 0.5rem;
-    
+
                 outline: none;
                 border: 2px solid cor-mix(20%);
                 border-radius: 0.5rem;
-    
+
                 color: cor-mix(70%);
                 font-size: 1rem;
                 font-weight: bold;
                 text-decoration: none;
-    
+
                 background-color: cor-mix(5%);
-                
+
                 transition: background-color 400ms ease;
-    
+
                 cursor: pointer;
-    
+
                 &:hover {
-    
+
                     background-color: cor-mix(10%);
-    
+
                 }
-    
+
                 &:disabled {
-    
+
                     background-color: cor-mix(20%);
                     border-color: cor-mix(30%);
                     color: cor-mix(0%);
-    
+
                     cursor: default;
-    
+
                 }
-    
+
                 svg {
-    
+
                     width: 20px;
                     height: 20px;
-    
+
                     path, line, circle {
-    
+
                         stroke: cor-mix(70%);
                         stroke-width: 50;
-    
+
                     }
 
                     rect {
                         fill: $cor-secundaria;
                     }
-    
+
                 }
-    
+
             }
         }
 
 
         .filters {
 
+            position: relative;
+
             display: flex;
-            flex-direction: row-reverse;
             gap: 1rem;
             border: 2px solid cor-mix(30%);
             border-radius: 0.5rem;
-            overflow: hidden;
-
-            > button {
-
-                display: flex;
-                align-items: center;
-                gap: 0.25rem;
-                padding: 0.25rem 0.5rem;
-                height: 30px;
-
-                outline: none;
-                // border: 2px solid cor-mix(20%);
-                border: none;
-                border-left: 2px solid cor-mix(30%);
-                // border-radius: 0.5rem;
-                background-color: cor-mix(0%);
-
-                cursor: pointer;
-
-                transition: background-color 400ms ease;
-
-                &:hover {
-
-                    background-color: cor-mix(5%);
-
-                }
-
-                svg {
-                 
-                    path, line, ellipse {
-                        stroke: cor-mix(60%);
-                    }
-
-                }
-
-                p {
-                    color: cor-mix(60%);
-                    font-size: 1rem;
-                    font-family: $fonte-body;
-                }
-
-            }   
+            box-sizing: border-box;
+            // overflow: hidden;
 
             .search {
 
@@ -183,40 +144,273 @@ $cor-destaque: darken(saturate(cor-mix(70%), 50%), 10%);
                 // border-color: cor-mix(30%);
                 border: none;
                 border-radius: 0.5rem;
-    
+
                 &:focus-within {
                     box-shadow: none !important;
                 }
 
                 svg {
-    
+
                     fill: cor-mix(60%);
-    
+
                 }
-    
+
                 & > div {
-    
-                    width: 100%;    
+
+                    width: 100%;
 
                     input {
-    
+
                         width: 100%;
                         flex: 1;
                         padding-left: 0.25rem;
-        
+
                         font-size: 1rem;
                         color: cor-mix(80%);
 
                         &::placeholder {
-                            
+
                             font-size: 1rem;
-        
+
                         }
-        
+
                     }
-    
+
                 }
-    
+
+            }
+
+            .filter {
+
+                display: flex;
+                align-items: center;
+                gap: 0.25rem;
+                padding: 0.25rem 0.5rem;
+                height: 30px;
+
+                outline: none;
+                // border: 2px solid cor-mix(20%);
+                border: none;
+                border-left: 2px solid cor-mix(30%);
+                border-top-right-radius: 0.5rem;
+                border-bottom-right-radius: 0.5rem;
+                background-color: cor-mix(0%);
+
+                cursor: pointer;
+
+                transition: background-color 400ms ease;
+
+                &:hover, &[data-active='true'] {
+
+                    background-color: cor-mix(5%);
+
+                }
+
+                svg {
+
+                    path, line, ellipse {
+                        stroke: cor-mix(60%);
+                    }
+
+                }
+
+                p {
+                    color: cor-mix(60%);
+                    font-size: 1rem;
+                    font-family: $fonte-body;
+                }
+
+            }
+
+            .modal {
+
+                position: absolute;
+                top: calc( 30px + 1rem );
+                left: -2px;
+
+                width: 100%;
+
+                display: flex;
+                flex-direction: column;
+
+                // box-sizing: border-box;
+
+                background-color: cor-mix(0%);
+                border: 2px solid cor-mix(20%);
+                border-radius: 0.5rem;
+
+                // padding: 0.5rem;
+
+                overflow: hidden;
+
+                box-shadow: 2px 2px 12px 2px $cor-primaria-transparent;
+
+                .header {
+
+                    display: flex;
+                    align-items: center;
+                    flex-direction: row;
+                    justify-content: space-between;
+
+                    background-color: cor-mix(5%);
+                    border-bottom: 2px solid cor-mix(10%);
+
+                    padding: 0.5rem 1rem;
+
+                    h3 {
+
+                        display: flex;
+                        align-items: center;
+
+                        margin: 0;
+                        font-size: 1rem;
+                        font-weight: 600;
+
+                        color: cor-mix(60%);
+                        
+                    }
+
+                    button {
+
+                        outline: none;
+                        border: none;
+                        background: none;
+                        padding: 0;
+
+                        width: 25px;
+                        height: 25px;
+
+                        cursor: pointer;
+
+                    }
+
+                    svg {
+
+                        width: 25px;
+                        height: 25px;
+
+                        path {
+
+                            stroke: cor-mix(80%);
+
+                        }
+
+                    }
+                }
+
+                .filtros {
+
+                    display: flex;
+                    flex-direction: column;
+                    gap: 0.5rem;
+
+                    padding: 1rem 0;
+
+                    box-sizing: border-box;
+                    background-color: cor-mix(0%);
+
+                    width: 100%;
+
+                    overflow: hidden;
+
+                    .calendar {
+
+                        background-color: cor-mix(0%);
+
+                    }
+
+                    > span {
+                        
+                        display: flex;
+                        flex-direction: column;
+                        gap: 0.25rem;
+                        box-sizing: border-box;
+
+                        padding: 0 1rem;
+
+                        &:not(:last-child) {
+                            border-bottom: 2px solid cor-mix(20%);
+                            padding-bottom: 1rem;
+                        }
+
+                        p {
+                            
+                            color: cor-mix(60%);
+
+                        }
+
+                        input {
+
+                            width: 100%;
+                            box-sizing: border-box;
+
+                        }
+
+                    }
+
+                }
+
+                .footer {
+
+                    display: flex;
+                    justify-content: space-between;
+                    padding: 1rem;
+
+                    border-top: 2px solid cor-mix(10%);
+
+                    button {
+
+                        border: 2px solid;
+                        border-radius: 0.5rem;
+                        background-color: cor-mix(5%);
+                        height: 26px;
+                        padding: 0 1rem;
+
+                        font-family: $fonte-body;
+                        font-size: 1rem;
+
+                        cursor: pointer;
+
+                        transition: border-color 400ms ease,
+                                    background-color 400ms ease;
+
+                    }
+
+                    .clear {
+
+                        border-color: cor-mix(10%);
+                        color: cor-mix(50%);
+
+                        &:hover {
+
+                            background-color: cor-mix(7%);
+                            border-color: cor-mix(15%);
+
+                        }
+
+                    }
+
+                    .confirm {
+
+                        border-color: cor-mix(80%);
+                        background-color: cor-mix(70%);
+                        color: cor-mix(0%);
+
+                        &:hover {
+
+                            border-color: cor-mix(90%);
+                            background-color: cor-mix(80%);
+
+                        }
+
+                    }
+
+                }
+
+                p {
+                    margin: 0;
+                }
+
             }
 
         }
@@ -230,10 +424,10 @@ $cor-destaque: darken(saturate(cor-mix(70%), 50%), 10%);
         box-sizing: border-box;
         padding: 1rem;
         background-color: cor-mix(3%);
-        
+
         border-top: 1px solid cor-mix(20%);
         // border-image: linear-gradient(to right , $cor-secundaria, cor-mix(40%)) 27;
-        
+
         overflow-y: scroll;
 
         @include thin-scrollbar-global;
@@ -253,23 +447,23 @@ $cor-destaque: darken(saturate(cor-mix(70%), 50%), 10%);
             gap: 0.5rem;
 
             .pedido {
-    
+
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
-    
+
                 gap: 0.5rem;
                 padding: 0 0.5rem;
                 padding-left: 0;
 
                 min-height: calc(50px - 0.2rem);
-    
+
                 border: 2px solid cor-mix(20%);
                 background-color: cor-mix(0%);
                 border-radius: 0.5rem;
                 text-decoration: none;
                 overflow: hidden;
-    
+
                 transition: background-color 400ms ease,
                             border-color 400ms ease,
                             outline 400ms ease;
@@ -285,7 +479,7 @@ $cor-destaque: darken(saturate(cor-mix(70%), 50%), 10%);
 
                     background-color: cor-mix(0%);
                     // background: linear-gradient(
-                    //     to right, 
+                    //     to right,
                     //     mix(mix($cor-destaque, $cor-primaria, 80%), $cor-secundaria, 10%),
                     //     cor-mix(20%) 50%,
                     //     mix(mix($cor-destaque, $cor-primaria, 80%), $cor-secundaria, 10%),
@@ -295,18 +489,18 @@ $cor-destaque: darken(saturate(cor-mix(70%), 50%), 10%);
                     border-color: mix($cor-destaque, $cor-secundaria, 60%);
                     outline: 1px solid mix($cor-destaque, $cor-secundaria, 60%);
                     // border-color: mix(mix($cor-destaque, $cor-primaria, 80%), $cor-secundaria, 80%);
-                 
+
                     svg {
 
                         border-color: mix($cor-destaque, $cor-secundaria, 60%);
 
                         path {
                             stroke: cor-mix(80%);
-    
+
                             // stroke: mix($cor-destaque, $cor-secundaria, 60%);
                             // stroke: mix(mix($cor-destaque, $cor-primaria, 80%), $cor-secundaria, 80%);
                         }
-                    } 
+                    }
 
                     p {
                         color: cor-mix(80%);
@@ -317,24 +511,24 @@ $cor-destaque: darken(saturate(cor-mix(70%), 50%), 10%);
                 }
 
                 svg {
-    
+
                     width: 25px;
                     height: 25px;
-            
+
                     path, circle, line, ellipse {
                         stroke: cor-mix(60%);
                     }
-            
+
                 }
 
                 p {
-    
+
                     margin: 0;
                     text-decoration: none;
 
                     font-weight: 600;
                     color: cor-mix(80%);
-    
+
                     transition: color 400ms ease;
 
                 }
@@ -364,10 +558,10 @@ $cor-destaque: darken(saturate(cor-mix(70%), 50%), 10%);
                         align-items: center;
                         font-size: 1.1rem;
                         height: 100%;
-    
+
                         padding-right: 0.5rem;
                         border-right: 2px solid cor-mix(10%);
-    
+
                         .zero {
                             color: cor-mix(40%);
                         }
@@ -389,7 +583,7 @@ $cor-destaque: darken(saturate(cor-mix(70%), 50%), 10%);
 
                 .fornecedor {
 
-                    
+
 
                 }
 
@@ -418,7 +612,7 @@ $cor-destaque: darken(saturate(cor-mix(70%), 50%), 10%);
                     }
 
                 }
-    
+
             }
 
             .noMatch {
@@ -452,11 +646,11 @@ $cor-destaque: darken(saturate(cor-mix(70%), 50%), 10%);
                         min-width: 35px;
                         max-width: 35px;
                         height: 35px;
-    
+
                         path, circle, line, ellipse {
                             stroke: cor-mix(80%);
                         }
-    
+
                     }
 
                 }
@@ -498,7 +692,7 @@ $cor-destaque: darken(saturate(cor-mix(70%), 50%), 10%);
                         background-color: cor-mix(10%);
 
                         svg {
-                            
+
                             path, line, ellipse {
                                 stroke: cor-mix(60%);
                             }
@@ -515,9 +709,9 @@ $cor-destaque: darken(saturate(cor-mix(70%), 50%), 10%);
 
                     }
 
-                }                
+                }
 
-                
+
 
             }
 
@@ -527,57 +721,57 @@ $cor-destaque: darken(saturate(cor-mix(70%), 50%), 10%);
                 justify-content: center;
                 align-items: center;
                 gap: 0.1rem;
-    
+
                 font-family: $fonte-body;
-    
+
                 height: 30px;
                 padding: 0 0.5rem;
-    
+
                 outline: none;
                 border: 2px solid cor-mix(20%);
                 border-radius: 0.5rem;
-    
+
                 color: cor-mix(70%);
                 font-size: 1rem;
                 font-weight: bold;
                 text-decoration: none;
-    
+
                 background-color: cor-mix(5%);
-                
+
                 transition: background-color 400ms ease;
-    
+
                 cursor: pointer;
-    
+
                 &:hover {
-    
+
                     background-color: cor-mix(10%);
-    
+
                 }
-    
+
                 &:disabled {
-                    
+
                     background-color: cor-mix(20%);
                     border-color: cor-mix(30%);
                     color: cor-mix(70%);
-    
+
                     cursor: default;
-    
+
                 }
-    
+
                 svg {
-    
+
                     width: 20px;
                     height: 20px;
-    
+
                     path {
-    
+
                         stroke: cor-mix(70%);
                         stroke-width: 50;
-    
+
                     }
-    
+
                 }
-    
+
             }
 
         }
@@ -590,6 +784,42 @@ $cor-destaque: darken(saturate(cor-mix(70%), 50%), 10%);
                 border-bottom: 2px solid;
                 border-image: linear-gradient(to left , $cor-secundaria, cor-mix(40%)) 27;
                 padding-bottom: 0.5rem;
+
+            }
+
+        }
+
+    }
+
+}
+
+.datePicker {
+
+    display: flex;
+    flex-direction: column;
+
+    .inputWrapper {
+
+        display: flex;
+        flex-direction: row;
+        gap: 1rem;
+
+        border: 2px solid cor-mix(40%);
+        border-radius: 0.5rem;
+        width: fit-content;
+
+        padding: 0.25rem 0.5rem;
+
+        .dateInput {
+
+            display: flex;
+            gap: 0.5rem;
+
+            .segment {
+
+                display: flex;
+                align-items: center;
+                font-size: 1rem;
 
             }
 
@@ -629,16 +859,16 @@ $cor-destaque: darken(saturate(cor-mix(70%), 50%), 10%);
     //     display: none;
     // }
 
-} 
+}
 
 @media (width <= 440px) {
 
     .pedidos {
 
         .content {
-    
+
             padding: 0;
-    
+
         }
     }
 

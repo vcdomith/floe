@@ -19,6 +19,7 @@
     "next": "^14.2.4",
     "node-mde": "^0.14.9",
     "react": "^18",
+    "react-aria-components": "^1.6.0",
     "react-data-grid": "^7.0.0-beta.44",
     "react-dom": "^18",
     "xml2js": "^0.6.2"

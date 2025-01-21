@@ -2,8 +2,8 @@
 import { ICadastro } from '@/interfaces/ICadastro'
 import style from './PedidosListaSection.module.scss'
 import Search from '@/components/Search/Search'
-import { LayoutGroup, motion } from 'framer-motion'
-import { forwardRef, Suspense, useCallback, useMemo, useState } from 'react'
+import { AnimatePresence, LayoutGroup, motion } from 'framer-motion'
+import { forwardRef, Suspense, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import Link from 'next/link'
 import { svgsUtil } from '@/components/SvgArray/SvgUtil'
 import capitalizeInner from '@/utils/capitalize'
@@ -12,6 +12,9 @@ import { useBackgroundSync } from '../../(contexts)/BackgroundSyncContext'
 import Highlight from '@/components/Highlight/Highlight'
 import LogoSvg from '@/components/SvgArray/LogoSvg'
 import { debounce } from 'lodash'
+import { FocusTrap } from 'focus-trap-react'
+import Config from '../../configurar/(Config)/Config'
+import {Button, Calendar, CalendarCell, CalendarGrid, DateInput, DatePicker, DatePickerProps, DateSegment, DateValue, Dialog, FieldError, Group, Heading, Label, Popover, Text, ValidationResult} from 'react-aria-components';
 
 interface PedidosListaSectionProps {
     pedidos: ICadastro[]
@@ -24,6 +27,8 @@ export default function PedidosListaSection({ pedidos: pedidosInitial, pedidosLe
 
     const [pedidos, setPedidos] = useState(pedidosInitial)
     const [pedidosQuery, setPedidosQuery] = useState<ICadastro[]>([])
+
+    const [modalDisplay, setModalDisplay] = useState(false)
 
     const [loadingMore, setLoadingMore] = useState(false)
     const [loadingQuery, setLoadingQuery] = useState(false)
@@ -39,6 +44,8 @@ export default function PedidosListaSection({ pedidos: pedidosInitial, pedidosLe
 
     }
     , [pedidos, searchParam, pedidosQuery])
+
+    console.log(modalDisplay);
 
     // const handleSearch = useCallback(
     //     debounce((searchParam: string) => {
@@ -123,6 +130,8 @@ export default function PedidosListaSection({ pedidos: pedidosInitial, pedidosLe
 
     }
 
+    const [date, setDate] = useState<Date | null>(new Date())
+
     return (
 
         <section className={style.pedidos}>
@@ -160,10 +169,6 @@ export default function PedidosListaSection({ pedidos: pedidosInitial, pedidosLe
                 }
 
                 <span className={style.filters}>
-                    <button>
-                        {svgsUtil.import}
-                        <p>Filtrar</p>
-                    </button>
                     <Search 
                         className={style.search} 
                         searchParam={searchParam} 
@@ -171,6 +176,27 @@ export default function PedidosListaSection({ pedidos: pedidosInitial, pedidosLe
                         placeholder='Buscar lista'
                         textInput
                     />
+                    <button 
+                        className={style.filter}
+                        onClick={() => setModalDisplay( prev => !prev )}
+                        data-active={modalDisplay}
+                    >
+                        {svgsUtil.import}
+                        <p>Filtrar</p>
+                    </button>
+                    {/* <DatePicker 
+                        selected={date}
+                        onChange={(date) => setDate(date)}
+                        calendarClassName='date'
+                    /> */}
+                    <AnimatePresence>
+                    {modalDisplay&&
+                    <FiltroModal
+                        modalDisplay={modalDisplay}
+                        setModalDisplay={setModalDisplay}                    
+                    />
+                    }
+                    </AnimatePresence>
                 </span>
 
 
@@ -323,3 +349,146 @@ const PedidoLink = forwardRef<HTMLDivElement, PedidoLinkProps>(function Forneced
     )
 
 }) 
+interface FiltroModalProps {
+
+    modalDisplay: boolean
+    setModalDisplay: (open: boolean) => void
+
+}
+
+const FiltroModal = ({modalDisplay, setModalDisplay} : FiltroModalProps) => {
+
+    const modalRef = useRef<HTMLDivElement>(null)
+    const datePickerRef1 = useRef(null)
+    const datePickerRef2 = useRef(null)
+
+    const [fornecedor, setFornecedor] = useState('')
+    const [startDate, setStartDate] = useState<Date | null>(null)
+    const [endDate, setEndDate] = useState<Date | null>(new Date())
+
+    useEffect(() => {
+
+        function handleClickOutside(e: MouseEvent) {
+            if( modalRef.current && 
+                !modalRef.current?.contains(e.target as Node) &&
+                document.contains(e.target as Node)
+            ) {
+                setModalDisplay(false)
+            }
+        }
+
+        document.addEventListener('click', handleClickOutside)
+
+        return () => {
+            
+            document.removeEventListener('click', handleClickOutside)
+
+        }
+
+    }, [])
+
+    return (
+        <motion.div 
+            className={style.modal}
+            ref={modalRef}
+
+            initial={{ y: -10, opacity: 0, height: 0 }}
+            animate={{ y: 0, opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+        >
+            <header className={style.header}>
+                <h3>Filtrar</h3>
+                <button onClick={() => setModalDisplay(false)}>
+                    {svgsUtil.delete}
+                </button>
+            </header>
+            <div className={style.filtros}>
+                {/* <Config 
+                    svg={svgsUtil.fornecedor} 
+                    title={'Fornecedor'} 
+                    description={'Filtrar por nome de fornecedor'} 
+                    input={
+                        <input type="text" />
+                    } 
+                />
+                <Config 
+                    svg={svgsUtil.data} 
+                    title={'Data'} 
+                    description={'Filtrar por período de cadastro'} 
+                    input={
+                        <input type="text" />
+                    } 
+                /> */}
+                <span>
+                    <p>fornecedor</p>
+                    <input 
+                        type="text" 
+                        value={fornecedor}
+                        onChange={(e) => setFornecedor(e.target.value)}
+                    />
+                </span>
+                <span>
+                    <p>data</p>
+                    <span>
+                        {/* <input type="date" /> */}
+                        <DatePick />
+                        <p>a</p>
+                       
+                        {/* <input 
+                            value={date}
+                            onChange={(e) => console.log(e.target.value, typeof e.target.value)}
+                            type="date" 
+                        /> */}
+                    </span>
+                </span>                    
+            </div>
+            <footer className={style.footer}>
+                <button className={style.clear}>Limpar</button>
+                <button className={style.confirm}>Aplicar</button>
+            </footer>
+        </motion.div>
+    )
+
+}
+
+//https://react-spectrum.adobe.com/react-aria/DatePicker.html
+
+interface DatePickProps<T extends DateValue> extends DatePickerProps<T> {
+    label?: string;
+    description?: string;
+    errorMessage?: string | ((validation: ValidationResult) => string);
+}
+
+function DatePick<T extends DateValue>(
+    {label, description, errorMessage, firstDayOfWeek}: DatePickProps<T>
+) {
+
+    return (
+        <DatePicker className={style.datePicker}>
+        <Label>{label}</Label>
+        <Group className={style.inputWrapper}>
+            <DateInput className={style.dateInput}>
+            {(segment) => <DateSegment segment={segment} className={style.segment}/>}
+            </DateInput>
+            <Button>▼</Button>
+        </Group>
+        {description && <Text slot="description">{description}</Text>}
+        <FieldError>{errorMessage}</FieldError>
+        <Popover>
+            <Dialog>
+            <Calendar>
+                <header>
+                <Button slot="previous">◀</Button>
+                <Heading />
+                <Button slot="next">▶</Button>
+                </header>
+                <CalendarGrid>
+                {(date) => <CalendarCell date={date} />}
+                </CalendarGrid>
+            </Calendar>
+            </Dialog>
+        </Popover>
+        </DatePicker>
+    )
+
+}

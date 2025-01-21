@@ -63,7 +63,7 @@ const Search = ({ className, searchParam, setSearchParam, textInput, pattern, pl
                 value={searchParam}
                 onChange={(e) => setSearchParam(e.target.value.toUpperCase())}
                 onKeyDown={(e) => {if(e.key === 'Escape') setSearchParam('')}}
-                placeholder='Buscar'
+                placeholder={placeholder}
              />
         </div>
         }

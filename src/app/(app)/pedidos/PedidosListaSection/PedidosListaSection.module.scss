@@ -121,45 +121,102 @@ $cor-destaque: darken(saturate(cor-mix(70%), 50%), 10%);
         }
 
 
-        .search {
+        .filters {
 
-            // max-height: 33.2px;
             display: flex;
-            justify-self: flex-start;
-            width: 100%;
-            box-sizing: border-box;
-            height: 30px;
-            padding: 0.25rem;
-            border-color: cor-mix(30%);
+            flex-direction: row-reverse;
+            gap: 1rem;
+            border: 2px solid cor-mix(30%);
             border-radius: 0.5rem;
+            overflow: hidden;
 
-            svg {
+            > button {
 
-                fill: cor-mix(60%);
+                display: flex;
+                align-items: center;
+                gap: 0.25rem;
+                padding: 0.25rem 0.5rem;
+                height: 30px;
 
-            }
+                outline: none;
+                // border: 2px solid cor-mix(20%);
+                border: none;
+                border-left: 2px solid cor-mix(30%);
+                // border-radius: 0.5rem;
+                background-color: cor-mix(0%);
 
-            & > div {
+                cursor: pointer;
 
-                width: 100%;
+                transition: background-color 400ms ease;
 
-                input {
+                &:hover {
 
-                    width: 100%;
-                    flex: 1;
-                    padding-left: 0.25rem;
-    
+                    background-color: cor-mix(5%);
+
+                }
+
+                svg {
+                 
+                    path, line, ellipse {
+                        stroke: cor-mix(60%);
+                    }
+
+                }
+
+                p {
+                    color: cor-mix(60%);
                     font-size: 1rem;
-                    color: cor-mix(80%);
-                    
-                    &::placeholder {
-                        
-                        font-size: 1rem;
+                    font-family: $fonte-body;
+                }
+
+            }   
+
+            .search {
+
+                // max-height: 33.2px;
+                display: flex;
+                justify-self: flex-start;
+                width: 100%;
+                box-sizing: border-box;
+                height: 30px;
+                padding: 0.25rem;
+                // border-color: cor-mix(30%);
+                border: none;
+                border-radius: 0.5rem;
     
+                &:focus-within {
+                    box-shadow: none !important;
+                }
+
+                svg {
+    
+                    fill: cor-mix(60%);
+    
+                }
+    
+                & > div {
+    
+                    width: 100%;    
+
+                    input {
+    
+                        width: 100%;
+                        flex: 1;
+                        padding-left: 0.25rem;
+        
+                        font-size: 1rem;
+                        color: cor-mix(80%);
+
+                        &::placeholder {
+                            
+                            font-size: 1rem;
+        
+                        }
+        
                     }
     
                 }
-
+    
             }
 
         }
@@ -184,30 +241,6 @@ $cor-destaque: darken(saturate(cor-mix(70%), 50%), 10%);
         &::-webkit-scrollbar-track {
             background-color: cor-mix(3%);
         }
-
-        // /* width */
-        // &::-webkit-scrollbar {
-        //     width: 0.15rem;
-        // }
-        
-        // /* Track */
-        // &::-webkit-scrollbar-track {
-        //     background: cor-mix(3%);
-        // }
-        
-        // /* Handle */
-        // &::-webkit-scrollbar-thumb {
-        //     background: linear-gradient(0deg, $cor-secundaria, cor-mix(50%) 50%, $cor-secundaria);
-        // }
-
-        // /* Handle on hover */
-        // &::-webkit-scrollbar-thumb:hover {
-        //     background: linear-gradient(0deg, $cor-secundaria, cor-mix(80%) 50%, $cor-secundaria);
-        //     cursor: pointer;
-        // // background: linear-gradient(90deg, #521843, #421236);
-        // }
-
-        // padding: 1rem;
 
         & > :first-child h3 {
             margin-top: 0;

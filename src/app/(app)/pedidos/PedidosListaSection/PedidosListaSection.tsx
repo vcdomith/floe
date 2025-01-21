@@ -159,12 +159,20 @@ export default function PedidosListaSection({ pedidos: pedidosInitial, pedidosLe
                     <input type="text" placeholder='buscar' /> */
                 }
 
-                <Search 
-                    className={style.search} 
-                    searchParam={searchParam} 
-                    setSearchParam={handleSearch} 
-                    textInput
-                />
+                <span className={style.filters}>
+                    <button>
+                        {svgsUtil.import}
+                        <p>Filtrar</p>
+                    </button>
+                    <Search 
+                        className={style.search} 
+                        searchParam={searchParam} 
+                        setSearchParam={handleSearch} 
+                        placeholder='Buscar lista'
+                        textInput
+                    />
+                </span>
+
 
             </header>
 

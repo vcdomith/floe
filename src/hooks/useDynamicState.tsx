@@ -9,7 +9,7 @@ export default function useDynamicState<T, K>({
 }) {
 
     const stateArr = useState(initialState)
-    const [state, setState] = stateArr
+    const [_, setState] = stateArr
     const [prev, setPrev] = useState(dependency)
     if (dependency !== prev) {
         setPrev(dependency)

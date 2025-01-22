@@ -3,7 +3,7 @@ import { ICadastro } from '@/interfaces/ICadastro'
 import style from './PedidosListaSection.module.scss'
 import Search from '@/components/Search/Search'
 import { AnimatePresence, LayoutGroup, motion } from 'framer-motion'
-import { forwardRef, Suspense, useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { forwardRef, MutableRefObject, Suspense, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import Link from 'next/link'
 import { svgsUtil } from '@/components/SvgArray/SvgUtil'
 import capitalizeInner from '@/utils/capitalize'
@@ -14,7 +14,7 @@ import LogoSvg from '@/components/SvgArray/LogoSvg'
 import { debounce } from 'lodash'
 import { FocusTrap } from 'focus-trap-react'
 import Config from '../../configurar/(Config)/Config'
-import {Button, Calendar, CalendarCell, CalendarGrid, DateInput, DatePicker, DatePickerProps, DateSegment, DateValue, Dialog, FieldError, Group, Heading, Label, Popover, Text, ValidationResult} from 'react-aria-components';
+import {Button, Calendar, CalendarCell, CalendarGrid, DateInput, DatePicker, DatePickerProps, DateRangePicker, DateRangePickerProps, DateSegment, DateValue, Dialog, FieldError, Group, Heading, Label, Popover, PopoverProps, RangeCalendar, Text, ValidationResult} from 'react-aria-components';
 
 interface PedidosListaSectionProps {
     pedidos: ICadastro[]
@@ -371,8 +371,11 @@ const FiltroModal = ({modalDisplay, setModalDisplay} : FiltroModalProps) => {
         function handleClickOutside(e: MouseEvent) {
             if( modalRef.current && 
                 !modalRef.current?.contains(e.target as Node) &&
-                document.contains(e.target as Node)
+                document.contains(e.target as Node) &&
+                !popoverRef.current?.contains(e.target as Node)
             ) {
+                console.log(popoverRef.current);
+                console.log(popoverRef.current?.contains(e.target as Node));
                 setModalDisplay(false)
             }
         }
@@ -386,6 +389,8 @@ const FiltroModal = ({modalDisplay, setModalDisplay} : FiltroModalProps) => {
         }
 
     }, [])
+
+    const popoverRef = useRef<HTMLSpanElement>(null)
 
     return (
         <motion.div 
@@ -428,11 +433,12 @@ const FiltroModal = ({modalDisplay, setModalDisplay} : FiltroModalProps) => {
                     />
                 </span>
                 <span>
-                    <p>data</p>
+                    <p>Perído cadastro</p>
                     <span>
                         {/* <input type="date" /> */}
-                        <DatePick />
-                        <p>a</p>
+                        <DatePickRange label='de:' popoverRef={popoverRef}/>
+                        {/* <DatePick label='até:' popoverRef={popoverRef}/> */}
+                        {/* <p>a</p> */}
                        
                         {/* <input 
                             value={date}
@@ -453,42 +459,78 @@ const FiltroModal = ({modalDisplay, setModalDisplay} : FiltroModalProps) => {
 
 //https://react-spectrum.adobe.com/react-aria/DatePicker.html
 
-interface DatePickProps<T extends DateValue> extends DatePickerProps<T> {
+interface DatePickProps<T extends DateValue> extends DateRangePickerProps<T> {
     label?: string;
     description?: string;
     errorMessage?: string | ((validation: ValidationResult) => string);
+    popoverRef?: MutableRefObject<HTMLSpanElement | null>
 }
 
-function DatePick<T extends DateValue>(
-    {label, description, errorMessage, firstDayOfWeek}: DatePickProps<T>
+function DatePickRange<T extends DateValue>(
+    {label, description, errorMessage, firstDayOfWeek, popoverRef, ...props }: DatePickProps<T>
 ) {
 
     return (
-        <DatePicker className={style.datePicker}>
+        // <DatePicker className={style.datePicker}>
+        //     <Label>{label}</Label>
+        //     <Group className={style.inputWrapper}>
+        //         <DateInput className={style.dateInput}>
+        //         {(segment) => <DateSegment segment={segment} className={style.segment}/>}
+        //         </DateInput>
+        //         <Button className={style.expand}>{() => svgsUtil.expand(false)}</Button>
+        //     </Group>
+        //     {description && <Text slot="description">{description}</Text>}
+        //     <FieldError>{errorMessage}</FieldError>
+        //     <Popover 
+        //         className={style.popover}
+        //         ref={popoverRef}
+        //     >
+        //         <Dialog className={style.dialog}>
+        //         <Calendar className={style.calendar}>
+        //             <header className={style.header}>
+        //             <Heading className={style.month} />
+        //             <Button slot="previous">◀</Button>
+        //             <Button slot="next">▶</Button>
+        //             </header>
+        //             <CalendarGrid className={style.grid}>
+        //             {(date) => <CalendarCell date={date} className={style.date}/>}
+        //             </CalendarGrid>
+        //         </Calendar>
+        //         </Dialog>
+        //     </Popover>
+        // </DatePicker>
+        <DateRangePicker className={style.datePicker} {...props}>
         <Label>{label}</Label>
         <Group className={style.inputWrapper}>
-            <DateInput className={style.dateInput}>
-            {(segment) => <DateSegment segment={segment} className={style.segment}/>}
+            <DateInput slot="start" className={style.dateInput}>
+            {(segment) => <DateSegment segment={segment} className={style.segment} />}
             </DateInput>
-            <Button>▼</Button>
+            <span aria-hidden="true">-</span>
+            <DateInput slot="end" className={style.dateInput}>
+            {(segment) => <DateSegment segment={segment} className={style.segment} />}
+            </DateInput>
+            <Button className={style.expand}>{() => svgsUtil.expand(false)}</Button>
         </Group>
         {description && <Text slot="description">{description}</Text>}
         <FieldError>{errorMessage}</FieldError>
-        <Popover>
-            <Dialog>
-            <Calendar>
-                <header>
+        <Popover
+            className={style.popover}
+            ref={popoverRef}
+        >
+            <Dialog className={style.dialog}>
+            <RangeCalendar className={style.calendar} >
+                <header className={style.header}>
                 <Button slot="previous">◀</Button>
                 <Heading />
                 <Button slot="next">▶</Button>
                 </header>
-                <CalendarGrid>
+                <CalendarGrid className={style.grid}>
                 {(date) => <CalendarCell date={date} />}
                 </CalendarGrid>
-            </Calendar>
+            </RangeCalendar>
             </Dialog>
         </Popover>
-        </DatePicker>
+        </DateRangePicker>
     )
 
 }

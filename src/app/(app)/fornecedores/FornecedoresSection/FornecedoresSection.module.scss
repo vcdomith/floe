@@ -1,7 +1,5 @@
 @use '../../../globalStyle.module.scss' as *;
 
-$cor-destaque: darken(saturate(cor-mix(70%), 50%), 10%);
-
 .fornecedores {
 
     display: flex;
@@ -282,29 +280,16 @@ $cor-destaque: darken(saturate(cor-mix(70%), 50%), 10%);
 
                     // background-color: cor-mix(7.5%);
                     background-color: cor-mix(0%);
-                    // background: linear-gradient(
-                    //     to right, 
-                    //     mix(mix($cor-destaque, $cor-primaria, 80%), $cor-secundaria, 10%),
-                    //     cor-mix(20%) 50%,
-                    //     mix(mix($cor-destaque, $cor-primaria, 80%), $cor-secundaria, 10%),
-                    // );
-                    // background-color: mix(mix($cor-destaque, $cor-primaria, 80%), $cor-secundaria, 10%);
-                    outline: 1px solid mix($cor-destaque, $cor-secundaria, 60%);
-                    border-color: mix($cor-destaque, $cor-secundaria, 60%);
-                    // border-color: cor-mix(27.5%);
-                    // border-color: mix($cor-destaque, $cor-secundaria, 60%);
-                    // border-color: mix(mix($cor-destaque, $cor-primaria, 80%), $cor-secundaria, 80%);
+                    
+                    outline: 1px solid color.mix($cor-destaque, $cor-secundaria, 60%);
+                    border-color: color.mix($cor-destaque, $cor-secundaria, 60%);
                  
                     svg path {
                         stroke: cor-mix(80%);
-                        // stroke: mix($cor-destaque, $cor-secundaria, 60%);
-                        // stroke: mix(mix($cor-destaque, $cor-primaria, 80%), $cor-secundaria, 80%);
                     }
 
                     p {
                         color: cor-mix(80%);
-                        // color: mix($cor-destaque, $cor-secundaria, 60%);
-                        // color: mix(mix($cor-destaque, $cor-primaria, 80%), $cor-secundaria, 80%);
                     }
 
                 }
@@ -315,7 +300,6 @@ $cor-destaque: darken(saturate(cor-mix(70%), 50%), 10%);
                     gap: 0.1rem;
                     height: calc(50px - 4px);
                     background-color: cor-mix(2%);
-                    // background-color: mix($cor-destaque, $cor-secundaria, 5%);
                     align-items: center;
                     padding-left: 0.5rem;
 

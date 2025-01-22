@@ -1,12 +1,13 @@
 @use '../../../globalStyle.module.scss' as *;
+@use 'sass:color';
 
-@function calculate-color($value) {
-    $hue: $value * 1deg; // Convert class value to degrees for hue
-    $saturation: 100%;   // Full saturation
-    $lightness: 50%;     // Medium lightness, you can adjust this as needed
+// @function calculate-color($value) {
+//     $hue: $value * 1deg; // Convert class value to degrees for hue
+//     $saturation: 100%;   // Full saturation
+//     $lightness: 50%;     // Medium lightness, you can adjust this as needed
     
-    @return hsl($hue, $saturation, $lightness);
-  }
+//     @return hsl($hue, $saturation, $lightness);
+//   }
   
 
 // @for $i from 0 through 100 {
@@ -16,20 +17,19 @@
 //     $n: $t/100;
 
 //     .cor-#{$i}{
-//         stroke: transparentize(saturate(mix($cor-secundaria, $cor-primaria, $percent), $i), $n);
 //     }
 // }
 
 @for $i from 0 through 5 {
 
     $percentage: 20% + (10% * $i);
-    $mixed-color: mix($cor-primaria, $cor-secundaria, $percentage);
+    $mixed-color: color.mix($cor-primaria, $cor-secundaria, $percentage);
 
     $inverted: (5 - $i);
     $transparency: $inverted/10;
 
     .cor-#{$i}{
-        stroke: transparentize(darken(saturate($mixed-color, 15%), 5%), $transparency);
+        stroke: color.adjust($mixed-color, $alpha: -$transparency, $lightness: -5%, $saturation: 15%);
     }
 
 }
@@ -83,13 +83,13 @@
 
         path {
     
-            stroke: mix($cor-primaria, $cor-secundaria, 50%);
+            stroke: cor-mix(50%);
     
         }
     
         circle:last-of-type {
     
-            stroke: mix($cor-primaria, $cor-secundaria, 50%);
+            stroke: cor-mix(50%);
     
         }
     }
@@ -129,7 +129,6 @@
 
     // &:hover {
         
-    //     background-color: transparentize($cor-primaria, 0.98);
     //     border-top-color: transparent;
     //     // mask-image: url('../assets/tile2.svg');
         

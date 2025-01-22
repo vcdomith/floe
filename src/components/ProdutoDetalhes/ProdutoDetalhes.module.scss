@@ -1,4 +1,5 @@
 @use '../../app/globalStyle.module.scss' as *;
+@use 'sass:color';
 
 .card {
 
@@ -35,7 +36,7 @@
 
         box-sizing: border-box;
         border-radius: 0.25rem;
-        border: 2px solid darken(saturate(cor-mix(50%), 15%), 5%);
+        border: 2px solid color.adjust(cor-mix(50%), $lightness: -5%, $saturation: 15%);
         border: 2px solid cor-mix(20%);
         gap: 0.5rem;
 
@@ -82,16 +83,13 @@
                         z-index: -1;
                     }
                     &:nth-child(2) {
-                        fill: transparentize(darken(saturate(cor-mix(60%), 15%), 3%), 0);
-                        fill: transparentize(darken(saturate(cor-mix(60%), 1%), 3%), 0);
+                        fill: color.adjust(cor-mix(60%), $lightness: -3%, $saturation: 1%);
                     }
                     &:nth-child(3) {
-                        fill: transparentize(darken(saturate(cor-mix(40%), 15%), 3%), 0);
-                        fill: transparentize(darken(saturate(cor-mix(40%), 1%), 3%), 0);
+                        fill: color.adjust(cor-mix(40%), $lightness: -3%, $saturation: 1%);
                     }
                     &:nth-child(4) {
-                        fill: transparentize(darken(saturate(cor-mix(20%), 15%), 3%), 0);
-                        fill: transparentize(darken(saturate(cor-mix(20%), 1%), 3%), 0);
+                        fill: color.adjust(cor-mix(20%), $lightness: -3%, $saturation: 1%);
                     }
                     
                 }
@@ -319,13 +317,13 @@
 
                                 &:valid {
                 
-                                    border-color: darken(saturate(cor-mix(70%), 40%), 5%);
+                                    border-color: color.adjust(cor-mix(70%), $lightness: -5%, $saturation: 40% );
                 
                                 }
                 
                                 &[data-valid="true"] {
                 
-                                    border-color: darken(saturate(cor-mix(70%), 40%), 5%);
+                                    border-color: color.adjust(cor-mix(70%), $lightness: -5%, $saturation: 40% );
                 
                                 }
                 
@@ -595,7 +593,7 @@
     transition: width 400ms ease, border-color 400ms ease;
 
     &:valid {
-        border-color: darken(saturate(cor-mix(70%), 40%), 5%) !important; 
+        border-color: color.adjust(cor-mix(70%), $lightness: -5%, $saturation: 40% ) !important; 
     }
 
     // &:focus-within {

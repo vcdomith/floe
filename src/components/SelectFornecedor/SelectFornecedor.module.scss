@@ -1,4 +1,5 @@
 @use '../../app/globalStyle.module.scss' as *;
+@use 'sass:color';
 
 .wrapper {
 
@@ -106,7 +107,7 @@
             font-size: 1rem;
 
             &::placeholder {
-                color: transparentize($cor-primaria, 0.6);
+                color: color.adjust($cor-primaria, $alpha: -0.6);
             }
 
         }
@@ -127,10 +128,9 @@
         top: 0;
         left: 0;
         // background-color: #19121741;
-        // background-color: transparentize(darken($cor-primaria, 20%), 0.8);
         // bottom: 50%;
         // bottom: 100px;
-        background-color: transparentize($cor-primaria, 0.9);
+        background-color: color.adjust($cor-primaria, $alpha: -0.9);
         width: 100vmax;
         height: 100vmax;
 
@@ -141,7 +141,7 @@
 
         &:hover {
 
-            background-color: transparentize($cor-primaria, 0.98);
+            background-color: color.adjust($cor-primaria, $alpha: -0.98);
 
         }
 
@@ -175,11 +175,11 @@
             align-items: center;
 
             margin: 0 1rem;
-            border-bottom: 2px solid transparentize($cor-primaria, 0.5);
+            border-bottom: 2px solid color.adjust($cor-primaria, $alpha: -0.5);
 
             .lupa {
 
-                fill: transparentize($cor-primaria, 0.5);
+                fill: color.adjust($cor-primaria, $alpha: -0.5);
 
             }
 
@@ -200,7 +200,7 @@
 
                 &::placeholder {
 
-                    color: transparentize($cor-primaria, 0.5);
+                    color: color.adjust($cor-primaria, $alpha: -0.5);
 
                 }
             }
@@ -215,14 +215,14 @@
                 outline: none;
                 border: none;
                 // color: $cor-primaria;
-                color: transparentize($cor-primaria, 0.5);
+                color: color.adjust($cor-primaria, $alpha: -0.5);
 
                 cursor: pointer;
 
                 svg {
 
                     // fill: $cor-primaria;
-                    fill: transparentize($cor-primaria, 0.5);
+                    fill: color.adjust($cor-primaria, $alpha: -0.5);
 
                 }
 
@@ -266,7 +266,7 @@
         
             /* Handle on hover */
             &::-webkit-scrollbar-thumb:hover {
-            background: lighten($cor-primaria, 5%);
+            background: color.adjust($cor-primaria, $lightness: 5%);
             // background: linear-gradient(90deg, #521843, #421236);
             }
         

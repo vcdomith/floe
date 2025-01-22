@@ -1,4 +1,5 @@
 @use '../../globalStyle.module.scss' as *;
+@use 'sass:color';
 
 $steps: 11;
 
@@ -9,13 +10,12 @@ $step-size: 100% /($steps + 1);
     $percentage: $step-size * $i;
   
     // Mix the two colors based on the percentage
-    $mixed-color: mix($cor-secundaria, $cor-primaria, $percentage);
-    // $mixed-color: mix($cor-primaria, $cor-secundaria, $percentage);
+    $mixed-color: color.mix($cor-secundaria, $cor-primaria, $percentage);
   
     // Assigning rules to specific elements
     .background svg path:nth-child(#{$i}),
     .logoHole svg path:nth-child(#{$i}) {
-    fill: darken(saturate($mixed-color, 15%), 5%);
+    fill: color.adjust($mixed-color, $lightness: -5%, $saturation: 15%);
     // fill: $mixed-color;
 
   }
@@ -37,7 +37,7 @@ $step-size: 100% /($steps + 1);
     overflow: hidden;
     z-index: 9;
 
-    box-shadow: 2px 2px 12px 2px transparentize($cor-primaria, 0.3);
+    box-shadow: 2px 2px 12px 2px color.adjust($cor-primaria, $alpha: 0.3);
     backdrop-filter: blur(1px);
 
     svg {
@@ -78,7 +78,6 @@ $step-size: 100% /($steps + 1);
 
     // padding-left: 0.5rem;
 
-    // border-bottom: 2px solid transparentize($cor-secundaria, 0.9);
     
     transition: border 2s ease,
                 background-color 400ms ease,
@@ -91,7 +90,6 @@ $step-size: 100% /($steps + 1);
         // border-bottom: 2px solid $cor-secundaria;
 
         width: 10rem;
-        // background-color: transparentize($cor-primaria, 0.3);
         background-color: transparent;
         // backdrop-filter: blur(2px);
 
@@ -131,7 +129,7 @@ $step-size: 100% /($steps + 1);
         height: 4rem;
         margin: 0 0.3rem;
         // padding-left: 0.3rem;
-        border-bottom: 2px solid transparentize($cor-secundaria, 0.8);
+        border-bottom: 2px solid color.adjust($cor-secundaria, $alpha: 0.8);
         border-image: linear-gradient(to right , transparent, cor-mix(40%) 50%, transparent) 5;
 
         transition: border 1s ease;
@@ -211,19 +209,18 @@ $step-size: 100% /($steps + 1);
 
                 &:not(.active):hover {
 
-                    // background-color: transparentize($cor-secundaria, 0.95);
-                    background-color: transparentize($cor-secundaria, 0.8);
+                    background-color: color.adjust($cor-secundaria, $alpha: 0.8);
                     backdrop-filter: blur(2px);
                     // box-shadow: 2px 2px 10px 1px $cor-primaria;
 
                     > p {
-                        color: lighten($cor-secundaria, 0.1);
+                        color: color.adjust($cor-secundaria, $lightness: 0.1);
                         
                     }
 
                     > svg {
                         path, circle {
-                            stroke: lighten($cor-secundaria, 0.1);
+                            stroke: color.adjust($cor-secundaria, $lightness: 0.1);
                         }
                     }
                     // border-bottom: 4px solid $cor-secundaria;

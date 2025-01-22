@@ -1,4 +1,5 @@
 @use '../../../app/globalStyle.module.scss' as *;
+@use 'sass:color';
 
 .tbody {
 
@@ -117,7 +118,7 @@
             &:not(:last-of-type) {
 
                 // border-right: 2px solid #591c4a44;
-                border-right: 2px solid transparentize($cor-primaria, 0.8);
+                border-right: 2px solid color.adjust($cor-primaria, $alpha: -0.8);
 
             }
 
@@ -148,7 +149,7 @@
             svg {
     
                 // fill: #591c4a46;
-                fill: transparentize($cor-primaria, 0.8);
+                fill: color.adjust($cor-primaria, $alpha: -0.8);
                 border: 2px solid transparent;
     
                 border-radius: 0.25rem;
@@ -167,14 +168,14 @@
                     fill: $cor-primaria;
                     background-color: $cor-secundaria;
                     border: 2px solid $cor-primaria;
-                    box-shadow: 3px 3px 10px 2px transparentize($cor-primaria, 0.8);
+                    box-shadow: 3px 3px 10px 2px color.adjust($cor-primaria, $alpha: -0.8);
     
                 }
     
                 &:active {
     
                     background-color: $cor-mix;
-                    box-shadow: inset 2px 2px 5px 2px transparentize($cor-primaria, 0.8);
+                    box-shadow: inset 2px 2px 5px 2px color.adjust($cor-primaria, $alpha: -0.8);
                 }
     
             }
@@ -197,7 +198,7 @@
             top: 0;
             left: 0;
             // background-color: #19121741;
-            background-color: transparentize(darken($cor-primaria, 20%), 0.8);
+            background-color: color.adjust($cor-primaria, $alpha: -0.8, $lightness: -20%);
             // bottom: 50%;
             // bottom: 100px;
             width: 100vmax;
@@ -213,7 +214,7 @@
 
                 cursor:alias; 
 
-                background-color: transparentize(darken($cor-secundaria, 10%), 0.8);   
+                background-color: color.adjust($cor-primaria, $alpha: -0.8, $lightness: -10%);   
                 backdrop-filter: blur(2px);
 
 

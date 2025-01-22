@@ -1,4 +1,5 @@
 @use '@/app/globalStyle.module.scss' as *;
+@use 'sass:color';
 
 @keyframes wave {
     0% {
@@ -27,8 +28,8 @@
       -45deg, 
       transparent, 
       transparent .6%, 
-      transparentize($cor-secundaria, 0.5) .2%, 
-      transparentize($cor-secundaria, 0.5) .8%
+      color.adjust($cor-secundaria, $alpha: -0.5) .2%, 
+      color.adjust($cor-secundaria, $alpha: -0.5) .8%
     );
     background-size: 200%;   
     background-size: cover; 
@@ -72,7 +73,6 @@
 
             transition: d 2s;
 
-            // fill: transparentize($cor-secundaria, 0.5);
             // background: linear-gradient(180deg, $cor-secundaria, black);
 
         }
@@ -160,7 +160,6 @@
                 // background: linear-gradient(45deg, #421236, #141414);
                 background-color: $cor-secundaria;
 
-                // border: 2px solid transparentize($cor-primaria, 0.8);
 
                 overflow: hidden;
 
@@ -225,7 +224,7 @@
 
                 padding-right: 1rem;
                 // border-right: 2px solid #591c4a61;
-                border-right: 2px solid transparentize($cor-primaria, 0.6);
+                border-right: 2px solid color.adjust($cor-primaria, $alpha: -0.6);
             
             }
         
@@ -427,7 +426,6 @@
 
         &:hover {
             
-            // background-color: transparentize($cor-primaria, 0.98);
             background-color: $cor-primaria-transparent;
             border-top-color: transparent;
             // mask-image: url('../assets/tile2.svg');

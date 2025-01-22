@@ -1,6 +1,5 @@
 @use '../../../globalStyle.module.scss' as *;
-
-$cor-destaque: darken(saturate(cor-mix(70%), 50%), 10%);
+@use 'sass:color';
 
 .pedidos {
 
@@ -458,6 +457,8 @@ $cor-destaque: darken(saturate(cor-mix(70%), 50%), 10%);
 
                 min-height: calc(50px - 0.2rem);
 
+                font-family: $fonte-body;
+
                 border: 2px solid cor-mix(20%);
                 background-color: cor-mix(0%);
                 border-radius: 0.5rem;
@@ -478,34 +479,22 @@ $cor-destaque: darken(saturate(cor-mix(70%), 50%), 10%);
                 &[data-selected="true"] {
 
                     background-color: cor-mix(0%);
-                    // background: linear-gradient(
-                    //     to right,
-                    //     mix(mix($cor-destaque, $cor-primaria, 80%), $cor-secundaria, 10%),
-                    //     cor-mix(20%) 50%,
-                    //     mix(mix($cor-destaque, $cor-primaria, 80%), $cor-secundaria, 10%),
-                    // );
-                    // background-color: mix(mix($cor-destaque, $cor-primaria, 80%), $cor-secundaria, 10%);
-                    // border-color: cor-mix(27.5%);
-                    border-color: mix($cor-destaque, $cor-secundaria, 60%);
-                    outline: 1px solid mix($cor-destaque, $cor-secundaria, 60%);
-                    // border-color: mix(mix($cor-destaque, $cor-primaria, 80%), $cor-secundaria, 80%);
+             
+                    border-color: color.mix($cor-destaque, $cor-secundaria, 60%);
+                    outline: 1px solid color.mix($cor-destaque, $cor-secundaria, 60%);
 
                     svg {
 
-                        border-color: mix($cor-destaque, $cor-secundaria, 60%);
+                        border-color: color.mix($cor-destaque, $cor-secundaria, 60%);
 
                         path {
                             stroke: cor-mix(80%);
 
-                            // stroke: mix($cor-destaque, $cor-secundaria, 60%);
-                            // stroke: mix(mix($cor-destaque, $cor-primaria, 80%), $cor-secundaria, 80%);
                         }
                     }
 
                     p {
                         color: cor-mix(80%);
-                        // color: mix($cor-destaque, $cor-secundaria, 60%);
-                        // color: mix(mix($cor-destaque, $cor-primaria, 80%), $cor-secundaria, 80%);
                     }
 
                 }
@@ -539,7 +528,6 @@ $cor-destaque: darken(saturate(cor-mix(70%), 50%), 10%);
                     gap: 0.1rem;
                     height: calc(50px - 4px);
                     background-color: cor-mix(2%);
-                    // background-color: mix($cor-destaque, $cor-secundaria, 5%);
                     align-items: center;
                     padding-left: 0.5rem;
 
@@ -825,9 +813,158 @@ $cor-destaque: darken(saturate(cor-mix(70%), 50%), 10%);
 
         }
 
+        .expand {
+
+            display: flex;
+            align-items: center;
+
+            outline: none;
+            background: none;
+            border: none;
+            padding: 0;
+
+            cursor: pointer;
+
+            transition: background-color 400ms ease;
+
+            &:hover {
+
+                background-color: cor-mix(5%);
+
+            }
+
+            svg {
+
+                width: 20px;
+                height: 20px;
+
+                path, line {
+                    stroke: cor-mix(60%);
+                }
+
+            }
+
+        }
+
     }
 
 }
+
+.popover {
+
+    border: 2px solid cor-mix(20%);
+    border-radius: 0.5rem;
+    padding: 1rem;
+
+    background-color: cor-mix(0%);
+
+    box-shadow: 2px 2px 12px 2px $cor-primaria-transparent;
+
+    transition: opacity 400ms ease;
+
+    &[data-entering],
+    &[data-exiting] {
+        opacity: 0;
+    }
+
+    .dialog {
+        
+        
+        .calendar {
+    
+            display: flex;
+            flex-direction: column;
+
+            .header {
+
+                display: flex;
+
+                button {
+
+                }
+
+                .month {
+
+                    font-size: 1rem;
+
+                }
+
+            }
+
+            .grid {
+
+                display: flex;
+                flex-direction: column;
+
+                thead {
+
+                    tr {
+                        display: grid;
+                        grid-template-columns: repeat(7, 30px);
+                    }
+
+
+                }
+
+                tbody {
+
+                    display: grid;
+                    // grid-template-columns: repeat(7, 20px);
+                    grid-template-rows: repeat(auto, 30px);
+
+                    tr {
+
+                        display: grid;
+                        grid-template-columns: repeat(7, 30px);
+
+                        td {
+
+                            text-align: center;
+                            background-color: cor-mix(0%);
+
+                            &:hover > div {
+
+                                background-color: cor-mix(5%);
+
+                            }
+
+                            div {
+                            
+                                cursor: pointer;
+                                transition: background-color 400ms ease;
+
+                                &[data-selected]{
+                                    // background-color: cor-mix(10%);
+                                    background-color: color.mix($cor-destaque, $cor-secundaria, 80%);
+                                    color: cor-mix(0%);
+                                }
+
+                            }
+
+                            // &:hover {
+
+                            //     background-color: cor-mix(5%);
+
+                            // }
+
+                        }
+
+                    }
+
+                }
+
+                .date {
+
+                }
+
+            }
+
+        }
+
+    }
+
+}
+
 
 
 @media (width <= 900px) {

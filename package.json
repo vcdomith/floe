@@ -9,31 +9,32 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@react-spring/web": "^9.7.3",
-    "@supabase/ssr": "^0.4.0",
-    "@supabase/supabase-js": "^2.41.1",
+    "@react-spring/web": "^9.7.5",
+    "@supabase/ssr": "^0.4.1",
+    "@supabase/supabase-js": "^2.48.0",
     "@vexta-systems/node-mde": "^0.15.4",
+    "babel-plugin-react-compiler": "^19.0.0-beta-decd7b8-20250118",
     "focus-trap-react": "^11.0.3",
-    "framer-motion": "^11.0.14",
+    "framer-motion": "^11.18.2",
     "lodash": "^4.17.21",
-    "next": "^14.2.4",
-    "node-mde": "^0.14.9",
-    "react": "^18",
+    "next": "^15.1.6",
+    "node-mde": "^0.14.10",
+    "react": "^18.3.1",
     "react-aria-components": "^1.6.0",
     "react-data-grid": "^7.0.0-beta.44",
-    "react-dom": "^18",
+    "react-dom": "^18.3.1",
     "xml2js": "^0.6.2"
   },
   "devDependencies": {
-    "@types/lodash": "^4.17.7",
-    "@types/node": "^20",
-    "@types/react": "^18",
-    "@types/react-dom": "^18",
+    "@types/lodash": "^4.17.14",
+    "@types/node": "^20.17.14",
+    "@types/react": "^18.3.18",
+    "@types/react-dom": "^18.3.5",
     "@types/xml2js": "^0.4.14",
-    "eslint": "^8",
+    "eslint": "^8.57.1",
     "eslint-config-next": "14.0.4",
-    "sass": "^1.70.0",
-    "supabase": "^1.192.5",
-    "typescript": "^5"
+    "sass": "^1.83.4",
+    "supabase": "^1.226.4",
+    "typescript": "^5.7.3"
   }
 }

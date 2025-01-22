@@ -12,7 +12,7 @@
         
         display: flex;
         flex-direction: row;
-        background-color: transparentize($cor-primaria, 0.9);
+        background-color: color.adjust($cor-primaria, $alpha: -0.9);
         padding: 0.5rem;
         border-radius: 1rem;
 
@@ -81,7 +81,7 @@
                     // padding-left: 1rem;
                     font-size: 1.2rem;
                     // color: #3b033153;
-                    color: transparentize($cor-primaria, 0.5);
+                    color: color.adjust($cor-primaria, $alpha: -0.5);
 
                 }
     
@@ -235,14 +235,14 @@
         
                 border: 2px solid $cor-primaria;
                 // box-shadow: 2px 2px 15px #591c4a39;
-                box-shadow: 2px 2px 15px transparentize($cor-primaria, 0.7);
+                box-shadow: 2px 2px 15px color.adjust($cor-primaria, $alpha: -0.7);
         
             }
         
             &:has(.search:valid) {
         
                 // background-color: #591c4a0b;
-                background-color: transparentize($cor-primaria, 0.5);
+                background-color: color.adjust($cor-primaria, $alpha: -0.5);
         
             }
         
@@ -271,7 +271,7 @@
                 &::placeholder {
             
                     font-size: 1.2rem;
-                    color: transparentize($cor-primaria, 0.6);
+                    color: color.adjust($cor-primaria, $alpha: -0.6);
             
                 }
         

@@ -1,4 +1,5 @@
 @use './globalStyle.module.scss' as *;
+@use 'sass:color';
 
 $steps: 11;
 
@@ -9,13 +10,12 @@ $step-size: 100% /($steps + 1);
     $percentage: $step-size * $i;
   
     // Mix the two colors based on the percentage
-    $mixed-color: mix($cor-secundaria, $cor-primaria, $percentage);
-    // $mixed-color: mix($cor-primaria, $cor-secundaria, $percentage);
+    $mixed-color: color.mix($cor-secundaria, $cor-primaria, $percentage);
   
     // Assigning rules to specific elements
     .background svg path:nth-child(#{$i}),
     .logoHole svg path:nth-child(#{$i}) {
-    fill: darken(saturate($mixed-color, 15%), 5%);
+    fill: color.adjust($mixed-color, $saturation: 15%, $lightness: -5%);
     // fill: $mixed-color;
 
   }
@@ -49,7 +49,6 @@ body {
 
             transition: d 3s ease;
 
-            // fill: transparentize($cor-secundaria, 0.5);
             // background: linear-gradient(180deg, $cor-secundaria, black);
 
         }

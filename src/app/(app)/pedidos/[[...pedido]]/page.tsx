@@ -34,17 +34,19 @@ export async function generateStaticParams() {
 
 export default async function Pedido({ params }: { params: { pedido: number }}) {
 
+    const { pedido: pedidoParam } = await params
+
     const supabase = dbConnect()
     const { data: pedido, error } = await supabase
         .from('cadastros')
         .select('*')
-        .eq('id', params.pedido)
+        .eq('id', pedidoParam)
         .limit(1)
         .single()
 
     // console.log(params.pedido);
 
-    return <PedidoDetalheSection pedido={pedido} id={params.pedido}/>
+    return <PedidoDetalheSection pedido={pedido} id={pedidoParam}/>
 
     // console.log(pedido);
 

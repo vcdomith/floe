@@ -1,7 +1,5 @@
 @use '../../../globalStyle.module.scss' as *;
 
-$cor-destaque: darken(saturate(cor-mix(70%), 50%), 10%);
-
 .noMatch {
 
     display: flex;

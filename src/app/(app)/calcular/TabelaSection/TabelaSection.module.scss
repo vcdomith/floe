@@ -1,4 +1,5 @@
 @use '../../../globalStyle.module.scss' as *;
+@use 'sass:color';
 
 .tabelaSection {
 
@@ -246,7 +247,7 @@
                 path {
 
                     // stroke: $cor-primaria;
-                    stroke: darken(saturate(cor-mix(20%), 40%), 20%);
+                    stroke: color.adjust(cor-mix(20%), $lightness: -20%, $saturation: 40%);
 
                 }
 
@@ -258,7 +259,7 @@
                 margin: 0;
                 font-size: 0.9rem;
 
-                color: darken(saturate(cor-mix(20%), 40%), 20%);
+                color: color.adjust(cor-mix(20%), $lightness: -20%, $saturation: 40%);
             }
 
         }

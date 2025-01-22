@@ -1,3 +1,5 @@
+@use 'sass:color' as color;
+
 // $cor-primaria: #1c3259;
 // $cor-primaria: #180467;
 // $cor-primaria: #170e2f;
@@ -40,15 +42,15 @@ $cor-secundaria: #e8d4b0;
 
 @function cor-mix($percentage) {
 
-    @return mix($cor-primaria, $cor-secundaria, $percentage);
+    @return color.mix($cor-primaria, $cor-secundaria, $percentage);
 
 }
 
-$cor-mix: mix($cor-primaria, $cor-secundaria, 10%);
+$cor-mix: color.mix($cor-primaria, $cor-secundaria, 10%);
 
-$cor-primaria-transparent: transparentize($cor-primaria, 0.8);
-$cor-aviso: darken(saturate(cor-mix(20%), 40%), 20%);
-$cor-destaque: darken(saturate(cor-mix(70%), 50%), 10%);
+$cor-primaria-transparent: color.adjust($cor-primaria, $alpha: -0.8);
+$cor-aviso: color.adjust(cor-mix(20%), $saturation: 40%, $lightness: -20% );
+$cor-destaque: color.adjust(cor-mix(70%), $saturation: 50%, $lightness: -10%);
 
 //Animations
 @keyframes appear {

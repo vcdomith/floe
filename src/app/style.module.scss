@@ -1,4 +1,5 @@
 @use './globalStyle.module.scss' as *;
+@use 'sass:color';
 
 .container {
 
@@ -14,8 +15,7 @@
     
     strong { 
         
-        // color: saturate(mix($cor-primaria, $cor-secundaria, 5%), 50%); 
-        color: saturate($cor-secundaria, 30%);
+        color: color.adjust($cor-secundaria, $saturation: 30%);
         
     }
     
@@ -37,7 +37,7 @@
                 stroke-width: 1;
 
                 stroke: $cor-secundaria;
-                stroke: transparentize($cor-secundaria, 0.5);
+                stroke: color.adjust($cor-secundaria, $alpha: -0.5);
 
                 transition: stroke-width 400ms ease;
 
@@ -162,7 +162,7 @@
 
                         // width: 200px;
 
-                        background-color: transparentize($cor-secundaria, 0.99);
+                        background-color: color.adjust($cor-secundaria, $alpha: -0.99);
 
                         // backdrop-filter: blur(40px) saturate(120%);
                         // filter: brightness(100%);

@@ -1,4 +1,5 @@
 @use '../../../app/globalStyle.module.scss' as *;
+@use 'sass:color';
 
 .thead {
 
@@ -45,7 +46,7 @@
         
             &:not(:last-child) {
         
-                border-right: 2px solid transparentize($cor-primaria, 0.8);
+                border-right: 2px solid color.adjust($cor-primaria, $alpha: -0.8);
             
             }
             

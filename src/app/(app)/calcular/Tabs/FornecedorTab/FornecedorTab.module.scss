@@ -1,23 +1,15 @@
 @use '../../../../globalStyle.module.scss' as *;
+@use 'sass:color';
 
 .wrap {
 
     display: flex;
     flex-direction: column;
 
-    // gap: 0.5rem;
-    
-    // border: 2px solid cor-mix(20%);
     border: 2px solid cor-mix(20%);
     background-color: cor-mix(5%);
-    // background: radial-gradient(ellipse at left, saturate(cor-mix(10%), 5%), transparent),
-    //         radial-gradient(ellipse at bottom, saturate(cor-mix(10%), 10%), transparent);
-    // background-color: cor-mix(5%);
+
     border-radius: 0.5rem;
-
-    // box-shadow: 2px 2px 12px 2px transparentize($cor-primaria, 0.8);
-
-    // padding: 0.5rem;
 
     .list {
 
@@ -28,11 +20,7 @@
 
         list-style: none;
         background-color: $cor-secundaria;
-        // border: 2px solid cor-mix(20%);
-        
-        // border-top: 2px solid cor-mix(20%);
-        // border-image: linear-gradient(to left , $cor-secundaria, cor-mix(40%) 50%, $cor-secundaria) 27;
-        // border: 2px solid cor-mix(10%);
+  
         border-bottom-right-radius: 0.5rem;
         border-bottom-left-radius: 0.5rem;
         
@@ -50,24 +38,7 @@
                 text-overflow: ellipsis;
                 transition: width 400ms ease, border-color 400ms ease;
 
-                // &:focus-within {
-                //     width: 100px;
-                // }
-
             }
-
-            // span > div > input {
-
-            //     transition: border 400ms ease;
-            //     border-color: cor-mix(5%);
-
-            //     &:valid{
-
-            //         border-color: darken(saturate(cor-mix(70%), 40%), 5%);
-            //     }
-        
-
-            // }
 
             .configWrapper {
 
@@ -174,38 +145,9 @@
 
                                 top: -1.2rem;
     
-                                // &:nth-child(1) {
-                                //     // left: 0.1rem;
-                                //     left: 0;
-                                //     // left: 10%;
-                                // }
-                                // &:nth-child(2) {
-                                //     right: 0;
-                                //     // right: 0.1rem;
-                                //     right: 10%;
-                                // }
-    
                             }
 
                         }
-
-                        // label {
-
-                        //     position: absolute;
-                        //     top: -1rem;
-                        //     font-size: 0.8rem;
-                        //     color: cor-mix(40%);
-
-                        //     &:first-of-type {
-                        //         left: 0.1rem;
-                        //         // left: 10%;
-                        //     }
-                        //     &:last-of-type {
-                        //         right: 0.1rem;
-                        //         // right: 10%;
-                        //     }
-
-                        // }
 
                         p {
                             margin: 0;
@@ -268,13 +210,13 @@
 
                 &:valid {
 
-                    border-color: darken(saturate(cor-mix(70%), 40%), 5%);
+                    border-color: color.adjust(cor-mix(70%), $lightness: -5%, $saturation: 40%);
 
                 }
 
                 &[data-valid="true"] {
 
-                    border-color: darken(saturate(cor-mix(70%), 40%), 5%);
+                    border-color: color.adjust(cor-mix(70%), $lightness: -5%, $saturation: 40%);
 
                 }
 
@@ -447,13 +389,14 @@
             &:hover {
 
                 background-color: cor-mix(10%);
-                box-shadow: inset 2px 2px 12px 2px transparentize(saturate(cor-mix(60%), 15%), 0.9);
+                box-shadow: inset 2px 2px 12px 2px color.adjust(cor-mix(60%), $alpha: -0.9, $saturation: 15%);
 
             }
 
             &:active {
 
-                box-shadow: inset 2px 2px 12px 2px transparentize(saturate(cor-mix(60%), 15%), 0.8);
+                box-shadow: inset 2px 2px 12px 2px color.adjust(cor-mix(60%), $alpha: -0.8, $saturation: 15%);
+
 
             }
 

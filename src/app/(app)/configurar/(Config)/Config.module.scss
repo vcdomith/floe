@@ -1,4 +1,5 @@
 @use '../../../globalStyle.module.scss' as *;
+@use 'sass:color';
 
 .config {
 
@@ -127,7 +128,7 @@
 
             &[data-diff="true"] {
 
-                background-color: darken(saturate(cor-mix(20%), 40%), 20%);
+                background-color: color.adjust(cor-mix(70%), $lightness: -20%, $saturation: 40%);
 
             }
 
@@ -159,13 +160,13 @@
 
         &:valid {
 
-            border-color: darken(saturate(cor-mix(70%), 40%), 5%);
+            border-color: color.adjust(cor-mix(70%), $lightness: -5%, $saturation: 40%);
 
         }
 
         &[data-valid="true"] {
 
-            border-color: darken(saturate(cor-mix(70%), 40%), 5%);
+            border-color: color.adjust(cor-mix(70%), $lightness: -5%, $saturation: 40%);
 
         }
 

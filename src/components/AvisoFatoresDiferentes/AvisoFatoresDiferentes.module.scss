@@ -1,4 +1,5 @@
 @use '../../app/globalStyle.module.scss' as *;
+@use 'sass:color';
 
 .aviso {
 
@@ -12,9 +13,9 @@
     overflow: hidden;
     box-sizing: border-box;
 
-    border: 2px solid mix($cor-aviso, $cor-secundaria, 40%);
+    border: 2px solid color.mix($cor-aviso, $cor-secundaria, 40%);
     border-radius: 0.5rem;
-    background-color: mix($cor-aviso, $cor-secundaria, 10%);
+    background-color: color.mix($cor-aviso, $cor-secundaria, 10%);
 
     padding: 0 0.5rem;
 
@@ -60,7 +61,7 @@
             border-radius: 0.5rem;
 
             color: cor-mix(80%);
-            color: mix($cor-aviso, $cor-secundaria, 80%);
+            color: color.mix($cor-aviso, $cor-secundaria, 80%);
             font-size: 0.9rem;
 
             cursor: pointer;
@@ -69,12 +70,12 @@
         .discard {
 
             background-color: cor-mix(5%);
-            background-color: mix($cor-aviso, $cor-secundaria, 5%);
+            background-color: color.mix($cor-aviso, $cor-secundaria, 5%);
             border-color: cor-mix(10%);
-            border-color: mix($cor-aviso, $cor-secundaria, 10%);
+            border-color: color.mix($cor-aviso, $cor-secundaria, 10%);
 
             color: cor-mix(40%);
-            color: mix($cor-aviso, $cor-secundaria, 40%);
+            color: color.mix($cor-aviso, $cor-secundaria, 40%);
 
             transition: border-color 400ms ease,
                         background-color 400ms ease,
@@ -83,11 +84,11 @@
 
             &:hover {
                 background-color: cor-mix(10%);
-                background-color: mix($cor-aviso, $cor-secundaria, 10%);
+                background-color: color.mix($cor-aviso, $cor-secundaria, 10%);
                 border-color: cor-mix(15%);
-                border-color: mix($cor-aviso, $cor-secundaria, 30%);
+                border-color: color.mix($cor-aviso, $cor-secundaria, 30%);
                 color: cor-mix(50%);
-                color: mix($cor-aviso, $cor-secundaria, 70%);
+                color: color.mix($cor-aviso, $cor-secundaria, 70%);
             }
 
         }
@@ -95,12 +96,12 @@
         .confirm {
 
             background-color: cor-mix(70%);
-            background-color: mix($cor-aviso, $cor-secundaria, 10%);
+            background-color: color.mix($cor-aviso, $cor-secundaria, 10%);
             border-color: cor-mix(80%);
-            border-color: mix($cor-aviso, $cor-secundaria, 50%);
+            border-color: color.mix($cor-aviso, $cor-secundaria, 50%);
 
             color: cor-mix(10%);
-            color: mix($cor-aviso, $cor-secundaria, 70%);
+            color: color.mix($cor-aviso, $cor-secundaria, 70%);
 
             transition: border-color 400ms ease,
                         background-color 400ms ease,
@@ -109,10 +110,10 @@
 
             &:hover {
                 background-color: cor-mix(80%);
-                background-color: mix($cor-aviso, $cor-secundaria, 15%);
+                background-color: color.mix($cor-aviso, $cor-secundaria, 15%);
                 border-color: cor-mix(90%);
-                border-color: mix($cor-aviso, $cor-secundaria, 60%);
-                color: mix($cor-aviso, $cor-secundaria, 80%);
+                border-color: color.mix($cor-aviso, $cor-secundaria, 60%);
+                color: color.mix($cor-aviso, $cor-secundaria, 80%);
             }
 
         }

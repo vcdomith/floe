@@ -66,7 +66,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body 
-        // className={archivo.className}
+        className={archivo.className}
       >
         <SvgArray className='background'/>
         {/* <Container> */}

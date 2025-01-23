@@ -50,7 +50,7 @@ export async function GET(request: NextRequest) {
         tpAmb: '1',
     })
 
-    if (nsu?.cte === null) {
+    if (nsu?.cte === null || nsu?.cte === '000000000000000') {
 
         //Consulta distribuicao.consultaNSU(0)
         const consultaMaxNsu = await distribuição.consultaNSU('0')

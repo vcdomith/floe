@@ -59,7 +59,8 @@
 
             color: cor-mix(70%);
             font-size: 1rem;
-            font-weight: 600;
+            // @include font-bold;
+            @include font-bold;
 
         }
 

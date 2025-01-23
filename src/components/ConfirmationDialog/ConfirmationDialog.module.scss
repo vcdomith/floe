@@ -106,7 +106,7 @@
                 margin: 0;
                 font-size: 1.1rem;
                 color: cor-mix(90%);
-                font-weight: 600;
+                @include font-bold;
     
             }
     

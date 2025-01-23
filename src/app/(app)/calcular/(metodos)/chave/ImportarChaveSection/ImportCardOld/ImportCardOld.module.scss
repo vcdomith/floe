@@ -138,7 +138,7 @@
                         cursor: text;
                         font-family: $fonte-mono;
                         color: color.mix($cor-destaque, $cor-secundaria, 90%);
-                        // font-weight: 600;
+                        // @include font-bold;
                         // display: inline;
                         display: flex;
                         justify-content: center;
@@ -422,7 +422,8 @@
 
         color: cor-mix(65%);
         font-size: 1rem;
-        font-weight: bold;
+        // font-weight: bold;
+        @include font-bold;
 
         background-color: cor-mix(15%);
         
@@ -929,7 +930,7 @@
                 cursor: text;
                 font-family: $fonte-mono;
                 color: mix($cor-destaque, $cor-secundaria, 90%);
-                // font-weight: 600;
+                // @include font-bold;
                 // display: inline;
                 display: flex;
                 justify-content: center;

@@ -62,7 +62,8 @@
                 p {
     
                     color: color.mix($cor-destaque, $cor-secundaria, 60%);
-                    font-weight: 600;
+                    // @include font-bold;
+                    @include font-bold;
     
                 }
                 

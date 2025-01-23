@@ -104,12 +104,12 @@ $fonte-header: 'Archivo SE';
 $fonte-destaque: 'Playfair Display';
 
 //Types
-@font-face {
-    font-family: 'Archivo';
-    src: url('../fonts/Archivo-Regular.ttf');
-    font-weight: normal;
-    font-size: normal;
-}
+// @font-face {
+//     font-family: 'Archivo';
+//     src: url('../fonts/Archivo-Regular.ttf');
+//     @include font-bold;
+//     font-size: normal;
+// }
 @font-face {
     font-family: 'Roboto Mono';
     src: url('../fonts/RobotoMono-Regular.ttf');
@@ -154,6 +154,13 @@ $fonte-destaque: 'Playfair Display';
 //     font-weight: normal; /* Adjust as per font file */
 //     font-style: italic; /* Adjust as per font file */
 // }
+
+@mixin font-bold {
+
+    font-weight: 700;
+    letter-spacing: -0.05rem;
+
+}
 
 @mixin thin-scrollbar {
     

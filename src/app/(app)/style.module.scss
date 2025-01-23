@@ -134,7 +134,8 @@
         align-items: center;
         margin: 0;
         font-size: 1.5rem;
-        font-weight: 600;
+        // @include font-bold;
+        @include font-bold;
         width: min-content;
 
         color: cor-mix(30%);

@@ -36,7 +36,8 @@
 
     & > div {
 
-        font-weight: 600;
+        // @include font-bold;
+        @include font-bold;
         text-overflow: ellipsis;
         min-width: calc(75px - .1rem);
 
@@ -141,7 +142,8 @@
             border-radius: 0.25rem;
             
             color: cor-mix(60%);
-            font-weight: 600;
+            // @include font-bold;
+            @include font-bold;
 
             overflow: hidden;
 
@@ -180,204 +182,6 @@
             }
 
         }
-
-        [popover]:popover-open {
-
-            opacity: 1;
-
-        }
-
-        [popover] {
-
-            opacity: 0;
-
-            padding: 1rem;
-
-            overflow: hidden;
-            background-color: $cor-secundaria;
-            color: cor-mix(80%);
-            border: cor-mix(30%);
-            border-radius: 0.5rem;
-            // width: 320px !important;
-
-            box-shadow: 2px 2px 12px 2px $cor-primaria-transparent;
-
-            transition: 
-                opacity 500ms ease,
-                background-color 400ms ease,
-                display 400ms ease allow-discrete,
-                overlay 400ms ease allow-discrete,
-                ;
-            // animation: appear 500ms;
-
-            &::backdrop {
-
-                background-color: transparent;
-
-                backdrop-filter: blur(1px);
-
-                transition:
-                display 0.7s allow-discrete,
-                overlay 0.7s allow-discrete,
-                background-color 0.7s;
-
-                &:hover {
-                    cursor: pointer;
-                }
-
-            }
-
-            &:popover-open {
-
-                @starting-style{
-
-                    opacity: 0;
-
-                    &::backdrop {
-
-                        background-color: transparent;
-
-                    }
-                }
-
-                opacity: 1;
-
-                &::backdrop {
-
-                    background-color: color.adjust(cor-mix(80%), $alpha: -0.8);
-
-                }
-            }
-
-            .header {
-
-                display: flex;
-
-                width: 100%;
-                padding: 0.5rem 0.75rem;
-
-                box-sizing: border-box;
-                border-radius: 0.25rem;
-                border: 2px solid cor-mix(20%);
-
-                background-color: cor-mix(10%);
-
-                & > h3 {
-                    display: flex;
-                    align-items: center;
-
-                    margin: 0.5rem 0;
-                    color: $cor-secundaria;
-                    color: cor-mix(80%);
-
-                    &:last-child {
-
-                        margin-left: auto;
-
-                    }
-                }
-
-                svg {
-
-                    width: 40px;
-                    height: 40px;
-
-                    // perspective: 800px;
-                    // animation: rotation 2s linear infinite alternate;
-
-                    path {
-                        // stroke: $cor-secundaria;
-                        stroke: none;
-                        
-                        &:nth-child(1) {
-                            // stroke: cor-mix(50%);
-                            z-index: -1;
-                        }
-                        &:nth-child(2) {
-                            fill: color.adjust(cor-mix(60%), $lightness: -3%, $saturation: 1%);
-                        }
-                        &:nth-child(3) {
-                            fill: color.adjust(cor-mix(40%), $lightness: -3%, $saturation: 1%);
-                        }
-                        &:nth-child(4) {
-                            fill: color.adjust(cor-mix(20%), $lightness: -3%, $saturation: 1%);
-                        }
-                        
-                    }
-                }
-
-            }
-
-            .title {
-
-                margin-top: 0.5rem;
-
-                background-color: cor-mix(5%);
-                border: 2px solid cor-mix(10%);
-                border-radius: 0.25rem;
-
-                h5 {
-                    font-size: 0.9rem;
-                    margin: 0.25rem;
-                    padding-left: 0.5rem;
-                    color: cor-mix(60%);
-                }
-
-            }
-
-            .atributos {
-                display: grid;
-                grid-template-columns: 50% 50%;
-                margin-top: 0.5rem;
-
-                & > span {
-
-                    & > input[type="text"] {
-                        // font-family: $fonte-body;
-                        width: clamp(50px, 100px, 100px);
-                        border-color: cor-mix(10%);
-                        color: cor-mix(90%);
-                        font-weight: 500;
-                        transition: border-color 400ms ease;
-                        
-                    }
-
-                    &:nth-child(odd) {
-                        border-right: 2px solid cor-mix(7%);
-                    }
-
-                    &:nth-last-child(2) {
-                        border-bottom: none;
-                    }
-                }
-            }
-
-            .popoverWrap {
-
-                display: flex;
-                flex-direction: column;
-                width: 100%;
-                // width: max-content;
-                // min-width: 400px;
-
-                span {
-
-                    display: flex;
-                    justify-content: space-between;
-                    gap: 0.5rem;
-
-
-                }
-
-            }
-
-        }
-
-        // @starting-style {
-        //     [popover]:popover-open {
-        //         opacity: 0;
-        //     }
-        // }
 
     }
 
@@ -421,28 +225,6 @@
             cursor: pointer;
         }
 
-    }
-
-    &:popover-open {
-
-        @starting-style{
-
-            opacity: 0;
-
-            &::backdrop {
-
-                background-color: transparent;
-
-            }
-        }
-
-        opacity: 1;
-
-        &::backdrop {
-
-            background-color: color.adjust(cor-mix(80%), $alpha: -0.8);
-
-        }
     }
 
     .header {

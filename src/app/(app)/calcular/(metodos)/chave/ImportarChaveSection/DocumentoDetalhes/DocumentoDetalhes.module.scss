@@ -211,7 +211,8 @@
 
                 p {
                     font-size: 0.9rem;
-                    font-weight: 600;
+                    // @include font-bold;
+                    @include font-bold;
                     margin: 0;
                     color: cor-mix(40%);
                 }

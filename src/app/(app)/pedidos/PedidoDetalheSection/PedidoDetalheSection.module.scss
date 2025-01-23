@@ -82,7 +82,7 @@
             p {
                 margin: 0;
                 color: cor-mix(80%);
-                font-weight: 600;
+                @include font-bold;
             }
 
             .data {
@@ -205,7 +205,7 @@
     
                     p {
                         color: cor-mix(80%);
-                        font-weight: 600;
+                        @include font-bold;
                     }
     
                 }

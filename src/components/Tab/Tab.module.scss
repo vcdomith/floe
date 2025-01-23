@@ -59,7 +59,7 @@
     
     p {
         font-family: $fonte-body;
-        font-weight: 600;
+        @include font-bold;
         color: cor-mix(50%);
         margin: 0;
     }

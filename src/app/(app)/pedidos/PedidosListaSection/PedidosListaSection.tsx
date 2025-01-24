@@ -14,7 +14,7 @@ import LogoSvg from '@/components/SvgArray/LogoSvg'
 import { debounce } from 'lodash'
 import { FocusTrap } from 'focus-trap-react'
 import Config from '../../configurar/(Config)/Config'
-import {Button, Calendar, CalendarCell, CalendarGrid, DateInput, DatePicker, DatePickerProps, DateRangePicker, DateRangePickerProps, DateSegment, DateValue, Dialog, FieldError, Group, Heading, Label, Popover, PopoverProps, RangeCalendar, Text, ValidationResult} from 'react-aria-components';
+import {Button, CalendarCell, CalendarGrid, DateInput, DateRangePicker, DateRangePickerProps, DateSegment, DateValue, Dialog, FieldError, Group, Heading, Label, Popover, RangeCalendar, Text, ValidationResult} from 'react-aria-components';
 
 interface PedidosListaSectionProps {
     pedidos: ICadastro[]

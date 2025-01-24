@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@internationalized/date": "^3.7.0",
     "@react-spring/web": "^9.7.5",
     "@supabase/ssr": "^0.4.1",
     "@supabase/supabase-js": "^2.48.0",

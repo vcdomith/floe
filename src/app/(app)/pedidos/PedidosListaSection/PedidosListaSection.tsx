@@ -3,7 +3,7 @@ import { ICadastro } from '@/interfaces/ICadastro'
 import style from './PedidosListaSection.module.scss'
 import Search from '@/components/Search/Search'
 import { AnimatePresence, LayoutGroup, motion } from 'framer-motion'
-import { forwardRef, MutableRefObject, Suspense, useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { Dispatch, forwardRef, MutableRefObject, SetStateAction, Suspense, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import Link from 'next/link'
 import { svgsUtil } from '@/components/SvgArray/SvgUtil'
 import capitalizeInner from '@/utils/capitalize'
@@ -15,6 +15,8 @@ import { debounce } from 'lodash'
 import { FocusTrap } from 'focus-trap-react'
 import Config from '../../configurar/(Config)/Config'
 import {Button, CalendarCell, CalendarGrid, DateInput, DateRangePicker, DateRangePickerProps, DateSegment, DateValue, Dialog, FieldError, Group, Heading, Label, Popover, RangeCalendar, Text, ValidationResult} from 'react-aria-components';
+import { span } from 'framer-motion/client'
+import { CalendarDate, parseDate } from '@internationalized/date'
 
 interface PedidosListaSectionProps {
     pedidos: ICadastro[]
@@ -31,89 +33,24 @@ export default function PedidosListaSection({ pedidos: pedidosInitial, pedidosLe
     const [modalDisplay, setModalDisplay] = useState(false)
 
     const [loadingMore, setLoadingMore] = useState(false)
-    const [loadingQuery, setLoadingQuery] = useState(false)
     const [offset, setOffset] = useState(10)
+
+    const [fornecedor, setFornecedor] = useState('')
+    const [periodo, setPeriodo] = useState<Periodo | null>(null)
+    console.log(periodo);
 
     const [searchParam, setSearchParam] = useState('')
 
     const pedidosDisplay = useMemo(() => {
 
-        if (pedidosQuery.length > 0) return pedidosQuery
+        if (pedidosQuery.length > 0) {
+            return pedidosQuery.filter( pedido => pedido.fornecedor?.includes(searchParam.toLowerCase()))
+        }
 
         return pedidos?.filter( pedido => pedido.fornecedor?.includes(searchParam.toLowerCase()))
 
     }
     , [pedidos, searchParam, pedidosQuery])
-
-    console.log(modalDisplay);
-
-    // const handleSearch = useCallback(
-    //     debounce((searchParam: string) => {
-    //         setSearchParam(searchParam)
-    //     }, 300),
-    //     [setSearchParam]
-    // )
-
-    const handleSearch = (searchParam: string) => {
-
-        setSearchParam(searchParam)
-        setPedidosQuery([])
-
-        // console.log(
-        //     pedidos?.filter( pedido => pedido.fornecedor?.includes(searchParam.toLowerCase())).length === 0
-        // );
-        // if (pedidos?.filter( pedido => pedido.fornecedor?.includes(searchParam.toLowerCase())).length === 0) {
-
-        //     console.log('inner');
-        //     debouncedQuery(searchParam)
-
-        // }
-
-    }
-
-    const pesquisaDb = async (fornecedor: string) => {
-
-        if (fornecedor === '') return
-
-        setLoadingQuery(true)
-
-        try {
-            
-            const res = await fetch(`/pedidos/api/query?fornecedor=${fornecedor}`)
-            const pedidosPesquisa: ICadastro[] = await res.json()
-            
-            if (res.status === 500) {
-                console.error('Error')
-                return
-            }
-
-            console.log(pedidosPesquisa);
-            console.log('pequisadbtry');
-
-            setPedidosQuery(pedidosPesquisa)
-
-
-        } catch (error) {
-            
-            console.error(error)
-            // setLoadingQuery(false)
-
-        } finally {
-
-            setLoadingQuery(false)
-
-        }
-
-        // setLoadingQuery(false)
-
-    }
-
-    const debouncedQuery = useCallback(
-        debounce((fornecedor: string) => {
-            pesquisaDb(fornecedor)
-        }, 1000),
-        [pesquisaDb]
-    )
 
     const handleLoadMore = async () => {
 
@@ -129,8 +66,6 @@ export default function PedidosListaSection({ pedidos: pedidosInitial, pedidosLe
         setLoadingMore(false)
 
     }
-
-    const [date, setDate] = useState<Date | null>(new Date())
 
     return (
 
@@ -172,7 +107,7 @@ export default function PedidosListaSection({ pedidos: pedidosInitial, pedidosLe
                     <Search 
                         className={style.search} 
                         searchParam={searchParam} 
-                        setSearchParam={handleSearch} 
+                        setSearchParam={setSearchParam} 
                         placeholder='Buscar lista'
                         textInput
                     />
@@ -180,9 +115,13 @@ export default function PedidosListaSection({ pedidos: pedidosInitial, pedidosLe
                         className={style.filter}
                         onClick={() => setModalDisplay( prev => !prev )}
                         data-active={modalDisplay}
+                        data-query-active={pedidosQuery.length > 0}
                     >
                         {svgsUtil.import}
                         <p>Filtrar</p>
+                        {(pedidosQuery.length > 0)&&
+                        <div className={style.active}></div>
+                        }
                     </button>
                     {/* <DatePicker 
                         selected={date}
@@ -193,12 +132,16 @@ export default function PedidosListaSection({ pedidos: pedidosInitial, pedidosLe
                     {modalDisplay&&
                     <FiltroModal
                         modalDisplay={modalDisplay}
-                        setModalDisplay={setModalDisplay}                    
+                        setModalDisplay={setModalDisplay}
+                        setPedidosQuery={setPedidosQuery} 
+                        fornecedor={fornecedor} 
+                        setFornecedor={setFornecedor} 
+                        periodo={periodo} 
+                        setPeriodo={setPeriodo}
                     />
                     }
                     </AnimatePresence>
                 </span>
-
 
             </header>
 
@@ -237,30 +180,8 @@ export default function PedidosListaSection({ pedidos: pedidosInitial, pedidosLe
                             {svgsUtil.unitarioNota}
                             <p>Nenhum <Highlight>pedido</Highlight> corresponde à pesquisa</p>
                         </span>
-                        
-                        <div className={style.query}>
-                            <p>Não encontrou o pedido?</p>
-                            <button
-                                onClick={() => pesquisaDb(searchParam)}
-                            >
-                                {svgsUtil.import}
-                                <p>Pesquisar db</p>
-                            </button>
-                        </div>
 
                     </motion.div>
-                    }
-
-                    {(pedidosDisplay.length > 0 && searchParam)&&
-                        <div className={style.query}>
-                            <p>Não encontrou o pedido?</p>
-                            <button
-                                onClick={() => pesquisaDb(searchParam)}
-                            >
-                                {svgsUtil.import}
-                                <p>Pesquisar db</p>
-                            </button>
-                        </div>
                     }
                     
                     {
@@ -280,13 +201,6 @@ export default function PedidosListaSection({ pedidos: pedidosInitial, pedidosLe
                         : 
                             'Carregar Mais'
                     }</button>
-                    }
-
-                    {loadingQuery&&
-                        <span>
-                            <LogoSvg loop/>
-                            Carregando...
-                        </span>
                     }
 
                     </LayoutGroup>
@@ -353,18 +267,82 @@ interface FiltroModalProps {
 
     modalDisplay: boolean
     setModalDisplay: (open: boolean) => void
+    setPedidosQuery: (pedidos: ICadastro[]) => void
+
+    fornecedor: string
+    setFornecedor: (fornecedor: string) => void
+    periodo: Periodo | null
+    setPeriodo: Dispatch<SetStateAction<Periodo | null>>
 
 }
 
-const FiltroModal = ({modalDisplay, setModalDisplay} : FiltroModalProps) => {
+
+
+interface Periodo {
+    start: CalendarDate
+    end: CalendarDate
+}
+
+const FiltroModal = ({fornecedor, setFornecedor, periodo, setPeriodo, setModalDisplay, setPedidosQuery} : FiltroModalProps) => {
 
     const modalRef = useRef<HTMLDivElement>(null)
-    const datePickerRef1 = useRef(null)
-    const datePickerRef2 = useRef(null)
+    const popoverRef = useRef<HTMLSpanElement>(null)
 
-    const [fornecedor, setFornecedor] = useState('')
-    const [startDate, setStartDate] = useState<Date | null>(null)
-    const [endDate, setEndDate] = useState<Date | null>(new Date())
+    const [loading, setLoading] = useState(false)
+
+    const periodoString = useMemo(() => {
+        if (periodo === null) return null
+        return `${periodo?.start.toString()}T00:00:00,${periodo?.end.toString()}T00:00:00`
+    }, [periodo])
+    console.log(periodoString);
+
+    const limparFiltros = () => {
+        setPedidosQuery([])
+        setModalDisplay(false)
+        setFornecedor('')
+        setPeriodo(null)
+    }
+
+    const pesquisaDb = async () => {
+
+        if (fornecedor === '') return
+
+        setLoading(true)
+
+        try {
+            
+            const fetchString = `/pedidos/api/query?fornecedor=${fornecedor}${periodoString? "&periodo="+periodoString : ''}`
+
+            // const res = await fetch(`/pedidos/api/query?fornecedor=${fornecedor}&periodo=${periodoString}`)
+            const res = await fetch(fetchString)
+            const pedidosPesquisa: ICadastro[] = await res.json()
+            
+            if (res.status === 500) {
+                console.error(pedidosPesquisa)
+                return
+            }
+
+            console.log(pedidosPesquisa);
+            console.log('pequisadbtry');
+
+            setPedidosQuery(pedidosPesquisa)
+            setModalDisplay(false)
+
+
+        } catch (error) {
+            
+            console.error(error)
+            // setLoadingQuery(false)
+
+        } finally {
+
+            setLoading(false)
+
+        }
+
+        // setLoadingQuery(false)
+
+    }
 
     useEffect(() => {
 
@@ -390,7 +368,6 @@ const FiltroModal = ({modalDisplay, setModalDisplay} : FiltroModalProps) => {
 
     }, [])
 
-    const popoverRef = useRef<HTMLSpanElement>(null)
 
     return (
         <motion.div 
@@ -408,49 +385,41 @@ const FiltroModal = ({modalDisplay, setModalDisplay} : FiltroModalProps) => {
                 </button>
             </header>
             <div className={style.filtros}>
-                {/* <Config 
-                    svg={svgsUtil.fornecedor} 
-                    title={'Fornecedor'} 
-                    description={'Filtrar por nome de fornecedor'} 
-                    input={
-                        <input type="text" />
-                    } 
-                />
-                <Config 
-                    svg={svgsUtil.data} 
-                    title={'Data'} 
-                    description={'Filtrar por período de cadastro'} 
-                    input={
-                        <input type="text" />
-                    } 
-                /> */}
-                <span>
-                    <p>fornecedor</p>
+                <span className={style.field}>
+                    <label>Fornecedor:</label>
                     <input 
+                        className={style.fornecedor}
                         type="text" 
                         value={fornecedor}
                         onChange={(e) => setFornecedor(e.target.value)}
+                        spellCheck={false}
                     />
                 </span>
-                <span>
-                    <p>Perído cadastro</p>
+                <span className={style.field}>
+                    <label>Perído cadastro:</label>
                     <span>
-                        {/* <input type="date" /> */}
-                        <DatePickRange label='de:' popoverRef={popoverRef}/>
-                        {/* <DatePick label='até:' popoverRef={popoverRef}/> */}
-                        {/* <p>a</p> */}
-                       
-                        {/* <input 
-                            value={date}
-                            onChange={(e) => console.log(e.target.value, typeof e.target.value)}
-                            type="date" 
-                        /> */}
+                        <DatePickRange 
+                            popoverRef={popoverRef}
+                            value={periodo}
+                            onChange={setPeriodo}
+                        />
                     </span>
                 </span>                    
             </div>
             <footer className={style.footer}>
-                <button className={style.clear}>Limpar</button>
-                <button className={style.confirm}>Aplicar</button>
+                <button 
+                    className={style.clear}
+                    onClick={() => limparFiltros()}
+                >Limpar</button>
+                <button 
+                    className={style.confirm} 
+                    disabled={loading}
+                    onClick={() => pesquisaDb()}>
+                        {loading? 
+                            <><LogoSvg loop/> Carregando...</>
+                            : <>Aplicar</>
+                        }
+                    </button>
             </footer>
         </motion.div>
     )
@@ -471,48 +440,23 @@ function DatePickRange<T extends DateValue>(
 ) {
 
     return (
-        // <DatePicker className={style.datePicker}>
-        //     <Label>{label}</Label>
-        //     <Group className={style.inputWrapper}>
-        //         <DateInput className={style.dateInput}>
-        //         {(segment) => <DateSegment segment={segment} className={style.segment}/>}
-        //         </DateInput>
-        //         <Button className={style.expand}>{() => svgsUtil.expand(false)}</Button>
-        //     </Group>
-        //     {description && <Text slot="description">{description}</Text>}
-        //     <FieldError>{errorMessage}</FieldError>
-        //     <Popover 
-        //         className={style.popover}
-        //         ref={popoverRef}
-        //     >
-        //         <Dialog className={style.dialog}>
-        //         <Calendar className={style.calendar}>
-        //             <header className={style.header}>
-        //             <Heading className={style.month} />
-        //             <Button slot="previous">◀</Button>
-        //             <Button slot="next">▶</Button>
-        //             </header>
-        //             <CalendarGrid className={style.grid}>
-        //             {(date) => <CalendarCell date={date} className={style.date}/>}
-        //             </CalendarGrid>
-        //         </Calendar>
-        //         </Dialog>
-        //     </Popover>
-        // </DatePicker>
         <DateRangePicker className={style.datePicker} {...props}>
         <Label>{label}</Label>
         <Group className={style.inputWrapper}>
             <DateInput slot="start" className={style.dateInput}>
             {(segment) => <DateSegment segment={segment} className={style.segment} />}
             </DateInput>
-            <span aria-hidden="true">-</span>
+            {/* <span aria-hidden="true">-</span> */}
             <DateInput slot="end" className={style.dateInput}>
             {(segment) => <DateSegment segment={segment} className={style.segment} />}
             </DateInput>
             <Button className={style.expand}>{() => svgsUtil.expand(false)}</Button>
         </Group>
         {description && <Text slot="description">{description}</Text>}
-        <FieldError>{errorMessage}</FieldError>
+        {/* <FieldError className={style.error}>{errorMessage}</FieldError> */}
+        <FieldError className={style.error}>{(values) => 
+            <span>{svgsUtil.aviso}{values.defaultChildren}</span>
+        }</FieldError>
         <Popover
             className={style.popover}
             ref={popoverRef}
@@ -520,9 +464,9 @@ function DatePickRange<T extends DateValue>(
             <Dialog className={style.dialog}>
             <RangeCalendar className={style.calendar} >
                 <header className={style.header}>
-                <Button slot="previous">◀</Button>
-                <Heading />
-                <Button slot="next">▶</Button>
+                <Button slot="previous" className={style.prev}>{svgsUtil.expand(false)}</Button>
+                <Heading className={style.month} />
+                <Button slot="next" className={style.next}>{svgsUtil.expand(false)}</Button>
                 </header>
                 <CalendarGrid className={style.grid}>
                 {(date) => <CalendarCell date={date} />}

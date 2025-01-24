@@ -181,6 +181,7 @@
 
             .filter {
 
+                position: relative;
                 display: flex;
                 align-items: center;
                 gap: 0.25rem;
@@ -205,6 +206,32 @@
 
                 }
 
+                &[data-query-active='true'] {
+
+                    // background-color: color.adjust(
+                    //         color.mix($cor-destaque, $cor-secundaria, 80%), 
+                    //         $lightness: 5%
+                    //     );
+                    background-color: color.mix($cor-destaque, $cor-secundaria, 10%);
+                    // border-color: color.adjust(
+                    //     color.mix($cor-destaque, $cor-secundaria, 80%), 
+                    //     $lightness: 5%
+                    // ); 
+
+                    svg {
+
+                        path, line, ellipse {
+                            stroke: color.mix($cor-destaque, $cor-secundaria, 80%);
+                        }
+    
+                    }
+    
+                    p {
+                        color: color.mix($cor-destaque, $cor-secundaria, 80%);
+                    }
+
+                }
+
                 svg {
 
                     path, line, ellipse {
@@ -217,6 +244,23 @@
                     color: cor-mix(60%);
                     font-size: 1rem;
                     font-family: $fonte-body;
+                }
+
+                .active {
+
+                    position: absolute;
+                    top: -0.3rem;
+                    right: -0.3rem;
+
+                    width: 10px;
+                    min-width: 10px;
+                    height: 10px;
+                    min-height: 10px;
+
+                    border-radius: 99rem;
+
+                    background-color: $cor-destaque;
+
                 }
 
             }
@@ -281,6 +325,8 @@
 
                         cursor: pointer;
 
+
+
                     }
 
                     svg {
@@ -318,7 +364,7 @@
 
                     }
 
-                    > span {
+                    .field {
                         
                         display: flex;
                         flex-direction: column;
@@ -332,16 +378,26 @@
                             padding-bottom: 1rem;
                         }
 
-                        p {
+                        label {
                             
-                            color: cor-mix(60%);
+                            color: cor-mix(40%);
+                            font-size: 0.9rem;
 
                         }
 
-                        input {
+                        .fornecedor {
 
                             width: 100%;
+                            height: 30px;
                             box-sizing: border-box;
+                            background-color: cor-mix(0%);
+                            border: 2px solid cor-mix(20%);
+                            border-radius: 0.5rem;
+                            outline: none;
+                            padding-left: 0.5rem;
+
+                            font-size: 1rem;
+                            color: cor-mix(100%);
 
                         }
 
@@ -391,6 +447,9 @@
 
                     .confirm {
 
+                        display: flex;
+                        align-items: center;
+                        gap: 0.5rem;
                         border-color: cor-mix(80%);
                         background-color: cor-mix(70%);
                         color: cor-mix(0%);
@@ -399,6 +458,16 @@
 
                             border-color: cor-mix(90%);
                             background-color: cor-mix(80%);
+
+                        }
+
+                        svg {
+                            width: 20px;
+                            height: 20px;
+
+                            path {
+                                stroke: cor-mix(0%);
+                            }
 
                         }
 
@@ -786,16 +855,19 @@
 
     display: flex;
     flex-direction: column;
+    box-sizing: border-box;
 
     .inputWrapper {
 
         display: flex;
-        flex-direction: row;
-        gap: 1rem;
+        // flex-direction: column;
+        gap: 0.5rem;
 
-        border: 2px solid cor-mix(40%);
+        border: 2px solid cor-mix(20%);
         border-radius: 0.5rem;
-        width: fit-content;
+        // width: fit-content;
+        width: 100%;
+        box-sizing: border-box;
 
         padding: 0.25rem 0.5rem;
 
@@ -804,14 +876,23 @@
             display: flex;
             gap: 0.25rem;
 
+            &:last-of-type {
+                border-left: 2px solid cor-mix(20%);
+                padding-left: 0.5rem;
+            }
+
             .segment {
 
                 display: flex;
                 align-items: center;
                 font-size: 1rem;
-                color: cor-mix(80%);
-                padding: 0 0.25rem;
+                color: cor-mix(100%);
+                // padding: 0 0.25rem;
                 caret-color: transparent;
+
+                &[data-readonly] {
+                    color: cor-mix(50%);
+                }
 
                 &[data-placeholder] {
                     color: cor-mix(50%);
@@ -837,6 +918,7 @@
             background: none;
             border: none;
             padding: 0;
+            margin-left: auto;
 
             cursor: pointer;
 
@@ -857,6 +939,33 @@
                     stroke: cor-mix(60%);
                 }
 
+            }
+
+        }
+
+    }
+
+    .error {
+
+        margin-top: 0.5rem;
+        color: $cor-aviso;
+
+        span {
+
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+
+            svg {
+
+                width: 20px;
+                min-width: 20px;
+                height: 20px;
+                min-height: 20px;
+
+                line, path {
+                    stroke: $cor-aviso;
+                }
             }
 
         }
@@ -888,19 +997,46 @@
         .calendar {
     
             display: flex;
+            gap: 0.5rem;
             flex-direction: column;
 
             .header {
 
                 display: flex;
+                justify-content: space-between;
+                align-items: center;
+                width: 100%;
+                box-sizing: border-box;
 
                 button {
 
+                    background: none;
+                    outline: none;
+                    border: none;
+                    padding: 0;
+
+                    svg {
+
+                        width: 20px;
+                        height: 20px;
+
+                        path {
+                            stroke: cor-mix(80%);
+                        }
+                    }
+
+                }
+
+                .prev svg {
+                    rotate: 90deg;
+                }
+                .next svg {
+                    rotate: -90deg;
                 }
 
                 .month {
 
-                    font-size: 1rem;
+                    font-size: 1.2rem;
 
                 }
 
@@ -910,6 +1046,7 @@
 
                 display: flex;
                 flex-direction: column;
+                align-items: center;
                 border-collapse: collapse;
 
                 thead {

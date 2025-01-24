@@ -123,31 +123,46 @@ export const ProdutoEdit = ({ produto }:
     const handleKeyDown = (e: KeyboardEvent<HTMLDivElement>, field: keyof IProdutoContext) => {
 
         if(e.key === 'Enter') {
-            
+
             const calculoUnitario: string = floatToString(stringToFloat(composto1) + stringToFloat(composto2))
 
-            if (calculoUnitario === 'NaN' && field === 'unitarioComposto') {
+            // if (calculoUnitario !== 'Nan') {
+            //     handleProdutoChange('unitarioComposto')(calculoUnitario)
 
-                e.preventDefault()
+            // } 
 
-                if (composto1 === '') {
-                    compostoRef_1.current?.focus()
-                    return
-                } 
+            console.log("calculoUnitario === 'NaN'", calculoUnitario === 'NaN');
+            console.log("field === 'unitarioComposto'", field === 'unitarioComposto');
 
-                if (composto2 === '') {
-                    compostoRef_2.current?.focus()
-                    return
+            if (field === 'unitarioComposto') {
+
+                if (calculoUnitario === 'NaN') {
+    
+                    console.log('3');
+    
+                    e.preventDefault()
+    
+                    if (composto1 === '') {
+                        compostoRef_1.current?.focus()
+                        return
+                    } 
+    
+                    if (composto2 === '') {
+                        compostoRef_2.current?.focus()
+                        return
+                    }
+    
                 }
-
+                
                 const valorCalculado = floatToString(
                     stringToFloat(composto1) + 
                     stringToFloat(composto2)
                     , 2)
-    
+
                 handleProdutoChange('unitarioComposto')(valorCalculado)
                 if (valorCalculado === 'NaN') e.preventDefault()
             }
+
 
             if ( field === 'ipi') {
 

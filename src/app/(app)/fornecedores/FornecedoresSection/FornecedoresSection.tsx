@@ -120,11 +120,11 @@ interface FornecedorLinkProps {
     key: number
 }
 
-const FornecedorLink = forwardRef<HTMLDivElement, FornecedorLinkProps>(function FornecedorLink({ fornecedor, path, key }: FornecedorLinkProps, ref) {
+const FornecedorLink = forwardRef<HTMLDivElement, FornecedorLinkProps>(function FornecedorLink({ fornecedor, path }: FornecedorLinkProps, ref) {
 
     return (
         <motion.div
-            key={key}
+            // key={key}
             ref={ref}
 
             initial={{ opacity: 0, x: -10 }}

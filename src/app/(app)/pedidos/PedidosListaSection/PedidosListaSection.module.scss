@@ -73,7 +73,8 @@
 
                 color: cor-mix(70%);
                 font-size: 1rem;
-                font-weight: bold;
+                // @include font-bold;
+                @include font-bold;
                 text-decoration: none;
 
                 background-color: cor-mix(5%);
@@ -791,7 +792,9 @@
 
                 color: cor-mix(70%);
                 font-size: 1rem;
-                font-weight: bold;
+                // @include font-bold;
+                @include font-bold;
+                
                 text-decoration: none;
 
                 background-color: cor-mix(5%);

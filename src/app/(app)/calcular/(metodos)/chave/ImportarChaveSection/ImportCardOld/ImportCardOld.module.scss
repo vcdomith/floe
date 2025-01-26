@@ -422,7 +422,7 @@
 
         color: cor-mix(65%);
         font-size: 1rem;
-        // font-weight: bold;
+        // @include font-bold;
         @include font-bold;
 
         background-color: cor-mix(15%);

@@ -8,7 +8,6 @@ import { MouseEvent, SetStateAction, useMemo, useState } from 'react'
 import { motion, AnimatePresence, LayoutGroup } from 'framer-motion'
 import capitalize from '@/utils/capitalize'
 import { NFeData, NFeProduto, NFeResult } from '@/utils/parseXml'
-import Converter from '@/utils/typeConversion'
 import Search from '@/components/Search/Search'
 import CheckBox from '@/app/(app)/configurar/(CheckBox)/CheckBox'
 
@@ -74,7 +73,7 @@ export default function DocumentoDetalhes({documento}: {documento: DocumentoImpo
 
 function CTeDados({ documento }: {documento: DocumentoImportado}) {
 
-    const [display, setDisplay] = useState(false)
+    const [display, setDisplay] = useState(true)
     const handleTabClick = (e: MouseEvent<HTMLSpanElement, globalThis.MouseEvent>) => {
 
         e.stopPropagation()
@@ -127,7 +126,7 @@ function CTeDados({ documento }: {documento: DocumentoImportado}) {
 }
 
 const INITIAL_NFE_DISPLAY = {
-    pedido: false,
+    pedido: true,
     produtos: false
 }
 const KEY_FILTER: Partial<keyof NFeProduto>[] = ['descricao', 'codigo']
@@ -168,7 +167,7 @@ function NFeDados({ documento }: {documento: DocumentoImportado}) {
             {svgsUtil.expand(display.pedido)}
         </button>
 
-        <AnimatePresence>
+        <AnimatePresence initial={false}>
         {display.pedido&&
         <motion.div 
             className={style.fatores}

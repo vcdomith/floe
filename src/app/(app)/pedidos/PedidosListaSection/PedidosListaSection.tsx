@@ -385,7 +385,21 @@ const FiltroModal = ({fornecedor, setFornecedor, periodo, setPeriodo, setModalDi
                 </button>
             </header>
             <div className={style.filtros}>
-                <span className={style.field}>
+                <Config 
+                    className={style.filtro}
+                    svg={svgsUtil.fornecedor} 
+                    title={'Fornecedor'} 
+                    description={'Selecione o nome que deseja buscar em cadastros'} 
+                    layout
+                    input={<input 
+                        className={style.fornecedor}
+                        type="text" 
+                        value={fornecedor}
+                        onChange={(e) => setFornecedor(e.target.value)}
+                        spellCheck={false}
+                    />} 
+                />
+                {/* <span className={style.field}>
                     <label>Fornecedor:</label>
                     <input 
                         className={style.fornecedor}
@@ -394,8 +408,20 @@ const FiltroModal = ({fornecedor, setFornecedor, periodo, setPeriodo, setModalDi
                         onChange={(e) => setFornecedor(e.target.value)}
                         spellCheck={false}
                     />
-                </span>
-                <span className={style.field}>
+                </span> */}
+                <Config 
+                    className={style.filtro}
+                    svg={svgsUtil.data} 
+                    title={'Período Cadastro'} 
+                    description={'Selecione o período que deseja buscar os cadastros'} 
+                    layout
+                    input={<DatePickRange 
+                        popoverRef={popoverRef}
+                        value={periodo}
+                        onChange={setPeriodo}
+                    />} 
+                />
+                {/* <span className={style.field}>
                     <label>Perído cadastro:</label>
                     <span>
                         <DatePickRange 
@@ -404,7 +430,7 @@ const FiltroModal = ({fornecedor, setFornecedor, periodo, setPeriodo, setModalDi
                             onChange={setPeriodo}
                         />
                     </span>
-                </span>                    
+                </span>                     */}
             </div>
             <footer className={style.footer}>
                 <button 

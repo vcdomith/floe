@@ -350,7 +350,7 @@
                     flex-direction: column;
                     gap: 0.5rem;
 
-                    padding: 1rem 0;
+                    // padding: 1rem 0;
 
                     box-sizing: border-box;
                     background-color: cor-mix(0%);
@@ -371,7 +371,7 @@
                         
                         &:not(:last-child) {
                             border-bottom: 2px solid cor-mix(20%);
-                            padding-bottom: 1rem;
+                            // padding-bottom: 1rem;
                         }
 
                         input {
@@ -1037,10 +1037,22 @@
 
                 button {
 
+                    display: flex;
+                    align-items: center;
+
                     background: none;
                     outline: none;
                     border: none;
-                    padding: 0;
+                    border-radius: 0.5rem;
+                    padding: 0.25rem;
+
+                    cursor: pointer;
+
+                    transition: background-color 400ms;
+
+                    &:hover {
+                        background-color: cor-mix(5%);
+                    }
 
                     svg {
 
@@ -1063,7 +1075,7 @@
 
                 .month {
 
-                    font-size: 1.2rem;
+                    font-size: 1rem;
 
                 }
 
@@ -1121,6 +1133,12 @@
                                 // transition: background-color 400ms ease;
                                 height: 100%;
                                 padding: 0;
+
+                                &:focus-visible {
+                                    outline: 2px solid;
+                                    outline-color: color.mix($cor-destaque, $cor-secundaria, 80%);
+                                    outline-offset: -2px;
+                                }
 
                                 &[data-focus-visible] {
                                     outline: 2px solid;

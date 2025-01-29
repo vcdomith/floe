@@ -13,12 +13,31 @@ export interface DadosImportados {
 
 export interface DocumentoImportado {
 
-    tipo: 'nfe' | 'cte'
+    tipo: 'nfe' | 'cte' | 'pedido'
     fornecedor: string
     numero: string
     chave: string
     criadoEm: Date
     data: NFeResult | CTeData
+
+}
+
+export interface ProdutoPedido {
+
+    codigo: string
+
+    st: string
+    unitario: string
+    composto: string[]
+
+    ipi: string
+    desconto: string
+
+}
+
+export interface PedidoProdutosResult {
+
+    valorTotalPedido: string
 
 }
 

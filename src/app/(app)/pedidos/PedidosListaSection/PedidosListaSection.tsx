@@ -17,6 +17,7 @@ import Config from '../../configurar/(Config)/Config'
 import {Button, CalendarCell, CalendarGrid, DateInput, DateRangePicker, DateRangePickerProps, DateSegment, DateValue, Dialog, FieldError, Group, Heading, Label, Popover, RangeCalendar, Text, ValidationResult} from 'react-aria-components';
 import { span } from 'framer-motion/client'
 import { CalendarDate, parseDate } from '@internationalized/date'
+import { useNotification } from '../../(contexts)/NotificationContext'
 
 interface PedidosListaSectionProps {
     pedidos: ICadastro[]
@@ -290,6 +291,8 @@ const FiltroModal = ({fornecedor, setFornecedor, periodo, setPeriodo, setModalDi
 
     const [loading, setLoading] = useState(false)
 
+    const {addNotification} = useNotification()
+
     const periodoString = useMemo(() => {
         if (periodo === null) return null
         return `${periodo?.start.toString()}T00:00:00,${periodo?.end.toString()}T00:00:00`
@@ -325,8 +328,17 @@ const FiltroModal = ({fornecedor, setFornecedor, periodo, setPeriodo, setModalDi
             console.log(pedidosPesquisa);
             console.log('pequisadbtry');
 
-            setPedidosQuery(pedidosPesquisa)
-            setModalDisplay(false)
+            if (pedidosPesquisa.length === 0) {
+                addNotification({
+                    tipo: 'erro',
+                    mensagem: 'Nenhum pedido foi encontrado com os parametros passados!'
+                })
+            } else {
+
+                setPedidosQuery(pedidosPesquisa)
+                setModalDisplay(false)
+
+            }
 
 
         } catch (error) {

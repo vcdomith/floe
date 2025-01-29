@@ -46,7 +46,7 @@ export default function useChaveContext(): UseChaveContext {
 
     const chaveContext = useSectionContext()
     const {
-        fornecedorContext: { setFornecedorData, updateFornecedorControl },
+        fornecedorContext: { fornecedorData, setFornecedorData, updateFornecedorControl },
         pedidoContext: { setPedidoData, updatePedidoControl },
         tabelaContext: { setTabela },
         resetContext: baseReset,
@@ -290,6 +290,8 @@ export default function useChaveContext(): UseChaveContext {
                 quantidadeProdutos: produtos.length.toString(),
             }))
             console.log(pedido);
+            if(fornecedor.usaUnitarioPedido) console.log('usa unitario pedido, preencher dados');
+
             updatePedidoControl(pedido)
             setTabela(produtosCadastro)
 

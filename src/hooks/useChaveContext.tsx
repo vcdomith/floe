@@ -290,7 +290,10 @@ export default function useChaveContext(): UseChaveContext {
                 quantidadeProdutos: produtos.length.toString(),
             }))
             console.log(pedido);
-            if(fornecedor.usaUnitarioPedido) console.log('usa unitario pedido, preencher dados');
+            if(fornecedor.usaUnitarioPedido) {
+                console.log('usa unitario pedido, preencher dados');
+                console.log(produtosCadastro);
+            } 
 
             updatePedidoControl(pedido)
             setTabela(produtosCadastro)

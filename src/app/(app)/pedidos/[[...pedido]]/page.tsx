@@ -32,7 +32,8 @@ export async function generateStaticParams() {
 
 }
 
-export default async function Pedido({ params }: { params: { pedido: number }}) {
+type Params = Promise<{ pedido: number }>
+export default async function Pedido({ params }: { params: Params }) {
 
     const { pedido: pedidoParam } = await params
 

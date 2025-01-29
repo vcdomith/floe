@@ -26,7 +26,7 @@
     $mixed-color: color.mix($cor-primaria, $cor-secundaria, $percentage);
 
     $inverted: (5 - $i);
-    $transparency: $inverted/10;
+    $transparency: calc($inverted/10);
 
     .cor-#{$i}{
         stroke: color.adjust($mixed-color, $alpha: -$transparency, $lightness: -5%, $saturation: 15%);

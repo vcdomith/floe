@@ -23,9 +23,11 @@ export async function generateStaticParams() {
 
 }
 
-export default async function Fornecedor( { params }: { params: { fornecedor: string }}) {
+type Params = Promise<{ fornecedor: string }>
 
-    const { fornecedor: fornecedorParam } = params 
+export default async function Fornecedor( { params }: { params: Params }) {
+
+    const { fornecedor: fornecedorParam } = await params 
 
     const supabase = dbConnect()
     const { data: fornecedor, error } = await supabase

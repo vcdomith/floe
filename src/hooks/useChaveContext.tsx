@@ -11,6 +11,7 @@ import { useNotification } from "@/app/(app)/(contexts)/NotificationContext";
 import { useModal } from "@/app/(app)/(contexts)/ModalContext";
 import { FornecedorQueryType } from "@/app/(app)/calcular/Tabs/FornecedorTab/FornecedorTab";
 import useImportCard from "./useImportCard";
+import PreencherPedido from "@/app/(app)/calcular/(metodos)/chave/ImportarChaveSection/PreencherPedido/PreencherPedido";
 
 export interface UseChaveContext {
 
@@ -57,6 +58,8 @@ export default function useChaveContext(): UseChaveContext {
 
     const [ loading, setLoading ] = useState(false)
     const { addNotification } = useNotification()
+
+    const { setModal } = useModal()
 
     // const unitario = useMemo(() => {
 
@@ -112,8 +115,8 @@ export default function useChaveContext(): UseChaveContext {
                 codigo: produtoContext.codigo,
                 ncm: produtoContext.ncm || '',
                 st: produtoContext.st,
-                unitario: unitario || '0',
-                unitarioNota: produtoContext.unitarioNota || '0',
+                unitario: unitario || '',
+                unitarioNota: produtoContext.unitarioNota || '',
                 composto: [
         
                     produtoContext.composto1 || '', 
@@ -289,10 +292,21 @@ export default function useChaveContext(): UseChaveContext {
                 ...prev,
                 quantidadeProdutos: produtos.length.toString(),
             }))
-            console.log(pedido);
+
             if(fornecedor.usaUnitarioPedido) {
-                console.log('usa unitario pedido, preencher dados');
-                console.log(produtosCadastro);
+                setModal(
+                    <PreencherPedido 
+                        produtos={produtosCadastro} 
+                        fornecedor={fornecedor.nome}
+                        confirmAction={(produtos: ProdutoCadastro[]) => {
+                            updatePedidoControl(pedido)
+                            setTabela(produtos)
+                        }}
+                    />,
+                    true
+                )
+                setLoading(false)
+                return
             } 
 
             updatePedidoControl(pedido)

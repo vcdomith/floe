@@ -1,8 +1,8 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, ReactNode, useContext, useState } from "react";
 
 interface ModalContextProps {
-    modal: React.ReactNode[]
-    setModal: (component: React.ReactNode) => void
+    modal: ModalNode[]
+    setModal: (component: React.ReactNode, disableClickOutside?: boolean) => void
     clearModal: () => void
 }
 
@@ -15,22 +15,30 @@ export const useModal = () => {
     return context
 }
 
+export interface ModalNode {
+    modal: ReactNode
+    disableOutsideClick: boolean
+}
+
 export const ModalProvider = ({ children }: { children: React.ReactNode}) => {
 
-    const [modal, setModal] = useState<React.ReactNode[]>([])
+    const [modal, setModal] = useState<ModalNode[]>([])
 
-    const addModal = (modal: React.ReactNode) => setModal( prev => {
+    const addModal = (modal: React.ReactNode, disableOutsideClick = false) => setModal( prev => {
 
         // Condition to debounce and make sure only one type of modal is being shown at a time
         if (prev.some( element => 
-            (element as React.JSX.Element).type.name === 
+            (element.modal as React.JSX.Element).type.name === 
             (modal as React.JSX.Element).type.name)) {
                 return [...prev]
         }
 
         return [
             ...prev,
-            modal
+            {
+                modal: modal,
+                disableOutsideClick: disableOutsideClick
+            }
         ]
     })
 

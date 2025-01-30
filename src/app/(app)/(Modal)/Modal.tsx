@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from "framer-motion";
-import { useModal } from "../(contexts)/ModalContext";
+import { ModalNode, useModal } from "../(contexts)/ModalContext";
 import style from './Modal.module.scss'
 import { FocusTrap } from "focus-trap-react";
 import { forwardRef, ReactNode } from "react";
@@ -42,7 +42,7 @@ export default function Modal() {
 }
 
 interface ModalContentProps {
-    modal: ReactNode
+    modal: ModalNode
     style: {
         readonly [key: string]: string
     }
@@ -54,11 +54,14 @@ const ModalContent = forwardRef<HTMLElement, ModalContentProps>( function ModalC
         <section ref={ref}>
             <motion.section 
                 className={style.backdrop}
-                onClick={clearModal}
+                onClick={(!modal.disableOutsideClick)
+                        ? clearModal
+                        : ()=>{}
+                }
                 />
 
             <div className={style.modal}>
-                    {modal}
+                    {modal.modal}
             </div>
             
         </section>

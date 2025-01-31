@@ -5,22 +5,26 @@ import style from './PreencherPedido.module.scss'
 import NumberInput from "@/components/FatoresTable/FatoresTableBody/NumberInput/NumberInput";
 import { useMemo, useState } from "react";
 import { useModal } from "@/app/(app)/(contexts)/ModalContext";
+import capitalize from "@/utils/capitalize";
+import { NFeProduto } from "@/utils/parseXml";
+import { IFornecedor } from "@/interfaces/IFornecedor";
+import ConfirmationDialog from "@/components/ConfirmationDialog/ConfirmationDialog";
+import Highlight from "@/components/Highlight/Highlight";
 
 interface PreencherPedidoProps {
-    produtos: ProdutoCadastro[]
-    fornecedor: string
-    confirmAction: (produtos: ProdutoCadastro[]) => void
+    produtos: NFeProduto[]
+    fornecedor: IFornecedor
+    confirmAction: (produtos: NFeProduto[]) => void
+    cancelAction: () => void
 }
 
-export default function PreencherPedido({ produtos, fornecedor }: PreencherPedidoProps) {
-
-    
+export default function PreencherPedido({ produtos, fornecedor, confirmAction, cancelAction }: PreencherPedidoProps) {
     
     const [produtosPedido, setProdutosPedido] = useState(produtos)
-    console.log(produtos);
-    console.log(produtosPedido);
+    // console.log(produtos);
+    // console.log(produtosPedido);
 
-    function handleProdutoPedidoChange(index: number, field: keyof ProdutoCadastro) {
+    function handleProdutoPedidoChange(index: number, field: keyof NFeProduto) {
 
         return (valor: string) => setProdutosPedido( prev => 
             prev.map( (produto, i) => 
@@ -29,11 +33,41 @@ export default function PreencherPedido({ produtos, fornecedor }: PreencherPedid
                     : produto
             )
         )
+
     }
 
-    const [totalPedido, setTotalPedido] = useState('')
+    const { setModal, clearModal } = useModal()
 
-    const { clearModal } = useModal()
+    const handleConfirm = () => {
+
+        setModal(
+            <ConfirmationDialog 
+                title={'Confirme para gerar a tabela'} 
+                message={<>Os valores podem ser alterados novamente ao pressionar <Highlight>Gerar Tabela</Highlight> novamente</>}
+                cancelHandler={clearModal} 
+                confirmHandler={() => {
+                    clearModal()
+                    confirmAction(produtosPedido)
+                }} 
+            />
+        )
+
+    }
+
+    const handleCancel = () => {
+
+        setModal(
+            <ConfirmationDialog 
+                title={'Confirme para cancelar pedido'} 
+                message={<>Se você sair antes de gerar a tabela os dados do pedio serão <Highlight>PERDIDOS</Highlight>, confirme para sair</>}
+                cancelHandler={clearModal} 
+                confirmHandler={() => {
+                    cancelAction()
+                }} 
+            />
+        )
+
+    }
 
     return (
         <div className={style.card}>
@@ -80,13 +114,19 @@ export default function PreencherPedido({ produtos, fornecedor }: PreencherPedid
                 
             </section> */}
 
-            <form className={style.content}>
+            <form 
+                className={style.content}
+                onSubmit={(e) => {
+                    e.preventDefault()
+                    handleConfirm()
+                }}
+            >
 
                 <span className={style.tag}>
                     <h5>Pedido</h5>
                 </span>
                 
-                <div className={style.fatores}>
+                <div className={`${style.fatores} ${style.dados}`}>
                     <Config 
                         svg={svgsUtil.fornecedor} 
                         title={'Fornecedor'} 
@@ -94,12 +134,12 @@ export default function PreencherPedido({ produtos, fornecedor }: PreencherPedid
                         input={
                             <input 
                                 type="text" 
-                                value={fornecedor}
+                                value={capitalize(fornecedor.nome)}
                                 disabled
                             />
                         } 
                     />
-                    <Config 
+                    {/* <Config 
                         svg={svgsUtil.unitarioNota} 
                         title={'Total Pedido'} 
                         description={"Valor total do pedido a ser utilizado no calculo"} 
@@ -108,28 +148,44 @@ export default function PreencherPedido({ produtos, fornecedor }: PreencherPedid
                                 placeholder={""} 
                                 valor={totalPedido} 
                                 setValor={setTotalPedido}
+                                required
                             />
                         } 
-                    />
+                    /> */}
                 </div>
 
                 <span className={style.tag}>
                     <h5>Produtos</h5>
                 </span>
 
+                {/* TODO - adicionar caso tenho usaComposto */}
                 <div className={style.fatores}>
                     {produtos.map( (produto, index) => 
                         <Config 
-                            key={produto.id}
+                            key={produto.codigo}
                             svg={svgsUtil.produto} 
                             title={produto.codigo} 
-                            description={'Preencha o unitario pedido'} 
+                            description={produto.descricao} 
                             input={
+                                <>
+                                {(produto.quantidade).split('.')[0]}x
                                 <NumberInput 
                                     placeholder={""} 
-                                    valor={produtosPedido[index].unitario} 
-                                    setValor={handleProdutoPedidoChange(index, 'unitario')} 
+                                    label="unitario"
+                                    valor={produtosPedido[index].unitarioPedido} 
+                                    setValor={handleProdutoPedidoChange(index, 'unitarioPedido')} 
+                                    required
                                 />
+                                {fornecedor.usaDesconto&&
+                                <NumberInput 
+                                    placeholder={""} 
+                                    label="desconto"
+                                    valor={produtosPedido[index].desconto} 
+                                    setValor={handleProdutoPedidoChange(index, 'desconto')} 
+                                    required
+                                />
+                                }
+                                </>
                             } 
                         />
                     )
@@ -154,14 +210,14 @@ export default function PreencherPedido({ produtos, fornecedor }: PreencherPedid
 
                 <button 
                     className={style.discard}
-                    onClick={() => clearModal()}
+                    onClick={() => handleCancel()}
                 >
-                    Descartar
+                    Cancelar
                 </button>
 
                 <button 
                     className={style.update}
-                    onClick={() => {}}
+                    onClick={() => handleConfirm()}
                 >
                     Atualizar
                 </button>

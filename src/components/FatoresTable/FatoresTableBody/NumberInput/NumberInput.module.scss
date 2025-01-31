@@ -15,8 +15,13 @@
 
 .label {
 
-    margin-bottom: 0.25rem;
-    font-family: $fonte-header;
+    // position: absolute;
+
+    // top: -0.5rem;
+    margin-bottom: 0.1rem;
+    font-family: $fonte-body;
+    font-size: 0.8rem;
+    color: cor-mix(50%);
 
 
 }

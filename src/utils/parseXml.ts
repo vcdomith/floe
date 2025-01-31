@@ -29,8 +29,11 @@ export interface NFeProduto {
     ncm: string
     st: boolean
     unitario: string
+    unitarioPedido: string
     total: string
+    quantidade: string
     ipi: string
+    desconto: string
 
 }
 
@@ -77,6 +80,7 @@ export const parseNFeXml = (xml: Document): ParseXmlResult  => {
         const st = item.querySelector('CST')?.textContent || ''
         const unitario = item.querySelector('vUnCom')?.textContent || ''
         const total = item.querySelector('vProd')?.textContent || ''
+        const quantidade = item.querySelector('qCom')?.textContent || ''
         const ipi = item.querySelector('pIPI')?.textContent || ''
 
         const produto: NFeProduto = {
@@ -87,8 +91,11 @@ export const parseNFeXml = (xml: Document): ParseXmlResult  => {
             st: (st === '10'),
             // unitario: unitario?.replace('.', ','),
             unitario: floatToString(parseFloat(unitario), 4),
+            unitarioPedido: '',
             total: total?.replace('.', ','),
+            quantidade: quantidade,
             ipi: ipi?.replace('.', ','),
+            desconto: '',
         }
 
         produtosExtraidos.push(produto)

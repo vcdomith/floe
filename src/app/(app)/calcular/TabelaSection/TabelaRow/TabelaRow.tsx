@@ -46,7 +46,6 @@ function TabelaRow({produto, editable = true, disableTools = 'none'}: TabelaRowP
     const { setModal, clearModal } = useModal()
 
     const testValue = (value: string) => {
-        console.log(value, Number.isNaN(value));
         return (value !== '' && value.at(0) !== '-' && value !== "0.00" && value !== 'NaN')
             ? value
             : '••••••'

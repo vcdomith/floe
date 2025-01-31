@@ -59,7 +59,28 @@ export default function useChaveContext(): UseChaveContext {
     const [ loading, setLoading ] = useState(false)
     const { addNotification } = useNotification()
 
-    const { setModal } = useModal()
+    const { setModal, clearModal } = useModal()
+    const preencherPedido = async (produtos: NFeProduto[], fornecedor: IFornecedor) => {
+        return new Promise<NFeProduto[]>((resolve, reject) => {
+            setModal(
+                <PreencherPedido 
+                    produtos={produtos} 
+                    fornecedor={fornecedor}
+                    confirmAction={(updatedProdutos: NFeProduto[]) => {
+                        clearModal()
+                        resolve(updatedProdutos)
+                    }}
+                    cancelAction={() => {
+                        clearModal()
+                        reject(new Error('Operação cancelada pelo usuário', {
+                            cause: 'silent'
+                        }))
+                    }}
+                />,
+                true
+            )
+        })
+    }
 
     // const unitario = useMemo(() => {
 
@@ -83,7 +104,7 @@ export default function useChaveContext(): UseChaveContext {
                 codigo: produto.codigo,
                 ncm: produto.ncm,
                 desconto: fornecedor.usaDesconto 
-                    ? '1' 
+                    ? produto.desconto 
                     : "1",
                 ipi: (fornecedor.usaIpi) 
                     ?  floatToString(1 + (stringToFloat(produto.ipi) / 100)) 
@@ -91,7 +112,7 @@ export default function useChaveContext(): UseChaveContext {
                 ipiProporcional: "",
                 unitarioNota: produto.unitario,
                 unitarioPedido: fornecedor.usaUnitarioPedido 
-                    ? "" 
+                    ? produto.unitarioPedido
                     : "",
                 unitarioComposto: fornecedor.usaComposto 
                     ? "" 
@@ -149,6 +170,31 @@ export default function useChaveContext(): UseChaveContext {
         return listaProdutosCadastro
     }
 
+    const getTotalProdutosPedido = (produtos: NFeProduto[]) => {
+
+        const initial = 0
+        return floatToString(produtos.reduce(
+            (acc, val) => 
+                acc + (stringToFloat(val.unitarioPedido) * stringToFloat(val.quantidade))*stringToFloat(val.desconto),
+            initial
+        ))
+
+    }
+
+    const getTotalProdutosStPedido = (produtos: NFeProduto[]) => {
+
+        const initial = 0
+        return floatToString(
+            produtos
+                .filter( produto => produto.st)
+                .reduce(
+                    (acc, val) => acc + (stringToFloat(val.unitarioPedido) * stringToFloat(val.quantidade))*stringToFloat(val.desconto),
+                    initial
+                )
+        )
+
+    }
+
     const getTotalProdutosST = (produtos: NFeProduto[]) => {
 
         const initial = 0
@@ -163,8 +209,16 @@ export default function useChaveContext(): UseChaveContext {
 
     const gerarFatoresPedido = (fornecedor: IFornecedor): IFatoresPedido => {
 
-        const { fatorBase, usaSt, usaTransporte} = fornecedor
+        const { fatorBase, usaSt, usaTransporte } = fornecedor
         const { pedido, produtos } = dadosImportados        
+
+        const valorTotalProdutos = fornecedor.usaUnitarioPedido 
+            ? getTotalProdutosPedido(produtos) 
+            : pedido.valorTotalProdutos
+
+        const valorTotalProdutosSt = fornecedor.usaUnitarioPedido
+            ? getTotalProdutosStPedido(produtos)
+            : getTotalProdutosST(produtos)
 
         const pedidoResult: IFatoresPedido = {
             usaNcm: true,
@@ -183,23 +237,18 @@ export default function useChaveContext(): UseChaveContext {
         if (usaTransporte) {
             resultadoTransporte = (1 + (
                 (stringToFloat(pedido.valorFrete) * stringToFloat('3.4')) / 
-                (stringToFloat(pedido.valorTotalProdutos) * stringToFloat(fatorBase))
+                (stringToFloat(valorTotalProdutos) * stringToFloat(fatorBase))
             ))
         }
         if (Number.isNaN(resultadoTransporte) || resultadoTransporte === null || resultadoTransporte === undefined) {
             resultadoTransporte = 1
         }
 
-        const totalPedidoSt = getTotalProdutosST(produtos)
-        // console.log(produtos
-        //     .filter( produto => produto.st ));
-        // console.log(totalPedidoSt);
-
         let resultadoSt: number | undefined
         if (usaSt) {
             resultadoSt = (1 + (
                 (stringToFloat(pedido.valorSt) * stringToFloat('1')) / 
-                (stringToFloat(totalPedidoSt) * stringToFloat(fatorBase))
+                (stringToFloat(valorTotalProdutosSt) * stringToFloat(fatorBase))
             ))
         }
         if (Number.isNaN(resultadoSt) || resultadoSt === null || resultadoSt === undefined) {
@@ -213,10 +262,10 @@ export default function useChaveContext(): UseChaveContext {
             quantidadeProdutos: produtos.length.toString(),
             fatorTransportePedido: floatToString(resultadoTransporte, 3),
             valorFrete: pedido.valorFrete,
-            valorTotalProdutos: pedido.valorTotalProdutos, 
+            valorTotalProdutos: valorTotalProdutos, 
             fatorSTPedido: floatToString(resultadoSt, 3),
             valorST: pedido.valorSt,
-            valorTotalProdutosST: totalPedidoSt,
+            valorTotalProdutosST: valorTotalProdutosSt,
         }))
 
         return {
@@ -226,11 +275,11 @@ export default function useChaveContext(): UseChaveContext {
             fatorTransportePedido: floatToString(resultadoTransporte, 3),
             valorFrete: pedido.valorFrete,
             fatorFrete: '3,4',
-            valorTotalProdutos: pedido.valorTotalProdutos, 
+            valorTotalProdutos: valorTotalProdutos, 
             fatorSTPedido: floatToString(resultadoSt, 3),
             valorST: pedido.valorSt,
             multiploST: '1',
-            valorTotalProdutosST: totalPedidoSt,
+            valorTotalProdutosST: valorTotalProdutosSt,
         }
 
     }
@@ -283,6 +332,19 @@ export default function useChaveContext(): UseChaveContext {
             const fornecedor = await gerarFatoresFornecedor()
             if (fornecedor === null) return new Error('Erro ao gerar Fatores Fornecedor')
 
+            if(fornecedor.usaUnitarioPedido) {
+                const produtosPedido = await preencherPedido(dadosImportados.produtos, fornecedor)
+                dadosImportados.produtos.map( (produto, index) => {
+                    produto.unitarioPedido = produtosPedido[index].unitarioPedido
+                    produto.desconto = produtosPedido[index].desconto
+                })
+                console.log(dadosImportados.produtos.filter( produto => produto.st ));
+                console.log(dadosImportados.produtos);
+                console.log(getTotalProdutosPedido(dadosImportados.produtos));
+                console.log(getTotalProdutosStPedido(dadosImportados.produtos));
+                console.log('fim async part');             
+            }
+
             const pedido = gerarFatoresPedido(fornecedor)
 
             const produtos = dadosImportados.produtos
@@ -293,21 +355,22 @@ export default function useChaveContext(): UseChaveContext {
                 quantidadeProdutos: produtos.length.toString(),
             }))
 
-            if(fornecedor.usaUnitarioPedido) {
-                setModal(
-                    <PreencherPedido 
-                        produtos={produtosCadastro} 
-                        fornecedor={fornecedor.nome}
-                        confirmAction={(produtos: ProdutoCadastro[]) => {
-                            updatePedidoControl(pedido)
-                            setTabela(produtos)
-                        }}
-                    />,
-                    true
-                )
-                setLoading(false)
-                return
-            } 
+            // if(fornecedor.usaUnitarioPedido) {
+            //     setModal(
+            //         <PreencherPedido 
+            //             produtos={produtos} 
+            //             fornecedor={fornecedor}
+            //             confirmAction={(produtos: NFeProduto[]) => {
+            //                 updatePedidoControl(pedido)
+            //                 setTabela(produtosCadastro)
+            //             }}
+            //             cancelAction={() => clearModal()}
+            //         />,
+            //         true
+            //     )
+            //     setLoading(false)
+            //     return
+            // } 
 
             updatePedidoControl(pedido)
             setTabela(produtosCadastro)
@@ -320,7 +383,15 @@ export default function useChaveContext(): UseChaveContext {
 
         } catch (error) {
          
-            console.log('submitform', error);
+            if ((error as Error).cause === 'silent') {
+                addNotification({
+                    tipo: 'aviso',
+                    mensagem: 'Preenchimento cancelado por usuário'
+                })
+                return
+            }
+
+            console.log('submitform', error );
             setLoading(false)
             addNotification({
                 tipo: 'erro',
@@ -328,6 +399,8 @@ export default function useChaveContext(): UseChaveContext {
             })
             return
 
+        } finally {
+            setLoading(false)
         }
 
     }

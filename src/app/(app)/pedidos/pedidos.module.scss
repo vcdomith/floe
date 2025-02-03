@@ -8,6 +8,8 @@
 
     overflow: hidden;
 
+    @include thin-scrollbar-global;
+
     .placeholderSection {
 
         display: flex;

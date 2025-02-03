@@ -115,10 +115,10 @@ export default function useChaveContext(): UseChaveContext {
                     ? produto.unitarioPedido
                     : "",
                 unitarioComposto: fornecedor.usaComposto 
-                    ? "" 
+                    ? produto.unitarioPedido 
                     : "",
-                composto1: "",
-                composto2: ""
+                composto1: produto.composto1,
+                composto2: produto.composto2,
             }
             
             const unitario = (() => {
@@ -337,6 +337,8 @@ export default function useChaveContext(): UseChaveContext {
                 dadosImportados.produtos.map( (produto, index) => {
                     produto.unitarioPedido = produtosPedido[index].unitarioPedido
                     produto.desconto = produtosPedido[index].desconto
+                    produto.composto1 = produtosPedido[index].composto1
+                    produto.composto2 = produtosPedido[index].composto2
                 })
                 console.log(dadosImportados.produtos.filter( produto => produto.st ));
                 console.log(dadosImportados.produtos);

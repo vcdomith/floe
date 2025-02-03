@@ -30,6 +30,8 @@ export interface NFeProduto {
     st: boolean
     unitario: string
     unitarioPedido: string
+    composto1: string
+    composto2: string
     total: string
     quantidade: string
     ipi: string
@@ -92,6 +94,8 @@ export const parseNFeXml = (xml: Document): ParseXmlResult  => {
             // unitario: unitario?.replace('.', ','),
             unitario: floatToString(parseFloat(unitario), 4),
             unitarioPedido: '',
+            composto1: '',
+            composto2: '',
             total: total?.replace('.', ','),
             quantidade: quantidade,
             ipi: ipi?.replace('.', ','),

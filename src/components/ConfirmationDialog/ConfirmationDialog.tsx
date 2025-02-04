@@ -92,7 +92,12 @@ export default function ConfirmationDialog (
                     <button 
                         className={style.confirm} 
                         autoFocus
-                        ref={confirmRef}
+                        ref={el => {
+                            if(el) {
+                                confirmRef.current = el
+                                el.focus()
+                            }
+                        }}
                         disabled={loading}
                         data-loading={loading}
                         onClick={() => handleConfirm()}>

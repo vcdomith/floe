@@ -56,7 +56,7 @@ export default function NovoFornecedor() {
     } )
 
     const { addNotification } = useNotification()
-    const { modal, setModal, clearModal } = useModal()
+    const { setModal, clearModal, clearAllModal } = useModal()
 
     const [loading, setLoading] = useState(false)
 
@@ -131,8 +131,21 @@ export default function NovoFornecedor() {
                 cancelHandler={clearModal}
                 confirmHandler={async () => cadastrarFornecedor()}
             />
+        ) 
+
+    }
+
+    const handleCancel = () => {
+
+        setModal(
+            <ConfirmationDialog 
+                title={<>Confirme se deseja cancelar o cadastro:</>}
+                message='Atenção: Se sair os dados serão perdidos!'
+                cancelHandler={clearModal}
+                confirmHandler={async () => clearAllModal()}
+            />,
+            true
         )
-        
 
     }
 
@@ -191,6 +204,9 @@ export default function NovoFornecedor() {
                             {/* <p className={style.numero}>{svgsUtil.numero}{documento.numero}</p> */}
                         </span>
                     </div>
+                    <button onClick={() => handleCancel()}>
+                        {svgsUtil.delete}
+                    </button>
                 </span>
             </section>
 
@@ -442,7 +458,7 @@ const CARET_INITIAL_STATE: Caret = {
     direction: 'none'
 }
 
-function Cnpj({cnpj, handleFornecedorChange, fixed } :{ cnpj: string, handleFornecedorChange: <T>(field: keyof IFornecedor) => (valor: T) => void, cnpjSplit: string[], fixed: string}) {
+export function Cnpj({cnpj, handleFornecedorChange, fixed } :{ cnpj: string, handleFornecedorChange: <T>(field: keyof IFornecedor) => (valor: T) => void, cnpjSplit: string[], fixed: string}) {
 
     const [caret, setCaret] = useState(CARET_INITIAL_STATE)
     

@@ -8,16 +8,13 @@ import Link from 'next/link'
 import { svgsUtil } from '@/components/SvgArray/SvgUtil'
 import capitalizeInner from '@/utils/capitalize'
 import { usePathname } from 'next/navigation'
-import { useBackgroundSync } from '../../(contexts)/BackgroundSyncContext'
 import Highlight from '@/components/Highlight/Highlight'
 import LogoSvg from '@/components/SvgArray/LogoSvg'
-import { debounce } from 'lodash'
-import { FocusTrap } from 'focus-trap-react'
 import Config from '../../configurar/(Config)/Config'
 import {Button, CalendarCell, CalendarGrid, DateInput, DateRangePicker, DateRangePickerProps, DateSegment, DateValue, Dialog, FieldError, Group, Heading, Label, Popover, RangeCalendar, Text, ValidationResult} from 'react-aria-components';
-import { span } from 'framer-motion/client'
-import { CalendarDate, parseDate } from '@internationalized/date'
+import { CalendarDate } from '@internationalized/date'
 import { useNotification } from '../../(contexts)/NotificationContext'
+import { FocusTrap } from 'focus-trap-react'
 
 interface PedidosListaSectionProps {
     pedidos: ICadastro[]
@@ -392,12 +389,14 @@ const FiltroModal = ({fornecedor, setFornecedor, periodo, setPeriodo, setModalDi
         >
             <header className={style.header}>
                 <h3>Filtrar</h3>
-                <button onClick={() => setModalDisplay(false)}>
+                <button 
+                    onClick={() => setModalDisplay(false)}
+                >
                     {svgsUtil.delete}
                 </button>
             </header>
             <div className={style.filtros}>
-                <Config 
+                <Config
                     className={style.filtro}
                     svg={svgsUtil.fornecedor} 
                     title={'Fornecedor'} 
@@ -409,18 +408,9 @@ const FiltroModal = ({fornecedor, setFornecedor, periodo, setPeriodo, setModalDi
                         value={fornecedor}
                         onChange={(e) => setFornecedor(e.target.value)}
                         spellCheck={false}
+                        autoFocus
                     />} 
                 />
-                {/* <span className={style.field}>
-                    <label>Fornecedor:</label>
-                    <input 
-                        className={style.fornecedor}
-                        type="text" 
-                        value={fornecedor}
-                        onChange={(e) => setFornecedor(e.target.value)}
-                        spellCheck={false}
-                    />
-                </span> */}
                 <Config 
                     className={style.filtro}
                     svg={svgsUtil.data} 
@@ -433,16 +423,6 @@ const FiltroModal = ({fornecedor, setFornecedor, periodo, setPeriodo, setModalDi
                         onChange={setPeriodo}
                     />} 
                 />
-                {/* <span className={style.field}>
-                    <label>Perído cadastro:</label>
-                    <span>
-                        <DatePickRange 
-                            popoverRef={popoverRef}
-                            value={periodo}
-                            onChange={setPeriodo}
-                        />
-                    </span>
-                </span>                     */}
             </div>
             <footer className={style.footer}>
                 <button 

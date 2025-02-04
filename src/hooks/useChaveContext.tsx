@@ -336,7 +336,9 @@ export default function useChaveContext(): UseChaveContext {
                 const produtosPedido = await preencherPedido(dadosImportados.produtos, fornecedor)
                 dadosImportados.produtos.map( (produto, index) => {
                     produto.unitarioPedido = produtosPedido[index].unitarioPedido
-                    produto.desconto = produtosPedido[index].desconto
+                    produto.desconto = (produtosPedido[index].desconto === '')
+                        ? '1'
+                        : produtosPedido[index].desconto
                     produto.composto1 = produtosPedido[index].composto1
                     produto.composto2 = produtosPedido[index].composto2
                 })

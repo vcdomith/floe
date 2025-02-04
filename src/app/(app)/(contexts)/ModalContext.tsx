@@ -4,6 +4,7 @@ interface ModalContextProps {
     modal: ModalNode[]
     setModal: (component: React.ReactNode, disableClickOutside?: boolean) => void
     clearModal: () => void
+    clearAllModal: () => void
 }
 
 export const ModalContext = createContext<ModalContextProps | undefined>(undefined)
@@ -50,12 +51,14 @@ export const ModalProvider = ({ children }: { children: React.ReactNode}) => {
         return updated
     })
 
+    const clearAllModal = () => setModal([])
 
     return <ModalContext.Provider
         value={{
             modal,
             setModal: addModal,
-            clearModal
+            clearModal,
+            clearAllModal,
         }}
     >
         {children}

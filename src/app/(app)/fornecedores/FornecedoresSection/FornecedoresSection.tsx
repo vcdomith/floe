@@ -32,7 +32,8 @@ export default function FornecedoresSection({ fornecedores } : FatoresSectionPro
 
     const handleNovoFornecedor = () => {
         setModal(
-            <NovoFornecedor/>
+            <NovoFornecedor/>,
+            true
         )
     }
 

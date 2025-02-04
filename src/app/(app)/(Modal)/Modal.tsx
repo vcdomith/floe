@@ -54,6 +54,7 @@ const ModalContent = forwardRef<HTMLElement, ModalContentProps>( function ModalC
         <section ref={ref}>
             <motion.section 
                 className={style.backdrop}
+                data-disabled={modal.disableOutsideClick}
                 onClick={(!modal.disableOutsideClick)
                         ? clearModal
                         : ()=>{}
@@ -61,7 +62,7 @@ const ModalContent = forwardRef<HTMLElement, ModalContentProps>( function ModalC
                 />
 
             <div className={style.modal}>
-                    {modal.modal}
+                {modal.modal}
             </div>
             
         </section>

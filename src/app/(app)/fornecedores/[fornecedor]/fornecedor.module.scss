@@ -41,6 +41,13 @@
     
         }
 
+        .dados {
+            > span > p {
+                margin: 0;
+                text-align: end;
+            }
+        }
+
         .content {
 
             // padding: 0 1rem;

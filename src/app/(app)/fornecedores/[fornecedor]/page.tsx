@@ -110,7 +110,7 @@ const DadosSection = ({fornecedor}: {fornecedor: IFornecedor}) => {
     }, initial)
 
     return (
-        <section className={style.content}>
+        <section className={`${style.content} ${style.dados}`}>
             <Config 
                 svg={svgsUtil.fornecedor} 
                 title={'Fornecedor'} 

@@ -310,7 +310,7 @@
     // }
 
     .tabelaSection {
-        width: calc(100vw - 4rem);
+        width: calc(100vw - 6rem);
         flex: none;
 
         scroll-snap-align: end;
@@ -331,16 +331,28 @@
     .tabelaSection {
 
         // border-left: none;
+        width: calc(100vw - 4rem);
         gap: 0.5rem;
+
+        padding: 0;
+        padding-top: 0.5rem;
+
+        .options {
+            margin-right: 0.5rem;
+        }
 
         .content {
 
             padding: 0;
             // border-top: none;
+            border-bottom: 2px solid cor-mix(10%);
 
             .tabela {
 
                 border: none;
+                border-radius: 0;
+                border-top: 2px solid cor-mix(10%);
+                overflow-x: hidden;
 
                 .tabelaBody {
 
@@ -352,7 +364,26 @@
 
                     background-color: cor-mix(5%);
 
+                    &::-webkit-scrollbar-track {
+                        background-color: cor-mix(5%);
+                    }
+
                 }
+
+            }
+
+        }
+
+        .footer {
+
+            .message {
+                display: none;
+            }
+
+            .submit {
+
+                width: 100%;
+                border-radius: 0;
 
             }
 

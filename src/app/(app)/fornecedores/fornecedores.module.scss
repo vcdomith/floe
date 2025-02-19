@@ -8,6 +8,32 @@
 
     overflow: hidden;
 
+    .noFornecedor {
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+
+        height: 100%;
+
+        svg {
+
+            width: 35px;
+            height: 35px;
+
+            path {
+                stroke: cor-mix(60%);
+            }
+
+        }
+
+        p {
+            color: cor-mix(80%);
+        }
+
+    }
+
 }
 
 @media (width <= 900px) {

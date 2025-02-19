@@ -896,15 +896,19 @@
 
         padding: 0.25rem 0.5rem;
 
+        > span {
+            color: cor-mix(40%);
+        }
+        
         .dateInput {
 
             display: flex;
             gap: 0.25rem;
 
-            &:last-of-type {
-                border-left: 2px solid cor-mix(20%);
-                padding-left: 0.5rem;
-            }
+            // &:last-of-type {
+            //     border-left: 2px solid cor-mix(20%);
+            //     padding-left: 0.5rem;
+            // }
 
             .segment {
 

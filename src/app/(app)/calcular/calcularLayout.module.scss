@@ -10,13 +10,15 @@
 
     overflow: hidden;
 
+    @include thin-scrollbar-global;
+
 }
 
 @media (width <= 900px) {
 
     .main {
         height: calc(100dvh - 7rem);
-        gap: 1rem;
+        // gap: 1rem;
 
         overflow-y: hidden;
         overflow-x: scroll;

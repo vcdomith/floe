@@ -209,3 +209,19 @@
 
 
 }
+
+@media (width <= 700px) {
+
+    .chaveSection {
+        min-width: 0;
+        width: calc(100vw - 4rem);
+        flex: none;
+
+        scroll-snap-align: start;
+    }
+
+    // .fatores[data-active="false"]{
+    //     display: none;
+    // }
+
+}

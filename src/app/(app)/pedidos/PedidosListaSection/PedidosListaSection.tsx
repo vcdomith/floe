@@ -402,14 +402,16 @@ const FiltroModal = ({fornecedor, setFornecedor, periodo, setPeriodo, setModalDi
                     title={'Fornecedor'} 
                     description={'Selecione o nome que deseja buscar em cadastros'} 
                     layout
-                    input={<input 
-                        className={style.fornecedor}
-                        type="text" 
-                        value={fornecedor}
-                        onChange={(e) => setFornecedor(e.target.value)}
-                        spellCheck={false}
-                        autoFocus
-                    />} 
+                    input={
+                        <input 
+                            className={style.fornecedor}
+                            type="text" 
+                            value={fornecedor}
+                            onChange={(e) => setFornecedor(e.target.value)}
+                            spellCheck={false}
+                            autoFocus
+                        />
+                    } 
                 />
                 <Config 
                     className={style.filtro}
@@ -433,8 +435,8 @@ const FiltroModal = ({fornecedor, setFornecedor, periodo, setPeriodo, setModalDi
                     className={style.confirm} 
                     disabled={loading}
                     onClick={() => pesquisaDb()}>
-                        {loading? 
-                            <><LogoSvg loop/> Carregando...</>
+                        {loading
+                            ? <><LogoSvg loop/> Carregando...</>
                             : <>Aplicar</>
                         }
                     </button>
@@ -464,7 +466,7 @@ function DatePickRange<T extends DateValue>(
             <DateInput slot="start" className={style.dateInput}>
             {(segment) => <DateSegment segment={segment} className={style.segment} />}
             </DateInput>
-            {/* <span aria-hidden="true">-</span> */}
+            <span aria-hidden="true">→</span>
             <DateInput slot="end" className={style.dateInput}>
             {(segment) => <DateSegment segment={segment} className={style.segment} />}
             </DateInput>

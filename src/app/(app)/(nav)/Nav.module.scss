@@ -193,6 +193,8 @@ $step-size: math.div(100%, ($steps + 1));
                 color: $cor-secundaria;
                 font-size: 1rem;
                 text-align: start;
+
+                outline: 1px solid transparent;
                 
                 // width: min-content;
                 width: 100%;
@@ -206,24 +208,27 @@ $step-size: math.div(100%, ($steps + 1));
                             background-color 400ms ease,
                             box-shadow 400ms ease,
                             width 100ms ease,
+                            outline-color 400ms ease
                             ;
 
                 &:not(.active):hover {
 
-                    background-color: color.adjust($cor-secundaria, $alpha: 0.8);
+                    // background-color: color.adjust($cor-secundaria, $alpha: 0.8);
+                    // background-color: cor-mix(20%);
+                    outline: 1px solid cor-mix(20%);
                     backdrop-filter: blur(2px);
                     // box-shadow: 2px 2px 10px 1px $cor-primaria;
 
                     > p {
                         // color: color.adjust($cor-secundaria, $lightness: -0.1);
-                        color: cor-mix(100%);
+                        // color: cor-mix(100%);
                         
                     }
 
                     > svg {
                         path, circle {
                             // stroke: color.adjust($cor-secundaria, $lightness: -0.1);
-                            stroke: cor-mix(100%);
+                            // stroke: cor-mix(100%);
                         }
                     }
                     // border-bottom: 4px solid $cor-secundaria;

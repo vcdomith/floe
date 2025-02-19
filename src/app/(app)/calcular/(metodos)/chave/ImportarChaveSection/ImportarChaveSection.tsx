@@ -4,7 +4,7 @@ import style from './ImportarChaveSection.module.scss'
 import { svgsUtil } from '@/components/SvgArray/SvgUtil'
 import ImportCard from './ImportCard/ImportCard'
 import { useChave } from '../../../context/CalcularContext'
-import { UIEvent, useMemo, useState } from 'react'
+import { UIEvent, useEffect, useMemo, useState } from 'react'
 import LogoSvg from '@/components/SvgArray/LogoSvg'
 import FornecedorTab from '../../../Tabs/FornecedorTab/FornecedorTab'
 import PedidoTab from '../../../Tabs/PedidoTab/PedidoTab'
@@ -16,6 +16,7 @@ import Tab from '@/components/Tab/Tab'
 import useDocumento from '@/hooks/useDocumento'
 import { CTeData } from '@/utils/parseXml'
 import MetodoSelect from '../../(MetodoSelect)/MetodoSelect'
+import { useSectionSelect } from '@/app/(app)/(contexts)/SectionSelectContext'
 
 export default function ImportarChaveSection({ tipo = 'chave'} : { tipo: 'chave' | 'xml'}) {
 
@@ -31,7 +32,30 @@ export default function ImportarChaveSection({ tipo = 'chave'} : { tipo: 'chave'
         submitForm 
     }} = useChave()
 
+    const { section, setSection } = useSectionSelect()
+
     const { addNotification } = useNotification()
+
+    useEffect(() => {
+    
+            const handleKeyCombo = (e: KeyboardEvent) => {
+    
+                if (e.key === 'Alt') {
+                    e.preventDefault()
+                    setSection((prev) => {
+                        return (prev === 'Fatores')
+                            ? 'Tabela' 
+                            : 'Fatores'
+                    })
+                }
+    
+            }
+            
+            window.addEventListener('keydown', handleKeyCombo)
+            
+            return () => window.removeEventListener('keydown', handleKeyCombo)
+    
+        }, [])
 
     // const {
     //     documentos
@@ -55,7 +79,10 @@ export default function ImportarChaveSection({ tipo = 'chave'} : { tipo: 'chave'
 
     return (
 
-        <section className={style.chaveSection}>
+        <section 
+            className={style.chaveSection}
+            data-active={(section === 'Fatores')}
+        >
             
             <MetodoSelect />
 

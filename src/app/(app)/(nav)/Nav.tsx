@@ -62,7 +62,7 @@ const Nav = () => {
                         {(path === 'fornecedores')&&
                         <motion.div layoutId='Nav'></motion.div>
                         }
-                        <p>Configurar Fatores</p>
+                        <p>Configurar Fornecedor</p>
                     </button>
                 </Link>
                 <Link href='/calcular/chave' prefetch>
@@ -98,7 +98,7 @@ const Nav = () => {
                         {(path === 'pedidos')&&
                         <motion.div layoutId='Nav'></motion.div>
                         }
-                        <p>Conferir Cadastros</p>
+                        <p>Conferir Pedidos</p>
                     </button>
                 </Link>
 

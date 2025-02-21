@@ -3,7 +3,7 @@ import { ICadastro } from '@/interfaces/ICadastro'
 import style from './PedidosListaSection.module.scss'
 import Search from '@/components/Search/Search'
 import { AnimatePresence, LayoutGroup, motion } from 'framer-motion'
-import { Dispatch, forwardRef, MutableRefObject, SetStateAction, Suspense, useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { Dispatch, forwardRef, MutableRefObject, SetStateAction, Suspense, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import Link from 'next/link'
 import { svgsUtil } from '@/components/SvgArray/SvgUtil'
 import capitalizeInner from '@/utils/capitalize'
@@ -287,6 +287,11 @@ const FiltroModal = ({fornecedor, setFornecedor, periodo, setPeriodo, setModalDi
     const popoverRef = useRef<HTMLSpanElement>(null)
 
     const [loading, setLoading] = useState(false)
+    // const [modalHeight, setModalHeight] = useState(0)
+    // const [parentTop, setParentTop] = useState(0)
+    const [overflowing, setOverflowing] = useState(false)
+    const [overflowAmount, setOverflowAmount] = useState(0)
+
 
     const {addNotification} = useNotification()
 
@@ -294,7 +299,19 @@ const FiltroModal = ({fornecedor, setFornecedor, periodo, setPeriodo, setModalDi
         if (periodo === null) return null
         return `${periodo?.start.toString()}T00:00:00,${periodo?.end.toString()}T00:00:00`
     }, [periodo])
-    console.log(periodoString);
+
+    useLayoutEffect(() => {
+        const {height} = modalRef.current?.getBoundingClientRect()!;
+        const {top} = modalRef.current?.parentElement?.getBoundingClientRect()!;
+        // setModalHeight(height)
+        // setParentTop(top)
+        
+        const overflowing = (height + (top + 32)) > (window.innerHeight - 34)
+        const overflowAmount = (window.innerHeight - 34) - (height + top)
+        setOverflowing(overflowing)
+        setOverflowAmount(overflowAmount)
+
+    }, [])
 
     const limparFiltros = () => {
         setPedidosQuery([])
@@ -382,6 +399,10 @@ const FiltroModal = ({fornecedor, setFornecedor, periodo, setPeriodo, setModalDi
         <motion.div 
             className={style.modal}
             ref={modalRef}
+            data-overflowing={overflowing}
+            style={{
+                top: `calc(30px + 1rem - ${overflowing ? (overflowAmount + 32) : 0}px)`
+            }}
 
             initial={{ y: -10, opacity: 0, height: 0 }}
             animate={{ y: 0, opacity: 1, height: 'auto' }}

@@ -38,10 +38,14 @@ const Nav = () => {
         onMouseLeave={() => setDisplay(false)}
     >       
         
-            <span className={style.logo}>
+            <Link 
+                className={style.logo}
+                href={'/'}
+                prefetch
+            >
                 <LogoSvg />
                 <h2>floe</h2>
-            </span>
+            </Link>
             <div 
                 className={style.links}
                 data-display={display}

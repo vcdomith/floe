@@ -121,7 +121,7 @@ $step-size: math.div(100%, ($steps + 1));
 
     }
 
-    span {
+    .logo {
 
         display: inline-flex;
         align-items: center;
@@ -132,6 +132,7 @@ $step-size: math.div(100%, ($steps + 1));
         // padding-left: 0.3rem;
         border-bottom: 2px solid color.adjust($cor-secundaria, $alpha: 0.8);
         border-image: linear-gradient(to right , transparent, cor-mix(40%) 50%, transparent) 5;
+        text-decoration: none;
 
         transition: border 1s ease;
 
@@ -326,6 +327,8 @@ $step-size: math.div(100%, ($steps + 1));
         .logo {
             min-height: 4rem;
             padding-left: calc(1rem - 0.3rem);
+            text-decoration: none;
+
 
         }
 

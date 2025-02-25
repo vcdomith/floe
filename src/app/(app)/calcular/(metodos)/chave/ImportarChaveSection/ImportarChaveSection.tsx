@@ -69,13 +69,23 @@ export default function ImportarChaveSection({ tipo = 'chave'} : { tipo: 'chave'
     // const valid = useMemo(() => {
     //     return (nfeImportado !== undefined && cteImportado !== undefined)
     // }, [nfeImportado, cteImportado])
+    const usesTransporte = useMemo(() => (fornecedorData.cnpj !== '' && fornecedorData.usaTransporte), [fornecedorData])
+
     const generateValid = useMemo(() => {
 
-        const documentosValid = (documentos.cte !== null && documentos.nfe !== null)
-        const chavesValid = ((documentos.cte?.data as CTeData)?.chaveNFe === documentos.nfe?.chave)
+        const documentosValid = (
+            documentos.nfe !== null &&
+            usesTransporte 
+                ? (documentos.cte !== null) 
+                : true
+        )
+        const chavesValid = usesTransporte 
+            ? ((documentos.cte?.data as CTeData)?.chaveNFe === documentos.nfe?.chave) 
+            : true
+
         return (documentosValid && chavesValid)
 
-    }, [documentos])
+    }, [documentos, usesTransporte])
 
     return (
 

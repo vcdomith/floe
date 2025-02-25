@@ -19,15 +19,15 @@ import DocumentoDetalhes from '../DocumentoDetalhes/DocumentoDetalhes'
 export default function ImportCard() {
 
     const {
-        chave: { documentosContext: context }
+        chave: { context: {fornecedorContext: { setFornecedorData }}, documentosContext: context, gerarFatoresFornecedor }
     } = useChave()
 
-    const { 
+    const {
         chave,
         valid: chaveValid,
         loading, 
         documentos, 
-        importarDocumento 
+        importarDocumento
     } = context
 
     const {
@@ -41,7 +41,8 @@ export default function ImportCard() {
     const { setModal } = useModal()
 
     const valid = useMemo(() => {
-        const documentosValid = (documentos.cte?.chave !== chave && documentos.nfe?.chave !== chave)
+        const documentosValid = (
+            documentos.cte?.chave !== chave && documentos.nfe?.chave !== chave)
         return (chaveValid && documentosValid)
     }, [documentos, chaveValid, chave])
 
@@ -118,9 +119,13 @@ export default function ImportCard() {
     
             <form 
                 className={style.chave}
-                onSubmit={(e) => {
+                onSubmit={async (e) => {
                     e.preventDefault()
-                    importarDocumento(chave)
+                    const data = await importarDocumento(chave)
+                    if(data !== undefined) {
+                        // URGENTE - Gera fatores aqui e depois quando gera a tabela, definir onde será feito esse processo!
+                        await gerarFatoresFornecedor(data.pedido.cnpj)
+                    }
                 }}
             >
                 <span 
@@ -150,7 +155,7 @@ export default function ImportCard() {
                 className={style.documentos}
             >
                 {/* <AnimatePresence> */}
-                {Object.entries(documentos).map( ([tipo, documento], index) => 
+                {Object.entries(documentos).filter(([tipo, _]) => tipo !== 'pedido').map( ([tipo, documento], index) => 
                     <motion.div 
                         className={`${style.documento} ${documento === null&& style.empty}`}
                         key={index}

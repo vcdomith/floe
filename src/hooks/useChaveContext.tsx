@@ -21,6 +21,8 @@ export interface UseChaveContext {
     // dadosImportados: DadosImportados
     loading: boolean
 
+    gerarFatoresFornecedor: (cnpj: string) => Promise<IFornecedor | null>
+
     submitForm: () => void
 
     resetContext: () => void
@@ -313,7 +315,6 @@ export default function useChaveContext(): UseChaveContext {
 
             return fornecedorData
 
-
         } catch (error) {
             
             console.error(error);
@@ -342,11 +343,11 @@ export default function useChaveContext(): UseChaveContext {
                     produto.composto1 = produtosPedido[index].composto1
                     produto.composto2 = produtosPedido[index].composto2
                 })
-                console.log(dadosImportados.produtos.filter( produto => produto.st ));
-                console.log(dadosImportados.produtos);
-                console.log(getTotalProdutosPedido(dadosImportados.produtos));
-                console.log(getTotalProdutosStPedido(dadosImportados.produtos));
-                console.log('fim async part');             
+                // console.log(dadosImportados.produtos.filter( produto => produto.st ));
+                // console.log(dadosImportados.produtos);
+                // console.log(getTotalProdutosPedido(dadosImportados.produtos));
+                // console.log(getTotalProdutosStPedido(dadosImportados.produtos));
+                // console.log('fim async part');             
             }
 
             const pedido = gerarFatoresPedido(fornecedor)
@@ -419,6 +420,7 @@ export default function useChaveContext(): UseChaveContext {
         context: chaveContext,
         documentosContext,
         loading,
+        gerarFatoresFornecedor,
         submitForm,
         resetContext,
 

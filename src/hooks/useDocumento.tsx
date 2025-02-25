@@ -1,6 +1,8 @@
 import { useNotification } from "@/app/(app)/(contexts)/NotificationContext"
 import { CTeData, NFeData, NFeProduto, NFeResult, parseXml } from "@/utils/parseXml"
 import { Dispatch, SetStateAction, useMemo, useState } from "react"
+import useChaveContext from "./useChaveContext"
+import { IFornecedor } from "@/interfaces/IFornecedor"
 
 interface PedidoData extends NFeData, CTeData {}
 
@@ -47,7 +49,7 @@ export interface DocumentoData {
     chave: string
     setChave: (chave: string) => void
     loading: boolean
-    importarDocumento: (chave: string) => void
+    importarDocumento: (chave: string) => Promise<NFeResult | undefined>
     importado: DocumentoImportado | undefined
 
 }
@@ -65,7 +67,7 @@ export interface UseDocumento {
     dadosImportados: DadosImportados
 
     modelo: string | null
-    importarDocumento: (chave: string) => Promise<void>
+    importarDocumento: (chave: string) => Promise<NFeResult | undefined>
 
     clearDocumento: () => void
     // documentos: Record<'nfe' | 'cte', DocumentoData>
@@ -129,10 +131,6 @@ export default function useDocumento(): UseDocumento {
 
     }, [chave])
 
-    const getModelo = () => {
-
-    }
-
     const valid = useMemo(() => chave.length === 44, [chave])
 
     const [dadosImportados, setDadosImportados] = useState<DadosImportados>(INITAL_STATE_DADOS_IMPORTADOS)
@@ -189,6 +187,8 @@ export default function useDocumento(): UseDocumento {
                 tipo: 'sucesso',
                 mensagem: 'NFe importada com sucesso!'
             })
+
+            return (data as NFeResult)
 
         } catch (error) {
             
@@ -269,7 +269,7 @@ export default function useDocumento(): UseDocumento {
     const importarDocumento = async (chave: string) => {
         
         if (!modelo) {
-            console.log('documento não possúi modelo ou não está validado corretamente, necessita ter 44 dígitos');
+            console.log('documento não possui modelo ou não está validado corretamente, necessita ter 44 dígitos');
             return
         } 
 
@@ -285,7 +285,8 @@ export default function useDocumento(): UseDocumento {
         }
 
         console.log('nfe');
-        await handleImportNFe(chave)
+        const data = await handleImportNFe(chave)
+        return data
 
     }
 

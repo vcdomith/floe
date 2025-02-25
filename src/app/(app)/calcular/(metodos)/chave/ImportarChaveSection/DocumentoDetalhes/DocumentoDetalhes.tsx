@@ -21,7 +21,6 @@ export default function DocumentoDetalhes({documento}: {documento: DocumentoImpo
             <section className={style.header}>
                 <span className={style.badge}>
                     {svgsUtil.produto3D}
-                    {/* <h3>{documento.tipo.toUpperCase()}</h3> */}
                     <div className={style.title}>
                         <h3>{capitalize(documento.fornecedor)}</h3>
                         <span className={style.subTitle}>
@@ -41,21 +40,10 @@ export default function DocumentoDetalhes({documento}: {documento: DocumentoImpo
                     </span>
                     <div className={style.format}>
                         {chaveFormatDisplay?.map( (segment, index) => 
-                            // <Highlight key={parseInt(segment)+index}>{segment}</Highlight>
                             <p key={parseInt(segment)+index}>{segment}</p>
                         )}
                     </div>
                 </div>
-
-                {/* <div className={style.detalhe}>
-                    <span className={style.title}>
-                        {svgsUtil.fornecedor}
-                        <p>fornecedor</p>
-                    </span>
-                    <div className={style.format}>
-                        {documento.fornecedor}
-                    </div>
-                </div> */}
 
                 {(documento.tipo === 'cte')&&
                 <CTeDados documento={documento} />
@@ -277,7 +265,7 @@ function NFeDados({ documento }: {documento: DocumentoImportado}) {
 function NfeProduto({ produto }: {produto: NFeProduto}) {
 
     const nfeProdutoDisplay = useMemo(() => Object.entries(produto)
-        .filter(([key, value]) => !KEY_FILTER.includes(key as keyof NFeProduto))
+        .filter(([key, _]) => !KEY_FILTER.includes(key as keyof NFeProduto))
         .map(([key, value], index) => 
         <span 
             key={index}

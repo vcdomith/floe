@@ -5,6 +5,8 @@ import style from './style.module.scss'
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { motion } from 'framer-motion'
+import { nav } from "framer-motion/client";
+import { svgsUtil } from "@/components/SvgArray/SvgUtil";
 
 export default function Title() {
 
@@ -23,9 +25,10 @@ export default function Title() {
 
     return (
         <section className={style.container}>
+            <LandingPageNav style={style}/>
             <div className={style.wrapper}>
                 <div>
-                    <span className={style.logoContainer}>
+                    {/* <span className={style.logoContainer}>
                         <LogoSvg />
                         <span
                             className={style.nameContainer}
@@ -33,13 +36,14 @@ export default function Title() {
                         >
                             <h1>floe</h1>
                         </span>
-                    </span>
-                <div className={style.sub}>
-                    <h2>Uma forma <I>prática</I> para calcular todas as tabelas de preços <I>automaticamente</I> para seu negócio!</h2>
-                </div>
+                    </span> */}
+                    <div className={style.sub}>
+                        <h2>Uma forma <I>prática</I> para calcular todas as tabelas de preços <I>automaticamente</I> para seu negócio!</h2>
+                    </div>
+                    {/* <div className={style.border}></div> */}
                 </div>
                 {/* {showOptions&& */}
-                <motion.span 
+                {/* <motion.span 
                     className={style.buttons}
                     style={{ width: `${showOptions ? '250px' : 0}`, borderColor: `${showOptions ? '' : 'transparent'}` }}
                     // style={{ opacity: `${showOptions ? 1 : 0}`, }}
@@ -72,15 +76,6 @@ export default function Title() {
                     </Link>
                     <Link href='/cadastros' prefetch>
                         <motion.button>
-                        {/* <svg width="500" height="500" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M0 480C137.5 480 124 359 249.5 359" stroke="#591C4A" strokeWidth="40"/>
-                            <path d="M0 301C137.5 301 124 180 249.5 180" stroke="#591C4A" strokeWidth="40"/>
-                            <path d="M250 480C387.5 480 374 359 499.5 359" stroke="#591C4A" strokeWidth="40"/>
-                            <path d="M250 319C387.5 319 374 198 499.5 198" stroke="#591C4A" strokeWidth="40"/>
-                            <path d="M250 141.5C387.5 141.5 374 20 499.5 20" stroke="#591C4A" strokeWidth="40"/>
-                            <path d="M0 141.5C137.5 141.5 124 20 249.5 20" stroke="#591C4A" strokeWidth="40"/>
-                            <circle cx="250" cy="250" r="69" stroke="#591C4A" strokeWidth="40"/>
-                        </svg> */}
                         <svg width="500" height="500" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M0 480.001C249.5 480.001 0 359 249.5 359" stroke="#591C4A" strokeWidth="40"/>
                             <path d="M250 480.001C499.5 480.001 250 359 499.5 359" stroke="#591C4A" strokeWidth="40"/>
@@ -93,8 +88,7 @@ export default function Title() {
                             Conferir Cadastros
                         </motion.button>
                     </Link>
-                </motion.span>
-                {/* }  */}
+                </motion.span> */}
             </div>
         </section>
     )
@@ -106,13 +100,35 @@ function I({ children }: { children: React.ReactNode }) {
     return (
         <strong
             style={{
-                fontFamily: 'Playfair Display',
-                fontSize: '3rem',
-                fontWeight: 400,
+                // fontFamily: 'Playfair Display',
+                // fontSize: '3rem',
+                // fontWeight: 400,
             }}
         >
             {children}
         </strong>
+    )
+
+}
+
+const LandingPageNav = ({style}: {style: {readonly [key: string]: string}}) => {
+
+    return (
+        <nav className={style.nav}>
+
+            <span>
+                <LogoSvg />
+                <h2>floe</h2>
+            </span>
+
+            <Link href={'/pedidos'} prefetch>
+                <button>
+                    {svgsUtil.back}
+                    <p>Entrar</p>
+                </button>
+            </Link>
+
+        </nav>
     )
 
 }

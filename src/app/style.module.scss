@@ -19,9 +19,105 @@
         
     }
     
+    .nav {
+
+        position: fixed;
+        top: 0;
+
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        width: calc(100% - 2rem);
+
+        padding: 1rem;
+        padding-bottom: 0;
+
+        span {
+
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+
+            svg {
+                height: 50px;
+                width: 50px;
+
+                path {
+                    stroke: cor-mix(10%);
+                }
+
+            }
+
+            h2 {
+                color: cor-mix(0%);
+                font-style: italic;
+                margin: 0;
+                padding: 0;
+            }
+
+        }
+
+        a {
+
+            text-decoration: none;
+
+            button {
+
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+
+                background: none;
+                outline: none;
+                border: 2px solid cor-mix(90%);
+                // border: none;
+                border-radius: 0.5rem;
+    
+                height: 30px;
+                padding: 0 1rem 0 0.5rem;
+    
+                cursor: pointer;
+    
+                transition: background-color 400ms ease,
+                            border-color 400ms ease;
+    
+                &:hover {
+    
+                    background-color: cor-mix(90%);
+                    border-color: cor-mix(85%);
+    
+                }
+    
+                svg {
+
+                    width: 20px;
+                    height: 20px;
+    
+                    rotate: 180deg;
+
+                    path {
+                        fill: cor-mix(20%);
+                    }
+                }
+    
+                p {
+                    color: cor-mix(10%);
+                    font-size: 1rem;
+                    margin: 0;
+                    padding: 0;
+                }
+
+            }
+
+        }
+
+    }
+
     .wrapper {
         
         display: flex;
+        justify-content: center;
         gap: 1rem;
 
         transition: width 500ms;
@@ -29,15 +125,19 @@
         div > span > svg {
 
             overflow: visible;
+            width: 75px;
+            height: 75px;
 
             path {
 
-                transform: translate(-47.5%, -47.5%);
-                scale: 15;
-                stroke-width: 1;
+                // transform: translate(-20%, -20%);
+                // scale: 1.5;
+                // stroke-width: 20;
+                stroke-width: 35;
 
-                stroke: $cor-secundaria;
-                stroke: color.adjust($cor-secundaria, $alpha: -0.5);
+                // stroke: $cor-secundaria;
+                // stroke: cor-mix(20%);
+                stroke: color.adjust($cor-secundaria, $alpha: -0.3);
 
                 transition: stroke-width 400ms ease;
 
@@ -50,6 +150,9 @@
             display: flex;
             flex-direction: column;
             justify-content: center;
+            align-items: center;
+
+            width: 100%;
             // align-items: center;
 
             gap: 1rem;
@@ -63,11 +166,11 @@
 
                     display: flex;
 
-                    width: 0;
-                    overflow: hidden;
+                    // width: 0;
+                    // overflow: hidden;
             
-                    animation: appear-left-100 2s forwards ease-out;
-                    animation-delay: 2.5s;
+                    // animation: appear-left-100 2s forwards ease-out;
+                    // animation-delay: 2.5s;
             
                     h1 {
                 
@@ -77,9 +180,12 @@
                         margin: 0;
 
                         color: $cor-secundaria;
+                        color: color.change($cor-secundaria, $alpha: 0.1);
+
                         font-family: $fonte-body;
                         font-style: italic;
-                        font-size: 3rem;
+                        font-size: 2.5rem;
+                        // font-weight: 500;
                 
                         user-select: none;
                     }
@@ -87,18 +193,48 @@
 
             }
 
+            .border {
+
+                width: 100px;
+                min-width: 100px;
+                height: 100px;
+                min-height: 100px;
+
+                border-radius: 1rem;
+
+                background-color: cor-mix(20%);
+
+            }
+
         }
 
         h2 {
 
-            font-size: 3rem;
+            font-size: 2.5rem;
+            font-weight: 500;
             color: $cor-secundaria;
-            width: 40vw;
+            // width: 40vw;
+            max-width: 750px;
+            text-wrap: pretty;
+            text-align: center;
 
             margin: 0;
 
             user-select: none;
 
+        }
+
+        strong {
+            font-size: 2.5rem;
+            font-weight: 400;
+            font-style: italic;
+
+            // color: cor-mix(0%);
+            color: color.adjust(cor-mix(10%), $saturation: 1.2);
+            background-color: color.change($cor-destaque, $alpha: 0.3);
+            backdrop-filter: blur(2px);
+            border-radius: 0.5rem;
+            padding: 0 0.5rem;
         }
 
         .buttons {

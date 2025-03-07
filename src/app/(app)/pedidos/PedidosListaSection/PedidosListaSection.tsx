@@ -67,7 +67,10 @@ export default function PedidosListaSection({ pedidos: pedidosInitial, pedidosLe
 
     return (
 
-        <section className={style.pedidos}>
+        <section 
+            className={style.pedidos}
+            data-invisible={path !== undefined}
+        >
 
             <header className={style.header}>
 

@@ -426,6 +426,10 @@
 
 @media (width <= 700px) {
 
+    .fornecedores[data-invisible="true"] {
+        display: none;
+    }
+
     .fatores {
         min-width: 0;
     }

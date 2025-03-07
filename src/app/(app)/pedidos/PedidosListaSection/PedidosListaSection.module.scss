@@ -1234,6 +1234,11 @@
 @media (width <= 700px) {
 
     .pedidos {
+
+        &[data-invisible="true"] {
+            display: none;
+        }
+
         min-width: 0;
         width: calc(100vw - 4rem);
         flex: none;
@@ -1247,16 +1252,17 @@
 
 }
 
-@media (width <= 440px) {
+// @media (width <= 440px) {
 
-    .pedidos {
+//     .pedidos {
 
-        .content {
+//         .content {
 
-            padding: 0;
+//             // padding: 0.5rem;
+//             // padding: 0;
 
-        }
-    }
+//         }
+//     }
 
 
-}
+// }

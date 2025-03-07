@@ -262,6 +262,10 @@
 
 @media (width <= 700px) {
     
+    .detalhe[data-invisible="true"]{
+        display: none;
+    }
+
     .tabelaSection[data-active="false"]{
         display: none;
     }

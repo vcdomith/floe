@@ -16,10 +16,13 @@ import capitalize from '@/utils/capitalize'
 import { useModal } from '../../(contexts)/ModalContext'
 import DocumentoDetalhes from '../../calcular/(metodos)/chave/ImportarChaveSection/DocumentoDetalhes/DocumentoDetalhes'
 import { DocumentoImportado } from '@/hooks/useDocumento'
+import { usePathname } from 'next/navigation'
 
 export default function PedidoDetalheSection(
     { pedido, id }: { pedido: ICadastro | null, id: number | null }
 ) {
+
+    const path = usePathname().slice(1,).split('/')[1]
 
     const { searchParam, setSearchParam, searchField, setSearchFieldCapitalized } = usePedidos()
     const fieldKeys: SearchFieldKeys[] = ['unitario', 'codigo']
@@ -45,7 +48,8 @@ export default function PedidoDetalheSection(
 
     return (
         <section 
-            className={style.tabelaSection} 
+            className={style.tabelaSection}
+            data-invisible={path === undefined} 
         > 
             
         <Tab 

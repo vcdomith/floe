@@ -1,4 +1,7 @@
+'use client'
+import React from 'react';
 import style from './DetalheSection.module.scss'
+import { usePathname } from 'next/navigation';
 
 export default function DetalheSection({ children }: { children: React.ReactNode }) {
 
@@ -10,8 +13,13 @@ export default function DetalheSection({ children }: { children: React.ReactNode
     //     window.open(whatsappLink);
     // }
 
+    const path = usePathname().slice(1,).split('/')[1]?.replaceAll('%20', ' ')
+
     return (
-        <section className={style.detalhe}>
+        <section 
+            className={style.detalhe}
+            data-invisible={path === undefined}
+        >
             <div className={style.content}>
                 {(children !== null)
                 ? children

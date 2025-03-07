@@ -38,7 +38,10 @@ export default function FornecedoresSection({ fornecedores } : FatoresSectionPro
     }
 
     return (
-        <section className={style.fornecedores}>
+        <section 
+            className={style.fornecedores}
+            data-invisible={path !== undefined}
+        >
 
             <header className={style.header}>
 

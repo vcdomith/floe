@@ -105,8 +105,8 @@ export async function GET(request: NextRequest) {
     .storage
     .from('test')
     .download('cert/certificado.pfx')
-
-    const certBuffer = await blobToBuffer(cert!)
+    
+    const certBuffer = await blobToBuffer(cert!)    
 
     const { data: nsu, error } = await supabase
         .from('ultNSU')

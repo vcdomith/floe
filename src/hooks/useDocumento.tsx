@@ -253,7 +253,9 @@ export default function useDocumento(): UseDocumento {
 
             // Consulta NFe atrelada à CTe e importa seus dados
             setChave((data as CTeData).chaveNFe)
-            handleImportNFe((data as CTeData).chaveNFe)
+            const nfe = await handleImportNFe((data as CTeData).chaveNFe)
+
+            return nfe
 
         } catch (error) {
             
@@ -280,8 +282,8 @@ export default function useDocumento(): UseDocumento {
 
         if (modelo === '57') {
             console.log('cte');
-            await handleImportCTe(chave)
-            return
+            const data = await handleImportCTe(chave)
+            return data
         }
 
         console.log('nfe');

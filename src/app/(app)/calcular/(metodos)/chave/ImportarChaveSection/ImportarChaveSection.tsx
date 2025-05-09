@@ -73,6 +73,8 @@ export default function ImportarChaveSection({ tipo = 'chave'} : { tipo: 'chave'
     const generateValid = useMemo(() => {
 
         const usesTransporte = (fornecedorData.cnpj !== '' && fornecedorData.usaTransporte)
+        // console.log(fornecedorData.cnpj, fornecedorData.usaTransporte);
+        // console.log('usesTransporte', usesTransporte);
 
         const documentosValid = (
             documentos.nfe !== null &&
@@ -80,15 +82,25 @@ export default function ImportarChaveSection({ tipo = 'chave'} : { tipo: 'chave'
                 ? (documentos.cte !== null) 
                 : true
         )
+
+        // const documentosValid = (
+        //     documentos.nfe !== null &&
+        //     (documentos.cte !== null) 
+                
+        // )   
+
         const chavesValid = usesTransporte 
             ? ((documentos.cte?.data as CTeData)?.chaveNFe === documentos.nfe?.chave) 
             : true
+        // const chavesValid = ((documentos.cte?.data as CTeData)?.chaveNFe === documentos.nfe?.chave) 
 
         const fornecedorActive = fornecedorData.cnpj !== ''
 
         return (documentosValid && chavesValid && fornecedorActive)
 
     }, [documentos, fornecedorData])
+
+    // console.log('generateValid', generateValid);
 
     return (
 

@@ -5,7 +5,7 @@ import Highlight from '@/components/Highlight/Highlight'
 import { AnimatePresence, motion } from 'framer-motion'
 import React, { ChangeEvent, DragEvent, useMemo, useState } from 'react'
 import { useNotification } from '@/app/(app)/(contexts)/NotificationContext'
-import { parseXml } from '@/utils/parseXml'
+import { CTeData, parseXml } from '@/utils/parseXml'
 import { useModal } from '@/app/(app)/(contexts)/ModalContext'
 import { svgsUtil } from '@/components/SvgArray/SvgUtil'
 import useImportCardDrag from './useImportCardDrag'
@@ -122,9 +122,16 @@ export default function ImportCard() {
                 onSubmit={async (e) => {
                     e.preventDefault()
                     const data = await importarDocumento(chave)
+                    console.log('data_import_card', data);
                     if(data !== undefined) {
                         // URGENTE - Gera fatores aqui e depois quando gera a tabela, definir onde será feito esse processo!
-                        await gerarFatoresFornecedor(data.pedido.cnpj)
+                        const fatores = await gerarFatoresFornecedor(data.pedido.cnpj)
+                        console.log(fatores);
+                        if(!fatores) return
+                        setFornecedorData({
+                            ...fatores,
+                            cnpj: data.pedido.cnpj
+                        })
                     }
                 }}
             >

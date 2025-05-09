@@ -21,7 +21,7 @@ export interface UseChaveContext {
     // dadosImportados: DadosImportados
     loading: boolean
 
-    gerarFatoresFornecedor: (cnpj: string) => Promise<IFornecedor | null>
+    gerarFatoresFornecedor: (queryCnpj?: string) => Promise<IFornecedor | null>
 
     submitForm: () => void
 
@@ -286,10 +286,10 @@ export default function useChaveContext(): UseChaveContext {
 
     }
 
-    const gerarFatoresFornecedor = async () => {
+    const gerarFatoresFornecedor = async (queryCnpj?: string) => {
 
         // Consulta DB fornecedor e importa seus dados
-        const cnpj = dadosImportados.pedido.cnpj
+        const cnpj = queryCnpj || dadosImportados.pedido.cnpj
         // console.log(dadosImportados);
         // console.log(cnpj);
         

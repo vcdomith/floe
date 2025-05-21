@@ -18,7 +18,7 @@ import { CTeData } from '@/utils/parseXml'
 import MetodoSelect from '../../(MetodoSelect)/MetodoSelect'
 import { useSectionSelect } from '@/app/(app)/(contexts)/SectionSelectContext'
 
-export default function ImportarChaveSection({ tipo = 'chave'} : { tipo: 'chave' | 'xml'}) {
+export default function ImportarChaveSection() {
 
     const { chave: { 
         context: { 

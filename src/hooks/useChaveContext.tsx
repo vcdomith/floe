@@ -242,7 +242,7 @@ export default function useChaveContext(): UseChaveContext {
                 (stringToFloat(valorTotalProdutos) * stringToFloat(fatorBase))
             ))
         }
-        if (Number.isNaN(resultadoTransporte) || resultadoTransporte === null || resultadoTransporte === undefined) {
+        if (Number.isNaN(resultadoTransporte) || resultadoTransporte === null || resultadoTransporte === undefined || resultadoTransporte === Infinity) {
             resultadoTransporte = 1
         }
 
@@ -253,10 +253,11 @@ export default function useChaveContext(): UseChaveContext {
                 (stringToFloat(valorTotalProdutosSt) * stringToFloat(fatorBase))
             ))
         }
-        if (Number.isNaN(resultadoSt) || resultadoSt === null || resultadoSt === undefined) {
+        if (Number.isNaN(resultadoSt) || resultadoSt === null || resultadoSt === undefined || resultadoSt === 0 || resultadoSt === Infinity) {
             resultadoSt = 1
         }
 
+        console.log('inf test', resultadoSt, typeof resultadoSt);
 
         setPedidoData(prev => ({
             ...prev,

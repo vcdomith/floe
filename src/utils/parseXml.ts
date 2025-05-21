@@ -50,6 +50,31 @@ export interface ParseXmlResult {
     node: Document
 }
 
+const CODIGOS_ST = [
+  // CSOSN (3 dígitos)
+  '201', // Tributada com crédito e com ST
+  '202', // Tributada sem crédito e com ST
+  '203', // Isenção com ST
+  '500', // ICMS cobrado anteriormente por ST
+  '900', // Outros (pode envolver ST, depende de vICMSST)
+
+  // CST (3 dígitos)
+  '010', // Tributada com ST
+  '030', // Isenta ou não tributada com ST
+  '060', // ICMS cobrado anteriormente por ST
+  '070', // Com redução de base e com ST
+
+  // CFOP (4 dígitos) — operações com ST
+  '1201', // Compra para industrialização com ST retido
+  '1202', // Compra para industrialização com ST
+  '1203', // Compra para comercialização com ST
+  '1403', // Devolução de mercadoria com ST
+  '2401', '2403', // Transferência/Compra com ST
+  '5401', '5402', '5403', '5405', // Vendas com ST
+  '6401', '6403', '6404', '6405', // Vendas com ST para fora do estado
+];
+
+
 const SUPPORTED_DOCUMENTS = ['nfe', 'cte']
 
 const { stringToFloat, floatToString } = Converter
@@ -57,6 +82,8 @@ const { stringToFloat, floatToString } = Converter
 export const parseNFeXml = (xml: Document): ParseXmlResult  => {
 
     const fornecedor = xml.querySelector('emit > xNome')?.textContent
+    const regimeTributario = xml.querySelector('emit > CRT')?.textContent || ''
+    const simplesNacional = regimeTributario === '1' || regimeTributario === '2'
     const nNFe = xml.querySelector('nNF')?.textContent
     const cnpj = xml.querySelector('emit > CNPJ')?.textContent
     const itens = xml.querySelectorAll('infNFe > det')
@@ -79,18 +106,22 @@ export const parseNFeXml = (xml: Document): ParseXmlResult  => {
         const ean = item.querySelector('cEAN')?.textContent || ''
         const descricao = item.querySelector('xProd')?.textContent || ''
         const ncm = item.querySelector('NCM')?.textContent || ''
-        const st = item.querySelector('CST')?.textContent || ''
+        const csosn = item.querySelector('CSOSN')?.textContent || ''
+        const cst = item.querySelector('CST')?.textContent || ''
+        const st = simplesNacional ? csosn : cst
         const unitario = item.querySelector('vUnCom')?.textContent || ''
         const total = item.querySelector('vProd')?.textContent || ''
         const quantidade = item.querySelector('qCom')?.textContent || ''
         const ipi = item.querySelector('pIPI')?.textContent || ''
+
+        console.log(st, CODIGOS_ST.includes(st));
 
         const produto: NFeProduto = {
             codigo: codigo,
             ean: ean,
             descricao: descricao,
             ncm: ncm,
-            st: (st === '10'),
+            st: CODIGOS_ST.includes(st),
             // unitario: unitario?.replace('.', ','),
             unitario: floatToString(parseFloat(unitario), 4),
             unitarioPedido: '',

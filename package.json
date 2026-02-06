@@ -13,7 +13,7 @@
     "@react-spring/web": "^9.7.5",
     "@supabase/ssr": "^0.4.1",
     "@supabase/supabase-js": "^2.48.0",
-    "@vexta-systems/node-mde": "^0.15.4",
+    "@vexta-systems/node-mde": "^0.15.6",
     "babel-plugin-react-compiler": "^19.0.0-beta-decd7b8-20250118",
     "focus-trap-react": "^11.0.3",
     "framer-motion": "^11.18.2",

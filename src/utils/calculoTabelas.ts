@@ -53,7 +53,7 @@ export const getTabelas = (produto: ProdutoCadastro | IProduto): number[] => {
         unitario: valorNumerico,
         tabela1: calcularTabela(valorNumerico, listaFatores),
         tabela2: valorNumerico*1.5,
-        tabela3: customRound((calcularTabela(valorNumerico, listaFatores))*1.3)
+        tabela3: customRound((calcularTabela(valorNumerico, listaFatores))*1.33)
     }
     return Object.values(tabelas)
 }
@@ -71,7 +71,7 @@ export const getTabelasObject = (produto: ProdutoCadastro): IValores => {
       unitario: valorNumerico,
       tabela1: calcularTabela(valorNumerico, listaFatores),
       tabela2: unitarioNotaNumero*1.5,
-      tabela3: customRound((calcularTabela(valorNumerico, listaFatores))*1.3)
+      tabela3: customRound((calcularTabela(valorNumerico, listaFatores))*1.33)
   }
   return tabelas
 }
